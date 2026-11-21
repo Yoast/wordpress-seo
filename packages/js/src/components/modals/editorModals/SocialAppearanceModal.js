@@ -1,9 +1,8 @@
 /* eslint-disable complexity */
 /* External dependencies */
-import { ShareIcon } from "@heroicons/react/solid";
+import ShareIcon from "@heroicons/react/solid/ShareIcon";
 import { __ } from "@wordpress/i18n";
 import { Fragment } from "@wordpress/element";
-import PropTypes from "prop-types";
 import styled from "styled-components";
 
 /* Internal dependencies */
@@ -11,6 +10,7 @@ import EditorModal from "../../../containers/EditorModal";
 import FacebookEditor from "../../../containers/FacebookEditor";
 import TwitterEditor from "../../../containers/TwitterEditor";
 import ModalCollapsible from "../../ModalCollapsible";
+import SocialPreviewsHelpLink from "../../social/SocialPreviewsHelpLink";
 import { StyledDescription, StyledDescriptionTop } from "../../../helpers/styledDescription";
 import { useSvgAria } from "@yoast/ui-library/src";
 
@@ -45,24 +45,25 @@ const SocialAppearanceModal = ( props ) => {
 			id="yoast-social-appearance-modal"
 			shouldCloseOnClickOutside={ false }
 			SuffixHeroIcon={ <StyledHeroIcon className="yst-text-slate-500" { ...svgAriaProps } /> }
+			titleHelpLink={ useOpenGraphData ? <SocialPreviewsHelpLink /> : null }
 		>
 			{ useOpenGraphData &&
 				<Fragment>
 					<StyledDescriptionTop>{
-						__( "Determine how your post should look on social media like Facebook, Twitter, Instagram, WhatsApp, Threads, LinkedIn, Slack, and more.",
+						__( "Determine how your post should look on social media like Facebook, X, Instagram, WhatsApp, Threads, LinkedIn, Slack, and more.",
 							"wordpress-seo" )
 					}</StyledDescriptionTop>
 					<FacebookEditor />
 					{ useTwitterData && <StyledDescription>
-						{ __( "To customize the appearance of your post specifically for Twitter, please fill out " +
-						"the 'Twitter appearance' settings below. If you leave these settings untouched, the 'Social media appearance' settings " +
-						"mentioned above will also be applied for sharing on Twitter.", "wordpress-seo" ) }
+						{ __( "To customize the appearance of your post specifically for X, please fill out " +
+						"the 'X appearance' settings below. If you leave these settings untouched, the 'Social media appearance' settings " +
+						"mentioned above will also be applied for sharing on X.", "wordpress-seo" ) }
 					</StyledDescription> }
 				</Fragment>
 			}
 			{ ( useOpenGraphData && useTwitterData ) && <ModalCollapsible
-				title={ __( "Twitter appearance", "wordpress-seo" ) }
-				// Always preview with separator when Twitter appearance is displayed as a collapsible.
+				title={ __( "X appearance", "wordpress-seo" ) }
+				// Always preview with separator when X appearance is displayed as a collapsible.
 				hasSeparator={ true }
 				initialIsOpen={ false }
 			>
@@ -70,22 +71,17 @@ const SocialAppearanceModal = ( props ) => {
 			</ModalCollapsible>
 			}
 			{ ( ! useOpenGraphData && useTwitterData ) &&
-				// If Open Graph is not enabled, don't display Twitter editor as a collapsible.
+				// If Open Graph is not enabled, don't display X editor as a collapsible.
 				<Fragment>
 					<StyledDescriptionTop>
-						{ __( "To customize the appearance of your post specifically for Twitter, please fill out " +
-						"the 'Twitter appearance' settings below.", "wordpress-seo" ) }
+						{ __( "To customize the appearance of your post specifically for X, please fill out " +
+						"the 'X appearance' settings below.", "wordpress-seo" ) }
 					</StyledDescriptionTop>
 					<TwitterEditor />
 				</Fragment>
 			}
 		</EditorModal>
 	);
-};
-
-SocialAppearanceModal.propTypes = {
-	useOpenGraphData: PropTypes.bool.isRequired,
-	useTwitterData: PropTypes.bool.isRequired,
 };
 
 export default SocialAppearanceModal;

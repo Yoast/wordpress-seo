@@ -1,0 +1,1 @@
+The graph for the trends, based on 12 months.

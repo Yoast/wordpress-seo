@@ -20,56 +20,56 @@ class Wincher_Route implements Route_Interface {
 	 *
 	 * @var string
 	 */
-	const ROUTE_PREFIX = 'wincher';
+	public const ROUTE_PREFIX = 'wincher';
 
 	/**
 	 * The authorize route constant.
 	 *
 	 * @var string
 	 */
-	const AUTHORIZATION_URL_ROUTE = self::ROUTE_PREFIX . '/authorization-url';
+	public const AUTHORIZATION_URL_ROUTE = self::ROUTE_PREFIX . '/authorization-url';
 
 	/**
 	 * The authenticate route constant.
 	 *
 	 * @var string
 	 */
-	const AUTHENTICATION_ROUTE = self::ROUTE_PREFIX . '/authenticate';
+	public const AUTHENTICATION_ROUTE = self::ROUTE_PREFIX . '/authenticate';
 
 	/**
 	 * The track bulk keyphrases route constant.
 	 *
 	 * @var string
 	 */
-	const KEYPHRASES_TRACK_ROUTE = self::ROUTE_PREFIX . '/keyphrases/track';
+	public const KEYPHRASES_TRACK_ROUTE = self::ROUTE_PREFIX . '/keyphrases/track';
 
 	/**
 	 * The keyphrases route constant.
 	 *
 	 * @var string
 	 */
-	const TRACKED_KEYPHRASES_ROUTE = self::ROUTE_PREFIX . '/keyphrases';
+	public const TRACKED_KEYPHRASES_ROUTE = self::ROUTE_PREFIX . '/keyphrases';
 
 	/**
 	 * The untrack keyphrase route constant.
 	 *
 	 * @var string
 	 */
-	const UNTRACK_KEYPHRASE_ROUTE = self::ROUTE_PREFIX . '/keyphrases/untrack';
+	public const UNTRACK_KEYPHRASE_ROUTE = self::ROUTE_PREFIX . '/keyphrases/untrack';
 
 	/**
 	 * The check limit route constant.
 	 *
 	 * @var string
 	 */
-	const CHECK_LIMIT_ROUTE = self::ROUTE_PREFIX . '/account/limit';
+	public const CHECK_LIMIT_ROUTE = self::ROUTE_PREFIX . '/account/limit';
 
 	/**
 	 * The upgrade campaign route constant.
 	 *
 	 * @var string
 	 */
-	const UPGRADE_CAMPAIGN_ROUTE = self::ROUTE_PREFIX . '/account/upgrade-campaign';
+	public const UPGRADE_CAMPAIGN_ROUTE = self::ROUTE_PREFIX . '/account/upgrade-campaign';
 
 	/**
 	 * The login action.

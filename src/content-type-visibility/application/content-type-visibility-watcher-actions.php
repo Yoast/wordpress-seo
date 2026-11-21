@@ -7,7 +7,6 @@ use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 use Yoast_Notification;
 use Yoast_Notification_Center;
-use Yoast\WP\SEO\Content_Type_Visibility\Application\Content_Type_Visibility_Dismiss_Notifications;
 
 /**
  * Handles showing notifications for new content types.
@@ -29,18 +28,18 @@ class Content_Type_Visibility_Watcher_Actions implements Integration_Interface {
 	 */
 	private $notification_center;
 
-		/**
-		 * The notifications center.
-		 *
-		 * @var Content_Type_Visibility_Dismiss_Notifications
-		 */
+	/**
+	 * The notifications center.
+	 *
+	 * @var Content_Type_Visibility_Dismiss_Notifications
+	 */
 	private $content_type_dismiss_notifications;
 
 	/**
 	 * Indexable_Post_Type_Change_Watcher constructor.
 	 *
-	 * @param Options_Helper                                $options             The options helper.
-	 * @param Yoast_Notification_Center                     $notification_center The notification center.
+	 * @param Options_Helper                                $options                            The options helper.
+	 * @param Yoast_Notification_Center                     $notification_center                The notification center.
 	 * @param Content_Type_Visibility_Dismiss_Notifications $content_type_dismiss_notifications The content type dismiss notifications.
 	 */
 	public function __construct(
@@ -142,7 +141,7 @@ class Content_Type_Visibility_Watcher_Actions implements Integration_Interface {
 	 */
 	public function maybe_add_notification() {
 		$notification = $this->notification_center->get_notification_by_id( 'content-types-made-public' );
-		if ( \is_null( $notification ) ) {
+		if ( $notification === null ) {
 			$this->add_notification();
 		}
 	}
@@ -157,7 +156,7 @@ class Content_Type_Visibility_Watcher_Actions implements Integration_Interface {
 			/* translators: 1: Opening tag of the link to the Search appearance settings page, 2: Link closing tag. */
 			\esc_html__( 'You\'ve added a new type of content. We recommend that you review the corresponding %1$sSearch appearance settings%2$s.', 'wordpress-seo' ),
 			'<a href="' . \esc_url( \admin_url( 'admin.php?page=wpseo_page_settings' ) ) . '">',
-			'</a>'
+			'</a>',
 		);
 
 		$notification = new Yoast_Notification(
@@ -167,7 +166,7 @@ class Content_Type_Visibility_Watcher_Actions implements Integration_Interface {
 				'id'           => 'content-types-made-public',
 				'capabilities' => 'wpseo_manage_options',
 				'priority'     => 0.8,
-			]
+			],
 		);
 
 		$this->notification_center->add_notification( $notification );

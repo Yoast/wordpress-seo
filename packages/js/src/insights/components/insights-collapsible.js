@@ -1,6 +1,5 @@
 import { __ } from "@wordpress/i18n";
 import { useSelect } from "@wordpress/data";
-import PropTypes from "prop-types";
 import { isFeatureEnabled } from "@yoast/feature-flag";
 import MetaboxCollapsible from "../../components/MetaboxCollapsible";
 import EstimatedReadingTime from "./estimated-reading-time";
@@ -11,10 +10,13 @@ import TextFormality from "./text-formality";
 
 /**
  * Insights collapsible component.
- * @param {string} location The location of this modal.
- * @returns {JSX.Element} The element.
+ *
+ * @param {Object} props Component props.
+ * @param {string} [props.location="metabox"] The location of this modal.
+ *
+ * @returns {React.ReactNode} The element.
  */
-const InsightsCollapsible = ( { location } ) => {
+const InsightsCollapsible = ( { location = "metabox" } ) => {
 	const isFleschReadingEaseAvailable = useSelect( select => select( "yoast-seo/editor" ).isFleschReadingEaseAvailable(), [] );
 
 	return (
@@ -37,14 +39,6 @@ const InsightsCollapsible = ( { location } ) => {
 			</div>
 		</MetaboxCollapsible>
 	);
-};
-
-InsightsCollapsible.propTypes = {
-	location: PropTypes.string,
-};
-
-InsightsCollapsible.defaultProps = {
-	location: "metabox",
 };
 
 export default InsightsCollapsible;

@@ -99,6 +99,43 @@ describe( "createAnnotationsFromPositionBasedMarks", () => {
 	} );
 
 	it( "should return annotations with adjusted block start and end position when the block html is not the same as the rich text: " +
+		"The mark is for non-Yoast block, and the nbsp tags appear in several places", () => {
+		/*
+         * The block start and end offsets that are coming from the analysis is off by the length of the following tags:
+         * 1. The length of the HTML tags found in the text preceding the word we want to annotate
+         *  - From the html text below, the html tags are:
+         *  a. <a href="https://www.worldwildlife.org/species/red-panda">: 58 chars
+         *  b. </a>: 4 chars
+         *  c. &nbsp;: 10 chars before the start offset, 20 chars before the end offset
+         *
+         * The correct block start offset of the sentence is 255 - 72 = 183.
+         * The correct block end offset of the sentence is 384 - 82 = 302.
+        */
+		const mark = new Mark( {
+			position: {
+				startOffsetBlock: 255,
+				endOffsetBlock: 384,
+				clientId: "261e3892-f28c-4273-86b4-a00801c38d22",
+			},
+		} );
+		const html = "Approximately 38% of the total potential&nbsp;<a href=\"https://www.worldwildlife.org/species/red-panda\">red panda</a>&nbsp;habitat is in Nepal. We work with yak herders and other community groups to reduce human impact on the red panda’s fragile habitat. Any person found guilty of killing, buying or selling red pandas faces a fine of up to&nbsp;$1,000 and/or up to&nbsp;10 years in jail. Other community initiatives to stop the hunting and capture of red pandas for income include:d";
+		const richText = "Approximately 38% of the total potential red panda habitat is in Nepal. We work with yak herders and other community groups to reduce human impact on the red panda’s fragile habitat. Any person found guilty of killing, buying or selling red pandas faces a fine of up to $1,000 and/or up to 10 years in jail. Other community initiatives to stop the hunting and capture of red pandas for income include:d";
+
+		const actual = createAnnotationsFromPositionBasedMarks(
+			mark,
+			"261e3892-f28c-4273-86b4-a00801c38d22",
+			"",
+			html,
+			richText
+		);
+
+		expect( actual ).toEqual( [ {
+			startOffset: 183,
+			endOffset: 302,
+		} ] );
+	} );
+
+	it( "should return annotations with adjusted block start and end position when the block html is not the same as the rich text: " +
 		"The html contains html tags and html entities", () => {
 		/*
          * The block start offset that is coming from the analysis is off by the length of the following tags and entities:

@@ -95,6 +95,10 @@ describe( "linkParams", () => {
 			it( "adds the link params to the given url", () => {
 				expect( linkParamsSelectors.selectLink( state, "https://example.com" ) ).toBe( "https://example.com?foo=bar&one=two" );
 			} );
+
+			it( "adds extra params to the given url", () => {
+				expect( linkParamsSelectors.selectLink( state, "https://example.com", { extra: true } ) ).toBe( "https://example.com?foo=bar&one=two&extra=true" );
+			} );
 		} );
 	} );
 } );

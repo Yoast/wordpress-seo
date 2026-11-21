@@ -24,7 +24,7 @@ class WPSEO_Admin_Utils {
 
 		return wp_nonce_url(
 			self_admin_url( 'update.php?action=install-plugin&plugin=' . dirname( $slug ) ),
-			'install-plugin_' . dirname( $slug )
+			'install-plugin_' . dirname( $slug ),
 		);
 	}
 
@@ -36,13 +36,13 @@ class WPSEO_Admin_Utils {
 	 * @return string The activation URL. Empty string if the current user doesn't have the proper capabilities.
 	 */
 	public static function get_activation_url( $slug ) {
-		if ( ! current_user_can( 'install_plugins' ) ) {
+		if ( ! current_user_can( 'activate_plugins' ) ) {
 			return '';
 		}
 
 		return wp_nonce_url(
 			self_admin_url( 'plugins.php?action=activate&plugin_status=all&paged=1&s&plugin=' . $slug ),
-			'activate-plugin_' . $slug
+			'activate-plugin_' . $slug,
 		);
 	}
 
@@ -63,7 +63,7 @@ class WPSEO_Admin_Utils {
 		return sprintf(
 			'<a href="%s">%s</a>',
 			$install_url,
-			$plugin['title']
+			$plugin['title'],
 		);
 	}
 
@@ -76,7 +76,7 @@ class WPSEO_Admin_Utils {
 		return sprintf(
 			'<span class="screen-reader-text">%s</span>',
 			/* translators: Hidden accessibility text. */
-			esc_html__( '(Opens in a new browser tab)', 'wordpress-seo' )
+			esc_html__( '(Opens in a new browser tab)', 'wordpress-seo' ),
 		);
 	}
 }

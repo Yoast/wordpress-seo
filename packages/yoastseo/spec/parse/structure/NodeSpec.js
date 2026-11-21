@@ -1,6 +1,6 @@
 import Node from "../../../src/parse/structure/Node";
 import LanguageProcessor from "../../../src/parse/language/LanguageProcessor";
-import Factory from "../../specHelpers/factory";
+import Factory from "../../../src/helpers/factory";
 import build from "../../../src/parse/build/build";
 import memoizedSentenceTokenizer from "../../../src/languageProcessing/helpers/sentence/memoizedSentenceTokenizer";
 import Paper from "../../../src/values/Paper";

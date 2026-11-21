@@ -109,10 +109,7 @@ class Meta {
 	 * @param Meta_Tags_Context  $context   The indexable presentation.
 	 * @param ContainerInterface $container The DI container.
 	 */
-	public function __construct(
-		Meta_Tags_Context $context,
-		ContainerInterface $container
-	) {
+	public function __construct( Meta_Tags_Context $context, ContainerInterface $container ) {
 		$this->container = $container;
 		$this->context   = $context;
 
@@ -196,7 +193,7 @@ class Meta {
 			/**
 			 * The indexable presenter.
 			 *
-			 * @var Abstract_Indexable_Presenter
+			 * @var Abstract_Indexable_Presenter $presenter
 			 */
 			$presenter               = new $presenter_class();
 			$presenter->presentation = $presentation;

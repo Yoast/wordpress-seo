@@ -27,10 +27,7 @@ class Short_Link_Helper {
 	 * @param Options_Helper $options_helper The options helper.
 	 * @param Product_Helper $product_helper The product helper.
 	 */
-	public function __construct(
-		Options_Helper $options_helper,
-		Product_Helper $product_helper
-	) {
+	public function __construct( Options_Helper $options_helper, Product_Helper $product_helper ) {
 		$this->options_helper = $options_helper;
 		$this->product_helper = $product_helper;
 	}
@@ -61,6 +58,8 @@ class Short_Link_Helper {
 	 * Echoes a version of the URL with a utm_content with the current version.
 	 *
 	 * @param string $url The URL to build upon.
+	 *
+	 * @return void
 	 */
 	public function show( $url ) {
 		echo \esc_url( $this->get( $url ) );

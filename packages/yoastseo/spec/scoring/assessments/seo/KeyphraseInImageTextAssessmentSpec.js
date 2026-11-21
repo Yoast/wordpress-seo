@@ -1,31 +1,73 @@
-/* eslint-disable capitalized-comments, spaced-comment */
 import KeyphraseInImagesAssessment from "../../../../src/scoring/assessments/seo/KeyphraseInImageTextAssessment";
 import Paper from "../../../../src/values/Paper.js";
-import Factory from "../../../specHelpers/factory.js";
+import Factory from "../../../../src/helpers/factory.js";
+import EnglishResearcher from "../../../../src/languageProcessing/languages/en/Researcher";
+import buildTree from "../../../specHelpers/parse/buildTree";
 // import JapaneseResearcher from "../../../../src/languageProcessing/languages/ja/Researcher";   // Variable is used in language specific test (and thus removed)
 
+// The assessment is deprecated and warns on construction; keep the test output clean.
+const warnSpy = jest.spyOn( console, "warn" ).mockImplementation( () => {} );
 const keyphraseInImagesAssessment = new KeyphraseInImagesAssessment();
 
 describe( "An image count assessment", function() {
-	it( "assesses a single image, without a keyword, but with an alt-tag set", function() {
-		const mockPaper = new Paper( "These are just five words <img src='image.jpg' alt='image' />" );
+	it( "should show feedback for a page without a text and a keyphrase", function() {
+		const paper = new Paper( "" );
+		const researcher = new EnglishResearcher( paper );
+		buildTree( paper, researcher );
+		const assessment = new KeyphraseInImagesAssessment().getResult( paper, researcher );
 
-		const assessment = keyphraseInImagesAssessment.getResult( mockPaper, Factory.buildMockResearcher( {
-			imageCount: 1,
-			altTagCount: {
-				withAlt: 1,
-				withAltKeyword: 0,
-				withAltNonKeyword: 0,
-			},
-		}, true ) );
-
-		expect( assessment.getScore() ).toEqual( 6 );
-		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/4f7' target='_blank'>Image Keyphrase</a>: " +
-			"Images on this page have alt attributes, but you have not set your keyphrase. " +
-			"<a href='https://yoa.st/4f6' target='_blank'>Fix that</a>!" );
+		expect( assessment.getScore() ).toEqual( 3 );
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/4f7' target='_blank'>Keyphrase in image alt attributes</a>: This page does not have images, a keyphrase, or both. " +
+			"<a href='https://yoa.st/4f6' target='_blank'>Add some images with alt attributes that include the keyphrase or synonyms</a>!" );
 	} );
 
-	it( "assesses 4 images, without a keyword, but with an alt-tag set", function() {
+	it( "should show feedback for a page with a text and without a keyphrase", function() {
+		const paper = new Paper( "These are just five words.", { keyword: "" } );
+		const researcher = new EnglishResearcher( paper );
+		buildTree( paper, researcher );
+
+		const assessment = new KeyphraseInImagesAssessment().getResult( paper, researcher );
+
+		expect( assessment.getScore() ).toEqual( 3 );
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/4f7' target='_blank'>Keyphrase in image alt attributes</a>: This page does not have images, a keyphrase, or both. " +
+			"<a href='https://yoa.st/4f6' target='_blank'>Add some images with alt attributes that include the keyphrase or synonyms</a>!" );
+	} );
+
+	it( "should show feedback for a page with a keyphrase and without a text", function() {
+		const paper = new Paper( "", { keyword: "keyword" } );
+		const researcher = new EnglishResearcher( paper );
+		buildTree( paper, researcher );
+
+		const assessment = new KeyphraseInImagesAssessment().getResult( paper, researcher );
+
+		expect( assessment.getScore() ).toEqual( 3 );
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/4f7' target='_blank'>Keyphrase in image alt attributes</a>: This page does not have images, a keyphrase, or both. " +
+			"<a href='https://yoa.st/4f6' target='_blank'>Add some images with alt attributes that include the keyphrase or synonyms</a>!" );
+	} );
+
+	it( "should show feedback for a page without a keyphrase and with an image without alt tag", function() {
+		const paper = new Paper( "These are just five words <img src='image.jpg' alt='' />", { keyword: "" } );
+		const researcher = new EnglishResearcher( paper );
+		buildTree( paper, researcher );
+
+		const assessment = new KeyphraseInImagesAssessment().getResult( paper, researcher );
+
+		expect( assessment.getScore() ).toEqual( 3 );
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/4f7' target='_blank'>Keyphrase in image alt attributes</a>: This page does not have images, a keyphrase, or both. <a href='https://yoa.st/4f6' target='_blank'>Add some images with alt attributes that include the keyphrase or synonyms</a>!" );
+	} );
+
+	it( "assesses a single image, without a keyword, but with an alt-tag set", function() {
+		const paper = new Paper( "These are just five words <img src='image.jpg' alt='image' />" );
+		const researcher = new EnglishResearcher( paper );
+		buildTree( paper, researcher );
+
+		const assessment = keyphraseInImagesAssessment.getResult( paper, researcher );
+
+		expect( assessment.getScore() ).toEqual( 3 );
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/4f7' target='_blank'>Keyphrase in image alt attributes</a>: This page does not have images, a keyphrase, or both. <a href='https://yoa.st/4f6' target='_blank'>Add some images with alt attributes that include the keyphrase or synonyms</a>!" );
+	} );
+
+	it( "assesses 4 images, without a keyphrase, but with an alt-tag set", function() {
 		const mockPaper = new Paper( "These are just five words <img src='image.jpg' alt='image' /> " +
 			"<img src='image.jpg' alt='image2' /> <img src='image.jpg' alt='image3' /> <img src='image.jpg' alt='image4' />" );
 
@@ -38,10 +80,8 @@ describe( "An image count assessment", function() {
 			},
 		}, true ) );
 
-		expect( assessment.getScore() ).toEqual( 6 );
-		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/4f7' target='_blank'>Image Keyphrase</a>: " +
-			"Images on this page have alt attributes, but you have not set your keyphrase. " +
-			"<a href='https://yoa.st/4f6' target='_blank'>Fix that</a>!" );
+		expect( assessment.getScore() ).toEqual( 3 );
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/4f7' target='_blank'>Keyphrase in image alt attributes</a>: This page does not have images, a keyphrase, or both. <a href='https://yoa.st/4f6' target='_blank'>Add some images with alt attributes that include the keyphrase or synonyms</a>!" );
 	} );
 
 	it( "assesses a single image, with an alt-tag without the presence of a keyword", function() {
@@ -59,9 +99,30 @@ describe( "An image count assessment", function() {
 		}, true ) );
 
 		expect( assessment.getScore() ).toEqual( 6 );
-		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/4f7' target='_blank'>Image Keyphrase</a>: " +
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/4f7' target='_blank'>Keyphrase in image alt attributes</a>: " +
 			"Images on this page do not have alt attributes with at least half of the words from your keyphrase. " +
 			"<a href='https://yoa.st/4f6' target='_blank'>Fix that</a>!" );
+	} );
+
+	it( "assesses two images without alt attributes when a keyphrase is set", function() {
+		const mockPaper = new Paper( "These are just five words <img src='image.jpg' /> <img src='image2.jpg' />", {
+			keyword: "Sample",
+		} );
+
+		const assessment = keyphraseInImagesAssessment.getResult( mockPaper, Factory.buildMockResearcher( {
+			imageCount: 2,
+			altTagCount: {
+				noAlt: 2,
+				withAlt: 0,
+				withAltKeyword: 0,
+				withAltNonKeyword: 0,
+			},
+		}, true ) );
+
+		expect( assessment.getScore() ).toEqual( 6 );
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/4f7' target='_blank'>Keyphrase in image alt attributes</a>: " +
+			"Images on this page do not have alt attributes that reflect the topic of your text. " +
+			"<a href='https://yoa.st/4f6' target='_blank'>Add your keyphrase or synonyms to the alt tags of relevant images</a>!" );
 	} );
 
 	it( "assesses four images, with an alt-tag without the presence of a keyword", function() {
@@ -80,7 +141,7 @@ describe( "An image count assessment", function() {
 		}, true ) );
 
 		expect( assessment.getScore() ).toEqual( 6 );
-		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/4f7' target='_blank'>Image Keyphrase</a>: " +
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/4f7' target='_blank'>Keyphrase in image alt attributes</a>: " +
 			"Images on this page do not have alt attributes with at least half of the words from your keyphrase. " +
 			"<a href='https://yoa.st/4f6' target='_blank'>Fix that</a>!" );
 	} );
@@ -100,7 +161,7 @@ describe( "An image count assessment", function() {
 		}, true ) );
 
 		expect( assessment.getScore() ).toEqual( 9 );
-		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/4f7' target='_blank'>Image Keyphrase</a>: " +
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/4f7' target='_blank'>Keyphrase in image alt attributes</a>: " +
 			"Good job!" );
 	} );
 
@@ -119,7 +180,7 @@ describe( "An image count assessment", function() {
 		}, true ) );
 
 		expect( assessment.getScore() ).toEqual( 9 );
-		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/4f7' target='_blank'>Image Keyphrase</a>: Good job!" );
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/4f7' target='_blank'>Keyphrase in image alt attributes</a>: Good job!" );
 	} );
 
 	it( "assesses 6 images with alt-tags, in which 2 images tags contain keyphrase, 1 image tag doesn't contain keyphrase, " +
@@ -139,7 +200,7 @@ describe( "An image count assessment", function() {
 		}, true ) );
 
 		expect( assessment.getScore() ).toEqual( 9 );
-		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/4f7' target='_blank'>Image Keyphrase</a>: Good job!" );
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/4f7' target='_blank'>Keyphrase in image alt attributes</a>: Good job!" );
 	} );
 
 	it( "assesses 6 images with alt tags that contain the keyphrase", function() {
@@ -157,7 +218,7 @@ describe( "An image count assessment", function() {
 		}, true ) );
 
 		expect( assessment.getScore() ).toEqual( 6 );
-		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/4f7' target='_blank'>Image Keyphrase</a>: " +
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/4f7' target='_blank'>Keyphrase in image alt attributes</a>: " +
 			"Out of 6 images on this page, 6 have alt attributes with words from your keyphrase or synonyms. That's a bit much. " +
 			"<a href='https://yoa.st/4f6' target='_blank'>Only include the keyphrase or its synonyms when it really " +
 			"fits the image</a>." );
@@ -179,7 +240,7 @@ describe( "An image count assessment", function() {
 		}, true ) );
 
 		expect( assessment.getScore() ).toEqual( 6 );
-		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/4f7' target='_blank'>Image Keyphrase</a>: " +
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/4f7' target='_blank'>Keyphrase in image alt attributes</a>: " +
 			"Out of 6 images on this page, only 1 has an alt attribute that reflects the topic of your text. " +
 			"<a href='https://yoa.st/4f6' target='_blank'>Add your keyphrase or synonyms to the alt tags of more " +
 			"relevant images</a>!" );
@@ -202,7 +263,7 @@ describe( "An image count assessment", function() {
 		}, true ) );
 
 		expect( assessment.getScore() ).toEqual( 9 );
-		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/4f7' target='_blank'>Image Keyphrase</a>: Good job!" );
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/4f7' target='_blank'>Keyphrase in image alt attributes</a>: Good job!" );
 	} );
 
 	it( "assesses 5 images, with alt tags containing keyphrase set to only 4 images", function() {
@@ -221,7 +282,7 @@ describe( "An image count assessment", function() {
 		}, true ) );
 
 		expect( assessment.getScore() ).toEqual( 9 );
-		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/4f7' target='_blank'>Image Keyphrase</a>: Good job!" );
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/4f7' target='_blank'>Keyphrase in image alt attributes</a>: Good job!" );
 	} );
 
 	it( "assesses 5 images, with alt tags containing keyphrase set to all 5 images", function() {
@@ -240,7 +301,7 @@ describe( "An image count assessment", function() {
 		}, true ) );
 
 		expect( assessment.getScore() ).toEqual( 6 );
-		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/4f7' target='_blank'>Image Keyphrase</a>: " +
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/4f7' target='_blank'>Keyphrase in image alt attributes</a>: " +
 			"Out of 5 images on this page, 5 have alt attributes with words from your keyphrase or synonyms. That's a bit much. " +
 			"<a href='https://yoa.st/4f6' target='_blank'>Only include the keyphrase or its synonyms when it " +
 			"really fits the image</a>." );
@@ -262,29 +323,10 @@ describe( "An image count assessment", function() {
 		}, true ) );
 
 		expect( assessment.getScore() ).toEqual( 6 );
-		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/4f7' target='_blank'>Image Keyphrase</a>: " +
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/4f7' target='_blank'>Keyphrase in image alt attributes</a>: " +
 			"Out of 5 images on this page, only 1 has an alt attribute that reflects the topic of your text. " +
 			"<a href='https://yoa.st/4f6' target='_blank'>Add your keyphrase or synonyms to the alt tags of " +
 			"more relevant images</a>!" );
-	} );
-
-	it( "assesses a single image without an alt-tag", function() {
-		const mockPaper = new Paper( "These are just five words <img src='image.jpg' />" );
-
-		const assessment = keyphraseInImagesAssessment.getResult( mockPaper, Factory.buildMockResearcher( {
-			imageCount: 1,
-			altTagCount: {
-				noAlt: 1,
-				withAlt: 0,
-				withAltKeyword: 0,
-				withAltNonKeyword: 0,
-			},
-		}, true ) );
-
-		expect( assessment.getScore() ).toEqual( 6 );
-		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/4f7' target='_blank'>Image Keyphrase</a>: " +
-			"Images on this page do not have alt attributes that reflect the topic of your text. " +
-			"<a href='https://yoa.st/4f6' target='_blank'>Add your keyphrase or synonyms to the alt tags of relevant images</a>!" );
 	} );
 
 	// Japanese testers test no additional logic.
@@ -297,7 +339,7 @@ describe( "An image count assessment", function() {
 	// 	const result = keyphraseInImagesAssessment.getResult( mockPaper, new JapaneseResearcher( mockPaper ) );
 	//
 	// 	expect( result.getScore() ).toEqual( 6 );
-	// 	expect( result.getText() ).toEqual( "<a href='https://yoa.st/4f7' target='_blank'>Image Keyphrase</a>:" +
+	// 	expect( result.getText() ).toEqual( "<a href='https://yoa.st/4f7' target='_blank'>Keyphrase in image alt attributes</a>:" +
 	// 		" Images on this page do not have alt attributes with at least half of the words from your keyphrase." +
 	// 		" <a href='https://yoa.st/4f6' target='_blank'>Fix that</a>!"  );
 	// } );
@@ -310,27 +352,27 @@ describe( "An image count assessment", function() {
 	// 	const result = keyphraseInImagesAssessment.getResult( mockPaper, new JapaneseResearcher( mockPaper ) );
 	//
 	// 	expect( result.getScore() ).toEqual( 9 );
-	// 	expect( result.getText() ).toEqual( "<a href='https://yoa.st/4f7' target='_blank'>Image Keyphrase</a>: " +
+	// 	expect( result.getText() ).toEqual( "<a href='https://yoa.st/4f7' target='_blank'>Keyphrase in image alt attributes</a>: " +
 	// 		"Good job!" );
 	// } );
 } );
 
 describe( "tests for the assessment applicability.", function() {
-	it( "returns false when the paper is empty.", function() {
+	it( "returns true even when the paper is empty.", function() {
 		const paper = new Paper( "" );
 		expect( keyphraseInImagesAssessment.isApplicable( paper, Factory.buildMockResearcher( {
 			imageCount: 0,
-		}, true ) ) ).toBe( false );
+		}, false ) ) ).toBe( true );
 	} );
 
-	it( "returns false when the paper is not empty but there is no image present.", function() {
+	it( "returns true when the paper is not empty but there is no image present.", function() {
 		const paper = new Paper( "sample keyword", {
 			slug: "sample-with-keyword",
 			keyword: "kéyword",
 		} );
 		expect( keyphraseInImagesAssessment.isApplicable( paper, Factory.buildMockResearcher( {
 			imageCount: 0,
-		}, true ) ) ).toBe( false );
+		}, false ) ) ).toBe( true );
 	} );
 
 	it( "returns true when the paper is not empty and there is an image present.", function() {
@@ -338,5 +380,26 @@ describe( "tests for the assessment applicability.", function() {
 		expect( keyphraseInImagesAssessment.isApplicable( paper, Factory.buildMockResearcher( {
 			imageCount: 1,
 		}, true ) ) ).toBe( true );
+	} );
+} );
+
+describe( "tests for the provided-images scope.", function() {
+	it( "still assesses an empty text when the counted images come from the paper's provided images.", function() {
+		// When the paper provides its own images the researches count paper-level images, so an empty text must not zero the result.
+		const assessment = new KeyphraseInImagesAssessment().getResult( new Paper( "", { keyword: "keyword" } ), Factory.buildMockResearcher( {
+			imageCount: 4,
+			altTagCount: { noAlt: 0, withAlt: 0, withAltKeyword: 1, withAltNonKeyword: 3 },
+		}, true ) );
+
+		expect( assessment.getScore() ).toEqual( 9 );
+		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/4f7' target='_blank'>Keyphrase in image alt attributes</a>: Good job!" );
+	} );
+} );
+
+describe( "tests for the deprecation.", function() {
+	it( "warns that the assessment is deprecated when it is constructed", function() {
+		warnSpy.mockClear();
+		new KeyphraseInImagesAssessment();
+		expect( warnSpy ).toHaveBeenCalledWith( "KeyphraseInImagesAssessment is deprecated and will be removed in a future major version." );
 	} );
 } );

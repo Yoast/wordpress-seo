@@ -1,11 +1,12 @@
-import { __, sprintf } from "@wordpress/i18n";
+import { __ } from "@wordpress/i18n";
+import SocialImageSelect from "./components/SocialImageSelect";
 import { getDirectionalStyle, join } from "@yoast/helpers";
 import { ReplacementVariableEditor, replacementVariablesShape } from "@yoast/replacement-variable-editor";
 import { angleLeft, angleRight, colors } from "@yoast/style-guide";
+import { noop } from "lodash";
 import PropTypes from "prop-types";
 import React, { Component, Fragment } from "react";
 import styled from "styled-components";
-import { ImageSelect } from "@yoast/components";
 
 /**
  * Sets the color based on whether the caret is active or not (usually hovered).
@@ -21,24 +22,9 @@ const getCaretColor = ( active ) => {
 
 const CaretContainer = styled.div`
 	position: relative;
-
-	${ props => ! props.isPremium && `
-		.yoast-image-select__preview {
-			width: 130px;
-			min-height: 72px;
-			max-height: 130px;
-		}
-	` };
-`
-;
-
-CaretContainer.propTypes = {
-	isPremium: PropTypes.bool,
-};
-
-CaretContainer.defaultProps = {
-	isPremium: false,
-};
+	margin-top: 1.7em;
+	margin-bottom: 1.7em;
+`;
 
 const Caret = styled.div`
 	display: ${ props => ( props.isActive || props.isHovered ) ? "block" : "none" };
@@ -51,9 +37,9 @@ const Caret = styled.div`
 		height: 24px;
 		background-image: url(
 		${ props => getDirectionalStyle(
-		angleRight( getCaretColor( props.isActive ) ),
-		angleLeft( getCaretColor( props.isActive ) )
-	) }
+			angleRight( getCaretColor( props.isActive ) ),
+			angleLeft( getCaretColor( props.isActive ) )
+		) }
 		);
 		color: ${ props => getCaretColor( props.isActive ) };
 		background-size: 24px;
@@ -75,42 +61,38 @@ Caret.defaultProps = {
 
 /**
  * Adds Caret to a component.
- * @param {React.Element} WithoutCaretComponent The component to add a Caret to.
+ * @param {React.ComponentType} WithoutCaretComponent The component to add a Caret to.
  *
- * @returns {React.Element} A component with added Caret.
+ * @returns {React.ComponentType} A component with added Caret.
  */
 export const withCaretStyle = ( WithoutCaretComponent ) => {
-	return function ComponentWithCaret( props ) {
-		// Define function props.
-		ComponentWithCaret.propTypes = {
-			isActive: PropTypes.bool.isRequired,
-			isHovered: PropTypes.bool.isRequired,
-			isPremium: PropTypes.bool,
-		};
-
-		// Destructure the props.
-		const {
-			isActive,
-			isHovered,
-			isPremium,
-			...withoutCaretProps
-		} = props;
-
+	/**
+	 * Adding a Caret around a component.
+	 *
+	 * @param {Object} props The props, the rest of which are passed to the wrapped component.
+	 * @param {boolean} props.isActive Whether the component is active.
+	 * @param {boolean} props.isHovered Whether the component is hovered.
+	 *
+	 * @returns {JSX.Element} The component with a Caret.
+	 */
+	function ComponentWithCaret( { isActive, isHovered, ...withoutCaretProps } ) {
 		return (
-			<CaretContainer isPremium={ isPremium }>
+			<CaretContainer>
 				<Caret isActive={ isActive } isHovered={ isHovered } />
 				<WithoutCaretComponent { ...withoutCaretProps } />
 			</CaretContainer>
 		);
-	};
+	}
+
+	return ComponentWithCaret;
 };
 
-const ImageSelectWithCaret = withCaretStyle( ImageSelect );
+const ImageSelectWithCaret = withCaretStyle( SocialImageSelect );
 
 /**
  * A form with an image selection button, a title input field and a description field.
  *
- * @param {object} props The props for this component.
+ * @param {Object} props The props for this component.
  *
  * @returns {React.Component} Returns a Fragment that contains all input fields.
  */
@@ -143,7 +125,7 @@ class SocialMetadataPreviewForm extends Component {
 	/**
 	 * Handles the onSelect function for the editors.
 	 *
-	 * @param {String} field The field name of the editor to focus.
+	 * @param {string} field The field name of the editor to focus.
 	 *
 	 * @returns {void}
 	 */
@@ -154,13 +136,44 @@ class SocialMetadataPreviewForm extends Component {
 	/**
 	 * Handles the onSelect function for the editors.
 	 *
-	 * @param {String} field The field name of the editor to focus.
-	 * @param {String} ref The field name of the editor to focus.
+	 * @param {string} field The field name of the editor to focus.
+	 * @param {string} ref The field name of the editor to focus.
 	 *
 	 * @returns {void}
 	 */
 	onSetEditorRef( field, ref ) {
 		this.props.setEditorRef( field, ref );
+	}
+
+	/**
+	 * Returns the titles for the fields based on the social medium name.
+	 *
+	 * @param {string} socialMediumName The name of the social medium.
+	 *
+	 * @returns {Object} The titles for the fields.
+	 */
+	getFieldsTitles( socialMediumName ) {
+		if ( socialMediumName === "Twitter" ) {
+			return {
+				imageSelectTitle: __( "Twitter image", "wordpress-seo" ),
+				titleEditorTitle: __( "Twitter title", "wordpress-seo" ),
+				descEditorTitle: __( "Twitter description", "wordpress-seo" ),
+			};
+		}
+
+		if ( socialMediumName === "X" ) {
+			return {
+				imageSelectTitle: __( "X image", "wordpress-seo" ),
+				titleEditorTitle: __( "X title", "wordpress-seo" ),
+				descEditorTitle: __( "X description", "wordpress-seo" ),
+			};
+		}
+
+		return {
+			imageSelectTitle: __( "Social image", "wordpress-seo" ),
+			titleEditorTitle: __( "Social title", "wordpress-seo" ),
+			descEditorTitle: __( "Social description", "wordpress-seo" ),
+		};
 	}
 
 	/**
@@ -187,19 +200,16 @@ class SocialMetadataPreviewForm extends Component {
 			recommendedReplacementVariables,
 			imageWarnings,
 			imageUrl,
+			imageFallbackUrl,
 			imageAltText,
 			idSuffix,
 		} = this.props;
 
+		const titles = this.getFieldsTitles( socialMediumName );
 		const imageSelected = !! imageUrl;
-
-		/* Translators: %s expands to the social image. */
-		/* Translators: %s expands to the social medium name, i.e. Social or Twitter. */
-		const imageSelectTitle = sprintf( __( "%s image", "wordpress-seo" ), socialMediumName );
-		/* Translators: %s expands to the social medium name, i.e. Social or Twitter. */
-		const titleEditorTitle = sprintf( __( "%s title", "wordpress-seo" ), socialMediumName );
-		/* Translators: %s expands to the social medium name, i.e. Social or Twitter. */
-		const descEditorTitle = sprintf( __( "%s description", "wordpress-seo" ), socialMediumName );
+		const imageSelectTitle = titles.imageSelectTitle;
+		const titleEditorTitle = titles.titleEditorTitle;
+		const descEditorTitle = titles.descEditorTitle;
 
 		const lowerCaseSocialMediumName = socialMediumName.toLowerCase();
 
@@ -216,13 +226,10 @@ class SocialMetadataPreviewForm extends Component {
 					isActive={ activeField === "image" }
 					isHovered={ hoveredField === "image" }
 					imageUrl={ imageUrl }
+					usingFallback={ ! imageUrl && imageFallbackUrl !== "" }
 					imageAltText={ imageAltText }
 					hasPreview={ ! isPremium }
-					imageUrlInputId={ join( [ lowerCaseSocialMediumName, "url-input", idSuffix ] ) }
-					selectImageButtonId={ join( [ lowerCaseSocialMediumName, "select-button", idSuffix ] ) }
-					replaceImageButtonId={ join( [ lowerCaseSocialMediumName, "replace-button", idSuffix ] ) }
-					removeImageButtonId={ join( [ lowerCaseSocialMediumName, "remove-button", idSuffix ] ) }
-					isPremium={ isPremium }
+					id={ join( [ lowerCaseSocialMediumName, "image-select", idSuffix ] ) }
 				/>
 				<ReplacementVariableEditor
 					onChange={ onTitleChange }
@@ -268,7 +275,7 @@ class SocialMetadataPreviewForm extends Component {
 }
 
 SocialMetadataPreviewForm.propTypes = {
-	socialMediumName: PropTypes.oneOf( [ "Twitter", "Social" ] ).isRequired,
+	socialMediumName: PropTypes.oneOf( [ "Twitter", "X", "Social" ] ).isRequired,
 	onSelectImageClick: PropTypes.func.isRequired,
 	onRemoveImageClick: PropTypes.func.isRequired,
 	title: PropTypes.string.isRequired,
@@ -284,6 +291,7 @@ SocialMetadataPreviewForm.propTypes = {
 	recommendedReplacementVariables: PropTypes.arrayOf( PropTypes.string ),
 	imageWarnings: PropTypes.array,
 	imageUrl: PropTypes.string,
+	imageFallbackUrl: PropTypes.string,
 	imageAltText: PropTypes.string,
 	titleInputPlaceholder: PropTypes.string,
 	descriptionInputPlaceholder: PropTypes.string,
@@ -298,15 +306,16 @@ SocialMetadataPreviewForm.defaultProps = {
 	imageWarnings: [],
 	hoveredField: "",
 	activeField: "",
-	onSelect: () => {},
+	onSelect: noop,
 	onReplacementVariableSearchChange: null,
 	imageUrl: "",
+	imageFallbackUrl: "",
 	imageAltText: "",
 	titleInputPlaceholder: "",
 	descriptionInputPlaceholder: "",
 	isPremium: false,
-	setEditorRef: () => {},
-	onMouseHover: () => {},
+	setEditorRef: noop,
+	onMouseHover: noop,
 	idSuffix: "",
 };
 

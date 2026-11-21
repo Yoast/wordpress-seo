@@ -1,6 +1,6 @@
 import TextPresence from "../../../../src/scoring/assessments/readability/TextPresenceAssessment.js";
 import Paper from "../../../../src/values/Paper.js";
-import Factory from "../../../specHelpers/factory.js";
+import Factory from "../../../../src/helpers/factory.js";
 
 describe( "Assesses presence of text", function() {
 	it( "returns a score of 3 and a feedback string for a text under 50 words", function() {

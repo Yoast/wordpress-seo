@@ -3,14 +3,13 @@ import { useSelect } from "@wordpress/data";
 import { Fragment } from "@wordpress/element";
 import { Fill } from "@wordpress/components";
 import { __ } from "@wordpress/i18n";
-import PropTypes from "prop-types";
 
 /* Internal dependencies */
 import WincherSEOPerformanceModal from "../../containers/WincherSEOPerformanceModal";
 import CollapsibleCornerstone from "../../containers/CollapsibleCornerstone";
 import SnippetEditor from "../../containers/SnippetEditor";
 import Warning from "../../containers/Warning";
-import { KeywordInput, ReadabilityAnalysis, SeoAnalysis, InclusiveLanguageAnalysis } from "@yoast/externals/components";
+import { TopicInputs, ReadabilityAnalysis, SeoAnalysis, InclusiveLanguageAnalysis, ContentBlocks } from "@yoast/externals/components";
 import InsightsCollapsible from "../../insights/components/insights-collapsible";
 import MetaboxCollapsible from "../MetaboxCollapsible";
 import { InternalLinkingSuggestionsUpsell } from "../modals/InternalLinkingSuggestionsUpsell";
@@ -19,51 +18,63 @@ import AdvancedSettings from "../../containers/AdvancedSettings";
 import SocialMetadataPortal from "../portals/SocialMetadataPortal";
 import SchemaTabContainer from "../../containers/SchemaTab";
 import SEMrushRelatedKeyphrases from "../../containers/SEMrushRelatedKeyphrases";
-import { isWordProofIntegrationActive } from "../../helpers/wordproof";
-import WordProofAuthenticationModals from "../../components/modals/WordProofAuthenticationModals";
-import PremiumSEOAnalysisModal from "../modals/PremiumSEOAnalysisModal";
 import KeywordUpsell from "../modals/KeywordUpsell";
-import { BlackFridayProductEditorChecklistPromotion } from "../BlackFridayProductEditorChecklistPromotion";
 import { BlackFridayPromotion } from "../BlackFridayPromotion";
-import { isWooCommerceActive } from "../../helpers/isWooCommerceActive";
 import { withMetaboxWarningsCheck } from "../higherorder/withMetaboxWarningsCheck";
+import isBlockEditor from "../../helpers/isBlockEditor";
+import useToggleMarkerStatus from "./hooks/useToggleMarkerStatus";
+import ContentPlannerEditorItem from "../../ai-content-planner/containers/content-planner-editor-item";
+import { EditorIntro, EditorIntroText } from "../EditorIntro";
+import { WooSeoProductUpsellAd } from "../WooSeoProductUpsellAd";
 
-const BlackFridayProductEditorChecklistPromotionWithMetaboxWarningsCheck = withMetaboxWarningsCheck( BlackFridayProductEditorChecklistPromotion );
 const BlackFridayPromotionWithMetaboxWarningsCheck = withMetaboxWarningsCheck( BlackFridayPromotion );
 
 /* eslint-disable complexity */
 /**
  * Creates the Metabox component.
  *
- * @param {Object} settings 				The feature toggles.
+ * @param {Object} props Component props.
+ * @param {Object} props.settings The feature toggles.
  *
  * @returns {wp.Element} The Metabox component.
  */
 export default function MetaboxFill( { settings } ) {
-	const isTerm = useSelect( ( select ) => select( "yoast-seo/editor" ).getIsTerm(), [] );
-	const isProduct = useSelect( ( select ) => select( "yoast-seo/editor" ).getIsProduct(), [] );
+	const { isTerm, isPost, isAiFeatureActive } = useSelect( ( select ) => ( {
+		isTerm: select( "yoast-seo/editor" ).getIsTerm(),
+		isPost: select( "yoast-seo/editor" ).getPostType() === "post",
+		isAiFeatureActive: select( "yoast-seo/editor" ).getPreference( "isAiFeatureActive" ),
+	} ), [] );
 
-	const shouldShowWooCommerceChecklistPromo = isProduct && isWooCommerceActive();
+	const isBlockEditorActive = isBlockEditor();
+
+	if ( isBlockEditorActive ) {
+		useToggleMarkerStatus();
+	}
 
 	return (
 		<>
-			{ isWordProofIntegrationActive() && <WordProofAuthenticationModals /> }
 			<Fill name="YoastMetabox">
 				<SidebarItem
 					key="warning"
-					renderPriority={ 1 }
+					renderPriority={ 0 }
 				>
 					<Warning />
 				</SidebarItem>
 				<SidebarItem
-					key="time-constrained-notification"
-					renderPriority={ 2 }
+					key="editor-intro"
+					renderPriority={ 1 }
 				>
-					{ shouldShowWooCommerceChecklistPromo && <BlackFridayProductEditorChecklistPromotionWithMetaboxWarningsCheck /> }
-					<BlackFridayPromotionWithMetaboxWarningsCheck image={ null } hasIcon={ false } location={ "metabox" } />
+					<EditorIntro>
+						<BlackFridayPromotionWithMetaboxWarningsCheck location={ "metabox" } />
+						<EditorIntroText
+							withPromptForContentSuggestions={ isAiFeatureActive && isBlockEditorActive && isPost }
+						/>
+						{ isPost && isBlockEditorActive && isAiFeatureActive && <ContentPlannerEditorItem location="metabox" /> }
+						<WooSeoProductUpsellAd />
+					</EditorIntro>
 				</SidebarItem>
 				{ settings.isKeywordAnalysisActive && <SidebarItem key="keyword-input" renderPriority={ 8 }>
-					<KeywordInput
+					<TopicInputs
 						isSEMrushIntegrationActive={ settings.isSEMrushIntegrationActive }
 					/>
 					{ ! window.wpseoScriptData.metabox.isPremium && <Fill name="YoastRelatedKeyphrases">
@@ -87,9 +98,7 @@ export default function MetaboxFill( { settings } ) {
 					<Fragment>
 						<SeoAnalysis
 							shouldUpsell={ settings.shouldUpsell }
-							shouldUpsellWordFormRecognition={ settings.isWordFormRecognitionActive }
 						/>
-						{ settings.shouldUpsell && <PremiumSEOAnalysisModal location="metabox" /> }
 					</Fragment>
 				</SidebarItem> }
 				{ settings.isInclusiveLanguageAnalysisActive && <SidebarItem key="inclusive-language-analysis" renderPriority={ 21 }>
@@ -98,14 +107,14 @@ export default function MetaboxFill( { settings } ) {
 				{ settings.isKeywordAnalysisActive && <SidebarItem key="additional-keywords-upsell" renderPriority={ 22 }>
 					{ settings.shouldUpsell && <KeywordUpsell /> }
 				</SidebarItem> }
-				{ settings.shouldUpsell && ! isTerm && <SidebarItem key="internal-linking-suggestions-upsell" renderPriority={ 23 }>
-					<InternalLinkingSuggestionsUpsell />
-				</SidebarItem> }
 				{ settings.isKeywordAnalysisActive && settings.isWincherIntegrationActive &&
-					<SidebarItem key="wincher-seo-performance" renderPriority={ 25 }>
+					<SidebarItem key="wincher-seo-performance" renderPriority={ 23 }>
 						<WincherSEOPerformanceModal location="metabox" />
 					</SidebarItem>
 				}
+				{ settings.shouldUpsell && ! isTerm && <SidebarItem key="internal-linking-suggestions-upsell" renderPriority={ 25 }>
+					<InternalLinkingSuggestionsUpsell />
+				</SidebarItem> }
 				{ settings.isCornerstoneActive && <SidebarItem key="cornerstone" renderPriority={ 30 }>
 					<CollapsibleCornerstone />
 				</SidebarItem> }
@@ -117,6 +126,11 @@ export default function MetaboxFill( { settings } ) {
 				{ settings.displaySchemaSettings && <SidebarItem key="schema" renderPriority={ 50 }>
 					<SchemaTabContainer />
 				</SidebarItem> }
+				{ isBlockEditorActive &&
+					<SidebarItem key="content-blocks" renderPriority={ 24 }>
+						<ContentBlocks />
+					</SidebarItem>
+				}
 				<SidebarItem
 					key="social"
 					renderPriority={ -1 }
@@ -130,9 +144,5 @@ export default function MetaboxFill( { settings } ) {
 		</>
 	);
 }
-
-MetaboxFill.propTypes = {
-	settings: PropTypes.object.isRequired,
-};
 
 /* eslint-enable complexity */

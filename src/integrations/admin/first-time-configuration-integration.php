@@ -9,6 +9,7 @@ use WPSEO_Option_Tab;
 use WPSEO_Shortlinker;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
 use Yoast\WP\SEO\Context\Meta_Tags_Context;
+use Yoast\WP\SEO\General\User_Interface\General_Page_Integration;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Helpers\Social_Profiles_Helper;
@@ -117,28 +118,31 @@ class First_Time_Configuration_Integration implements Integration_Interface {
 	 * Adds a dedicated tab in the General sub-page.
 	 *
 	 * @param WPSEO_Options_Tabs $dashboard_tabs Object representing the tabs of the General sub-page.
+	 *
+	 * @return void
 	 */
 	public function add_first_time_configuration_tab( $dashboard_tabs ) {
 		$dashboard_tabs->add_tab(
 			new WPSEO_Option_Tab(
 				'first-time-configuration',
 				\__( 'First-time configuration', 'wordpress-seo' ),
-				[ 'save_button' => false ]
-			)
+				[ 'save_button' => false ],
+			),
 		);
 	}
 
 	/**
 	 * Adds the data for the first-time configuration to the wpseoFirstTimeConfigurationData object.
+	 *
+	 * @return void
 	 */
 	public function enqueue_assets() {
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Date is not processed or saved.
-		if ( ! isset( $_GET['page'] ) || $_GET['page'] !== 'wpseo_dashboard' || \is_network_admin() ) {
+		if ( ! isset( $_GET['page'] ) || ( $_GET['page'] !== 'wpseo_dashboard' && $_GET['page'] !== General_Page_Integration::PAGE ) || \is_network_admin() ) {
 			return;
 		}
 
 		$this->admin_asset_manager->enqueue_script( 'indexation' );
-		$this->admin_asset_manager->enqueue_script( 'first-time-configuration' );
 		$this->admin_asset_manager->enqueue_style( 'first-time-configuration' );
 		$this->admin_asset_manager->enqueue_style( 'admin-css' );
 		$this->admin_asset_manager->enqueue_style( 'monorepo' );
@@ -177,7 +181,7 @@ class First_Time_Configuration_Integration implements Integration_Interface {
 			$options,
 			function ( $item ) {
 				return $item['value'] === $this->is_company_or_person();
-			}
+			},
 		);
 		$selected_option       = \reset( $filtered_options );
 		if ( \is_array( $selected_option ) ) {
@@ -221,7 +225,7 @@ class First_Time_Configuration_Integration implements Integration_Interface {
 			],
 		];
 
-		$this->admin_asset_manager->localize_script( 'first-time-configuration', 'wpseoFirstTimeConfigurationData', $data_ftc );
+		$this->admin_asset_manager->localize_script( 'general-page', 'wpseoFirstTimeConfigurationData', $data_ftc );
 	}
 
 	/**

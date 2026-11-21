@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file. Releases without a changelog entry contain only minor changes that are irrelevant for users of this library.
 We follow [Semantic Versioning](http://semver.org/).
 
+## 7.0.1
+
+* Deprecate the package in favor of `@yoast/eslint-config`.
+
+## 7.0.0
+
+* Export a flat configuration file and remove the old format.
+
 ## 6.0.0
 
 * Adds the recommended set from `eslint-plugin-import`, via a peer dependency. [#20003](https://github.com/Yoast/wordpress-seo/pull/20003)

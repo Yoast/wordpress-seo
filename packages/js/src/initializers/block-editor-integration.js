@@ -1,12 +1,13 @@
 import { updateCategory } from "@wordpress/blocks";
 import { dispatch, select } from "@wordpress/data";
+import { getQueryArg } from "@wordpress/url";
 import {
 	PluginDocumentSettingPanel,
 	PluginPostPublishPanel,
 	PluginPrePublishPanel,
 	PluginSidebar,
 	PluginSidebarMoreMenuItem,
-} from "@wordpress/edit-post";
+} from "@wordpress/editor";
 import { Fragment } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { registerPlugin } from "@wordpress/plugins";
@@ -14,7 +15,6 @@ import { registerFormatType } from "@wordpress/rich-text";
 import { Root } from "@yoast/externals/contexts";
 import { actions } from "@yoast/externals/redux";
 import { get } from "lodash";
-import initializeWordProofForBlockEditor from "../../../../vendor_prefixed/wordproof/wordpress-sdk/resources/js/initializers/blockEditor";
 import getL10nObject from "../analysis/getL10nObject";
 import YoastIcon from "../components/PluginIcon";
 import MetaboxPortal from "../components/portals/MetaboxPortal";
@@ -26,8 +26,9 @@ import PrePublish from "../containers/PrePublish";
 import SidebarFill from "../containers/SidebarFill";
 import WincherPostPublish from "../containers/WincherPostPublish";
 import { isAnnotationAvailable } from "../decorator/gutenberg";
-import { isWordProofIntegrationActive } from "../helpers/wordproof";
 import { link } from "../inline-links/edit-link";
+import initContentPlanner from "../ai-content-planner/initialize";
+import { getIsAiFeatureEnabled } from "../redux/selectors/preferences";
 
 /**
  * Registers the Yoast inline link format.
@@ -38,6 +39,10 @@ import { link } from "../inline-links/edit-link";
  */
 function registerFormats() {
 	if ( typeof get( window, "wp.blockEditor.__experimentalLinkControl" ) === "function" ) {
+		// Store the original core/link settings before removing it
+		// This ensures we preserve all internal WordPress capabilities and references
+		const coreLinkSettings = select( "core/rich-text" ).getFormatType( "core/link" );
+
 		const unknownSettings = select( "core/rich-text" )
 			.getFormatType( "core/unknown" );
 
@@ -52,7 +57,11 @@ function registerFormats() {
 				dispatch( "core/rich-text" ).removeFormatTypes( replaces );
 			}
 			if ( name ) {
-				registerFormatType( name, settings );
+				// Merge core link settings with our custom settings to preserve WordPress capabilities
+				const mergedSettings = coreLinkSettings && name === "core/link"
+					? { ...coreLinkSettings, ...settings }
+					: settings;
+				registerFormatType( name, mergedSettings );
 			}
 		} );
 
@@ -64,6 +73,7 @@ function registerFormats() {
 			__( "Marking links with nofollow/sponsored has been disabled for WordPress installs < 5.4.", "wordpress-seo" ) +
 			" " +
 			sprintf(
+				// translators: %1$s expands to Yoast SEO.
 				__( "Please upgrade your WordPress version or install the Gutenberg plugin to get this %1$s feature.", "wordpress-seo" ),
 				"Yoast SEO"
 			)
@@ -77,10 +87,12 @@ function registerFormats() {
  * @returns {void}
  */
 function initiallyOpenDocumentSettings() {
-	const openedPanels = select( "core/preferences" ).get( "core/edit-post", "openPanels" );
-	const firstLoad = ! openedPanels.includes( "yoast-seo/document-panel" );
-	if ( firstLoad ) {
-		dispatch( "core/edit-post" ).toggleEditorPanelOpened( "yoast-seo/document-panel" );
+	const PANEL_NAME = "yoast-seo/document-panel";
+
+	const openPanels = select( "core/preferences" )?.get( "core", "openPanels" );
+
+	if ( openPanels && ! openPanels.includes( PANEL_NAME ) ) {
+		dispatch( "core/editor" )?.toggleEditorPanelOpened( PANEL_NAME );
 	}
 }
 
@@ -100,6 +112,7 @@ function registerFills( store ) {
 	const icon = <YoastIcon />;
 	updateCategory( "yoast-structured-data-blocks", { icon } );
 	updateCategory( "yoast-internal-linking-blocks", { icon } );
+	updateCategory( "yoast-ai-blocks", { icon } );
 
 	const theme = {
 		isRtl: localizedData.isRtl,
@@ -197,8 +210,12 @@ export default function initBlockEditorIntegration( store ) {
 	registerFills( store );
 	registerFormats();
 	initializeAnnotations( store );
+	if ( getIsAiFeatureEnabled() ) {
+		initContentPlanner();
+	}
 
-	if ( isWordProofIntegrationActive() ) {
-		initializeWordProofForBlockEditor();
+	const yoastTab = getQueryArg( window.location.href, "yoast-tab" );
+	if ( yoastTab === "readability" || yoastTab === "seo" ) {
+		dispatch( "core/edit-post" ).openGeneralSidebar( "yoast-seo/seo-sidebar" );
 	}
 }

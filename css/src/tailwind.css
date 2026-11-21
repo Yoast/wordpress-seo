@@ -1,4 +1,6 @@
 @import "@yoast/ui-library";
+@import "@yoast/related-keyphrase-suggestions";
+@import "@yoast/ai-frontend";
 
 @tailwind base;
 @tailwind components;
@@ -20,7 +22,7 @@
 		}
 
 		.yst-modal {
-			z-index: 100000 !important;
+			z-index: 101000 !important;
 		}
 
 		li, dd {

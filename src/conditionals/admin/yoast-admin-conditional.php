@@ -20,7 +20,7 @@ class Yoast_Admin_Conditional implements Conditional {
 	/**
 	 * Constructs the conditional.
 	 *
-	 * @param \Yoast\WP\SEO\Helpers\Current_Page_Helper $current_page_helper The current page helper.
+	 * @param Current_Page_Helper $current_page_helper The current page helper.
 	 */
 	public function __construct( Current_Page_Helper $current_page_helper ) {
 		$this->current_page_helper = $current_page_helper;

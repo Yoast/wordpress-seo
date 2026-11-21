@@ -174,6 +174,7 @@ class SocialPreviewEditor extends Component {
 					onRemoveImageClick={ onRemoveImageClick }
 					imageSelected={ !! imageUrl }
 					imageUrl={ imageUrl }
+					imageFallbackUrl={ imageFallbackUrl }
 					onTitleChange={ onTitleChange }
 					onSelectImageClick={ onSelectImageClick }
 					description={ description }

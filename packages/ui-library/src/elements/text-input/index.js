@@ -1,6 +1,6 @@
-import { forwardRef } from "@wordpress/element";
 import classNames from "classnames";
 import PropTypes from "prop-types";
+import React, { forwardRef } from "react";
 
 /**
  * @param {string} [type="text"] The type of input.
@@ -11,10 +11,10 @@ import PropTypes from "prop-types";
  * @returns {JSX.Element} TextInput component.
  */
 const TextInput = forwardRef( ( {
-	type,
-	className,
-	disabled,
-	readOnly,
+	type = "text",
+	className = "",
+	disabled = false,
+	readOnly = false,
 	...props
 }, ref ) => (
 	<input
@@ -32,26 +32,12 @@ const TextInput = forwardRef( ( {
 	/>
 ) );
 
-const propTypes = {
+TextInput.displayName = "TextInput";
+TextInput.propTypes = {
 	type: PropTypes.string,
 	className: PropTypes.string,
 	disabled: PropTypes.bool,
 	readOnly: PropTypes.bool,
 };
 
-TextInput.propTypes = propTypes;
-
-TextInput.defaultProps = {
-	type: "text",
-	className: "",
-	disabled: false,
-	readOnly: false,
-};
-
 export default TextInput;
-
-// eslint-disable-next-line require-jsdoc
-export const StoryComponent = props => <TextInput { ...props } />;
-StoryComponent.propTypes = propTypes;
-StoryComponent.defaultProps = TextInput.defaultProps;
-StoryComponent.displayName = "TextInput";

@@ -1,0 +1,31 @@
+import ExclamationCircleIcon from "@heroicons/react/outline/ExclamationCircleIcon";
+import { useContext } from "@wordpress/element";
+import { Title } from "@yoast/ui-library";
+import classNames from "classnames";
+import { AlertsContext } from "../contexts/alerts-context";
+
+/**
+ * @param {Object} props Component props.
+ * @param {string} props.title The title of alerts.
+ * @param {number} [props.counts=0] The count of the alerts.
+ * @param {React.ReactNode} [props.children=null] The children.
+ *
+ * @returns {JSX.Element} The alert title element.
+ */
+export const AlertsTitle = ( {
+	title,
+	counts = 0,
+	children = null,
+} ) => {
+	const { Icon = ExclamationCircleIcon, iconClass = "" } = useContext( AlertsContext );
+
+	return (
+		<div>
+			<div className="yst-flex yst-justify-between yst-gap-2 yst-items-center">
+				<Icon className={ classNames( "yst-w-6 yst-h-6", iconClass ) } />
+				<Title className="yst-grow" as="h2" size="2">{ title } { `(${ counts })` }</Title>
+			</div>
+			{ children }
+		</div>
+	);
+};

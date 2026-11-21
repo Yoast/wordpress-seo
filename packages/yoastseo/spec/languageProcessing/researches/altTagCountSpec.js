@@ -1,4 +1,3 @@
-/* eslint-disable capitalized-comments, spaced-comment */
 import Researcher from "../../../src/languageProcessing/languages/en/Researcher";
 import getMorphologyData from "../../specHelpers/getMorphologyData";
 import altTagCountFunction from "../../../src/languageProcessing/researches/altTagCount";
@@ -21,11 +20,11 @@ describe( "Counts images in a text", function() {
 		expect( stringToCheck.withAltNonKeyword ).toBe( 0 );
 	} );
 
-	 it( "returns object with the withAltKeyword as 1 when the keyword is set and present (1-word keyword)", function() {
+	it( "returns object with the withAltKeyword as 1 when the keyword is set and present (1-word keyword)", function() {
 		const paper = new Paper( "string <img src='http://plaatje' alt='keyword' />", { keyword: "keyword", synonyms: "synonym, another synonym" } );
 		const researcher = new Researcher( paper );
 		researcher.addResearchData( "morphology", morphologyData );
-		 buildTree( paper, researcher );
+		buildTree( paper, researcher );
 		const stringToCheck = altTagCountFunction( paper, researcher );
 
 		expect( stringToCheck.noAlt ).toBe( 0 );
@@ -301,9 +300,144 @@ describe( "Counts images in a text", function() {
 		expect( stringToCheck.withAltKeyword ).toBe( 2 );
 		expect( stringToCheck.withAltNonKeyword ).toBe( 3 );
 	} );
+
+	it( "counts an image whose alt text is only a non-breaking space as an image without alt text", function() {
+		const paper = new Paper( "string <img src='http://plaatje' alt='&nbsp;' />" );
+		const researcher = new Researcher( paper );
+		researcher.addResearchData( "morphology", morphologyData );
+		buildTree( paper, researcher );
+
+		expect( altTagCountFunction( paper, researcher ) ).toEqual(
+			{ noAlt: 1, withAlt: 0, withAltKeyword: 0, withAltNonKeyword: 0, flagged: [ "http://plaatje" ] }
+		);
+	} );
 } );
 
-/*describe( "test for alt tag attributes in Japanese", () => {
+describe( "Counts alt-tags of the paper's provided images when the producer provides them", function() {
+	it( "classifies the paper's provided images by their alt texts and ignores the images in the text", function() {
+		const paper = new Paper( "string <img src='http://plaatje' alt='keyword' />", {
+			keyword: "keyword",
+			providedImages: [
+				{ id: 1, src: "https://example.com/featured.jpg", alt: "keyword" },
+				{ id: 2, src: "https://example.com/gallery.jpg", alt: "something else" },
+				{ id: 3, src: "https://example.com/variation.jpg", alt: "" },
+			],
+		} );
+		const researcher = new Researcher( paper );
+		researcher.addResearchData( "morphology", morphologyData );
+		buildTree( paper, researcher );
+		const stringToCheck = altTagCountFunction( paper, researcher );
+
+		expect( stringToCheck.noAlt ).toBe( 1 );
+		expect( stringToCheck.withAlt ).toBe( 0 );
+		expect( stringToCheck.withAltKeyword ).toBe( 1 );
+		expect( stringToCheck.withAltNonKeyword ).toBe( 1 );
+	} );
+
+	it( "classifies alt-texted provided images as withAlt when no keyphrase is set", function() {
+		const paper = new Paper( "string", {
+			keyword: "",
+			providedImages: [ { id: 1, src: "https://example.com/featured.jpg", alt: "A featured image" } ],
+		} );
+		const researcher = new Researcher( paper );
+		researcher.addResearchData( "morphology", morphologyData );
+		buildTree( paper, researcher );
+		const stringToCheck = altTagCountFunction( paper, researcher );
+
+		expect( stringToCheck.noAlt ).toBe( 0 );
+		expect( stringToCheck.withAlt ).toBe( 1 );
+		expect( stringToCheck.withAltKeyword ).toBe( 0 );
+		expect( stringToCheck.withAltNonKeyword ).toBe( 0 );
+	} );
+
+	it( "recognizes a keyphrase inflection that occurs only in a provided image's alt text", function() {
+		const paper = new Paper( "A text about a pet.", {
+			keyword: "cat",
+			providedImages: [ { id: 1, src: "https://example.com/gallery.jpg", alt: "two cats" } ],
+		} );
+		const researcher = new Researcher( paper );
+		researcher.addResearchData( "morphology", morphologyData );
+		buildTree( paper, researcher );
+		const stringToCheck = altTagCountFunction( paper, researcher );
+
+		expect( stringToCheck.noAlt ).toBe( 0 );
+		expect( stringToCheck.withAlt ).toBe( 0 );
+		expect( stringToCheck.withAltKeyword ).toBe( 1 );
+		expect( stringToCheck.withAltNonKeyword ).toBe( 0 );
+	} );
+
+	it( "classifies nothing when the producer opted in with an empty images array, even when the text has images", function() {
+		const paper = new Paper( "string <img src='http://plaatje' alt='keyword' />", {
+			keyword: "keyword",
+			providedImages: [],
+		} );
+		const researcher = new Researcher( paper );
+		researcher.addResearchData( "morphology", morphologyData );
+		buildTree( paper, researcher );
+		const stringToCheck = altTagCountFunction( paper, researcher );
+
+		expect( stringToCheck.noAlt ).toBe( 0 );
+		expect( stringToCheck.withAlt ).toBe( 0 );
+		expect( stringToCheck.withAltKeyword ).toBe( 0 );
+		expect( stringToCheck.withAltNonKeyword ).toBe( 0 );
+	} );
+} );
+
+describe( "Flags the images without alt text", function() {
+	/**
+	 * Runs the research on a paper.
+	 *
+	 * @param {Paper} paper The paper.
+	 *
+	 * @returns {Object} The research result.
+	 */
+	const research = ( paper ) => {
+		const researcher = new Researcher( paper );
+		researcher.addResearchData( "morphology", morphologyData );
+		buildTree( paper, researcher );
+		return altTagCountFunction( paper, researcher );
+	};
+
+	it( "flags the provided images without alt text by their ID", function() {
+		const paper = new Paper( "string", {
+			keyword: "keyword",
+			providedImages: [
+				{ id: 1, src: "https://example.com/featured.jpg", alt: "keyword" },
+				{ id: 2, src: "https://example.com/gallery.jpg", alt: "" },
+				{ id: 3, src: "https://example.com/variation.jpg", alt: "   " },
+			],
+		} );
+
+		expect( research( paper ).flagged ).toEqual( [ 2, 3 ] );
+	} );
+
+	it( "flags the images in the text without alt text by their src, each src once", function() {
+		const paper = new Paper(
+			"<img src='https://example.com/a.jpg' /> <img src='https://example.com/a.jpg' alt='' />" +
+			" <img src='https://example.com/b.jpg' alt='Has alt' />",
+			{ keyword: "" }
+		);
+
+		const result = research( paper );
+		expect( result.noAlt ).toBe( 2 );
+		expect( result.flagged ).toEqual( [ "https://example.com/a.jpg" ] );
+	} );
+
+	it( "flags nothing when every image has alt text", function() {
+		const paper = new Paper( "string", {
+			keyword: "",
+			providedImages: [ { id: 1, src: "https://example.com/featured.jpg", alt: "A featured image" } ],
+		} );
+
+		expect( research( paper ).flagged ).toEqual( [] );
+	} );
+
+	it( "flags nothing when there are no images", function() {
+		expect( research( new Paper( "string", { keyword: "" } ) ).flagged ).toEqual( [] );
+	} );
+} );
+
+/* describe( "test for alt tag attributes in Japanese", () => {
 	it( "returns result when no morphology data is supplied", () => {
 		const paper = new Paper( "<img src=\"http://basic.wordpress.test/wp-content/uploads/2021/10/images.jpeg\" alt=\"会えるトイレ\"> " +
 			"<img src=\"http://basic.wordpress.test/wp-content/uploads/2021/10/images.jpeg\" alt=\"我が家はみんな元気じゃないです\">",

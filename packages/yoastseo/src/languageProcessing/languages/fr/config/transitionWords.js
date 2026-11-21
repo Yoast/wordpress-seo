@@ -1,5 +1,3 @@
-/** @module config/transitionWords */
-
 export const singleWords = [ "ainsi", "alors", "aussi", "car", "cependant", "certainement", "certes", "conséquemment", "d'abord",
 	"d'ailleurs", "d'après", "davantage", "désormais", "deuxièmement", "donc", "dorénavant", "effectivement", "également",
 	"enfin", "ensuite", "entre-temps", "essentiellement", "excepté", "finalement", "globalement", "jusqu'ici", "là-dessus",

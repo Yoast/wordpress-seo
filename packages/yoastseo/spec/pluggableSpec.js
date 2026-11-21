@@ -1,7 +1,7 @@
-import DefaultResearcher from "../src/languageProcessing/languages/_default/Researcher";
-import Pluggable from "../src/pluggable";
-import InvalidTypeError from "../src/errors/invalidType";
-import Assessor from "../src/scoring/assessor.js";
+import DefaultResearcher from "../src/languageProcessing/languages/_default/Researcher.js";
+import Pluggable from "../src/pluggable.js";
+import InvalidTypeError from "../src/errors/invalidType.js";
+import Assessor from "../src/scoring/assessors/assessor.js";
 
 describe( "the pluggable interface", function() {
 	var app, pluggable;
@@ -31,13 +31,13 @@ describe( "the pluggable interface", function() {
 		it( "should throw an error on adding an invalid assessment", function() {
 			expect( function() {
 				pluggable._registerAssessment( false );
-			} ).toThrowError( InvalidTypeError );
+			} ).toThrow( InvalidTypeError );
 			expect( function() {
 				pluggable._registerAssessment( "name", false );
-			} ).toThrowError( InvalidTypeError );
+			} ).toThrow( InvalidTypeError );
 			expect( function() {
 				pluggable._registerAssessment( "name", function() {}, false );
-			} ).toThrowError( InvalidTypeError );
+			} ).toThrow( InvalidTypeError );
 		} );
 
 		it( "should be able to add an assessment", function() {

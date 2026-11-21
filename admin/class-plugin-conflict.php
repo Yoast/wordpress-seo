@@ -20,7 +20,7 @@ class WPSEO_Plugin_Conflict extends Yoast_Plugin_Conflict {
 	 *
 	 * NOTE: when changing this array, be sure to update the array in Conflicting_Plugins_Service too.
 	 *
-	 * @var array
+	 * @var array<string, array<string>>
 	 */
 	protected $plugins = [
 		// The plugin which are writing OG metadata.
@@ -37,7 +37,7 @@ class WPSEO_Plugin_Conflict extends Yoast_Plugin_Conflict {
 	 *
 	 * @return Yoast_Plugin_Conflict
 	 */
-	public static function get_instance( $class_name = __CLASS__ ) {
+	public static function get_instance( $class_name = self::class ) {
 		return parent::get_instance( $class_name );
 	}
 
@@ -47,6 +47,8 @@ class WPSEO_Plugin_Conflict extends Yoast_Plugin_Conflict {
 	 * If the activated plugin is conflicting with ours a notice will be shown.
 	 *
 	 * @param string|bool $plugin Optional plugin basename to check.
+	 *
+	 * @return void
 	 */
 	public static function hook_check_for_plugin_conflicts( $plugin = false ) {
 		// The instance of the plugin.
@@ -62,7 +64,7 @@ class WPSEO_Plugin_Conflict extends Yoast_Plugin_Conflict {
 		// Only check for open graph problems when they are enabled.
 		if ( WPSEO_Options::get( 'opengraph' ) ) {
 			/* translators: %1$s expands to Yoast SEO, %2$s: 'Facebook' plugin name of possibly conflicting plugin with regard to creating OpenGraph output. */
-			$plugin_sections['open_graph'] = __( 'Both %1$s and %2$s create Open Graph output, which might make Facebook, Twitter, LinkedIn and other social networks use the wrong texts and images when your pages are being shared.', 'wordpress-seo' )
+			$plugin_sections['open_graph'] = __( 'Both %1$s and %2$s create Open Graph output, which might make Facebook, X, LinkedIn and other social networks use the wrong texts and images when your pages are being shared.', 'wordpress-seo' )
 				. '<br/><br/>'
 				. '<a class="button" href="' . admin_url( 'admin.php?page=wpseo_page_settings#/site-features#card-wpseo_social-opengraph' ) . '">'
 				/* translators: %1$s expands to Yoast SEO. */

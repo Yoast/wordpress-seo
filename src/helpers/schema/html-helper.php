@@ -71,6 +71,6 @@ class HTML_Helper {
 	 * @return bool
 	 */
 	private function is_non_empty_string_or_stringable( $html ) {
-		return ( \is_string( $html ) || \is_object( $html ) && \method_exists( $html, '__toString' ) ) && ! empty( $html );
+		return ( \is_string( $html ) || ( \is_object( $html ) && \method_exists( $html, '__toString' ) ) ) && ! empty( $html );
 	}
 }

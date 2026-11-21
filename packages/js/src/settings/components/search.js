@@ -1,6 +1,7 @@
 /* eslint-disable complexity */
 import { Combobox } from "@headlessui/react";
-import { SearchIcon, XIcon } from "@heroicons/react/outline";
+import SearchIcon from "@heroicons/react/outline/SearchIcon";
+import XIcon from "@heroicons/react/outline/XIcon";
 import { useCallback, useMemo, useRef, useState } from "@wordpress/element";
 import { __, _n, sprintf } from "@wordpress/i18n";
 import { Code, Modal, Title, useNavigationContext, useSvgAria, useToggleState } from "@yoast/ui-library";
@@ -38,7 +39,7 @@ const SearchResultLabel = ( { fieldId, fieldLabel } ) => {
 			<>
 				{ fieldLabel }
 				{ postTypeOrTaxonomyName && (
-					<Code className="yst-ml-2 group-hover:yst-bg-primary-200 group-hover:yst-text-primary-800">{ postTypeOrTaxonomyName }</Code>
+					<Code className="yst-ml-2 rtl:yst-mr-2 group-hover:yst-bg-primary-200 group-hover:yst-text-primary-800">{ postTypeOrTaxonomyName }</Code>
 				) }
 			</>
 		);
@@ -90,9 +91,6 @@ const Search = ( { buttonId = "button-search", modalId = "modal-search" } ) => {
 	// Determines the minimum characters to start a search, based on the user locale.
 	const queryMinChars = useMemo( () => {
 		switch ( userLocale ) {
-			// Japanese.
-			case "ja":
-				return 2;
 			// Korean, Chinese, Chinese (Hong Kong), Chinese (Taiwan).
 			case "ko-KR":
 			case "zh-CN":
@@ -100,7 +98,7 @@ const Search = ( { buttonId = "button-search", modalId = "modal-search" } ) => {
 			case "zh-TW":
 				return 1;
 			default:
-				return 3;
+				return 2;
 		}
 	}, [ userLocale ] );
 
@@ -205,8 +203,8 @@ const Search = ( { buttonId = "button-search", modalId = "modal-search" } ) => {
 	}, [ setQuery, debouncedSearch ] );
 
 	const handleOptionActiveState = useCallback( ( { active } ) => classNames(
-		"yst-group yst-block yst-no-underline yst-text-sm yst-text-slate-800 yst-select-none yst-py-3 yst-px-4 hover:yst-bg-primary-600 hover:yst-text-white focus:yst-bg-primary-600 focus:yst-text-white",
-		active && "yst-text-white yst-bg-primary-600"
+		"yst-group yst-block yst-no-underline yst-text-sm  yst-select-none yst-py-3 yst-px-4 hover:yst-bg-primary-600 hover:yst-text-white focus:yst-bg-primary-600 focus:yst-text-white",
+		active ? "yst-text-white yst-bg-primary-600" : "yst-text-slate-800"
 	), [] );
 
 	return <>
@@ -217,12 +215,12 @@ const Search = ( { buttonId = "button-search", modalId = "modal-search" } ) => {
 			onClick={ setOpen }
 		>
 			<SearchIcon
-				className="yst-flex-none yst-w-5 yst-h-5 yst-mr-3 yst-text-slate-400"
+				className="yst-flex-none yst-w-5 yst-h-5 yst-me-3 yst-text-slate-400"
 				{ ...ariaSvgProps }
 			/>
-			<span className="yst-overflow-hidden yst-whitespace-nowrap yst-text-ellipsis">{ query || __( "Quick search...", "wordpress-seo" ) }</span>
+			<span className="yst-overflow-hidden yst-whitespace-nowrap yst-text-ellipsis">{ query || __( "Quick search…", "wordpress-seo" ) }</span>
 			{ platform?.type === "desktop" && (
-				<span className="yst-ml-auto yst-flex-none yst-text-xs yst-font-semibold yst-text-slate-400">
+				<span className="yst-ms-auto yst-flex-none yst-text-xs yst-font-semibold yst-text-slate-400">
 					{ os?.name === "macOS" ? __( "⌘K", "wordpress-seo" ) : __( "CtrlK", "wordpress-seo" ) }
 				</span>
 			) }
@@ -233,7 +231,9 @@ const Search = ( { buttonId = "button-search", modalId = "modal-search" } ) => {
 			isOpen={ isOpen }
 			initialFocus={ inputRef }
 			position="top-center"
-			aria-label={ __( "Search", "wordpress-seo" ) }
+			aria-label={
+				/* translators: Hidden accessibility text. */
+				__( "Search", "wordpress-seo" ) }
 		>
 			<Modal.Panel hasCloseButton={ false }>
 				<LiveAnnouncer>
@@ -242,14 +242,16 @@ const Search = ( { buttonId = "button-search", modalId = "modal-search" } ) => {
 				<Combobox as="div" className="yst--m-6" onChange={ handleNavigate }>
 					<div className="yst-relative">
 						<SearchIcon
-							className="yst-pointer-events-none yst-absolute yst-top-3.5 yst-left-4 yst-h-5 yst-w-5 yst-text-slate-400"
+							className="yst-pointer-events-none yst-absolute yst-top-3.5 yst-start-4 yst-h-5 yst-w-5 yst-text-slate-400"
 							{ ...ariaSvgProps }
 						/>
 						<Combobox.Input
 							ref={ inputRef }
 							id="input-search"
-							placeholder={ __( "Search...", "wordpress-seo" ) }
-							aria-label={ __( "Search", "wordpress-seo" ) }
+							placeholder={ __( "Search…", "wordpress-seo" ) }
+							aria-label={
+								/* translators: Hidden accessibility text. */
+								__( "Search", "wordpress-seo" ) }
 							value={ query }
 							onChange={ handleQueryChange }
 							className="yst-h-12 yst-w-full yst-border-0 yst-rounded-lg sm:yst-text-sm yst-bg-transparent yst-px-11 yst-text-slate-800 yst-placeholder-slate-500 focus:yst-outline-none focus:yst-ring-inset focus:yst-ring-2 focus:yst-ring-primary-500 focus:yst-border-primary-500"
@@ -261,7 +263,12 @@ const Search = ( { buttonId = "button-search", modalId = "modal-search" } ) => {
 								onClick={ setClose }
 								className="yst-modal__close-button"
 							>
-								<span className="yst-sr-only">{ __( "Close", "wordpress-seo" ) }</span>
+								<span className="yst-sr-only">
+									{
+										/* translators: Hidden accessibility text. */
+										__( "Close", "wordpress-seo" )
+									}
+								</span>
 								<XIcon className="yst-h-6 yst-w-6" { ...ariaSvgProps } />
 							</button>
 						</div>
@@ -297,7 +304,14 @@ const Search = ( { buttonId = "button-search", modalId = "modal-search" } ) => {
 					) }
 					{ query.length < queryMinChars && (
 						<SearchNoResultsContent title={ __( "Search", "wordpress-seo" ) }>
-							<p className="yst-text-slate-500">{ __( "Please enter a search term with at least 3 characters.", "wordpress-seo" ) }</p>
+
+							<p className="yst-text-slate-500">{
+								sprintf(
+									/* translators: %d expands to the minimum number of characters needed (numerical). */
+									__( "Please enter a search term with at least %d characters.", "wordpress-seo" ),
+									queryMinChars
+								)
+							}</p>
 						</SearchNoResultsContent>
 					) }
 					{ query.length >= queryMinChars && isEmpty( results ) && (

@@ -1,6 +1,6 @@
 @layer components {
-    .yst-root {
-        .yst-file-input {
+	.yst-root {
+		.yst-file-input {
 			@apply
 			yst-w-full
 			yst-px-6
@@ -73,15 +73,11 @@
 		}
 
 		.yst-file-input__labels {
-			@apply yst-flex yst-font-normal yst-text-slate-800;
+			@apply yst-inline-flex yst-font-normal yst-text-slate-800;
 		}
 
 		.yst-file-input__select-label {
 			@apply yst-rounded-md yst-font-medium;
 		}
-    }
-
-	[dir=rtl] .yst-root .yst-file-input__labels {
-		@apply yst-flex-row-reverse;
 	}
 }

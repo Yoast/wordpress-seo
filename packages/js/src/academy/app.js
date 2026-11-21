@@ -1,6 +1,6 @@
-/* eslint-disable complexity */
-import { ExternalLinkIcon, LockOpenIcon } from "@heroicons/react/outline";
-import { ArrowSmRightIcon } from "@heroicons/react/solid";
+import ExternalLinkIcon from "@heroicons/react/outline/ExternalLinkIcon";
+import LockOpenIcon from "@heroicons/react/outline/LockOpenIcon";
+import ArrowSmRightIcon from "@heroicons/react/solid/ArrowSmRightIcon";
 import { useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { addQueryArgs } from "@wordpress/url";
@@ -48,10 +48,20 @@ const App = () => {
 
 	const courses = useMemo( () => ( [
 		{
+			id: "ai_for_seo",
+			title: "AI for SEO",
+			description: __( "Join the Yoast team to learn how to harness the power of AI to revolutionize your SEO approach. Gain a competitive edge, future-proof your keyword strategies, and soar to the top of search rankings – all designed to empower busy small business owners.", "wordpress-seo" ),
+			image: `${ pluginUrl }/images/academy/ai_for_seo_icon_my_yoast.svg`,
+			startLink: addQueryArgs( "https://yoa.st/ai-for-seo-start", linkParams ),
+			upsellLink: addQueryArgs( "https://yoa.st/ai-for-seo-unlock", linkParams ),
+			dependencies: { PREMIUM: isPremium },
+			hasTrial: true,
+		},
+		{
 			id: "seo_for_beginners",
 			title: "SEO for beginners",
 			description: __( "In this free course, you'll get quick wins to make your site rank higher in Google, Bing, and Yahoo.", "wordpress-seo" ),
-			image: `${ pluginUrl }/images/academy/seo_for_beginners.png`,
+			image: `${ pluginUrl }/images/academy/seo_for_beginners.svg`,
 			startLink: addQueryArgs( "https://yoa.st/academy-seo-beginners-start", linkParams ),
 			dependencies: {},
 			hasTrial: true,
@@ -64,7 +74,7 @@ const App = () => {
 				__( "In this course, you'll learn about how to set up and use the %1$s for WordPress plugin so it makes SEO even easier. This course is meant for users of the block editor.", "wordpress-seo" ),
 				"Yoast SEO"
 			),
-			image: `${ pluginUrl }/images/academy/seo_for_wp.png`,
+			image: `${ pluginUrl }/images/academy/seo_for_wp.svg`,
 			startLink: addQueryArgs( "https://yoa.st/academy-seo-wordpress-block-editor-start", linkParams ),
 			dependencies: {},
 			hasTrial: true,
@@ -73,7 +83,7 @@ const App = () => {
 			id: "all_around_seo",
 			title: "All-around SEO",
 			description: __( "In this course, you'll learn practical SEO skills on every key aspect of SEO, to make your site stand out.", "wordpress-seo" ),
-			image: `${ pluginUrl }/images/academy/all_around_seo.png`,
+			image: `${ pluginUrl }/images/academy/all_around_seo.svg`,
 			startLink: addQueryArgs( "https://yoa.st/academy-all-around-seo-start", linkParams ),
 			upsellLink: addQueryArgs( "https://yoa.st/academy-all-around-seo-unlock", linkParams ),
 			dependencies: { PREMIUM: isPremium },
@@ -83,7 +93,7 @@ const App = () => {
 			id: "wp_for_beginners",
 			title: "WordPress for beginners",
 			description: __( "Do you want to set up your own WordPress site? This course will teach you the ins and outs of creating and maintaining a WordPress website!", "wordpress-seo" ),
-			image: `${ pluginUrl }/images/academy/wp_for_beginners.png`,
+			image: `${ pluginUrl }/images/academy/wp_for_beginners.svg`,
 			startLink: addQueryArgs( "https://yoa.st/academy-wordpress-beginners-start", linkParams ),
 			dependencies: {},
 			hasTrial: true,
@@ -92,7 +102,7 @@ const App = () => {
 			id: "copywriting",
 			title: "SEO copywriting",
 			description: __( "In this course, you'll learn how to write awesome copy that is optimized for ranking in search engines.", "wordpress-seo" ),
-			image: `${ pluginUrl }/images/academy/copywriting.png`,
+			image: `${ pluginUrl }/images/academy/copywriting.svg`,
 			startLink: addQueryArgs( "https://yoa.st/academy-seo-copywriting-start", linkParams ),
 			upsellLink: addQueryArgs( "https://yoa.st/academy-seo-copywriting-unlock", linkParams ),
 			dependencies: { PREMIUM: isPremium },
@@ -102,7 +112,7 @@ const App = () => {
 			id: "structured_data_for_beginners",
 			title: "Structured data for beginners",
 			description: __( "Learn how to make your site stand out from the crowd by adding structured data!", "wordpress-seo" ),
-			image: `${ pluginUrl }/images/academy/structured_data_for_beginners.png`,
+			image: `${ pluginUrl }/images/academy/structured_data_for_beginners.svg`,
 			startLink: addQueryArgs( "https://yoa.st/academy-structured-data-beginners-start", linkParams ),
 			dependencies: {},
 			hasTrial: true,
@@ -112,7 +122,7 @@ const App = () => {
 			id: "keyword_research",
 			title: "Keyword research",
 			description: __( "Do you know the essential first step of good SEO? It's keyword research. In this training, you'll learn how to research and select the keywords that will guide searchers to your pages.", "wordpress-seo" ),
-			image: `${ pluginUrl }/images/academy/keyword_research.png`,
+			image: `${ pluginUrl }/images/academy/keyword_research.svg`,
 			startLink: addQueryArgs( "https://yoa.st/academy-keyword-research-start", linkParams ),
 			upsellLink: addQueryArgs( "https://yoa.st/academy-keyword-research-unlock", linkParams ),
 			dependencies: { PREMIUM: isPremium },
@@ -122,7 +132,7 @@ const App = () => {
 			id: "block_editor",
 			title: "Block editor training",
 			description: __( "Start creating block-tastic content with the new WordPress block editor! Learn all about the block editor and what you can do with it.", "wordpress-seo" ),
-			image: `${ pluginUrl }/images/academy/block_editor.png`,
+			image: `${ pluginUrl }/images/academy/block_editor.svg`,
 			startLink: addQueryArgs( "https://yoa.st/academy-block-editor-start", linkParams ),
 			dependencies: {},
 			hasTrial: true,
@@ -131,7 +141,7 @@ const App = () => {
 			id: "site_structure",
 			title: "Site structure",
 			description: __( "A clear site structure benefits your users and is of great importance for SEO. Still, most people seem to forget about this. Get ahead of your competition and learn how to improve your site structure!", "wordpress-seo" ),
-			image: `${ pluginUrl }/images/academy/site_structure.png`,
+			image: `${ pluginUrl }/images/academy/site_structure.svg`,
 			startLink: addQueryArgs( "https://yoa.st/academy-site-structure-start", linkParams ),
 			upsellLink: addQueryArgs( "https://yoa.st/academy-site-structure-unlock", linkParams ),
 			dependencies: { PREMIUM: isPremium },
@@ -141,7 +151,7 @@ const App = () => {
 			id: "local",
 			title: "Local SEO",
 			description: __( "Do you own a local business? This course will teach you how to make sure your local audience can find you in the search results and on Google Maps!", "wordpress-seo" ),
-			image: `${ pluginUrl }/images/academy/local.png`,
+			image: `${ pluginUrl }/images/academy/local.svg`,
 			startLink: addQueryArgs( "https://yoa.st/academy-local-seo-start", linkParams ),
 			upsellLink: addQueryArgs( "https://yoa.st/academy-local-seo-unlock", linkParams ),
 			dependencies: { LOCAL: isLocalActive },
@@ -151,7 +161,7 @@ const App = () => {
 			id: "ecommerce",
 			title: "Ecommerce SEO",
 			description: __( "Learn how to optimize your online shop for your customers and for search engines!", "wordpress-seo" ),
-			image: `${ pluginUrl }/images/academy/ecommerce.png`,
+			image: `${ pluginUrl }/images/academy/ecommerce.svg`,
 			startLink: addQueryArgs( "https://yoa.st/academy-ecommerce-seo-start", linkParams ),
 			upsellLink: addQueryArgs( "https://yoa.st/academy-ecommerce-seo-unlock", linkParams ),
 			dependencies: { WOO: isWooActive },
@@ -161,7 +171,7 @@ const App = () => {
 			id: "understanding_structured_data",
 			title: "Understanding structured data",
 			description: __( "Do you want to take a deep dive into structured data? In this course, you'll learn the theory related to structured data in detail.", "wordpress-seo" ),
-			image: `${ pluginUrl }/images/academy/understanding_structured_data.png`,
+			image: `${ pluginUrl }/images/academy/understanding_structured_data.svg`,
 			startLink: addQueryArgs( "https://yoa.st/academy-understanding-structured-data-start", linkParams ),
 			upsellLink: addQueryArgs( "https://yoa.st/academy-understanding-structured-data-unlock", linkParams ),
 			dependencies: { PREMIUM: isPremium },
@@ -171,7 +181,7 @@ const App = () => {
 			id: "multilingual",
 			title: "International SEO",
 			description: __( "Are you selling in countries all over the world? In this course, you’ll learn all about setting up and managing a site that targets people in different languages and locales.", "wordpress-seo" ),
-			image: `${ pluginUrl }/images/academy/multilingual.png`,
+			image: `${ pluginUrl }/images/academy/multilingual.svg`,
 			startLink: addQueryArgs( "https://yoa.st/academy-international-seo-start", linkParams ),
 			upsellLink: addQueryArgs( "https://yoa.st/academy-international-seo-unlock", linkParams ),
 			dependencies: { PREMIUM: isPremium },
@@ -181,7 +191,7 @@ const App = () => {
 			id: "crawlability",
 			title: "Technical SEO: Crawlability and indexability",
 			description: __( "You have to make it possible for search engines to find your site, so they can display it in the search results. We'll tell you all about how that works in this course!", "wordpress-seo" ),
-			image: `${ pluginUrl }/images/academy/crawlability.png`,
+			image: `${ pluginUrl }/images/academy/crawlability.svg`,
 			startLink: addQueryArgs( "https://yoa.st/academy-technical-seo-crawlability-indexability-start", linkParams ),
 			upsellLink: addQueryArgs( "https://yoa.st/academy-technical-seo-crawlability-indexability-unlock", linkParams ),
 			dependencies: { PREMIUM: isPremium },
@@ -191,7 +201,7 @@ const App = () => {
 			id: "hosting_and_server",
 			title: "Technical SEO: Hosting and server configuration",
 			description: __( "Choosing the right type of hosting for your site is the basis of a solid Technical SEO strategy. Learn all about it in this course!", "wordpress-seo" ),
-			image: `${ pluginUrl }/images/academy/hosting_and_server.png`,
+			image: `${ pluginUrl }/images/academy/hosting_and_server.svg`,
 			startLink: addQueryArgs( "https://yoa.st/academy-technical-seo-hosting-server-configuration-start", linkParams ),
 			upsellLink: addQueryArgs( "https://yoa.st/academy-technical-seo-hosting-server-configuration-unlock", linkParams ),
 			dependencies: { PREMIUM: isPremium },
@@ -201,7 +211,7 @@ const App = () => {
 
 	return (
 		<div className="yst-p-4 min-[783px]:yst-p-8 yst-mb-8 xl:yst-mb-0">
-			<Paper as="main">
+			<Paper as="main" className="yst-max-w-page">
 				<header className="yst-p-8 yst-border-b yst-border-slate-200">
 					<div className="yst-max-w-screen-sm">
 						<Title>{ __( "Academy", "wordpress-seo" ) }</Title>
@@ -257,7 +267,7 @@ const App = () => {
 									/>
 
 									{ shouldShowPremiumBadge( course.dependencies, isPremium ) && (
-										<div className="yst-absolute yst-top-2 yst-right-2 yst-flex yst-gap-1.5">
+										<div className="yst-absolute yst-top-2 yst-end-2 yst-flex yst-gap-1.5">
 											<Badge size="small" variant="upsell">{ __( "Premium", "wordpress-seo" ) }</Badge>
 										</div>
 									) }
@@ -281,7 +291,7 @@ const App = () => {
 													__( "(Opens in a new browser tab)", "wordpress-seo" )
 												}
 											</span>
-											<ArrowSmRightIcon className="yst-h-4 yst-w-4 yst-ml-1 yst-icon-rtl" />
+											<ArrowSmRightIcon className="yst-h-4 yst-w-4 yst-ms-1 yst-icon-rtl" />
 										</Link> }
 								</Card.Content>
 								<Card.Footer>
@@ -299,7 +309,7 @@ const App = () => {
 													rel="noopener"
 													{ ...premiumUpsellConfig }
 												>
-													<LockOpenIcon className="yst-w-5 yst-h-5 yst--ml-1 yst-shrink-0" { ...svgAriaProps } />
+													<LockOpenIcon className="yst-w-5 yst-h-5 yst--ms-1 yst-shrink-0" { ...svgAriaProps } />
 													{ sprintf(
 														/* translators: %1$s expands to Premium. */
 														__( "Unlock with %1$s", "wordpress-seo" ),
@@ -321,7 +331,7 @@ const App = () => {
 													rel="noopener"
 												>
 													{ __( "Start the course", "wordpress-seo" ) }
-													<ExternalLinkIcon className="yst--mr-1 yst-ml-1 yst-h-5 yst-w-5 yst-text-white" />
+													<ExternalLinkIcon className="yst--me-1 yst-ms-1 yst-h-5 yst-w-5 yst-text-white rtl:yst-rotate-[270deg]" />
 												</Button>
 											)
 										}

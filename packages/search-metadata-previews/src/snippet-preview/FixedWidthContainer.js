@@ -5,6 +5,8 @@ import PropTypes from "prop-types";
 import debounce from "lodash/debounce";
 import { __ } from "@wordpress/i18n";
 
+const isMobileUserAgentRegExp = /mobi/i;
+
 const FixedWidth = styled.div`
 	overflow: auto;
 	width: ${ ( props ) => props.widthValue }px;
@@ -19,7 +21,7 @@ const Inner = styled.div`
 
 const ScrollHintContainer = styled.div`
 	text-align: center;
-	margin: 1em 0 5px;
+	margin: 1rem 0 0.5rem;
 `;
 
 const ScrollHint = styled.div`
@@ -30,7 +32,7 @@ const ScrollHint = styled.div`
 		display: inline-block;
 		margin-right: 10px;
 		font-size: 20px;
-		line-height: inherit;
+		line-height: 20px;
 		vertical-align: text-top;
 		content: "\\21c4";
 		box-sizing: border-box;
@@ -58,6 +60,7 @@ export default class FixedWidthContainer extends Component {
 
 		this.state = {
 			showScrollHint: false,
+			isMobileUserAgent: false,
 		};
 
 		this.setContainerRef = this.setContainerRef.bind( this );
@@ -89,10 +92,9 @@ export default class FixedWidthContainer extends Component {
 	 * @returns {void}
 	 */
 	determineSize() {
-		const width = this._container.offsetWidth;
-
 		this.setState( {
-			showScrollHint: width < this.props.width,
+			showScrollHint: this._container?.offsetWidth !== this._container?.scrollWidth,
+			isMobileUserAgent: isMobileUserAgentRegExp.test( window?.navigator?.userAgent ),
 		} );
 	}
 
@@ -111,12 +113,13 @@ export default class FixedWidthContainer extends Component {
 	render() {
 		const { width, padding, children, className, id } = this.props;
 
+		const classNameOrId = className || id;
 		const innerWidth = width - 2 * padding;
 
-		return <React.Fragment>
+		return <div className={ `${ classNameOrId }__wrapper` }>
 			<FixedWidth
 				id={ id }
-				className={ className }
+				className={ classNameOrId }
 				widthValue={ width }
 				paddingValue={ padding }
 				ref={ this.setContainerRef }
@@ -130,11 +133,14 @@ export default class FixedWidthContainer extends Component {
 			{ this.state.showScrollHint &&
 				<ScrollHintContainer>
 					<ScrollHint>
-						{ __( "Scroll to see the preview content.", "wordpress-seo" ) }
+						{ this.state.isMobileUserAgent
+							? __( "Drag to view the full preview.", "wordpress-seo" )
+							: __( "Scroll to see the preview content.", "wordpress-seo" )
+						}
 					</ScrollHint>
 				</ScrollHintContainer>
 			}
-		</React.Fragment>;
+		</div>;
 	}
 }
 

@@ -2,9 +2,10 @@
 
 namespace Yoast\WP\SEO\User_Profiles_Additions\User_Interface;
 
+use WP_User;
 use WPSEO_Admin_Asset_Manager;
-use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Conditionals\User_Profile_Conditional;
+use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Integrations\Integration_Interface;
 
 /**
@@ -32,10 +33,7 @@ class User_Profiles_Additions_Ui implements Integration_Interface {
 	 * @param WPSEO_Admin_Asset_Manager $asset_manager  The WPSEO_Admin_Asset_Manager.
 	 * @param Product_Helper            $product_helper The Product_Helper.
 	 */
-	public function __construct(
-		WPSEO_Admin_Asset_Manager $asset_manager,
-		Product_Helper $product_helper
-	) {
+	public function __construct( WPSEO_Admin_Asset_Manager $asset_manager, Product_Helper $product_helper ) {
 		$this->asset_manager  = $asset_manager;
 		$this->product_helper = $product_helper;
 	}
@@ -76,6 +74,8 @@ class User_Profiles_Additions_Ui implements Integration_Interface {
 	 * Add the inputs needed for SEO values to the User Profile page.
 	 *
 	 * @param WP_User $user User instance to output for.
+	 *
+	 * @return void
 	 */
 	public function add_hook_to_user_profile( $user ) {
 		$this->enqueue_assets();
@@ -86,10 +86,9 @@ class User_Profiles_Additions_Ui implements Integration_Interface {
 		 *
 		 * @internal
 		 *
-		 * @param \WP_User $user The current WP_User object.
+		 * @param WP_User $user The current WP_User object.
 		 */
 		\do_action( 'wpseo_user_profile_additions', $user );
 		echo '</div>';
 	}
 }
-

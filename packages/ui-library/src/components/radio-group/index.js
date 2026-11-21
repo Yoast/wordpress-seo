@@ -1,8 +1,7 @@
-/* eslint-disable no-undefined */
-import { useCallback } from "@wordpress/element";
 import classNames from "classnames";
 import { noop } from "lodash";
 import PropTypes from "prop-types";
+import React, { useCallback } from "react";
 import Label from "../../elements/label";
 
 import Radio from "../../elements/radio";
@@ -14,19 +13,22 @@ const classNameMap = {
 	},
 };
 
+// Stable reference so the empty-array default keeps a constant identity across renders.
+const DEFAULT_OPTIONS = [];
+
 /**
- * @param {JSX.node} children Children are rendered below the radio group.
- * @param {string} [id] Identifier.
- * @param {string} [name] Name.
- * @param {string} [value] Value.
- * @param {string} [label] Label.
- * @param {string} [description] Description.
- * @param {{ value: string, label: string, screenReaderLabel: string }[]} options Options to choose from.
- * @param {Function} [onChange] Change handler.
- * @param {string} [variant] Variant.
- * @param {boolean} [disabled] Disabled state.
- * @param {string} [className] CSS class.
- * @param {Object} [props] Extra Radio props.
+ * @param {JSX.node} [children=null] Children are rendered below the radio group. Either use this or the `options` prop.
+ * @param {string} [id=""] Identifier.
+ * @param {string} [name=""] Name.
+ * @param {string} [value=""] Value.
+ * @param {string} [label=""] Label.
+ * @param {string} [description=""] Description.
+ * @param {{value: string, label: string, screenReaderLabel: string}[]} [options=[]] Options to choose from. Either use this or the `children` prop.
+ * @param {Function} [onChange=noop] Change handler.
+ * @param {string} [variant="default"] Variant. Either `default` or `inline-block`.
+ * @param {boolean} [disabled=false] Disabled state.
+ * @param {string} [className=""] CSS class.
+ * @param {...any} [props] Extra Radio props.
  * @returns {JSX.Element} RadioGroup component.
  */
 const RadioGroup = ( {
@@ -34,9 +36,9 @@ const RadioGroup = ( {
 	id = "",
 	name = "",
 	value = "",
-	label,
-	description,
-	options,
+	label = "",
+	description = "",
+	options = DEFAULT_OPTIONS,
 	onChange = noop,
 	variant = "default",
 	disabled = false,

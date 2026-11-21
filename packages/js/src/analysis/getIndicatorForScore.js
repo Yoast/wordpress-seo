@@ -14,29 +14,41 @@ function getIndicatorForRating( rating ) {
 		case "feedback":
 			return {
 				className: "na",
-				screenReaderText: __( "Feedback", "wordpress-seo" ),
-				screenReaderReadabilityText: "",
-				screenReaderInclusiveLanguageText: "",
+				/* translators: Hidden accessibility text, but also appears visually in different contexts. */
+				screenReaderText: __( "Not available", "wordpress-seo" ),
+				/* translators: Hidden accessibility text, but also appears visually in different contexts. */
+				screenReaderReadabilityText: __( "Not available", "wordpress-seo" ),
+				/* translators: Hidden accessibility text, but also appears visually in different contexts. */
+				screenReaderInclusiveLanguageText: __( "Not available", "wordpress-seo" ),
 			};
 		case "bad":
 			return {
 				className: "bad",
+				/* translators: Hidden accessibility text, but also appears visually in different contexts. */
 				screenReaderText: __( "Needs improvement", "wordpress-seo" ),
+				/* translators: Hidden accessibility text, but also appears visually in different contexts. */
 				screenReaderReadabilityText: __( "Needs improvement", "wordpress-seo" ),
+				/* translators: Hidden accessibility text, but also appears visually in different contexts. */
 				screenReaderInclusiveLanguageText: __( "Needs improvement", "wordpress-seo" ),
 			};
 		case "ok":
 			return {
 				className: "ok",
+				/* translators: Hidden accessibility text, but also appears visually in different contexts. */
 				screenReaderText: __( "OK SEO score", "wordpress-seo" ),
+				/* translators: Hidden accessibility text, but also appears visually in different contexts. */
 				screenReaderReadabilityText: __( "OK", "wordpress-seo" ),
+				/* translators: Hidden accessibility text, but also appears visually in different contexts. */
 				screenReaderInclusiveLanguageText: __( "Potentially non-inclusive", "wordpress-seo" ),
 			};
 		case "good":
 			return {
 				className: "good",
+				/* translators: Hidden accessibility text, but also appears visually in different contexts. */
 				screenReaderText: __( "Good SEO score", "wordpress-seo" ),
+				/* translators: Hidden accessibility text, but also appears visually in different contexts. */
 				screenReaderReadabilityText: __( "Good", "wordpress-seo" ),
+				/* translators: Hidden accessibility text, but also appears visually in different contexts. */
 				screenReaderInclusiveLanguageText: __( "Good", "wordpress-seo" ),
 			};
 		default:

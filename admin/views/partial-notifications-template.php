@@ -36,7 +36,7 @@ if ( ! function_exists( '_yoast_display_notifications' ) ) {
 					$button = sprintf(
 						'<button type="button" class="button dismiss"><span class="screen-reader-text">%1$s</span><span class="dashicons dashicons-hidden"></span></button>',
 						/* translators: Hidden accessibility text. */
-						esc_html__( 'Hide this item.', 'wordpress-seo' )
+						esc_html__( 'Hide this item.', 'wordpress-seo' ),
 					);
 					break;
 
@@ -44,7 +44,7 @@ if ( ! function_exists( '_yoast_display_notifications' ) ) {
 					$button = sprintf(
 						'<button type="button" class="button restore"><span class="screen-reader-text">%1$s</span><span class="dashicons yoast-svg-icon-eye"></span></button>',
 						/* translators: Hidden accessibility text. */
-						esc_html__( 'Show this item.', 'wordpress-seo' )
+						esc_html__( 'Show this item.', 'wordpress-seo' ),
 					);
 					break;
 			}
@@ -57,7 +57,7 @@ if ( ! function_exists( '_yoast_display_notifications' ) ) {
 				// This needs to be fixed in https://github.com/Yoast/wordpress-seo-premium/issues/2548.
 				$notification,
 				// Note: $button is properly escaped above.
-				$button
+				$button,
 			);
 		}
 
@@ -101,7 +101,7 @@ if ( ! $yoast_seo_active ) {
 					'content'                  => _yoast_display_notifications( $yoast_seo_dismissed, 'dismissed' ),
 					'collapsible'              => true,
 					'collapsible_header_class' => 'yoast-notification',
-				]
+				],
 			);
 			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: get_output() output is properly escaped.
 			echo $dismissed_paper->get_output();

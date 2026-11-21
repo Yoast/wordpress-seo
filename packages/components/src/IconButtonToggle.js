@@ -1,46 +1,55 @@
 import React from "react";
-import styled from "styled-components";
-import PropTypes from "prop-types";
-
 /* Yoast dependencies */
-import { colors, rgba } from "@yoast/style-guide";
-
+import { colors } from "@yoast/style-guide";
 /* Internal dependencies */
 import SvgIcon from "./SvgIcon";
+import IconButtonBase from "./IconButtonBase";
 
-const IconButtonBase = styled.button`
-	box-sizing: border-box;
-	min-width: 32px;
-	display: inline-block;
-	border: 1px solid ${ colors.$color_button_border };
-	background-color: ${ props => props.pressed ? props.pressedBackground : props.unpressedBackground };
-	box-shadow: ${ props => props.pressed
-		? `inset 0 2px 0 ${ rgba( props.pressedBoxShadowColor, 0.7 ) }`
-		: `0 1px 0 ${ rgba( props.unpressedBoxShadowColor, 0.7 ) }` };
-	border-radius: 3px;
-	cursor: pointer;
-	padding: 0;
-	height: ${ props => props.pressed ? "23px" : "24px" };
-
-	&:hover {
-		border-color: ${ props => props.hoverBorderColor };
-	}
-	&:disabled {
-		background-color: ${ props => props.unpressedBackground };
-		box-shadow: none;
-		border: none;
-		cursor: default;
-	}
-`;
+const changingIconButtonDefaults = {
+	unpressedBoxShadowColor: colors.$color_button_border,
+	pressedBoxShadowColor: colors.$color_purple,
+	pressedBackground: colors.$color_pink_dark,
+	unpressedBackground: colors.$color_button,
+	pressedIconColor: colors.$color_white,
+	unpressedIconColor: colors.$color_button_text,
+	hoverBorderColor: colors.$color_white,
+	marksButtonStatus: "enabled",
+	disabledIconColor: colors.$color_grey,
+};
 
 /**
  * Returns the ChangingIconButton component.
  *
- * @param {Object} props Component props.
+ * @deprecated Use the Button component from @yoast/ui-library instead.
+ *
+ * @param {Object} componentProps Component props.
+ * @param {string} componentProps.id The id of the button.
+ * @param {string} componentProps.ariaLabel The aria-label of the button.
+ * @param {Function} componentProps.onClick The function to call when the button is clicked.
+ * @param {string} [componentProps.unpressedBoxShadowColor] The box shadow color when the button is not pressed.
+ * @param {string} [componentProps.pressedBoxShadowColor] The box shadow color when the button is pressed.
+ * @param {string} [componentProps.pressedBackground] The background color when the button is pressed.
+ * @param {string} [componentProps.unpressedBackground] The background color when the button is not pressed.
+ * @param {string} [componentProps.pressedIconColor] The icon color when the button is pressed.
+ * @param {string} [componentProps.unpressedIconColor] The icon color when the button is not pressed.
+ * @param {string} componentProps.icon The name of the icon.
+ * @param {boolean} componentProps.pressed Whether the button is pressed.
+ * @param {string} [componentProps.hoverBorderColor] The border color on hover.
+ * @param {string} [componentProps.marksButtonStatus="enabled"] The status of the button. The button is disabled when "disabled".
+ * @param {string} [componentProps.disabledIconColor] The icon color when the button is disabled.
+ * @param {string} [componentProps.className] The class name of the button.
  *
  * @returns {ReactElement} ChangingIconButton component.
  */
-const ChangingIconButton = function( props ) {
+const ChangingIconButton = function( componentProps ) {
+	console.warn( "The IconButtonToggle component has been deprecated and will be removed in a future release. Use the Button component from @yoast/ui-library instead." );
+
+	/*
+	 * React 19's automatic JSX runtime no longer applies defaultProps to function components, which
+	 * would drop these colours to undefined and render the button unstyled. Merging the defaults here
+	 * keeps them on both runtimes; defaultProps is kept as well for classic consumers.
+	 */
+	const props = { ...changingIconButtonDefaults, ...componentProps };
 	const buttonsAreDisabled = props.marksButtonStatus === "disabled";
 
 	let iconColor;
@@ -77,34 +86,7 @@ const ChangingIconButton = function( props ) {
 	);
 };
 
-ChangingIconButton.propTypes = {
-	id: PropTypes.string.isRequired,
-	ariaLabel: PropTypes.string.isRequired,
-	onClick: PropTypes.func.isRequired,
-	unpressedBoxShadowColor: PropTypes.string,
-	pressedBoxShadowColor: PropTypes.string,
-	pressedBackground: PropTypes.string,
-	unpressedBackground: PropTypes.string,
-	pressedIconColor: PropTypes.string,
-	unpressedIconColor: PropTypes.string,
-	icon: PropTypes.string.isRequired,
-	pressed: PropTypes.bool.isRequired,
-	hoverBorderColor: PropTypes.string,
-	marksButtonStatus: PropTypes.string,
-	disabledIconColor: PropTypes.string,
-	className: PropTypes.string,
-};
-
-ChangingIconButton.defaultProps = {
-	unpressedBoxShadowColor: colors.$color_button_border,
-	pressedBoxShadowColor: colors.$color_purple,
-	pressedBackground: colors.$color_pink_dark,
-	unpressedBackground: colors.$color_button,
-	pressedIconColor: colors.$color_white,
-	unpressedIconColor: colors.$color_button_text,
-	hoverBorderColor: colors.$color_white,
-	marksButtonStatus: "enabled",
-	disabledIconColor: colors.$color_grey,
-};
+// Kept for classic-runtime consumers; the in-component merge applies these on React 19.
+ChangingIconButton.defaultProps = changingIconButtonDefaults;
 
 export default ChangingIconButton;

@@ -27,7 +27,7 @@ class Yoast_Network_Settings_API {
 	/**
 	 * The singleton instance of this class.
 	 *
-	 * @var Yoast_Network_Settings_API
+	 * @var Yoast_Network_Settings_API|null
 	 */
 	private static $instance = null;
 
@@ -155,9 +155,7 @@ class Yoast_Network_Settings_API {
 	 */
 	public static function get() {
 
-		if ( self::$instance === null ) {
-			self::$instance = new self();
-		}
+		self::$instance ??= new self();
 
 		return self::$instance;
 	}

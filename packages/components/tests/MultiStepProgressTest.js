@@ -1,5 +1,5 @@
 import React from "react";
-import renderer from "react-test-renderer";
+import { render } from "@testing-library/react";
 
 import MultiStepProgress from "../src/MultiStepProgress";
 
@@ -28,10 +28,10 @@ describe( "MultiStepProgress", () => {
 			},
 		];
 
-		const tree = renderer.create(
+		const { container } = render(
 			<MultiStepProgress steps={ steps } />
-		).toJSON();
+		);
 
-		expect( tree ).toMatchSnapshot();
+		expect( container.firstChild ).toMatchSnapshot();
 	} );
 } );

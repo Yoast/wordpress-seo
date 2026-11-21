@@ -1,11 +1,13 @@
-/* eslint-disable react/forbid-foreign-prop-types */
-/* eslint-disable jsx-a11y/tabindex-no-positive */
-import { XIcon } from "@heroicons/react/solid";
-import { useCallback, useState, forwardRef } from "@wordpress/element";
+/* eslint-disable complexity */
+import XIcon from "@heroicons/react/solid/XIcon";
 import classNames from "classnames";
 import { isString, map, noop } from "lodash";
 import PropTypes from "prop-types";
+import React, { forwardRef, useCallback, useState } from "react";
 import { Badge } from "../../index";
+
+// Stable reference matching the old defaultProps single instance, so it keeps a constant identity across renders.
+const DEFAULT_TAGS = [];
 
 /**
  * @param {string} tag The tag / label.
@@ -39,12 +41,11 @@ export const Tag = ( { tag, index, disabled = false, onRemoveTag, screenReaderRe
 	}, [ index, disabled, onRemoveTag ] );
 
 	return (
-		// eslint-disable-next-line jsx-a11y/no-static-element-interactions
 		<Badge
 			onKeyDown={ handleKeyDown } { ...props } variant="plain" className="yst-tag-input__tag"
 		>
 			<span className="yst-mb-px">{ tag }</span>
-			<button onClick={ handleClick } className="yst-tag-input__remove-tag">
+			<button type="button" onClick={ handleClick } className="yst-tag-input__remove-tag">
 				<span className="yst-sr-only">{ screenReaderRemoveTag }</span>
 				<XIcon className="yst-h-3 yst-w-3" />
 			</button>
@@ -74,15 +75,15 @@ Tag.propTypes = {
  * @returns {JSX.Element} The element.
  */
 const TagInput = forwardRef( ( {
-	tags = [],
-	children,
-	className,
-	disabled,
-	onAddTag,
-	onRemoveTag,
-	onSetTags,
-	onBlur,
-	screenReaderRemoveTag,
+	tags = DEFAULT_TAGS,
+	children = null,
+	className = "",
+	disabled = false,
+	onAddTag = noop,
+	onRemoveTag = noop,
+	onSetTags = noop,
+	onBlur = noop,
+	screenReaderRemoveTag = "Remove tag",
 	...props
 }, ref ) => {
 	const [ text, setText ] = useState( "" );
@@ -105,7 +106,7 @@ const TagInput = forwardRef( ( {
 				if ( text.length !== 0 || tags.length === 0 ) {
 					break;
 				}
-				onRemoveTag( tags.length - 1  );
+				onRemoveTag( tags.length - 1 );
 				if ( event.ctrlKey ) {
 					onSetTags( [] );
 				}
@@ -149,7 +150,8 @@ const TagInput = forwardRef( ( {
 	);
 } );
 
-const propTypes = {
+TagInput.displayName = "TagInput";
+TagInput.propTypes = {
 	tags: PropTypes.arrayOf( PropTypes.string ),
 	children: PropTypes.node,
 	className: PropTypes.string,
@@ -161,28 +163,7 @@ const propTypes = {
 	screenReaderRemoveTag: PropTypes.string,
 };
 
-TagInput.propTypes = propTypes;
-
 TagInput.Tag = Tag;
 TagInput.Tag.displayName = "TagInput.Tag";
 
-TagInput.defaultProps = {
-	tags: [],
-	children: null,
-	className: "",
-	disabled: false,
-	onAddTag: noop,
-	onRemoveTag: noop,
-	onSetTags: noop,
-	onBlur: noop,
-	screenReaderRemoveTag: "Remove tag",
-};
-
 export default TagInput;
-
-
-// eslint-disable-next-line require-jsdoc
-export const StoryComponent = props => <TagInput { ...props } />;
-StoryComponent.propTypes = propTypes;
-StoryComponent.defaultProps = TagInput.defaultProps;
-StoryComponent.displayName = "TagInput";

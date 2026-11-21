@@ -1,4 +1,8 @@
-import Node from "./Node";
+import Node from "./Node.js";
+
+/**
+ * @typedef {import(".").Text} Text
+ */
 
 /**
  * A paragraph in the tree.

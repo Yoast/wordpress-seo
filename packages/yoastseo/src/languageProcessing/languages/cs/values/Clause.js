@@ -1,5 +1,5 @@
 import { languageProcessing } from "yoastseo";
-import getParticiples from "../helpers/internal/getParticiples";
+import getParticiples from "../helpers/internal/getParticiples.js";
 const { values } = languageProcessing;
 const { Clause } = values;
 

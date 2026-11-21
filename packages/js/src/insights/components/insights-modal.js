@@ -1,9 +1,8 @@
-import { LightBulbIcon } from "@heroicons/react/solid";
+import LightBulbIcon from "@heroicons/react/solid/LightBulbIcon";
 import { useSelect } from "@wordpress/data";
 import { __ } from "@wordpress/i18n";
 import { isFeatureEnabled } from "@yoast/feature-flag";
 import { useSvgAria } from "@yoast/ui-library/src";
-import PropTypes from "prop-types";
 import styled from "styled-components";
 import EditorModal from "../../containers/EditorModal";
 import EstimatedReadingTime from "./estimated-reading-time";
@@ -20,10 +19,13 @@ const StyledHeroIcon = styled( LightBulbIcon )`
 
 /**
  * Insights modal component.
- * @param {string} location The location of this modal.
- * @returns {JSX.Element} The element.
+ *
+ * @param {Object} props Component props.
+ * @param {string} [props.location="sidebar"] The location of this modal.
+ *
+ * @returns {React.ReactNode} The element.
  */
-const InsightsModal = ( { location } ) => {
+const InsightsModal = ( { location = "sidebar" } ) => {
 	const isElementorEditor = useSelect( select => select( "yoast-seo/editor" ).getIsElementorEditor(), [] );
 	const isFleschReadingEaseAvailable = useSelect( select => select( "yoast-seo/editor" ).isFleschReadingEaseAvailable(), [] );
 
@@ -53,14 +55,6 @@ const InsightsModal = ( { location } ) => {
 			</div>
 		</EditorModal>
 	);
-};
-
-InsightsModal.propTypes = {
-	location: PropTypes.string,
-};
-
-InsightsModal.defaultProps = {
-	location: "sidebar",
 };
 
 export default InsightsModal;

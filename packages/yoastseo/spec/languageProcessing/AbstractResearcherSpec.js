@@ -19,7 +19,7 @@ describe( "Calling a Research", function() {
 	it( "throws an error if no research name is given", function() {
 		expect( function() {
 			researcher.getResearch( "" );
-		} ).toThrowError( MissingArgument );
+		} ).toThrow( MissingArgument );
 	} );
 
 	it( "returns false if an unknown research name is given", function() {
@@ -50,7 +50,7 @@ describe( "Adding a research to a Researcher", function() {
 	it( "throws an error if no name is given", function() {
 		expect( function() {
 			researcher.addResearch( "", function() {} );
-		} ).toThrowError( MissingArgument );
+		} ).toThrow( MissingArgument );
 
 		expect( Object.keys( researcher.customResearches ).length ).toEqual( 0 );
 	} );
@@ -58,7 +58,7 @@ describe( "Adding a research to a Researcher", function() {
 	it( "throws an error if no function is given", function() {
 		expect( function() {
 			researcher.addResearch( "foobar", null );
-		} ).toThrowError( InvalidTypeError );
+		} ).toThrow( InvalidTypeError );
 
 		expect( Object.keys( researcher.customResearches ).length ).toEqual( 0 );
 	} );
@@ -102,7 +102,7 @@ describe( "Adding a custom helper to a Researcher", function() {
 	it( "throws an error if no name is given", function() {
 		expect( function() {
 			researcher.addHelper( "", function() {} );
-		} ).toThrowError( MissingArgument );
+		} ).toThrow( MissingArgument );
 
 		expect( Object.keys( researcher.helpers ).length ).toEqual( 1 );
 	} );
@@ -110,7 +110,7 @@ describe( "Adding a custom helper to a Researcher", function() {
 	it( "throws an error if no function is given", function() {
 		expect( function() {
 			researcher.addHelper( "foobar", null );
-		} ).toThrowError( InvalidTypeError );
+		} ).toThrow( InvalidTypeError );
 
 		expect( Object.keys( researcher.helpers ).length ).toEqual( 1 );
 	} );
@@ -132,50 +132,64 @@ describe( "Adding a custom helper to a Researcher", function() {
 	} );
 } );
 
+describe( "Retrieving config", function() {
+	const researcher = new Researcher( new Paper( "This is another paper!" ) );
+
+	it( "returns false if an unknown config name is given", function() {
+		expect( researcher.getConfig( "foobar" ) ).toBeFalsy();
+	} );
+
+	it( "returns whether hyphens should be word boundaries", function() {
+		expect( researcher.getConfig( "areHyphensWordBoundaries" ) )
+			.toEqual( true );
+	} );
+} );
+
 describe( "Adding a custom config to a Researcher", function() {
 	const researcher = new Researcher( new Paper( "This is another paper!" ) );
+	const defaultConfigLength = Object.keys( researcher.config ).length;
 
 	it( "throws an error if no name is given", function() {
 		expect( function() {
 			researcher.addConfig( "", {} );
-		} ).toThrowError( MissingArgument );
+		} ).toThrow( MissingArgument );
 
-		expect( Object.keys( researcher.config ).length ).toEqual( 0 );
+		expect( Object.keys( researcher.config ).length ).toEqual( defaultConfigLength );
 	} );
 
 	it( "throws an error if an empty object is given as the config", function() {
 		expect( function() {
 			researcher.addConfig( "pets", {} );
-		} ).toThrowError( MissingArgument );
+		} ).toThrow( MissingArgument );
 
-		expect( Object.keys( researcher.config ).length ).toEqual( 0 );
+		expect( Object.keys( researcher.config ).length ).toEqual( defaultConfigLength );
 	} );
 
 	it( "throws an error if no config is given", function() {
 		expect( function() {
 			researcher.addConfig( "pets" );
-		} ).toThrowError( MissingArgument );
+		} ).toThrow( MissingArgument );
 
-		expect( Object.keys( researcher.config ).length ).toEqual( 0 );
+		expect( Object.keys( researcher.config ).length ).toEqual( defaultConfigLength );
 	} );
 
 	it( "adds a config to the config object", function() {
-		expect( Object.keys( researcher.config ).length ).toEqual( 0 );
+		expect( Object.keys( researcher.config ).length ).toEqual( defaultConfigLength );
 		const petsList1 = [ "cats", "dogs", "rabbits" ];
 		researcher.addConfig( "pets", petsList1 );
-		expect( Object.keys( researcher.config ).length ).toEqual( 1 );
+		expect( Object.keys( researcher.config ).length ).toEqual( defaultConfigLength + 1 );
 		expect( researcher.getConfig( "pets" ) ).toEqual( petsList1 );
 	} );
 
-	it( "overwrites a helper in the helpers object", function() {
-		expect( Object.keys( researcher.config ).length ).toEqual( 1 );
+	it( "overwrites a config in the config object", function() {
+		expect( Object.keys( researcher.config ).length ).toEqual( defaultConfigLength + 1 );
 		const petsList2 = [ "birds", "horses", "tortoise" ];
 
 		researcher.addConfig( "pets", petsList2 );
-		expect( Object.keys( researcher.config ).length ).toEqual( 1 );
+		expect( Object.keys( researcher.config ).length ).toEqual( defaultConfigLength + 1 );
 		expect( researcher.hasConfig( "pets" ) ).toBeTruthy();
 		expect( researcher.getConfig( "pets" ) ).toEqual( petsList2 );
-		expect( researcher.getAvailableConfig() ).toEqual( {
+		expect( researcher.getAvailableConfig() ).toMatchObject( {
 			pets: [ "birds", "horses", "tortoise" ],
 		} );
 	} );

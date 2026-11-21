@@ -1,15 +1,15 @@
 import React from "react";
-import PropTypes from "prop-types";
 import styled, { keyframes } from "styled-components";
 
 /**
  * Returns a Loader SVG.
  *
- * @param {string} className Classname to add to the loader.
+ * @param {Object} props Component props.
+ * @param {string} [props.className=""] Classname to add to the loader.
  *
  * @returns {React.Element} The Loader component.
  */
-const Loader = ( { className } ) => {
+const Loader = ( { className = "" } ) => {
 	if ( className !== "" ) {
 		className += " ";
 	}
@@ -71,14 +71,6 @@ const Loader = ( { className } ) => {
 			</g>
 		</svg>
 	);
-};
-
-Loader.propTypes = {
-	className: PropTypes.string,
-};
-
-Loader.defaultProps = {
-	className: "",
 };
 
 const heartbeat = keyframes`

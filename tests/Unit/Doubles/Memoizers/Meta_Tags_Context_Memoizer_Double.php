@@ -1,0 +1,33 @@
+<?php
+
+namespace Yoast\WP\SEO\Tests\Unit\Doubles\Memoizers;
+
+use Yoast\WP\SEO\Context\Meta_Tags_Context;
+use Yoast\WP\SEO\Memoizers\Meta_Tags_Context_Memoizer;
+
+/**
+ * Class Meta_Tags_Context_Memoizer_Double.
+ */
+final class Meta_Tags_Context_Memoizer_Double extends Meta_Tags_Context_Memoizer {
+
+	/**
+	 * Used to manually set the internal cache for testing purposes.
+	 *
+	 * @param int|string        $key   The key to set.
+	 * @param Meta_Tags_Context $value The value to set.
+	 *
+	 * @return void
+	 */
+	public function set_cache( $key, $value ) {
+		$this->cache[ $key ] = $value;
+	}
+
+	/**
+	 * Used to retrieve the internal cache for testing purposes.
+	 *
+	 * @return array<int|string, Meta_Tags_Context> The cache.
+	 */
+	public function get_cache() {
+		return $this->cache;
+	}
+}

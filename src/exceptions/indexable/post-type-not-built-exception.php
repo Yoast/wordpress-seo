@@ -13,7 +13,7 @@ class Post_Type_Not_Built_Exception extends Not_Built_Exception {
 	 *
 	 * @param string $post_type The post type.
 	 *
-	 * @throws Post_Type_Not_Built_Exception When the post type is not indexable.
+	 * @return Post_Type_Not_Built_Exception
 	 */
 	public static function because_not_indexable( $post_type ) {
 		/* translators: %s: expands to the post type */

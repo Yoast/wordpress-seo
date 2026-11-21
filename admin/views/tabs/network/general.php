@@ -26,7 +26,7 @@ $yform->select(
 	[
 		'admin'      => __( 'Site Admins (default)', 'wordpress-seo' ),
 		'superadmin' => __( 'Super Admins only', 'wordpress-seo' ),
-	]
+	],
 );
 
 if ( get_blog_count() <= 100 ) {
@@ -35,7 +35,7 @@ if ( get_blog_count() <= 100 ) {
 	$yform->select(
 		'defaultblog',
 		__( 'New sites in the network inherit their SEO settings from this site', 'wordpress-seo' ),
-		$network_admin->get_site_choices( true, true )
+		$network_admin->get_site_choices( true, true ),
 	);
 	echo '<p>' . esc_html__( 'Choose the site whose settings you want to use as default for all sites that are added to your network. If you choose \'None\', the normal plugin defaults will be used.', 'wordpress-seo' ) . '</p>';
 }
@@ -46,7 +46,7 @@ else {
 		/* translators: 1: link open tag; 2: link close tag. */
 		esc_html__( 'Enter the %1$sSite ID%2$s for the site whose settings you want to use as default for all sites that are added to your network. Leave empty for none (i.e. the normal plugin defaults will be used).', 'wordpress-seo' ),
 		'<a href="' . esc_url( network_admin_url( 'sites.php' ) ) . '">',
-		'</a>'
+		'</a>',
 	);
 	echo '</p>';
 }

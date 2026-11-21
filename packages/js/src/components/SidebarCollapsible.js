@@ -1,36 +1,63 @@
-import { useState } from "@wordpress/element";
-import { BetaBadge, SvgIcon } from "@yoast/components";
-import PropTypes from "prop-types";
 /* eslint-disable complexity */
+import { useCallback, useEffect, useRef, useState } from "@wordpress/element";
+import { BetaBadge, SvgIcon } from "@yoast/components";
+import { noop } from "lodash";
 
 /**
- * Sidebar Collapsible component with default padding and separator
+ * Sidebar Collapsible component with default padding and separator.
  *
- * @param {Object} props The properties for the component.
+ * @param {Object} props Component props.
+ * @param {string} props.title The main title.
+ * @param {React.ReactNode} props.children The collapsible content.
+ * @param {?string} [props.id=null] The id of the collapsible wrapper.
+ * @param {?{icon: string, color: ?string, size: ?string}} [props.prefixIcon=null] The icon object for the prefix.
+ * @param {string} [props.subTitle=""] The subtitle.
+ * @param {boolean} [props.hasBetaBadgeLabel=false] Whether to show the beta badge.
+ * @param {boolean} [props.hasNewBadgeLabel=false] Whether to show the new badge.
+ * @param {?string} [props.buttonId=null] The button id.
+ * @param {Function} [props.renderNewBadgeLabel=noop] Function to render a "New" badge label.
+ * @param {boolean} [props.initialIsOpen=false] Whether the collapsible should be initially open.
  *
- * @returns {wp.Element} The Collapsible component.
+ * @returns {JSX.Element} The element.
  */
-const SidebarCollapsible = ( props ) => {
-	const [ isOpen, toggleOpen ] = useState( false );
+const SidebarCollapsible = ( {
+	title,
+	children,
+	id = null,
+	prefixIcon = null,
+	subTitle = "",
+	hasBetaBadgeLabel = false,
+	hasNewBadgeLabel = false,
+	buttonId = null,
+	renderNewBadgeLabel = noop,
+	initialIsOpen = false,
+} ) => {
+	const [ isOpen, toggleOpen ] = useState( initialIsOpen );
+	const buttonRef = useRef( null );
 
-	const {
-		prefixIcon,
-	} = props;
+	useEffect( () => {
+		if ( initialIsOpen && buttonRef.current ) {
+			buttonRef.current.focus();
+		}
+	}, [] );
 
 	/**
 	 * Toggles the SidebarCollapsible open and closed state.
 	 *
 	 * @returns {void}
 	 */
-	function handleClick() {
-		toggleOpen( ! isOpen );
-	}
+	const handleClick = useCallback( () => {
+		toggleOpen( currentIsOpen => ! currentIsOpen );
+	}, [ toggleOpen ] );
 
-	return <div className={ `yoast components-panel__body ${ isOpen ? "is-opened" : "" }` }>
+	return <div id={ id } className={ `yoast components-panel__body ${ isOpen ? "is-opened" : "" }` }>
 		<h2 className="components-panel__body-title">
 			<button
+				ref={ buttonRef }
 				onClick={ handleClick }
 				className="components-button components-panel__body-toggle"
+				type="button"
+				id={ buttonId }
 			>
 				<span
 					className="yoast-icon-span"
@@ -44,34 +71,29 @@ const SidebarCollapsible = ( props ) => {
 						/>
 					}
 				</span>
-				<span className="yoast-title-container">
-					<div className="yoast-title">{ props.title }</div>
-					<div className="yoast-subtitle">{ props.subTitle }</div>
-				</span>
-				{ props.hasBetaBadgeLabel && <BetaBadge /> }
+				{ ! hasNewBadgeLabel &&
+					<>
+						<span className="yoast-title-container">
+							<div className="yoast-title">{ title }</div>
+							{ subTitle && <div className="yoast-subtitle">{ subTitle }</div> }
+						</span>
+						{ hasBetaBadgeLabel && <BetaBadge /> }
+					</>
+				}
+				{ hasNewBadgeLabel &&
+					<div className="yst-flex-grow yst-flex yst-items-center yst-gap-2">
+						<span className="yst-overflow-x-hidden yst-leading-normal">
+							<div className="yoast-title">{ title }</div>
+							{ subTitle && <div className="yoast-subtitle">{ subTitle }</div> }
+						</span>
+						{ renderNewBadgeLabel() }
+					</div>
+				}
 				<span className="yoast-chevron" aria-hidden="true" />
 			</button>
 		</h2>
-		{ isOpen && props.children }
+		{ isOpen && children }
 	</div>;
 };
-/* eslint-enable complexity */
 
 export default SidebarCollapsible;
-
-SidebarCollapsible.propTypes = {
-	title: PropTypes.string.isRequired,
-	children: PropTypes.oneOfType( [
-		PropTypes.node,
-		PropTypes.arrayOf( PropTypes.node ),
-	] ).isRequired,
-	prefixIcon: PropTypes.object,
-	subTitle: PropTypes.string,
-	hasBetaBadgeLabel: PropTypes.bool,
-};
-
-SidebarCollapsible.defaultProps = {
-	prefixIcon: null,
-	subTitle: "",
-	hasBetaBadgeLabel: false,
-};

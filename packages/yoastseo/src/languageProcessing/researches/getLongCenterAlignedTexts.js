@@ -1,58 +1,55 @@
-import { flatten } from "lodash-es";
-import { languageProcessing } from "yoastseo";
-const { sanitizeString, helpers } = languageProcessing;
-
-const centerAlignRegex = /class=["'].*?has-text-align-center.*?["']/i;
-const paragraphsRegex = /<p(?:[^>]+)?>(.*?)<\/p>/ig;
-const headingsRegex = /<h([1-6])(?:[^>]+)?>(.*?)<\/h\1>/ig;
+import { intersection } from "lodash";
 
 /**
- * Filters out all elements that are center-aligned and longer than 50 characters (after stripping HTML tags).
- *
- * @param {string[]}    elements    An array containing all cases of a specific element that were found in a text.
- * @param {string}      elementType The type of the elements.
- *
- * @returns {Object[]}	An array containing all elements of a specific type that are center-aligned and longer than 50 characters.
+ * @typedef {import("../../languageProcessing/AbstractResearcher").default } Researcher
+ * @typedef {import("../../parse/structure/").Node} Node
+ * @typedef {import("../../values/").Paper } Paper
  */
-function getLongCenterAlignedElements( elements, elementType ) {
-	/**
-	 * Before counting the characters of a text, we sanitize the text first by removing HTML tags.
-	 * In the filtered array, we save the un-sanitized text.
-	 * This text will be used for highlighting feature where we will match this with the html of a post.
-	 */
-	const longCenterAlignedTexts = elements.filter( element => centerAlignRegex.test( element ) && sanitizeString( element ).length > 50  );
 
-	/*
-	 * Also specify the type of the element.
-	 * This information will be used when applying the highlighting to the text in the editor.
-	 */
-	return longCenterAlignedTexts.map( text => {
-		return { text, elementType };
+/**
+ * The maximum allowed length of a center-aligned paragraph or heading in characters.
+ * @type {number}
+ */
+const MAX_CENTER_ALIGNED_LENGTH = 50;
+
+/**
+ * A regular expression to match heading tags.
+ * @type {RegExp}
+ */
+const HEADING_TAGS_REGEX = /^h[1-6]$/;
+
+/**
+ * Filters out all nodes that are center-aligned and longer than 50 characters (as defined in `MAX_CENTER_ALIGNED_LENGTH`).
+ * @param {Node[]} nodes An array of nodes.
+ * @param {string[]} centerClasses The classes that are used to identify center-aligned elements.
+ * @returns {Node[]} An array containing all center-aligned nodes that are longer than 50 characters.
+ */
+function getLongCenterAlignedElements( nodes, centerClasses ) {
+	return nodes.filter( node => {
+		if ( ! node.attributes.class ) {
+			return false;
+		}
+
+		// We convert node.attributes.class to an array so we can use the `intersection` function from lodash.
+		// When the `intersection` function on Set becomes more widely available, we can remove this conversion.
+		return intersection( [ ...node.attributes.class ], centerClasses ).length > 0 &&
+			node.innerText().length > MAX_CENTER_ALIGNED_LENGTH;
 	} );
 }
 
 /**
- * Finds all paragraphs and headings that are center-aligned and longer than 50 characters (after stripping html tags).
- *
- * Returns an array with one object per paragraph/heading.
- * For example: [ {text: "abc", elementType: "heading"}, {text: "123", elementType: "paragraph"} ].
- *
- * @param {Paper}   paper   The paper to analyze.
- *
- * @returns {Object[]}	An array of objects for each too long center-aligned paragraph/heading.
+ * Finds all paragraphs and headings that are center-aligned and longer than 50 characters (after stripping HTML tags).
+ * @param {Paper} paper The paper to analyze.
+ * @param {Researcher} researcher The researcher.
+ * @returns {Node[]} An array of nodes containing too long center-aligned paragraphs/headings.
  */
-export default function( paper ) {
-	let text = paper.getText();
-	text = helpers.removeHtmlBlocks( text );
-	text = helpers.filterShortcodesFromHTML( text, paper._attributes && paper._attributes.shortcodes );
+export default function( paper, researcher ) {
+	const tree = paper.getTree();
 
-	// Get all paragraphs from the text. We only retrieve the paragraphs with <p> tags.
-	const allParagraphs = helpers.matchStringWithRegex( text, paragraphsRegex );
-	// Get all the headings from the text. Here we retrieve the headings from level 1-6.
-	const allHeadings = helpers.matchStringWithRegex( text, headingsRegex );
+	const paragraphs = tree.findAll( node => node.name === "p" );
+	const headings = tree.findAll( node => HEADING_TAGS_REGEX.test( node.name ) );
 
-	const longParagraphsWithCenterAlignedText = getLongCenterAlignedElements( allParagraphs, "paragraph" );
-	const longHeadingsWithCenterAlignedText = getLongCenterAlignedElements( allHeadings, "heading" );
+	const centerClasses = researcher.getConfig( "centerClasses" );
 
-	return flatten( longParagraphsWithCenterAlignedText.concat( longHeadingsWithCenterAlignedText ) );
+	return getLongCenterAlignedElements( paragraphs.concat( headings ), centerClasses );
 }

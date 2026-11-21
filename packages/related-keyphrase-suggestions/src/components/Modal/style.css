@@ -1,0 +1,17 @@
+@layer components {
+	.yst-root {
+        .yst-modal-footer-link {
+            @apply yst-flex yst-flex-row yst-gap-1 yst-items-center;
+
+            .yst-link-icon {
+                @apply yst-w-3 yst-h-3;
+            }
+        }
+
+		.yst-related-keyphrase-modal-content {
+			max-height: 60vh;
+			min-height: 350px;
+			@apply yst-p-6 yst-overflow-y-auto;
+		}
+    }
+}

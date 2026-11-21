@@ -1,0 +1,320 @@
+<?php
+
+namespace Yoast\WP\SEO\Tests\WP\Sitemaps;
+
+use WPSEO_Sitemaps;
+use Yoast\WP\SEO\Tests\WP\Doubles\Inc\Sitemaps_Double;
+use Yoast\WP\SEO\Tests\WP\TestCase;
+
+/**
+ * Class Sitemaps_Test.
+ *
+ * @group sitemaps
+ */
+final class Sitemaps_Test extends TestCase {
+
+	/**
+	 * Holds the instance of the class being tested.
+	 *
+	 * @var Sitemaps_Double
+	 */
+	private static $class_instance;
+
+	/**
+	 * Set up our double class.
+	 *
+	 * @return void
+	 */
+	public function set_up() {
+		parent::set_up();
+
+		self::$class_instance = new Sitemaps_Double();
+	}
+
+	/**
+	 * Test the nested sitemap generation.
+	 *
+	 * @dataProvider data_post_sitemap
+	 *
+	 * @covers WPSEO_Sitemaps::redirect
+	 *
+	 * @param string $expected_output Substring expected to be found in the actual output.
+	 *
+	 * @return void
+	 */
+	public function test_post_sitemap( $expected_output ) {
+		self::$class_instance->reset();
+
+		\set_query_var( 'sitemap', 'post' );
+
+		self::$class_instance->redirect( $GLOBALS['wp_the_query'] );
+
+		$this->expectOutputContains( $expected_output );
+	}
+
+	/**
+	 * Data provider for the `test_post_sitemap()` test.
+	 *
+	 * @return array<array<string>>
+	 */
+	public static function data_post_sitemap() {
+		return [
+			[ '<?xml' ],
+			[ '<urlset ' ],
+		];
+	}
+
+	/**
+	 * Tests the main sitemap and also tests the transient cache.
+	 *
+	 * @dataProvider data_main_sitemap
+	 *
+	 * @covers WPSEO_Sitemaps::redirect
+	 *
+	 * @param string $expected_output Substring expected to be found in the actual output.
+	 *
+	 * @return void
+	 */
+	public function test_main_sitemap( $expected_output ) {
+
+		self::$class_instance->reset();
+
+		\set_query_var( 'sitemap', '1' );
+
+		$this->factory->post->create();
+
+		self::$class_instance->redirect( $GLOBALS['wp_the_query'] );
+
+		$this->expectOutputContains( $expected_output );
+	}
+
+	/**
+	 * Data provider for the `test_main_sitemap()` test.
+	 *
+	 * @return array<array<string>>
+	 */
+	public static function data_main_sitemap() {
+		return [
+			[ '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' ],
+			[ '<sitemap>' ],
+			[ '<lastmod>' ],
+			[ '</sitemapindex>' ],
+		];
+	}
+
+	/**
+	 * Tests that requesting the stylesheet outputs the CSS file.
+	 *
+	 * @covers WPSEO_Sitemaps::redirect
+	 * @covers WPSEO_Sitemaps::css_output
+	 *
+	 * @return void
+	 */
+	public function test_css_output() {
+		self::$class_instance->reset();
+
+		\set_query_var( 'yoast-sitemap-css', '1' );
+
+		self::$class_instance->redirect( $GLOBALS['wp_the_query'] );
+
+		unset( $GLOBALS['wp_the_query']->query_vars['yoast-sitemap-css'] );
+
+		$this->expectOutputRegex( '/^@namespace url\(http:\/\/www\.sitemaps\.org\/schemas\/sitemap\/0\.9\);.*image\|image \{\s*display: none;/s' );
+	}
+
+	/**
+	 * Tests that requesting the main stylesheet by its name outputs the CSS file.
+	 *
+	 * @covers WPSEO_Sitemaps::css_output
+	 *
+	 * @return void
+	 */
+	public function test_css_output_main() {
+		self::$class_instance->css_output( 'main' );
+
+		$this->expectOutputRegex( '/^@namespace url\(http:\/\/www\.sitemaps\.org\/schemas\/sitemap\/0\.9\);/' );
+	}
+
+	/**
+	 * Tests that requesting a registered stylesheet outputs what its building function outputs.
+	 *
+	 * @covers WPSEO_Sitemaps::register_css
+	 * @covers WPSEO_Sitemaps::redirect
+	 * @covers WPSEO_Sitemaps::css_output
+	 *
+	 * @return void
+	 */
+	public function test_css_output_registered_stylesheet() {
+		self::$class_instance->reset();
+
+		$building_function = static function () {
+			echo 'urlset { display: block; }';
+		};
+
+		self::$class_instance->register_css( 'custom', $building_function );
+
+		\set_query_var( 'yoast-sitemap-css', 'custom' );
+
+		self::$class_instance->redirect( $GLOBALS['wp_the_query'] );
+
+		unset( $GLOBALS['wp_the_query']->query_vars['yoast-sitemap-css'] );
+		\remove_action( 'wpseo_css_custom', $building_function );
+
+		$this->expectOutputString( 'urlset { display: block; }' );
+	}
+
+	/**
+	 * Tests that requesting a stylesheet that is not registered outputs nothing.
+	 *
+	 * @covers WPSEO_Sitemaps::css_output
+	 *
+	 * @return void
+	 */
+	public function test_css_output_unregistered_stylesheet_outputs_nothing() {
+		self::$class_instance->css_output( 'unregistered' );
+
+		$this->expectOutputString( '' );
+	}
+
+	/**
+	 * Tests that registering a stylesheet with a rewrite adds a rewrite rule for it.
+	 *
+	 * @covers WPSEO_Sitemaps::register_css
+	 *
+	 * @return void
+	 */
+	public function test_register_css_with_rewrite() {
+		$building_function = '__return_null';
+
+		self::$class_instance->register_css( 'custom', $building_function, '^custom-name-sitemap\.css$' );
+
+		$rule = $GLOBALS['wp_rewrite']->extra_rules_top['^custom-name-sitemap\.css$'];
+
+		\remove_action( 'wpseo_css_custom', $building_function );
+		unset( $GLOBALS['wp_rewrite']->extra_rules_top['^custom-name-sitemap\.css$'] );
+
+		$this->assertSame( 'index.php?yoast-sitemap-css=custom', $rule );
+	}
+
+	/**
+	 * Tests that the main sitemap no longer ships an XSL stylesheet.
+	 *
+	 * @covers WPSEO_Sitemaps::redirect
+	 * @covers WPSEO_Sitemaps::output_xsl
+	 *
+	 * @return void
+	 */
+	public function test_xsl_output_main_outputs_nothing() {
+		self::$class_instance->reset();
+
+		\set_query_var( 'yoast-sitemap-xsl', 'main' );
+
+		self::$class_instance->redirect( $GLOBALS['wp_the_query'] );
+
+		unset( $GLOBALS['wp_the_query']->query_vars['yoast-sitemap-xsl'] );
+
+		$this->expectOutputString( '' );
+	}
+
+	/**
+	 * Tests that an XSL stylesheet hooked into the deprecated action is still output.
+	 *
+	 * @covers WPSEO_Sitemaps::redirect
+	 * @covers WPSEO_Sitemaps::output_xsl
+	 *
+	 * @return void
+	 */
+	public function test_xsl_output_runs_deprecated_action() {
+		self::$class_instance->reset();
+
+		$this->setExpectedDeprecated( 'wpseo_xsl_custom' );
+
+		$building_function = static function () {
+			echo '<xsl:stylesheet></xsl:stylesheet>';
+		};
+
+		\add_action( 'wpseo_xsl_custom', $building_function );
+
+		\set_query_var( 'yoast-sitemap-xsl', 'custom' );
+
+		self::$class_instance->redirect( $GLOBALS['wp_the_query'] );
+
+		unset( $GLOBALS['wp_the_query']->query_vars['yoast-sitemap-xsl'] );
+		\remove_action( 'wpseo_xsl_custom', $building_function );
+
+		$this->expectOutputString( '<xsl:stylesheet></xsl:stylesheet>' );
+	}
+
+	/**
+	 * Tests the wpseo_sitemap_index_links filter.
+	 *
+	 * @covers WPSEO_Sitemaps::build_root_map
+	 *
+	 * @return void
+	 */
+	public function test_index_links_filter() {
+
+		self::$class_instance->reset();
+
+		\set_query_var( 'sitemap', '1' );
+
+		$this->factory->post->create();
+
+		\add_filter(
+			'wpseo_sitemap_index_links',
+			static function ( $links ) {
+				$links[] = [
+					'loc'     => 'test-sitemap.xml',
+					'lastmod' => \date( '1' ),
+				];
+				return $links;
+			},
+		);
+
+		self::$class_instance->redirect( $GLOBALS['wp_the_query'] );
+
+		$this->expectOutputContains( '<loc>test-sitemap.xml</loc>' );
+	}
+
+	/**
+	 * Test for last modified date.
+	 *
+	 * @covers WPSEO_Sitemaps::get_last_modified_gmt
+	 *
+	 * @return void
+	 */
+	public function test_last_modified_post_type() {
+
+		$older_date  = '2015-01-01 12:00:00';
+		$newest_date = '2016-01-01 12:00:00';
+
+		$post_type_args = [
+			'public'      => true,
+			'has_archive' => true,
+		];
+		\register_post_type( 'yoast', $post_type_args );
+
+		$post_args = [
+			'post_status' => 'publish',
+			'post_type'   => 'yoast',
+			'post_date'   => $newest_date,
+		];
+		$this->factory->post->create( $post_args );
+
+		$post_args['post_date'] = $older_date;
+		$this->factory->post->create( $post_args );
+
+		$this->assertEquals( $newest_date, WPSEO_Sitemaps::get_last_modified_gmt( [ 'yoast' ] ) );
+	}
+
+	/**
+	 * Test for last modified date with invalid post types.
+	 *
+	 * @covers WPSEO_Sitemaps::get_last_modified_gmt
+	 *
+	 * @return void
+	 */
+	public function test_last_modified_with_invalid_post_type() {
+		$this->assertFalse( WPSEO_Sitemaps::get_last_modified_gmt( [ 'invalid_post_type' ] ) );
+	}
+}

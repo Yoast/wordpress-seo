@@ -98,6 +98,8 @@ class Crawl_Cleanup_Permalinks implements Initializer_Interface {
 
 	/**
 	 * Redirect utm variables away.
+	 *
+	 * @return void
 	 */
 	public function utm_redirect() {
 		// Prevents WP CLI from throwing an error.
@@ -140,7 +142,7 @@ class Crawl_Cleanup_Permalinks implements Initializer_Interface {
 		$message = \sprintf(
 			/* translators: %1$s: Yoast SEO */
 			\__( '%1$s: redirect utm variables to #', 'wordpress-seo' ),
-			'Yoast SEO'
+			'Yoast SEO',
 		);
 
 		$this->redirect_helper->do_safe_redirect( \trailingslashit( $this->url_helper->recreate_current_url( false ) ) . \ltrim( $new_path, '/' ), 301, $message );

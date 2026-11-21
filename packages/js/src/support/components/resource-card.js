@@ -1,15 +1,17 @@
-import { ArrowSmRightIcon } from "@heroicons/react/solid";
+import ArrowSmRightIcon from "@heroicons/react/solid/ArrowSmRightIcon";
 import { __ } from "@wordpress/i18n";
 import { Card, Link, Title } from "@yoast/ui-library";
-import PropTypes from "prop-types";
 
 /**
  * A card to be used in the additional resources fieldset.
- * @param {string} imageSrc The card header' image src.
- * @param {string} title The title text.
- * @param {string} description The description text.
- * @param {string} linkHref The link href.
- * @param {string} linkText The link text.
+ *
+ * @param {Object} props Component props.
+ * @param {string} props.imageSrc The card header' image src.
+ * @param {string} props.title The title text.
+ * @param {string} props.description The description text.
+ * @param {string} props.linkHref The link href.
+ * @param {string} props.linkText The link text.
+ *
  * @returns {JSX.Element} The element.
  */
 export const ResourceCard = ( { imageSrc, title, description, linkHref, linkText } ) => (
@@ -41,15 +43,7 @@ export const ResourceCard = ( { imageSrc, title, description, linkHref, linkText
 					__( "(Opens in a new browser tab)", "wordpress-seo" )
 				}
 			</span>
-			<ArrowSmRightIcon className="yst-h-4 yst-w-4 yst-ml-1 yst-icon-rtl" />
+			<ArrowSmRightIcon className="yst-h-4 yst-w-4 yst-ms-1 yst-icon-rtl" />
 		</Link>
 	</Card>
 );
-
-ResourceCard.propTypes = {
-	imageSrc: PropTypes.string.isRequired,
-	title: PropTypes.string.isRequired,
-	description: PropTypes.string.isRequired,
-	linkHref: PropTypes.string.isRequired,
-	linkText: PropTypes.string.isRequired,
-};

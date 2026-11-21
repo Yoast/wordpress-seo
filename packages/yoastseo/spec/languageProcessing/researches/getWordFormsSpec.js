@@ -1,7 +1,8 @@
-/* eslint-disable capitalized-comments, spaced-comment */
 import EnglishResearcher from "../../../src/languageProcessing/languages/en/Researcher";
 import ItalianResearcher from "../../../src/languageProcessing/languages/it/Researcher";
 import SwedishResearcher from "../../../src/languageProcessing/languages/sv/Researcher";
+import IndonesianResearcher from "../../../src/languageProcessing/languages/id/Researcher";
+import TurkishResearcher from "../../../src/languageProcessing/languages/tr/Researcher";
 import DefaultResearcher from "../../../src/languageProcessing/languages/_default/Researcher";
 import getWordForms from "../../../src/languageProcessing/researches/getWordForms";
 import { primeLanguageSpecificData } from "../../../src/languageProcessing/helpers/morphology/buildTopicStems";
@@ -9,6 +10,7 @@ import Paper from "../../../src/values/Paper";
 import getMorphologyData from "../../specHelpers/getMorphologyData";
 import buildTree from "../../specHelpers/parse/buildTree";
 const morphologyDataEN = getMorphologyData( "en" );
+const morphologyDataID = getMorphologyData( "id" );
 
 const testText = "I walked my dog. The cat walks along. The canine and the feline were walking.";
 
@@ -141,6 +143,56 @@ describe( "A test for getting word forms from the text, based on the stems of a 
 		expect( getWordForms( testPaper, researcher ) ).toEqual(
 			{
 				keyphraseForms: [ [ "cats" ], [ "dogs" ] ],
+				synonymsForms: [],
+			}
+		);
+	} );
+
+	it( "returns keyphrase forms of hyphenated keyphrases found in the paper", () => {
+		const attributes = {
+			keyword: "dog-training",
+		};
+		const testPaper = new Paper( "Dogs are easy to train, unlike cats", attributes );
+		const researcher = new EnglishResearcher( testPaper );
+		researcher.addResearchData( "morphology", morphologyDataEN );
+
+		expect( getWordForms( testPaper, researcher ) ).toEqual(
+			{
+				keyphraseForms: [ [ "dog", "dogs" ], [ "training", "train" ] ],
+				synonymsForms: [],
+			}
+		);
+	} );
+
+	it( "doesn't split keyphrase forms on hyphen if hyphens shouldn't be word boundaries, according to the researcher's config", () => {
+		const attributes = {
+			keyword: "buku-buku dan kucing",
+		};
+		const testPaper = new Paper( "", attributes );
+		const researcher = new IndonesianResearcher( testPaper );
+		researcher.addResearchData( "morphology", morphologyDataID );
+
+		expect( getWordForms( testPaper, researcher ) ).toEqual(
+			{
+				keyphraseForms: [ [ "buku-buku" ], [ "kucing" ] ],
+				synonymsForms: [],
+			}
+		);
+	} );
+
+	it( "correctly changes I to ı and İ to i in Turkish when converting keyphrase forms to lower case", () => {
+		// Since Turkish has i as the lower case version of dotted İ, and ı for the lower case version of dotless I, it is expected to change the Latin capitalized i (I) to ı.
+		const attributes = {
+			keyword: "Işık parkları İstanbul",
+		};
+		const testPaper = new Paper( "", attributes );
+		const researcher = new TurkishResearcher( testPaper );
+		researcher.addResearchData( "morphology", morphologyDataID );
+
+		expect( getWordForms( testPaper, researcher ) ).toEqual(
+			{
+				// here we get
+				keyphraseForms: [ [ "ışık" ], [ "parkları" ], [ "istanbul" ] ],
 				synonymsForms: [],
 			}
 		);

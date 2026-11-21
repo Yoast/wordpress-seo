@@ -1,6 +1,6 @@
-import Clause from "./Clause";
-import ProminentWord from "./ProminentWord";
-import Sentence from "./Sentence";
+import Clause from "./Clause.js";
+import ProminentWord from "./ProminentWord.js";
+import Sentence from "./Sentence.js";
 
 export {
 	Clause,

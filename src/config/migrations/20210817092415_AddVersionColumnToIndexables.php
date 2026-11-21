@@ -29,7 +29,7 @@ class AddVersionColumnToIndexables extends Migration {
 			'integer',
 			[
 				'default'  => 1,
-			]
+			],
 		);
 	}
 
@@ -41,7 +41,7 @@ class AddVersionColumnToIndexables extends Migration {
 	public function down() {
 		$this->remove_column(
 			$this->get_table_name(),
-			'version'
+			'version',
 		);
 	}
 

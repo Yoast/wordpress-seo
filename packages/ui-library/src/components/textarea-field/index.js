@@ -1,18 +1,23 @@
-import { forwardRef } from "@wordpress/element";
+/* eslint-disable complexity */
 import classNames from "classnames";
 import PropTypes from "prop-types";
+import React, { forwardRef } from "react";
 import Label from "../../elements/label";
 import Textarea from "../../elements/textarea";
 import { ValidationInput, ValidationMessage } from "../../elements/validation";
 import { useDescribedBy } from "../../hooks";
 
+// Stable reference matching the old defaultProps single instance, so it keeps a constant identity across renders.
+const DEFAULT_VALIDATION = {};
+
 /**
- * @param {string} id The ID of the input.
- * @param {function} onChange The input change handler.
- * @param {string} label The label.
+ * @param {string}  id       The ID of the input.
+ * @param {string} [label]  The label. When omitted, supply an `aria-label` or `aria-labelledby` on the field instead.
  * @param {string} [className] The HTML class.
  * @param {JSX.node} [description] A description.
- * @param {Object} [error] The validation state.
+ * @param {Object} [validation] The validation state.
+ * @param {boolean} disabled Whether the input is disabled.
+ * @param {boolean} readOnly Whether the input is read-only.
  * @param {Object} [props] Any extra properties for the Textarea.
  * @returns {JSX.Element} The textarea field.
  */
@@ -20,17 +25,27 @@ const TextareaField = forwardRef( ( {
 	id,
 	label,
 	className = "",
-	description = "",
-	validation = {},
+	description = null,
+	validation = DEFAULT_VALIDATION,
+	disabled = false,
+	readOnly = false,
 	...props
 }, ref ) => {
 	const { ids, describedBy } = useDescribedBy( id, { validation: validation?.message, description } );
 
 	return (
-		<div className={ classNames( "yst-textarea-field", className ) }>
-			<div className="yst-flex yst-items-center yst-mb-2">
-				<Label className="yst-textarea-field__label" htmlFor={ id }>{ label }</Label>
-			</div>
+		<div
+			className={ classNames(
+				"yst-textarea-field",
+				disabled && "yst-textarea-field--disabled",
+				readOnly && "yst-textarea-field--read-only",
+				className ) }
+		>
+			{ label && (
+				<div className="yst-flex yst-items-center yst-mb-2">
+					<Label className="yst-textarea-field__label" htmlFor={ id }>{ label }</Label>
+				</div>
+			) }
 			<ValidationInput
 				as={ Textarea }
 				ref={ ref }
@@ -38,6 +53,8 @@ const TextareaField = forwardRef( ( {
 				className="yst-textarea-field__input"
 				aria-describedby={ describedBy }
 				validation={ validation }
+				disabled={ disabled }
+				readOnly={ readOnly }
 				{ ...props }
 			/>
 			{ validation?.message && (
@@ -50,29 +67,18 @@ const TextareaField = forwardRef( ( {
 	);
 } );
 
-const propTypes = {
+TextareaField.displayName = "TextareaField";
+TextareaField.propTypes = {
 	id: PropTypes.string.isRequired,
-	label: PropTypes.string.isRequired,
+	label: PropTypes.string,
 	className: PropTypes.string,
 	description: PropTypes.node,
+	disabled: PropTypes.bool,
+	readOnly: PropTypes.bool,
 	validation: PropTypes.shape( {
 		variant: PropTypes.string,
 		message: PropTypes.node,
 	} ),
 };
-
-TextareaField.propTypes = propTypes;
-
-TextareaField.defaultProps = {
-	className: "",
-	description: null,
-	validation: {},
-};
-
-// eslint-disable-next-line require-jsdoc
-export const StoryComponent = props => <TextareaField { ...props } />;
-StoryComponent.propTypes = propTypes;
-StoryComponent.defaultProps = TextareaField.defaultProps;
-StoryComponent.displayName = "TextareaField";
 
 export default TextareaField;

@@ -103,7 +103,7 @@ describe( "a test for retrieving annotations for blocks", () => {
 				new Mark( {
 					position: {
 						startOffsetBlock: 0,
-						endOffsetBlock: 11,
+						endOffsetBlock: 16,
 						clientId: "d126c9dc-c496-49c1-89db-1bdfbc9ef8ed",
 						attributeId: "",
 						isFirstSection: false,

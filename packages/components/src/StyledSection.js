@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
 import styled from "styled-components";
 
 /* Yoast dependencies */
@@ -54,30 +53,30 @@ export const StyledSectionBase = styled( Section )`
 /**
  * Creates a styled section within the page.
  *
- * @param {Object}   props                  The props to use.
- * @param {string}   props.className        The name of the section class.
- * @param {number}   props.headingLevel     The level of the heading element. Defaults to 2, which creates a h2 element.
- * @param {string}   props.headingClassName The name of the heading class.
- * @param {string}   props.headingColor     The color of the heading text.
- * @param {string}   props.headingIcon      The icon name for in the heading.
- * @param {string}   props.headingIconColor The color of the heading icon.
- * @param {string}   props.headingIconSize  The size of the heading icon.
- * @param {string}   props.headingText      The heading text.
- * @param {bool}     props.hasPaperStyle    Whether the section should have a paper style.
- * @param {children} props.children         The react children.
+ * @param {Object} props The props to use.
+ * @param {string} [props.className="yoast-section"] The name of the section class.
+ * @param {number} [props.headingLevel=2] The level of the heading element. Defaults to 2, which creates a h2 element.
+ * @param {string} [props.headingClassName] The name of the heading class.
+ * @param {string} [props.headingColor] The color of the heading text.
+ * @param {string} [props.headingIcon] The icon name for in the heading.
+ * @param {string} [props.headingIconColor] The color of the heading icon.
+ * @param {string} [props.headingIconSize] The size of the heading icon.
+ * @param {string} [props.headingText] The heading text.
+ * @param {boolean} [props.hasPaperStyle=true] Whether the section should have a paper style.
+ * @param {*} [props.children] The react children.
  *
  * @returns {ReactElement} The rendered component.
  */
-const StyledSection = ( props ) => {
+const StyledSection = ( { className = "yoast-section", headingLevel = 2, hasPaperStyle = true, ...props } ) => {
 	return (
 		<StyledSectionBase
-			className={ props.className }
+			className={ className }
 			headingColor={ props.headingColor }
-			hasPaperStyle={ props.hasPaperStyle }
+			hasPaperStyle={ hasPaperStyle }
 		>
 			{ props.headingText &&
 				<StyledHeading
-					level={ props.headingLevel }
+					level={ headingLevel }
 					className={ props.headingClassName }
 				>
 					{ props.headingIcon &&
@@ -93,25 +92,6 @@ const StyledSection = ( props ) => {
 			{ props.children }
 		</StyledSectionBase>
 	);
-};
-
-StyledSection.propTypes = {
-	className: PropTypes.string,
-	headingLevel: PropTypes.number,
-	headingClassName: PropTypes.string,
-	headingColor: PropTypes.string,
-	headingIcon: PropTypes.string,
-	headingIconColor: PropTypes.string,
-	headingIconSize: PropTypes.string,
-	headingText: PropTypes.string,
-	hasPaperStyle: PropTypes.bool,
-	children: PropTypes.any,
-};
-
-StyledSection.defaultProps = {
-	className: "yoast-section",
-	headingLevel: 2,
-	hasPaperStyle: true,
 };
 
 export default StyledSection;

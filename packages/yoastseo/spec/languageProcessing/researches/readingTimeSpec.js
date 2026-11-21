@@ -146,6 +146,37 @@ describe( "Calculates the reading time for the paper (rounded up to the next hig
 	} );
 } );
 
+describe( "Ignores the paper's provided-images scope: reading time estimates the text itself", function() {
+	it( "keeps counting the images in the text when the producer opted in with an empty providedImages array", function() {
+		// 8 words (0.04 min) + 5 tree images (1 min) rounds up to 2; applying the empty scope would wrongly yield 1.
+		const mockPaper = new Paper( "This is a short text with five images. <img src='http://plaatje1' alt='1' /> <img src='http://plaatje2' " +
+			"alt='2' /> <img src='http://plaatje3' alt='3' /> <img src='http://plaatje4' alt='4' /> <img src='http://plaatje5' alt='5' />",
+		{ providedImages: [] } );
+		const researcher = new EnglishResearcher( mockPaper );
+
+		buildTree( mockPaper, researcher );
+
+		expect( readingTime( mockPaper, researcher ) ).toEqual( 2 );
+	} );
+
+	it( "does not count the provided images when the text itself has none", function() {
+		// 8 words (0.04 min) round up to 1; counting the 5 provided images would wrongly yield 2.
+		const mockPaper = new Paper( "This is a short text without any images.", {
+			providedImages: [
+				{ id: 1, src: "https://example.com/featured.jpg", alt: "A featured image" },
+				{ id: 2, src: "https://example.com/gallery-1.jpg", alt: "" },
+				{ id: 3, src: "https://example.com/gallery-2.jpg", alt: "" },
+				{ id: 4, src: "https://example.com/variation-1.jpg", alt: "" },
+				{ id: 5, src: "https://example.com/variation-2.jpg", alt: "" },
+			],
+		} );
+		const researcher = new EnglishResearcher( mockPaper );
+
+		buildTree( mockPaper, researcher );
+
+		expect( readingTime( mockPaper, researcher ) ).toEqual( 1 );
+	} );
+} );
 
 describe( "Calculates the reading time for the paper (rounded up to the next highest full minute), using characters per minute formula", function() {
 	it( "calculates the reading time for a Japanese paper with a short text", function() {
@@ -262,6 +293,17 @@ describe( "Calculates the reading time for the paper (rounded up to the next hig
 		buildTree( mockPaper, researcher );
 
 		expect( readingTime( mockPaper, researcher ) ).toEqual( 3 );
+	} );
+
+	it( "calculates the reading time for a paper with a yoast-ai-summarize block", function() {
+		const mockPaper = new Paper(
+			"<h2>Key Takeaways</h2><ul class='yoast-ai-summarize'><li>robot vacuum cleaners with a built-in dustbin, ensuring optimal performance by automatically emptying at the charging station.</li>" +
+			"<li>The brand features models with mopping functions, using either dry or wet methods to combat fine dust and reduce manual cleaning.</li>" +
+			"<li>Bep is a specially designed vacuum for pet owners, equipped with a powerful motor to effectively handle pet hair without tangling.</li></ul>",
+			{ locale: "en_US" }
+		);
+		const researcher = new EnglishResearcher( mockPaper );
+		expect( readingTime( mockPaper, researcher ) ).toEqual( 1 );
 	} );
 } );
 

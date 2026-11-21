@@ -1,39 +1,34 @@
+/* eslint-disable complexity */
 /* global wpseoAdminL10n */
-
-/* External dependencies */
-import { useCallback, useEffect, useMemo, useState } from "@wordpress/element";
 import { usePrevious } from "@wordpress/compose";
+import { useCallback, useEffect, useMemo, useState } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
-import PropTypes from "prop-types";
+import { HelpIcon, NewButton } from "@yoast/components";
 import { difference, isEmpty, orderBy } from "lodash";
-import styled from "styled-components";
 import moment from "moment";
-
-/* Yoast dependencies */
-import { NewButton, HelpIcon } from "@yoast/components";
-
-/* Internal dependencies */
-import WincherLimitReached from "./modals/WincherLimitReached";
-import WincherRequestFailed from "./modals/WincherRequestFailed";
-import WincherUpgradeCallout, { useTrackingInfo } from "./modals/WincherUpgradeCallout";
-import WincherConnectedAlert from "./modals/WincherConnectedAlert";
-import WincherCurrentlyTrackingAlert from "./modals/WincherCurrentlyTrackingAlert";
+import styled from "styled-components";
 import WincherKeyphrasesTable from "../containers/WincherKeyphrasesTable";
-import WincherExplanation from "./modals/WincherExplanation";
-import WincherNoKeyphraseSet from "./modals/WincherNoKeyphraseSet";
-import WincherAutoTrackingEnabledAlert from "./modals/WincherAutoTrackingEnabledAlert";
+import { handleAPIResponse } from "../helpers/api";
 import LoginPopup from "../helpers/loginPopup";
 import { authenticate, getAuthorizationUrl, trackKeyphrases } from "../helpers/wincherEndpoints";
-import { handleAPIResponse } from "../helpers/api";
-import WincherReconnectAlert from "./modals/WincherReconnectAlert";
+import WincherAutoTrackingEnabledAlert from "./modals/WincherAutoTrackingEnabledAlert";
+import WincherConnectedAlert from "./modals/WincherConnectedAlert";
+import WincherCurrentlyTrackingAlert from "./modals/WincherCurrentlyTrackingAlert";
+import WincherExplanation from "./modals/WincherExplanation";
+import WincherLimitReached from "./modals/WincherLimitReached";
+import WincherNoKeyphraseSet from "./modals/WincherNoKeyphraseSet";
 import WincherNoPermalinkAlert from "./modals/WincherNoPermalinkAlert";
+import WincherReconnectAlert from "./modals/WincherReconnectAlert";
+import WincherRequestFailed from "./modals/WincherRequestFailed";
+import WincherUpgradeCallout, { useTrackingInfo } from "./modals/WincherUpgradeCallout";
 import WincherRankingHistoryChart from "./WincherRankingHistoryChart";
 
 /**
  * Gets the proper error message component.
  *
- * @param {Object} response The response object to base the error message on.
- * @param {Function} onLogin The onLogin callback used when reconnecting.
+ * @param {Object} props Component props.
+ * @param {Object} props.response The response object to base the error message on.
+ * @param {Function} props.onLogin The onLogin callback used when reconnecting.
  *
  * @returns {wp.Element} The error message component.
  */
@@ -45,21 +40,22 @@ const GetErrorMessage = ( { response, onLogin } ) => {
 	return <WincherRequestFailed />;
 };
 
-GetErrorMessage.propTypes = {
-	response: PropTypes.object.isRequired,
-	onLogin: PropTypes.func.isRequired,
-};
-
 /**
  * Gets a user message based on the passed props' values.
  *
- * @param {Object} props The props to use.
+ * @param {Object} props Component props.
+ * @param {boolean} props.isSuccess Whether the request was successful.
+ * @param {boolean} props.allKeyphrasesMissRanking Whether all keyphrases miss ranking.
+ * @param {Object} [props.response={}] The response object.
+ * @param {Function} props.onLogin Callback for login.
+ * @param {boolean} props.keyphraseLimitReached Whether the keyphrase limit is reached.
+ * @param {number} props.limit The keyphrase limit.
  *
- * @returns {void|wp.Element} The user message.
+ * @returns {JSX.Element} The user message, null if no message.
  */
 const GetUserMessage = ( {
 	isSuccess,
-	response,
+	response = {},
 	allKeyphrasesMissRanking,
 	onLogin,
 	keyphraseLimitReached,
@@ -80,39 +76,30 @@ const GetUserMessage = ( {
 	return null;
 };
 
-GetUserMessage.propTypes = {
-	isSuccess: PropTypes.bool.isRequired,
-	allKeyphrasesMissRanking: PropTypes.bool.isRequired,
-	response: PropTypes.object,
-	onLogin: PropTypes.func.isRequired,
-	keyphraseLimitReached: PropTypes.bool.isRequired,
-	limit: PropTypes.number.isRequired,
-};
-
-GetUserMessage.defaultProps = {
-	response: {},
-};
-
 let currentPopup = null;
 
 /**
  * Get the tokens using the provided code after user has granted authorization.
  *
  * @param {Object} props The props.
+ * @param {Function}  props.onAuthentication Callback to call when authentication is successful.
+ * @param {Function}  props.setRequestSucceeded Callback to call when the request is successful.
+ * @param {Function}  props.setRequestFailed Callback to call when the request fails.
+ * @param {Array} props.keyphrases The keyphrases to track.
+ * @param {Function}  props.addTrackedKeyphrase Callback to add a tracked keyphrase.
+ * @param {Function}  props.setKeyphraseLimitReached Callback to set the keyphrase limit reached state.
  * @param {Object} data The message data.
  *
  * @returns {void}
  */
-const performAuthenticationRequest = async( props, data ) => {
-	const {
-		onAuthentication,
-		setRequestSucceeded,
-		setRequestFailed,
-		keyphrases,
-		addTrackedKeyphrase,
-		setKeyphraseLimitReached,
-	} = props;
-
+const performAuthenticationRequest = async( {
+	onAuthentication,
+	setRequestSucceeded,
+	setRequestFailed,
+	keyphrases,
+	addTrackedKeyphrase,
+	setKeyphraseLimitReached,
+}, data ) => {
 	await handleAPIResponse(
 		() => authenticate( data ),
 		async( response ) => {
@@ -150,10 +137,23 @@ const performAuthenticationRequest = async( props, data ) => {
  * Opens the popup window.
  *
  * @param {Object} props The props.
+ * @param {Function}  props.onAuthentication Callback to call when authentication is successful.
+ * @param {Function}  props.setRequestSucceeded Callback to call when the request is successful.
+ * @param {Function}  props.setRequestFailed Callback to call when the request fails.
+ * @param {Array} props.keyphrases The keyphrases to track.
+ * @param {Function}  props.addTrackedKeyphrase Callback to add a tracked keyphrase.
+ * @param {Function}  props.setKeyphraseLimitReached Callback to set the keyphrase limit reached state.
  *
  * @returns {void}
  */
-const onLoginOpen = async( props ) => {
+const onLoginOpen = async( {
+	onAuthentication,
+	setRequestSucceeded,
+	setRequestFailed,
+	keyphrases,
+	addTrackedKeyphrase,
+	setKeyphraseLimitReached,
+} ) => {
 	if ( currentPopup && ! currentPopup.isClosed() ) {
 		currentPopup.focus();
 		return;
@@ -166,11 +166,18 @@ const onLoginOpen = async( props ) => {
 		{
 			success: {
 				type: "wincher:oauth:success",
-				callback: ( data ) => performAuthenticationRequest( props, data ),
+				callback: ( data ) => performAuthenticationRequest( {
+					onAuthentication,
+					setRequestSucceeded,
+					setRequestFailed,
+					keyphrases,
+					addTrackedKeyphrase,
+					setKeyphraseLimitReached,
+				}, data ),
 			},
 			error: {
 				type: "wincher:oauth:error",
-				callback: () => props.onAuthentication( false, false ),
+				callback: () => onAuthentication( false, false ),
 			},
 		},
 		{
@@ -187,6 +194,8 @@ const onLoginOpen = async( props ) => {
  * Creates the Connect to Wincher button.
  *
  * @param {Object} props The props to use.
+ * @param {boolean} props.isLoggedIn Whether the user is logged in to Wincher.
+ * @param {Function} props.onLogin Callback for the connect button.
  *
  * @returns {void|wp.Element} The connect button or reconnect alert.
  */
@@ -198,17 +207,12 @@ const ConnectToWincher = ( props ) => {
 	return <p>
 		<NewButton onClick={ props.onLogin } variant="primary">
 			{ sprintf(
-			/* translators: %s expands to Wincher */
+				/* translators: %s expands to Wincher */
 				__( "Connect with %s", "wordpress-seo" ),
 				"Wincher"
 			) }
 		</NewButton>
 	</p>;
-};
-
-ConnectToWincher.propTypes = {
-	isLoggedIn: PropTypes.bool.isRequired,
-	onLogin: PropTypes.func.isRequired,
 };
 
 // We need this wrapper to get consistent paragraph margins in both Elementor and Gutenberg.
@@ -222,7 +226,7 @@ const TableWrapper = styled.div`
 	${ props => props.isDisabled && `
 		opacity: .5;
 		pointer-events: none;
-	`};
+	` };
 `;
 
 const Title = styled.div`
@@ -270,13 +274,15 @@ const WINCHER_PERIOD_OPTIONS = [
 /**
  * Displays the Wincher period picker.
  *
- * @param {Object} props The component props.
+ * @param {Object} props Component props.
+ * @param {Function} props.onSelect The callback to call when a period is selected.
+ * @param {?{name: string, value: string, defaultIndex: number}} [props.selected=null] The currently selected period.
+ * @param {{name: string, value: string, defaultIndex: number}[]} props.options The available period options.
+ * @param {boolean} props.isLoggedIn Whether the user is logged in to Wincher.
  *
- * @returns {null|wp.Element} The Wincher period picker.
+ * @returns {JSX.Element} The Wincher period picker, or null if not logged in or no options available.
  */
-const WincherPeriodPicker = ( props ) => {
-	const { onSelect, selected, options, isLoggedIn } = props;
-
+const WincherPeriodPicker = ( { onSelect, selected = null, options, isLoggedIn } ) => {
 	if ( ! isLoggedIn ) {
 		return null;
 	}
@@ -308,30 +314,27 @@ const WincherPeriodPicker = ( props ) => {
 	);
 };
 
-WincherPeriodPicker.propTypes = {
-	onSelect: PropTypes.func.isRequired,
-	selected: PropTypes.object,
-	options: PropTypes.array.isRequired,
-	isLoggedIn: PropTypes.bool.isRequired,
-};
-
 /**
  * Creates the table content.
  *
- * @param {Object} props The props to use.
+ * @param {Object} props Component props.
+ * @param {?Object} [props.trackedKeyphrases=null] The tracked keyphrases.
+ * @param {Array} props.keyphrases The keyphrases.
+ * @param {boolean} props.isLoggedIn Whether the user is logged in to Wincher.
+ * @param {boolean} props.shouldTrackAll Whether all keyphrases should be tracked.
+ * @param {string} props.permalink The permalink of the post.
+ * @param {number} [props.historyDaysLimit=0] The history days limit for the chart.
  *
- * @returns {void|wp.Element} The table content.
+ * @returns {JSX.Element} The table content.
  */
-const TableContent = ( props ) => {
-	const {
-		trackedKeyphrases,
-		isLoggedIn,
-		keyphrases,
-		shouldTrackAll,
-		permalink,
-		historyDaysLimit,
-	} = props;
-
+const TableContent = ( {
+	trackedKeyphrases = null,
+	isLoggedIn,
+	keyphrases,
+	shouldTrackAll,
+	permalink,
+	historyDaysLimit = 0,
+} ) => {
 	if ( ! permalink && isLoggedIn ) {
 		return <WincherNoPermalinkAlert />;
 	}
@@ -421,75 +424,93 @@ const TableContent = ( props ) => {
 	</TableWrapper>;
 };
 
-TableContent.propTypes = {
-	trackedKeyphrases: PropTypes.object,
-	keyphrases: PropTypes.array.isRequired,
-	isLoggedIn: PropTypes.bool.isRequired,
-	shouldTrackAll: PropTypes.bool.isRequired,
-	permalink: PropTypes.string.isRequired,
-	historyDaysLimit: PropTypes.number,
-};
-
 /**
  * Renders the Wincher SEO Performance modal content.
  *
  * @param {Object} props The props to use within the content.
+ * @param {Object} [props.trackedKeyphrases=null] The tracked keyphrases.
+ * @param {Function} props.addTrackedKeyphrase Callback to add a tracked keyphrase.
+ * @param {boolean} [props.isLoggedIn=false] Whether the user is logged in.
+ * @param {boolean} [props.isNewlyAuthenticated=false] Whether the user is newly authenticated.
+ * @param {Array} [props.keyphrases=[]] The keyphrases.
+ * @param {Object} [props.response={}] The response object.
+ * @param {boolean} [props.shouldTrackAll=false] Whether all keyphrases should be tracked.
+ * @param {string} [props.permalink=""] The permalink.
+ * @param {boolean} props.allKeyphrasesMissRanking Whether all keyphrases miss ranking.
+ * @param {boolean} props.isSuccess Whether the request was successful.
+ * @param {boolean} props.keyphraseLimitReached Whether the keyphrase limit is reached.
+ * @param {number} props.limit The keyphrase limit.
+ * @param {Function} props.setRequestSucceeded Callback to set the request succeeded state.
+ * @param {Function} props.setRequestFailed Callback to set the request failed state.
+ * @param {Function} props.setKeyphraseLimitReached Callback to set the keyphrase limit reached state.
+ * @param {Function} props.onAuthentication Callback to call when authentication is successful.
  *
- * @returns {wp.Element} The Wincher SEO Performance modal content.
+ * @returns {JSX.Element} The Wincher SEO Performance modal content.
  */
-export default function WincherSEOPerformance( props ) {
-	const {
-		isNewlyAuthenticated,
-		isLoggedIn,
-	} = props;
-
+export default function WincherSEOPerformance( {
+	trackedKeyphrases = null,
+	addTrackedKeyphrase,
+	isLoggedIn = false,
+	isNewlyAuthenticated = false,
+	keyphrases = [],
+	response = {},
+	shouldTrackAll = false,
+	permalink = "",
+	allKeyphrasesMissRanking,
+	isSuccess,
+	keyphraseLimitReached,
+	limit,
+	setRequestSucceeded,
+	setRequestFailed,
+	setKeyphraseLimitReached,
+	onAuthentication,
+} ) {
 	const onLoginCallback = useCallback( () => {
-		onLoginOpen( props );
-	}, [ onLoginOpen, props ] );
+		onLoginOpen( {
+			onAuthentication,
+			setRequestSucceeded,
+			setRequestFailed,
+			keyphrases,
+			addTrackedKeyphrase,
+			setKeyphraseLimitReached,
+		} );
+	}, [ onLoginOpen, onAuthentication, setRequestSucceeded, setRequestFailed, keyphrases, addTrackedKeyphrase, setKeyphraseLimitReached ] );
 	const trackingInfo = useTrackingInfo( isLoggedIn );
 
 	return (
 		<Wrapper>
 			{ isNewlyAuthenticated && <WincherConnectedAlert /> }
-			{ isLoggedIn && <WincherUpgradeCallout trackingInfo={ trackingInfo }  /> }
+			{ isLoggedIn && <WincherUpgradeCallout trackingInfo={ trackingInfo } /> }
 
 			<Title>
 				{ __( "SEO performance", "wordpress-seo" ) }
 				<HelpIcon
 					linkTo={ wpseoAdminL10n[ "shortlinks.wincher.seo_performance" ] }
-					/* translators: Hidden accessibility text. */
-					linkText={ __( "Learn more about the SEO performance feature.", "wordpress-seo" ) }
+					linkText={
+						/* translators: Hidden accessibility text. */
+						__( "Learn more about the SEO performance feature.", "wordpress-seo" ) }
 				/>
 			</Title>
 
 			<WincherExplanation />
 
 			<ConnectToWincher isLoggedIn={ isLoggedIn } onLogin={ onLoginCallback } />
-			<GetUserMessage { ...props } onLogin={ onLoginCallback } />
-			<TableContent { ...props } historyDaysLimit={ trackingInfo?.historyDays || 0 } />
+			<GetUserMessage
+				isSuccess={ isSuccess }
+				response={ response }
+				allKeyphrasesMissRanking={ allKeyphrasesMissRanking }
+				keyphraseLimitReached={ keyphraseLimitReached }
+				limit={ limit }
+				onLogin={ onLoginCallback }
+			/>
+			<TableContent
+				trackedKeyphrases={ trackedKeyphrases }
+				isLoggedIn={ isLoggedIn }
+				keyphrases={ keyphrases }
+				shouldTrackAll={ shouldTrackAll }
+				permalink={ permalink }
+				historyDaysLimit={ trackingInfo?.historyDays || 31 }
+			/>
 		</Wrapper>
 	);
 }
-
-WincherSEOPerformance.propTypes = {
-	trackedKeyphrases: PropTypes.object,
-	addTrackedKeyphrase: PropTypes.func.isRequired,
-	isLoggedIn: PropTypes.bool,
-	isNewlyAuthenticated: PropTypes.bool,
-	keyphrases: PropTypes.array,
-	response: PropTypes.object,
-	shouldTrackAll: PropTypes.bool,
-	permalink: PropTypes.string,
-	historyDaysLimit: PropTypes.number,
-};
-
-WincherSEOPerformance.defaultProps = {
-	trackedKeyphrases: null,
-	isLoggedIn: false,
-	isNewlyAuthenticated: false,
-	keyphrases: [],
-	response: {},
-	shouldTrackAll: false,
-	permalink: "",
-	historyDaysLimit: 0,
-};

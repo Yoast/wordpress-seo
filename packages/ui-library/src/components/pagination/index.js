@@ -1,8 +1,9 @@
-import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/solid";
-import { useCallback } from "@wordpress/element";
+import ChevronLeftIcon from "@heroicons/react/solid/ChevronLeftIcon";
+import ChevronRightIcon from "@heroicons/react/solid/ChevronRightIcon";
 import classNames from "classnames";
 import { parseInt } from "lodash";
 import PropTypes from "prop-types";
+import React, { useCallback } from "react";
 import { useSvgAria } from "../../hooks";
 import Button from "./button";
 import DisplayButtons from "./display-buttons";
@@ -16,26 +17,26 @@ const VARIANT = {
 };
 
 /**
- * @param {string} [className] Extra class.
+ * @param {string} [className=""] Extra class.
  * @param {number} current The current page. Start at 1.
  * @param {number} total The total pages.
- * @param {function} onNavigate Callback for requested page navigation.
- * @param {string} [variant] Display variant. Defaults to buttons. See const "VARIANT.display" for options.
- * @param {number} [maxPageButtons] For variant buttons: the maximum number of buttons to show.
- * @param {boolean} [disabled] Whether the buttons are disabled.
+ * @param {Function} onNavigate Callback for requested page navigation.
+ * @param {string} [variant="buttons"] Display variant. Defaults to buttons. See const "VARIANT.display" for options.
+ * @param {number} [maxPageButtons=6] For variant buttons: the maximum number of buttons to show.
+ * @param {boolean} [disabled=false] Whether the buttons are disabled.
  * @param {string} screenReaderTextPrevious The screen reader text for the previous button.
  * @param {string} screenReaderTextNext The screen reader text for the next button.
- * @param {Object} props Extra props.
+ * @param {...any} [props] Extra props.
  * @returns {JSX.Element} The element.
  */
 const Pagination = ( {
-	className,
+	className = "",
 	current,
 	total,
 	onNavigate,
-	variant,
-	maxPageButtons,
-	disabled,
+	variant = VARIANT.display.buttons,
+	maxPageButtons = 6,
+	disabled = false,
 	screenReaderTextPrevious,
 	screenReaderTextNext,
 	...props
@@ -45,9 +46,9 @@ const Pagination = ( {
 
 	return (
 		<nav className={ classNames( "yst-pagination", className ) } { ...props }>
-			<Button className="yst-rounded-l-md" onClick={ handleNavigate } data-page={ current - 1 } disabled={ disabled || current - 1 < 1 }>
+			<Button className="yst-rounded-s-md" onClick={ handleNavigate } data-page={ current - 1 } disabled={ disabled || current - 1 < 1 }>
 				<span className="yst-pointer-events-none yst-sr-only">{ screenReaderTextPrevious }</span>
-				<ChevronLeftIcon className="yst-pointer-events-none yst-h-5 yst-w-5 rtl:yst-rotate-180" { ...svgAriaProps } />
+				<ChevronLeftIcon className="yst-pointer-events-none yst-h-5 yst-w-5" { ...svgAriaProps } />
 			</Button>
 			{ variant === VARIANT.display.text && (
 				<DisplayText current={ current } total={ total } />
@@ -61,9 +62,9 @@ const Pagination = ( {
 					disabled={ disabled }
 				/>
 			) }
-			<Button className="yst-rounded-r-md" onClick={ handleNavigate } data-page={ current + 1 } disabled={ disabled || current + 1 > total }>
+			<Button className="yst-rounded-e-md" onClick={ handleNavigate } data-page={ current + 1 } disabled={ disabled || current + 1 > total }>
 				<span className="yst-pointer-events-none yst-sr-only">{ screenReaderTextNext }</span>
-				<ChevronRightIcon className="yst-pointer-events-none yst-h-5 yst-w-5 rtl:yst-rotate-180" { ...svgAriaProps } />
+				<ChevronRightIcon className="yst-pointer-events-none yst-h-5 yst-w-5" { ...svgAriaProps } />
 			</Button>
 		</nav>
 	);
@@ -78,12 +79,6 @@ Pagination.propTypes = {
 	disabled: PropTypes.bool,
 	screenReaderTextPrevious: PropTypes.string.isRequired,
 	screenReaderTextNext: PropTypes.string.isRequired,
-};
-Pagination.defaultProps = {
-	className: "",
-	variant: VARIANT.display.buttons,
-	maxPageButtons: 6,
-	disabled: false,
 };
 
 export default Pagination;

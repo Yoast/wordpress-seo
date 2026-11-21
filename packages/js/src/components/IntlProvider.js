@@ -17,8 +17,10 @@ class IntlProvider extends Component {
 		if ( typeof window.Intl === "undefined" ) {
 			return (
 				<div className="notice notice-error">
-					{ /* eslint-disable-next-line max-len */ }
-					<p>Yoast SEO detected that you are using a browser that does not support all the features we require. Please try using a different browser.</p>
+					<p>
+						Yoast SEO detected that you are using a browser that does not support
+						all the features we require. Please try using a different browser.
+					</p>
 				</div>
 			);
 		}

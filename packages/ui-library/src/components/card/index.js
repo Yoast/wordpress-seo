@@ -1,6 +1,6 @@
-import { PropTypes } from "prop-types";
 import classNames from "classnames";
-import { forwardRef } from "@wordpress/element";
+import { PropTypes } from "prop-types";
+import React, { forwardRef } from "react";
 
 /**
  * @param {string} as The element to render as.
@@ -63,23 +63,17 @@ Footer.propTypes = {
  * @param {string} className The className.
  * @returns {JSX.Element} The card component.
  */
-const Card = forwardRef( ( { as: Component, children, className, ...props }, ref ) => (
+const Card = forwardRef( ( { as: Component = "div", children, className = "", ...props }, ref ) => (
 	<Component { ...props } className={ classNames( "yst-card", className ) } ref={ ref }>
 		{ children }
 	</Component>
 ) );
 
-const propTypes = {
+Card.displayName = "Card";
+Card.propTypes = {
 	as: PropTypes.elementType,
 	children: PropTypes.node.isRequired,
 	className: PropTypes.string,
-};
-
-Card.propTypes = propTypes;
-
-Card.defaultProps = {
-	as: "div",
-	className: "",
 };
 
 Card.Header = Header;
@@ -88,11 +82,5 @@ Card.Content = Content;
 Card.Content.displayName = "Card.Content";
 Card.Footer = Footer;
 Card.Footer.displayName = "Card.Footer";
-
-// eslint-disable-next-line require-jsdoc
-export const StoryComponent = props => <Card { ...props } />;
-StoryComponent.propTypes = propTypes;
-StoryComponent.defaultProps = Card.defaultProps;
-StoryComponent.displayName = "Card";
 
 export default Card;

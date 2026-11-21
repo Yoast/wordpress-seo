@@ -90,7 +90,7 @@ class WPSEO_Metabox_Section_React implements WPSEO_Metabox_Section {
 			esc_attr( $this->name ),
 			esc_attr( $this->link_class ),
 			( $this->link_aria_label !== '' ) ? ' aria-label="' . esc_attr( $this->link_aria_label ) . '"' : '',
-			wp_kses_post( $this->link_content )
+			wp_kses_post( $this->link_content ),
 		);
 	}
 
@@ -105,7 +105,7 @@ class WPSEO_Metabox_Section_React implements WPSEO_Metabox_Section {
 
 		printf(
 			'<div role="tabpanel" id="wpseo-meta-section-%1$s" aria-labelledby="wpseo-meta-tab-%1$s" tabindex="0" class="wpseo-meta-section">',
-			esc_attr( $this->name )
+			esc_attr( $this->name ),
 		);
 		echo wp_kses_post( $this->content );
 		echo '<div id="wpseo-metabox-root" class="wpseo-metabox-root"></div>';

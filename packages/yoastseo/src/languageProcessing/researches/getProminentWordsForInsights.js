@@ -1,13 +1,13 @@
-import { take } from "lodash-es";
+import { take } from "lodash";
 import {
 	collapseProminentWordsOnStem,
 	filterProminentWords,
 	getProminentWords,
 	retrieveAbbreviations,
 	sortProminentWords,
-} from "../helpers/prominentWords/determineProminentWords";
+} from "../helpers/prominentWords/determineProminentWords.js";
 import removeURLs from "../helpers/sanitize/removeURLs.js";
-import removeEmailAddresses from "../helpers/sanitize/removeEmailAddresses";
+import removeEmailAddresses from "../helpers/sanitize/removeEmailAddresses.js";
 
 /**
  * Retrieves the prominent words from the given paper.

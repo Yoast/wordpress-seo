@@ -1,5 +1,5 @@
 import React from "react";
-import renderer from "react-test-renderer";
+import { render } from "@testing-library/react";
 
 import SiteSEOReport from "../src/SiteSEOReport";
 
@@ -22,17 +22,16 @@ describe( "The SiteSEOReport testing suite", () => {
 		},
 	];
 
-	const component = renderer.create(
-		<SiteSEOReport
-			className="test_SiteSEOReport"
-			seoAssessmentText="Test assessment"
-			seoAssessmentItems={ siteSEOReportItems }
-			barHeight={ "10" }
-		/>
-	);
-
-	const tree = component.toJSON();
 	it( "The SiteSEOReport should match the snapshot", function() {
-		expect( tree ).toMatchSnapshot();
+		const { container } = render(
+			<SiteSEOReport
+				className="test_SiteSEOReport"
+				seoAssessmentText="Test assessment"
+				seoAssessmentItems={ siteSEOReportItems }
+				barHeight={ "10" }
+			/>
+		);
+
+		expect( container.firstChild ).toMatchSnapshot();
 	} );
 } );

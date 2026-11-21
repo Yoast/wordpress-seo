@@ -163,10 +163,19 @@ class Loader {
 	/**
 	 * Loads all registered commands.
 	 *
+	 * Commands that opt in to conditional loading by implementing
+	 * Loadable_Interface are skipped when their conditionals are not met.
+	 *
 	 * @return void
 	 */
 	protected function load_commands() {
 		foreach ( $this->commands as $class ) {
+			if ( \is_subclass_of( $class, Loadable_Interface::class )
+				&& ! $this->conditionals_are_met( $class )
+			) {
+				continue;
+			}
+
 			$command = $this->get_class( $class );
 
 			if ( $command === null ) {
@@ -257,8 +266,8 @@ class Loader {
 						/* translators: %1$s expands to Yoast SEO, %2$s expands to the name of the class that could not be found. */
 						\__( '%1$s attempted to load the class %2$s but it could not be found.', 'wordpress-seo' ),
 						'Yoast SEO',
-						$loadable_class
-					)
+						$loadable_class,
+					),
 				);
 			}
 			return false;

@@ -1,7 +1,7 @@
 import { languageProcessing } from "yoastseo";
 const { flattenSortLength, buildFormRule, createRulesFromArrays } = languageProcessing;
 
-import { calculateTotalNumberOfSyllables, removeEnding, checkBeginningsList } from "./stemHelpers";
+import { calculateTotalNumberOfSyllables, removeEnding, checkBeginningsList } from "./stemHelpers.js";
 
 /**
  * MIT License
@@ -357,10 +357,10 @@ const stemPlural = function( word, morphologyData ) {
 		 * we compare the two parts of the word after stripping the variable first or first and second letter.
 		 *
 		 */
-		const firstPartBeginningTrimmed = firstPart.substr( 1 );
+		const firstPartBeginningTrimmed = firstPart.substring( 1 );
 		const secondPartBeginningTrimmed = ( secondPart.startsWith( "ng" ) || secondPart.startsWith( "ny" ) )
-			? secondPart.substr( 2 )
-			: secondPart.substr( 1 );
+			? secondPart.substring( 2 )
+			: secondPart.substring( 1 );
 
 		if ( firstPartBeginningTrimmed === secondPartBeginningTrimmed ) {
 			const nonPlurals = morphologyData.stemming.nonPluralReduplications;

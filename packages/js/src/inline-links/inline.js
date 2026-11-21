@@ -1,49 +1,41 @@
-/**
- * External dependencies
- */
-import { uniqueId } from "lodash";
-import PropTypes from "prop-types";
-
-/**
- * WordPress dependencies
- */
-import { useMemo, useState, useCallback } from "@wordpress/element";
+/* eslint-disable complexity */
+import { Popover, withSpokenMessages } from "@wordpress/components";
+import { useMemo, useState } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
-import { withSpokenMessages, Popover } from "@wordpress/components";
+import { applyFormat, create, getActiveFormat, getTextContent, insert, isCollapsed, remove, slice, useAnchor } from "@wordpress/rich-text";
 import { prependHTTP } from "@wordpress/url";
-import { create, insert, isCollapsed, applyFormat } from "@wordpress/rich-text";
-
-/**
- * Internal dependencies
- */
-import { createLinkFormat, isValidHref } from "./utils";
+import { noop, uniqueId } from "lodash";
 import HelpLink from "../components/HelpLink";
-import createInterpolateElement from "../helpers/createInterpolateElement";
+import { safeCreateInterpolateElement } from "../helpers/i18n";
+import CSSClassesSetting from "./css-classes-setting";
+import { link as linkSettings } from "./edit-link";
+import { createLinkFormat, isValidHref } from "./utils";
 
 /**
  * Component to render the inline link UI.
- * This component is rendered when adding or editing a
- * link.
+ * This component is rendered when adding or editing a link.
  *
  * @param {Object} props Component props.
- * @param {boolean} props.isActive Whether a link is active.
- * @param {Object} props.activeAttributes The attributes of the active link.
- * @param {boolean} props.addingLink Whether a link is being added or edited.
- * @param {object} props.value The current value of the rich text.
- * @param {Function} props.onChange The rich text change handler.
+ * @param {boolean} [props.isActive=false] Whether a link is active.
+ * @param {Object} [props.activeAttributes={}] The attributes of the active link.
+ * @param {boolean} [props.addingLink=false] Whether a link is being added or edited.
+ * @param {Object} [props.value={}] The current value of the rich text.
+ * @param {Function} [props.onChange=noop] The rich text change handler.
  * @param {Function} props.speak The speak function.
  * @param {Function} props.stopAddingLink The stop adding link handler.
+ * @param {Object} [props.contentRef={}] The ref containing the current content element.
  *
- * @returns {WPElement} The inline link UI.
+ * @returns {React.ReactNode} The inline link UI.
  */
 function InlineLinkUI( {
-	isActive,
-	activeAttributes,
-	addingLink,
-	value,
-	onChange,
+	isActive = false,
+	activeAttributes = {},
+	addingLink = false,
+	value = {},
+	onChange = noop,
 	speak,
 	stopAddingLink,
+	contentRef = {},
 } ) {
 	/**
 	 * A unique key is generated when switching between editing and not editing
@@ -71,30 +63,63 @@ function InlineLinkUI( {
 	 */
 	const [ nextLinkValue, setNextLinkValue ] = useState();
 
-	const anchorRef = useMemo( () => {
-		const selection = window.getSelection();
+	const anchor = useAnchor( {
+		editableContentElement: contentRef.current,
+		settings: {
+			...linkSettings,
+			isActive,
+		},
+	} );
 
-		if ( ! selection.rangeCount ) {
-			return;
+	// Get the active link format using WordPress utility
+	const activeLinkFormat = getActiveFormat( value, "core/link" );
+
+	/**
+	 * Finds the boundaries of the active link format in the RichText value.
+	 *
+	 * @param {Object} richTextValue The RichText value object.
+	 *
+	 * @returns {{start: number, end: number}} The start and end positions of the link.
+	 */
+	const findLinkBoundaries = ( richTextValue ) => {
+		const { formats, start: cursorStart, text } = richTextValue;
+		const url = activeLinkFormat?.attributes?.url;
+		let start = cursorStart;
+		let end = cursorStart;
+
+		const hasLinkAtPosition = ( position ) =>
+			formats[ position ]?.some( f => f?.type === "core/link" && f?.attributes?.url === url );
+
+		// Adjust if cursor is positioned immediately after a link (the edge of the link)
+		if ( ! hasLinkAtPosition( start ) && start > 0 && hasLinkAtPosition( start - 1 ) ) {
+			start--;
+			end = start;
 		}
 
-		const range = selection.getRangeAt( 0 );
-
-		if ( addingLink && ! isActive ) {
-			return range;
+		// Find start boundary
+		while ( start > 0 && hasLinkAtPosition( start - 1 ) ) {
+			start--;
 		}
 
-		let element = range.startContainer;
-
-		// If the caret is right before the element, select the next element.
-		element = element.nextElementSibling || element;
-
-		while ( element.nodeType !== window.Node.ELEMENT_NODE ) {
-			element = element.parentNode;
+		// Find end boundary
+		while ( end < ( text?.length || 0 ) && hasLinkAtPosition( end ) ) {
+			end++;
 		}
 
-		return element.closest( "a" );
-	}, [ addingLink, value.start, value.end ] );
+		return { start, end };
+	};
+
+	// Get the current link text by finding the boundaries of the active link format
+	let currentText = "";
+	if ( isActive && activeLinkFormat ) {
+		const { start, end } = findLinkBoundaries( value );
+		if ( start < end ) {
+			currentText = value.text.substring( start, end );
+		}
+	} else if ( value.start !== value.end ) {
+		// When adding a new link, use the selected text
+		currentText = getTextContent( slice( value ) );
+	}
 
 	const linkValue = {
 		url: activeAttributes.url,
@@ -103,21 +128,26 @@ function InlineLinkUI( {
 		opensInNewTab: activeAttributes.target === "_blank",
 		noFollow: activeAttributes.rel && activeAttributes.rel.split( " " ).includes( "nofollow" ),
 		sponsored: activeAttributes.rel && activeAttributes.rel.split( " " ).includes( "sponsored" ),
+		title: currentText,
+		className: activeAttributes.class,
+		cssClasses: activeAttributes.class,
 		...nextLinkValue,
 	};
 
 	/**
 	 * LinkControl calls `onChange` immediately upon the toggling a setting.
 	 *
-	 * @param {object} nextValue The next link URL.
+	 * @param {Object} nextValue The next link URL.
 	 *
 	 * @returns {boolean} Whether the link rel should be sponsored.
 	 */
-	const isToggleSetting = ( nextValue ) =>{
-		return linkValue.url === nextValue.url &&
-		linkValue.opensInNewTab !== nextValue.opensInNewTab ||
-		linkValue.noFollow !== nextValue.noFollow ||
-		linkValue.sponsored !== nextValue.sponsored;
+	const isToggleSetting = ( nextValue ) => {
+		return linkValue.url === nextValue.url && (
+			linkValue.opensInNewTab !== nextValue.opensInNewTab ||
+			linkValue.noFollow !== nextValue.noFollow ||
+			linkValue.sponsored !== nextValue.sponsored ||
+			linkValue.cssClasses !== nextValue.cssClasses
+		);
 	};
 
 	/**
@@ -127,7 +157,7 @@ function InlineLinkUI( {
 	 * @returns {boolean} Whether the link rel should be nofollow.
 	 */
 	const isLinkNoFollow = ( nextValue ) => {
-		return isToggleSetting( nextValue ) && nextValue.sponsored === true && linkValue.Sponsored !== true;
+		return isToggleSetting( nextValue ) && nextValue.sponsored === true && linkValue.sponsored !== true;
 	};
 
 	/**
@@ -176,11 +206,11 @@ function InlineLinkUI( {
 
 	/**
 	 * Gets the new text for the link.
-	 * @param {object} nextValue The next link URL.
+	 * @param {Object} nextValue The next link URL.
 	 * @param {string} newUrl The new link URL.
 	 * @returns {string} The new text for the link.
 	 */
-	const getNewText = ( nextValue, newUrl ) =>{
+	const getNewText = ( nextValue, newUrl ) => {
 		return nextValue.title ? nextValue.title : newUrl;
 	};
 
@@ -204,41 +234,86 @@ function InlineLinkUI( {
 		}
 	};
 
-	const onChangeLink = useCallback( ( nextValue ) =>{
-		/*
-		 * Merge with values from state, both for the purpose of assigning the next state value, and for use in constructing the new link format if
-		 * the link is ready to be applied.
- 		 */
-		nextValue = {
-			...nextLinkValue,
-			...nextValue,
-		};
+	/**
+	 * Inserts a new link at the current cursor position.
+	 *
+	 * @param {Object} format The link format to apply.
+	 * @param {Object} linkData The link data containing title and URL.
+	 * @param {string} newUrl The URL.
+	 * @returns {void}
+	 */
+	const insertNewLink = ( format, linkData, newUrl ) => {
+		const newText = getNewText( linkData, newUrl );
+		const toInsert = applyFormat(
+			// Applies the link format to the entire text range
+			create( { text: newText } ), format, 0, newText.length );
+		onChange( insert( value, toInsert ) );
+	};
 
-		/* LinkControl calls `onChange` immediately upon the toggling a setting. */
-		const didToggleSetting = isToggleSetting( linkValue, nextValue );
+	/**
+	 * Updates an existing link with new format and optionally new text.
+	 *
+	 * @param {Object} format The link format to apply.
+	 * @param {string} text The new text for the link.
+	 * @returns {void}
+	 */
+	const updateExistingLink = ( format, text ) => {
+		const { start: linkStart, end: linkEnd } = findLinkBoundaries( value );
+		const currentLinkText = linkStart < linkEnd ? value.text.substring( linkStart, linkEnd ) : "";
+		const hasTextChanged = typeof text !== "undefined" && text !== "" && text !== currentLinkText && linkStart < linkEnd;
 
-		/*
-		 * A link rel can only be one of three combinations:
-		 * - only nofollow
-		 * - both nofollow and sponsored
-		 * - neither nofollow or sponsored
-		 * On first toggle there is no linkValue. We need to compare with what it should be instead of what it is.
-		 */
-		if ( isLinkNoFollow( nextValue ) ) {
-			nextValue.noFollow = true;
+		let newValue;
+		if ( hasTextChanged ) {
+			// If text has changed, use WordPress remove/insert pattern for proper serialization
+			const valueWithRemoved = remove( value, linkStart, linkEnd );
+			valueWithRemoved.start = linkStart;
+			valueWithRemoved.end = linkStart;
+			const toInsert = applyFormat( create( { text } ), format, 0, text.length );
+			newValue = insert( valueWithRemoved, toInsert );
+		} else {
+			// If only URL changed, keep the existing text
+			newValue = applyFormat( value, format );
+			newValue.start = newValue.end;
 		}
-		if ( isSponsored( nextValue ) ) {
-			nextValue.sponsored = false;
+		newValue.activeFormats = [];
+		onChange( newValue );
+	};
+
+	/**
+	 * Normalizes the link rel attributes based on toggle rules.
+	 *
+	 * @param {Object} linkData The link data to normalize.
+	 * @returns {Object} The normalized link data.
+	 */
+	const normalizeRelAttributes = ( linkData ) => {
+		if ( isLinkNoFollow( linkData ) ) {
+			linkData.noFollow = true;
 		}
+		if ( isSponsored( linkData ) ) {
+			linkData.sponsored = false;
+		}
+		return linkData;
+	};
+
+	/**
+	 * Handles the change of the link.
+	 *
+	 * @param {Object} nextValue The next link URL.
+	 * @returns {void}
+	 */
+	const onChangeLink = ( nextValue ) => {
+		// Merge with values from state
+		nextValue = { ...nextLinkValue, ...nextValue };
+
+		const didToggleSetting = isToggleSetting( nextValue );
+		nextValue = normalizeRelAttributes( nextValue );
 
 		if ( didToggleSettingForNewLink( nextValue ) ) {
-			/* If link will be assigned, the state value can be considered flushed. Otherwise, persist the pending changes. */
 			setNextLinkValue( nextValue );
 			return;
 		}
 
 		const newUrl = prependHTTP( nextValue.url );
-
 		const format = createLinkFormat( {
 			url: newUrl,
 			type: nextValue.type,
@@ -246,31 +321,20 @@ function InlineLinkUI( {
 			opensInNewWindow: nextValue.opensInNewTab,
 			noFollow: nextValue.noFollow,
 			sponsored: nextValue.sponsored,
+			className: nextValue.cssClasses ?? nextValue.className,
 		} );
 
 		if ( shouldInsertLink() ) {
-			const newText = getNewText( nextValue, newUrl );
-			const toInsert = applyFormat(
-				create( { text: newText } ),
-				format,
-				0,
-				newText.length
-			);
-			onChange( insert( value, toInsert ) );
+			insertNewLink( format, nextValue, newUrl );
 		} else {
-			const newValue = applyFormat( value, format );
-			newValue.start = newValue.end;
-			newValue.activeFormats = [];
-			onChange( newValue );
+			updateExistingLink( format, nextValue.title );
 		}
 
-		/* Focus should only be shifted back to the formatted segment when the URL is submitted. */
 		if ( ! didToggleSetting ) {
 			stopAddingLink();
 		}
-
 		actionCompleteMessage( newUrl );
-	}, [] );
+	};
 
 	const NoFollowHelpLink = <HelpLink
 		href={ window.wpseoAdminL10n[ "shortlinks.nofollow_sponsored" ] }
@@ -284,8 +348,9 @@ function InlineLinkUI( {
 		</span>
 	</HelpLink>;
 
-	const noFollowLabel = createInterpolateElement(
+	const noFollowLabel = safeCreateInterpolateElement(
 		sprintf(
+			// translators: %1$s and %2$s are opening and closing code tags, %3$s is a help link.
 			__( "Search engines should ignore this link (mark as %1$snofollow%2$s)%3$s", "wordpress-seo" ),
 			"<code>",
 			"</code>",
@@ -297,8 +362,9 @@ function InlineLinkUI( {
 		}
 	);
 
-	const sponsoredLabel = createInterpolateElement(
+	const sponsoredLabel = safeCreateInterpolateElement(
 		sprintf(
+			// translators: %1$s and %2$s are opening and closing code tags, %3$s is a help link.
 			__( "This is a sponsored link or advert (mark as %1$ssponsored%2$s)%3$s", "wordpress-seo" ),
 			"<code>",
 			"</code>",
@@ -323,6 +389,17 @@ function InlineLinkUI( {
 			id: "sponsored",
 			title: sponsoredLabel,
 		},
+		{
+			id: "cssClasses",
+			title: __( "Additional CSS class(es)", "wordpress-seo" ),
+			render: ( setting, val, onSettingChange ) => (
+				<CSSClassesSetting
+					key={ setting.id }
+					value={ val }
+					onChange={ onSettingChange }
+				/>
+			),
+		},
 	];
 
 	/*
@@ -338,7 +415,7 @@ function InlineLinkUI( {
 	return (
 		<Popover
 			key={ mountingKey }
-			anchor={ anchorRef }
+			anchor={ anchor }
 			focusOnMount={ addingLink ? "firstElement" : false }
 			onClose={ stopAddingLink }
 			position="bottom center"
@@ -347,22 +424,14 @@ function InlineLinkUI( {
 		>
 			<LinkControl
 				value={ linkValue }
+				// eslint-disable-next-line react/jsx-no-bind
 				onChange={ onChangeLink }
 				forceIsEditingLink={ addingLink }
+				hasTextControl={ true }
 				settings={ settings }
 			/>
 		</Popover>
 	);
 }
-
-InlineLinkUI.propTypes = {
-	isActive: PropTypes.bool,
-	activeAttributes: PropTypes.object,
-	addingLink: PropTypes.bool,
-	value: PropTypes.object,
-	onChange: PropTypes.func,
-	speak: PropTypes.func.isRequired,
-	stopAddingLink: PropTypes.func.isRequired,
-};
 
 export default withSpokenMessages( InlineLinkUI );

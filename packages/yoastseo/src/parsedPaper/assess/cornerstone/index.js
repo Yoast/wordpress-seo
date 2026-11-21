@@ -1,4 +1,4 @@
-import * as cornerstoneAssessmentListFactories from "./assessmentListFactories";
+import * as cornerstoneAssessmentListFactories from "./assessmentListFactories.js";
 
 export {
 	cornerstoneAssessmentListFactories,

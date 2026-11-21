@@ -33,7 +33,7 @@ In addition to per-word matching, we also filter out **function words** from the
 In addition to the above, Premium users can add **synonyms** of their keyphrase.
 
 ### Group 3: Languages with word form support
-Here is the list of [languages with word form support](https://github.com/Yoast/wordpress-seo/tree/trunk/packages/yoastseo/MORPHOLOGY.md).
+Here is the list of [languages with word form support](../../../docs/MORPHOLOGY.md).
 
 #### Free
 Free users with languages that have word form support have access to the same functionalities as Free users of group 2 (filtering out **function words** and **per-word matching**).

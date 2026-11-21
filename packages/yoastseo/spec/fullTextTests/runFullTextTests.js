@@ -1,8 +1,8 @@
 import getLanguage from "../../src/languageProcessing/helpers/language/getLanguage";
 import getResearcher from "../specHelpers/getResearcher";
 import getMorphologyData from "../specHelpers/getMorphologyData";
-import getWordComplexityConfig from "../specHelpers/getWordComplexityConfig";
-import getWordComplexityHelper from "../specHelpers/getWordComplexityHelper";
+import getWordComplexityConfig from "../../src/helpers/getWordComplexityConfig";
+import getWordComplexityHelper from "../../src/helpers/getWordComplexityHelper";
 import buildTree from "../specHelpers/parse/buildTree";
 
 // Import SEO assessments
@@ -20,7 +20,6 @@ import KeyphraseInSEOTitleAssessment from "../../src/scoring/assessments/seo/Key
 import TitleWidthAssessment from "../../src/scoring/assessments/seo/PageTitleWidthAssessment";
 import SlugKeywordAssessment from "../../src/scoring/assessments/seo/UrlKeywordAssessment";
 import KeyphraseDistributionAssessment from "../../src/scoring/assessments/seo/KeyphraseDistributionAssessment";
-import ImageKeyphraseAssessment from "../../src/scoring/assessments/seo/KeyphraseInImageTextAssessment";
 import ImageCountAssessment from "../../src/scoring/assessments/seo/ImageCountAssessment";
 import TextTitleAssessment from "../../src/scoring/assessments/seo/TextTitleAssessment";
 
@@ -45,7 +44,6 @@ import { getLanguagesWithWordComplexity } from "../../src/helpers";
 import testPapers from "./testTexts";
 
 testPapers.forEach( function( testPaper ) {
-	// eslint-disable-next-line max-statements
 	describe( "Full-text test for paper " + testPaper.name, function() {
 		const paper = testPaper.paper;
 		const locale = paper.getLocale();
@@ -174,10 +172,6 @@ testPapers.forEach( function( testPaper ) {
 
 		it( "returns a score and the associated feedback text for the sentenceBeginnings assessment", function() {
 			compare( new SentenceBeginningsAssessment(), expectedResults.sentenceBeginnings );
-		} );
-
-		it( "returns a score and the associated feedback text for the imageKeyphrase assessment", function() {
-			compare( new ImageKeyphraseAssessment(), expectedResults.imageKeyphrase );
 		} );
 
 		it( "returns a score and the associated feedback text for the imageCount assessment", function() {

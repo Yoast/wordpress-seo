@@ -1,4 +1,15 @@
+import { isUndefined } from "lodash";
 const blockTokenizer = /<!--\s+wp:([a-z][a-z0-9_-]*\/)?([a-z][a-z0-9_-]*)\s+({(?:(?=([^}]+|}+(?=})|(?!}\s+\/?-->)[^])*)\5|[^]*?)}\s+)?(\/)?-->/g;
+const leadingWhitespace = /\s*/y;
+
+/**
+ * Flattens the blocks and all their inner blocks, at any depth.
+ *
+ * @param {Object[]} blocks The blocks to flatten.
+ *
+ * @returns {Object[]} An array of blocks.
+ */
+const flattenBlocks = ( blocks ) => blocks.flatMap( block => [ block, ...flattenBlocks( block.innerBlocks || [] ) ] );
 
 /**
  * Get all the blocks including the inner blocks.
@@ -7,24 +18,7 @@ const blockTokenizer = /<!--\s+wp:([a-z][a-z0-9_-]*\/)?([a-z][a-z0-9_-]*)\s+({(?
  *
  * @returns {Object[]} An array of blocks.
  */
-const getAllBlocks = ( paper ) => {
-	const blocks = paper._attributes.wpBlocks;
-	const flattenBlocks = [];
-	if ( ! ( blocks && blocks.length > 0 ) ) {
-		return [];
-	}
-	blocks.forEach( ( block ) => {
-		if ( block.innerBlocks.length > 0 ) {
-			const innerBlocks = block.innerBlocks;
-			flattenBlocks.push(
-				block, ...innerBlocks
-			);
-		} else {
-			flattenBlocks.push( block );
-		}
-	} );
-	return flattenBlocks;
-};
+const getAllBlocks = ( paper ) => flattenBlocks( paper._attributes.wpBlocks || [] );
 
 
 /**
@@ -35,24 +29,41 @@ const getAllBlocks = ( paper ) => {
  *
  * @returns {void}
  */
-function updateBlocksOffset( blocks, text ) {
+export function updateBlocksOffset( blocks, text ) {
 	if ( blocks.length === 0 ) {
 		return;
 	}
-	blocks.forEach( currentBlock => {
+	blocks.forEach( ( currentBlock, index ) => {
 		const matches = blockTokenizer.exec( text );
-
-		if ( null === matches ) {
-			return;
+		if ( currentBlock.name === "core/freeform" ) {
+			const previousBlock = blocks[ index - 1 ];
+			if ( previousBlock ) {
+				const previousBlockEndOffset = previousBlock.endOffset;
+				const startedAt = previousBlockEndOffset + 2;
+				currentBlock.startOffset = startedAt;
+				currentBlock.endOffset = startedAt + currentBlock.blockLength;
+				currentBlock.contentOffset = startedAt;
+			} else {
+				currentBlock.startOffset = 0;
+				currentBlock.endOffset = 0 + currentBlock.blockLength;
+				currentBlock.contentOffset = 0;
+			}
+		} else {
+			if ( null === matches ) {
+				return;
+			}
+			const [ match, , , , , selfClosingSlash ] = matches;
+			const startedAt = matches.index;
+			const length = match.length;
+			currentBlock.startOffset = startedAt;
+			currentBlock.endOffset = startedAt + currentBlock.blockLength;
+			// A self-closing block has no content, so its offset would land on whatever follows it.
+			if ( ! selfClosingSlash ) {
+				// The block comment is usually followed by a newline, but not always, e.g. in content saved through the REST API.
+				leadingWhitespace.lastIndex = startedAt + length;
+				currentBlock.contentOffset = startedAt + length + leadingWhitespace.exec( text )[ 0 ].length;
+			}
 		}
-
-		const [ match ] = matches;
-
-		const startedAt = matches.index;
-		const length = match.length;
-
-		currentBlock.startOffset = startedAt;
-		currentBlock.contentOffset = startedAt + length + 1;
 
 		if ( currentBlock.innerBlocks && currentBlock.innerBlocks.length > 0 ) {
 			updateBlocksOffset( currentBlock.innerBlocks, text );
@@ -77,7 +88,7 @@ function updateClientIdAndAttrIdForSubtree( rootNode, blocks, clientId ) {
 	}
 
 	let currentClientId = clientId;
-	if ( rootNode.sourceCodeLocation && rootNode.sourceCodeLocation.startOffset ) {
+	if ( rootNode.sourceCodeLocation && ! isUndefined( rootNode.sourceCodeLocation.startOffset ) ) {
 		const foundBlock = blocks.find( block => block.contentOffset === rootNode.sourceCodeLocation.startOffset );
 		if ( foundBlock ) {
 			currentClientId = foundBlock.clientId;
@@ -133,6 +144,5 @@ export default function( paper, node ) {
 
 	const rawBlocks = getAllBlocks( paper );
 
-	// eslint-disable-next-line no-undefined
 	updateClientIdAndAttrIdForSubtree( node, rawBlocks, undefined );
 }

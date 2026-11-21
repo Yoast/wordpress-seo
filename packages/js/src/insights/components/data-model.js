@@ -1,20 +1,26 @@
 import { useMemo } from "@wordpress/element";
 import { sprintf } from "@wordpress/i18n";
 import { maxBy } from "lodash";
-import PropTypes from "prop-types";
 import classNames from "classnames";
 
 /**
  * Creates a DataModel.
  *
- * @param {Object} data The data to represent.
- * @param {string} itemScreenReaderText Optional screen reader text for the items. Expected to contain `%d` to be replaced by the item number.
- * @param {string} className Extra classname for the list (ul).
- * @param {Object} listProps Any extra properties are for the list (ul).
+ * @param {Object} props Component props. Additional props are passed to the list (ul).
+ * @param {Object[]} [props.data=[]] The data to represent.
+ * @param {string} props.data[].name The item name.
+ * @param {number} props.data[].number The item number.
+ * @param {string} [props.itemScreenReaderText=""] Optional screen reader text for the items. Expected to contain `%d` for the item number.
+ * @param {string} [props.className=""] Extra classname for the list (ul).
  *
- * @returns {JSX.Element} A <ul> with <li> items.
+ * @returns {React.ReactNode} A <ul> with <li> items.
  */
-const DataModel = ( { data, itemScreenReaderText, className, ...listProps } ) => {
+const DataModel = ( {
+	data = [],
+	itemScreenReaderText = "",
+	className = "",
+	...listProps
+} ) => {
 	const max = useMemo( () => maxBy( data, "number" )?.number ?? 0, [ data ] );
 
 	return (
@@ -34,21 +40,6 @@ const DataModel = ( { data, itemScreenReaderText, className, ...listProps } ) =>
 			) ) }
 		</ul>
 	);
-};
-
-DataModel.propTypes = {
-	data: PropTypes.arrayOf( PropTypes.shape( {
-		name: PropTypes.string.isRequired,
-		number: PropTypes.number.isRequired,
-	} ) ),
-	itemScreenReaderText: PropTypes.string,
-	className: PropTypes.string,
-};
-
-DataModel.defaultProps = {
-	data: [],
-	itemScreenReaderText: "",
-	className: "",
 };
 
 export default DataModel;

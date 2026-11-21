@@ -2,9 +2,7 @@
 import domReady from "@wordpress/dom-ready";
 import jQuery from "jquery";
 import { noop } from "lodash";
-import initializeAiGenerator from "./ai-generator/initialize";
 import initAdmin from "./initializers/admin";
-import initAdminMedia from "./initializers/admin-media";
 import initEditorStore from "./initializers/editor-store";
 import initFeaturedImageIntegration from "./initializers/featured-image";
 import initTabs from "./initializers/metabox-tabs";
@@ -41,25 +39,14 @@ domReady( () => {
 	// Initialize the post scraper.
 	initPostScraper( jQuery, store, editorData );
 
-	// Initialize the featured image integration.
-	if ( window.wpseoScriptData && typeof window.wpseoScriptData.featuredImage !== "undefined" ) {
+	// Initialize the featured image integration for classic editor and block editor only.
+	if ( ! window.wpseoScriptData?.isElementorEditor ) {
 		initFeaturedImageIntegration( jQuery );
 	}
-
-	// Initialize the media library for our social settings.
-	initAdminMedia( jQuery );
 
 	// Initialize global admin scripts.
 	initAdmin( jQuery );
 
 	// Initialize the insights.
 	initializeInsights();
-
-
-	const AI_IGNORED_POST_TYPES = [ "attachment" ];
-
-	if ( window.wpseoScriptData.postType && ! AI_IGNORED_POST_TYPES.includes( window.wpseoScriptData.postType ) ) {
-		// Initialize the AI Generator upsell.
-		initializeAiGenerator();
-	}
 } );

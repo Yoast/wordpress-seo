@@ -4,7 +4,7 @@ import stripNumbers from "../helpers/sanitize/stripNumbers.js";
 import countSentences from "../helpers/sentence/countSentences.js";
 import countWords from "../helpers/word/countWords.js";
 import countSyllables from "../helpers/syllables/countSyllables.js";
-import { clamp, inRange } from "lodash-es";
+import { clamp, inRange } from "lodash";
 
 /**
  * Calculates an average from a total and an amount

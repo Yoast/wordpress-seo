@@ -128,6 +128,8 @@ class Workouts_Integration implements Integration_Interface {
 
 	/**
 	 * Enqueue the workouts app.
+	 *
+	 * @return void
 	 */
 	public function enqueue_assets() {
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Date is not processed or saved.
@@ -142,6 +144,7 @@ class Workouts_Integration implements Integration_Interface {
 		$this->admin_asset_manager->enqueue_style( 'workouts' );
 
 		$workouts_option = $this->get_workouts_option();
+		$ftc_url         = \esc_url( \admin_url( 'admin.php?page=wpseo_dashboard#/first-time-configuration' ) );
 
 		$this->admin_asset_manager->enqueue_script( 'workouts' );
 		$this->admin_asset_manager->localize_script(
@@ -153,17 +156,18 @@ class Workouts_Integration implements Integration_Interface {
 				'pluginUrl'                 => \esc_url( \plugins_url( '', \WPSEO_FILE ) ),
 				'toolsPageUrl'              => \esc_url( \admin_url( 'admin.php?page=wpseo_tools' ) ),
 				'usersPageUrl'              => \esc_url( \admin_url( 'users.php' ) ),
-				'firstTimeConfigurationUrl' => \esc_url( \admin_url( 'admin.php?page=wpseo_dashboard#top#first-time-configuration' ) ),
+				'firstTimeConfigurationUrl' => $ftc_url,
 				'isPremium'                 => $this->product_helper->is_premium(),
-				'shouldUpdatePremium'       => $this->should_update_premium(),
 				'upsellText'                => $this->get_upsell_text(),
 				'upsellLink'                => $this->get_upsell_link(),
-			]
+			],
 		);
 	}
 
 	/**
 	 * Renders the target for the React to mount to.
+	 *
+	 * @return void
 	 */
 	public function render_target() {
 		if ( $this->should_update_premium() ) {
@@ -201,9 +205,9 @@ class Workouts_Integration implements Integration_Interface {
 				/* translators: %s: expands to 'Yoast SEO Premium'. */
 				\esc_html__(
 					'Accessing the latest workouts requires an updated version of %s (at least 17.7), but it looks like your subscription has expired. Please renew your subscription to update and gain access to all the latest features.',
-					'wordpress-seo'
+					'wordpress-seo',
 				),
-				'Yoast SEO Premium'
+				'Yoast SEO Premium',
 			);
 			$button = '<a class="yoast-button yoast-button-upsell yoast-button--small" href="' . \esc_url( $url ) . '" target="_blank">'
 					. \esc_html__( 'Renew your subscription', 'wordpress-seo' )
@@ -220,7 +224,7 @@ class Workouts_Integration implements Integration_Interface {
 				\esc_html__( 'It looks like you\'re running an outdated version of %1$s, please %2$supdate to the latest version (at least 17.7)%3$s to gain access to our updated workouts section.', 'wordpress-seo' ),
 				'Yoast SEO Premium',
 				'<a href="' . \esc_url( $url ) . '">',
-				'</a>'
+				'</a>',
 			);
 			$button = null;
 		}
@@ -233,7 +237,7 @@ class Workouts_Integration implements Integration_Interface {
 				\esc_html__( 'It looks like you’re running an outdated and unactivated version of %1$s, please activate your subscription in %2$sMyYoast%3$s and update to the latest version (at least 17.7) to gain access to our updated workouts section.', 'wordpress-seo' ),
 				'Yoast SEO Premium',
 				'<a href="' . \esc_url( $url ) . '">',
-				'</a>'
+				'</a>',
 			);
 			$button = '<a class="yoast-button yoast-button--primary yoast-button--small" href="' . \esc_url( $url_button ) . '" target="_blank">'
 					. \esc_html__( 'Get help activating your subscription', 'wordpress-seo' )
@@ -246,7 +250,7 @@ class Workouts_Integration implements Integration_Interface {
 			$title,
 			$copy,
 			null,
-			$button
+			$button,
 		);
 
 		return $notice->present();
@@ -296,20 +300,20 @@ class Workouts_Integration implements Integration_Interface {
 			return \sprintf(
 				/* translators: %s: expands to 'Yoast SEO Premium'. */
 				\__( 'Renew %s', 'wordpress-seo' ),
-				'Yoast SEO Premium'
+				'Yoast SEO Premium',
 			);
 		}
 		if ( $this->has_premium_subscription_activated() ) {
 			return \sprintf(
 				/* translators: %s: expands to 'Yoast SEO Premium'. */
 				\__( 'Update %s', 'wordpress-seo' ),
-				'Yoast SEO Premium'
+				'Yoast SEO Premium',
 			);
 		}
 		return \sprintf(
 			/* translators: %s: expands to 'Yoast SEO Premium'. */
 			\__( 'Activate %s', 'wordpress-seo' ),
-			'Yoast SEO Premium'
+			'Yoast SEO Premium',
 		);
 	}
 

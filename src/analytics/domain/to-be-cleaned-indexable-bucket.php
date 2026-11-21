@@ -42,7 +42,7 @@ class To_Be_Cleaned_Indexable_Bucket {
 			static function ( $item ) {
 				return $item->to_array();
 			},
-			$this->to_be_cleaned_indexable_counts
+			$this->to_be_cleaned_indexable_counts,
 		);
 	}
 }

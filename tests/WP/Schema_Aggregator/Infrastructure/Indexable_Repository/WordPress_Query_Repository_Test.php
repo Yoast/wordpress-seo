@@ -1,0 +1,245 @@
+<?php
+// phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
+// phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
+namespace Yoast\WP\SEO\Tests\WP\Schema_Aggregator\Infrastructure\Indexable_Repository;
+
+use Generator;
+use Yoast\WP\SEO\Builders\Indexable_Builder;
+use Yoast\WP\SEO\Models\Indexable;
+use Yoast\WP\SEO\Repositories\Indexable_Repository as Pure_Indexable_Repository;
+use Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Indexable_Repository\WordPress_Query_Repository;
+use Yoast\WP\SEO\Tests\WP\TestCase;
+
+/**
+ * Integration Test Class for WordPress_Query_Repository.
+ *
+ * @group schema-aggregator
+ *
+ * @covers \Yoast\WP\SEO\Schema_Aggregator\Infrastructure\Indexable_Repository\WordPress_Query_Repository::get
+ */
+final class WordPress_Query_Repository_Test extends TestCase {
+
+	/**
+	 * The instance to test.
+	 *
+	 * @var WordPress_Query_Repository
+	 */
+	private $instance;
+
+	/**
+	 * The pure indexable repository used to set up/clean up test state.
+	 *
+	 * @var Pure_Indexable_Repository
+	 */
+	private $pure_indexable_repository;
+
+	/**
+	 * Created WordPress post IDs for cleanup.
+	 *
+	 * @var array<int>
+	 */
+	private $created_posts = [];
+
+	/**
+	 * Sets up the test class.
+	 *
+	 * @return void
+	 */
+	public function set_up(): void {
+		parent::set_up();
+
+		$indexable_builder               = \YoastSEO()->classes->get( Indexable_Builder::class );
+		$this->pure_indexable_repository = \YoastSEO()->classes->get( Pure_Indexable_Repository::class );
+
+		$this->instance = new WordPress_Query_Repository( $indexable_builder, $this->pure_indexable_repository );
+		$this->create_test_content();
+	}
+
+	/**
+	 * Tears down the test class.
+	 *
+	 * @return void
+	 */
+	public function tear_down(): void {
+		foreach ( $this->created_posts as $post_id ) {
+			\wp_delete_post( $post_id, true );
+		}
+
+		parent::tear_down();
+	}
+
+	/**
+	 * Tests the get method.
+	 *
+	 * @dataProvider get_data
+	 *
+	 * @param int                   $page                The page number.
+	 * @param int                   $page_size           The number of items per page.
+	 * @param string                $post_type           The post type to filter by.
+	 * @param int                   $min_expected        The minimum expected number of results.
+	 * @param array<string, string> $expected_properties Expected properties to check in results.
+	 * @param bool                  $should_have_results Whether results are expected.
+	 *
+	 * @return void
+	 */
+	public function test_get( int $page, int $page_size, string $post_type, int $min_expected, array $expected_properties, bool $should_have_results ): void {
+		$result = $this->instance->get( $page, $page_size, $post_type );
+
+		$this->assertIsArray( $result, 'Result should be an array' );
+		$this->assertGreaterThanOrEqual( $min_expected, \count( $result ), "Should return at least {$min_expected} indexables for post type {$post_type}" );
+
+		if ( $should_have_results ) {
+			$this->assertNotEmpty( $result, 'Should have results when expected' );
+
+			foreach ( $result as $indexable ) {
+				$this->assertInstanceOf( Indexable::class, $indexable, 'Each result should be an Indexable instance' );
+				$this->assertTrue( $indexable->is_public === true || $indexable->is_public === null, 'Should be public or null' );
+
+				foreach ( $expected_properties as $property => $value ) {
+					$this->assertEquals( $value, $indexable->$property, "Property {$property} should match expected value" );
+				}
+			}
+		}
+		else {
+			$this->assertEmpty( $result, 'Should have no results when not expected' );
+		}
+	}
+
+	/**
+	 * Tests that get() assigns a synthetic id when indexables are not persisted.
+	 *
+	 * When the `Yoast\WP\SEO\should_index_indexables` filter returns `false`, the builder produces
+	 * in-memory Indexables whose primary key is never minted by the DB. Downstream consumers
+	 * (e.g. Meta_Tags_Context_Memoizer) key caches on `$indexable->id`, so distinct posts must
+	 * still end up with distinct ids — the repository fills that gap by assigning `$post_id`.
+	 *
+	 * @return void
+	 */
+	public function test_get_assigns_synthetic_id_when_indexables_disabled(): void {
+		// Remove any indexables that the post watcher persisted during set_up; otherwise find_by_id_and_type returns the saved row (with a real id) and the synthetic-id branch never fires.
+		$this->pure_indexable_repository
+			->query()
+			->where_in( 'object_id', $this->created_posts )
+			->where( 'object_type', 'post' )
+			->delete_many();
+
+		\add_filter( 'Yoast\WP\SEO\should_index_indexables', '__return_false' );
+
+		try {
+			$result = $this->instance->get( 1, 10, 'post' );
+
+			$this->assertNotEmpty( $result, 'Should still return indexables even when indexables are disabled' );
+
+			$ids = [];
+			foreach ( $result as $indexable ) {
+				$this->assertSame( $indexable->object_id, $indexable->id, 'Synthetic id should equal the post id' );
+				$ids[] = $indexable->id;
+			}
+
+			$this->assertSame( $ids, \array_unique( $ids ), 'Synthetic ids should be unique across the returned indexables' );
+		}
+		finally {
+			\remove_filter( 'Yoast\WP\SEO\should_index_indexables', '__return_false' );
+		}
+	}
+
+	/**
+	 * Tests the get method with pagination.
+	 *
+	 * @return void
+	 */
+	public function test_get_pagination_returns_different_results(): void {
+		$page_1 = $this->instance->get( 1, 1, 'post' );
+		$page_2 = $this->instance->get( 2, 1, 'post' );
+
+		$this->assertIsArray( $page_1 );
+		$this->assertIsArray( $page_2 );
+		$this->assertCount( 1, $page_1, 'First page should return exactly 1 result with page size 1' );
+		$this->assertCount( 1, $page_2, 'Second page should return exactly 1 result with page size 1' );
+
+		$this->assertNotEquals(
+			( $page_1[0]->object_id ?? null ),
+			( $page_2[0]->object_id ?? null ),
+			'Different pages should return different posts',
+		);
+	}
+
+	/**
+	 * Data provider for the get test.
+	 *
+	 * @return Generator Test data to use.
+	 */
+	public static function get_data(): Generator {
+		yield 'First page posts' => [
+			'page'                => 1,
+			'page_size'           => 10,
+			'post_type'           => 'post',
+			'min_expected'        => 3,
+			'expected_properties' => [ 'object_type' => 'post' ],
+			'should_have_results' => true,
+		];
+
+		yield 'First page pages' => [
+			'page'                => 1,
+			'page_size'           => 10,
+			'post_type'           => 'page',
+			'min_expected'        => 2,
+			'expected_properties' => [],
+			'should_have_results' => true,
+		];
+
+		yield 'Small page size' => [
+			'page'                => 1,
+			'page_size'           => 1,
+			'post_type'           => 'post',
+			'min_expected'        => 1,
+			'expected_properties' => [ 'object_type' => 'post' ],
+			'should_have_results' => true,
+		];
+
+		yield 'High page number - should return 0' => [
+			'page'                => 10,
+			'page_size'           => 5,
+			'post_type'           => 'post',
+			'min_expected'        => 0,
+			'expected_properties' => [],
+			'should_have_results' => false,
+		];
+
+		yield 'Non-existent post type' => [
+			'page'                => 1,
+			'page_size'           => 10,
+			'post_type'           => 'non_existent_type',
+			'min_expected'        => 0,
+			'expected_properties' => [],
+			'should_have_results' => false,
+		];
+	}
+
+	/**
+	 * Creates test content using WordPress factories.
+	 *
+	 * @return void
+	 */
+	private function create_test_content(): void {
+		$post_ids            = self::factory()->post->create_many(
+			3,
+			[
+				'post_title'  => 'Test Post',
+				'post_status' => 'publish',
+				'post_type'   => 'post',
+			],
+		);
+		$this->created_posts = \array_merge( $this->created_posts, $post_ids );
+
+		$page_ids            = self::factory()->post->create_many(
+			2,
+			[
+				'post_title'  => 'Test Page',
+				'post_status' => 'publish',
+				'post_type'   => 'page',
+			],
+		);
+		$this->created_posts = \array_merge( $this->created_posts, $page_ids );
+	}
+}

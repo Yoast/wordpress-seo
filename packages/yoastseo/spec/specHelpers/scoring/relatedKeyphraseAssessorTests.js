@@ -11,49 +11,32 @@ export function checkAssessmentAvailability( assessor ) {
 		assessor.assess( new Paper( "" ) );
 		const assessments = getResults( assessor.getValidResults() );
 
-		expect( assessments ).toEqual( [
-			"keyphraseLength",
-		] );
+		let defaultAssessments = [ "introductionKeyword", "keyphraseLength", "keyphraseDensity", "metaDescriptionKeyword",
+			"textCompetingLinks" ];
+
+		// The introduction keyword, single title and text length assessments are not available on store blogs.
+		if ( /(collectionRelatedKeywordAssessor|relatedKeywordsTaxonomyAssessor)/ig.test( assessor.type ) ) {
+			defaultAssessments = defaultAssessments.slice( 0, 4 );
+		}
+		expect( assessments ).toEqual( defaultAssessments );
 	} );
 
-	it( "runs assessments that only require a keyword", function() {
-		assessor.assess( new Paper( "", { keyword: "keyword" } ) );
-		const assessments = getResults( assessor.getValidResults() );
-
-		expect( assessments ).toEqual( [
-			"keyphraseLength",
-		] );
-	} );
-
-	it( "runs assessments that only require a keyword that consists of function words only", function() {
+	it( "additionally runs assessments that only require a keyword that consists of function words only", function() {
 		assessor.assess( new Paper( "", { keyword: "a" } ) );
 		const assessments = getResults( assessor.getValidResults() );
 
-		expect( assessments ).toEqual( [
-			"keyphraseLength",
-			"functionWordsInKeyphrase",
-		] );
-	} );
-
-	it( "additionally runs assessments that require a text and a keyword", function() {
-		assessor.assess( new Paper( "text", { keyword: "keyword" } ) );
-		const assessments = getResults( assessor.getValidResults() );
-
-		expect( assessments ).toEqual( [
+		let defaultAssessments = [
 			"introductionKeyword",
 			"keyphraseLength",
-		] );
-	} );
-
-	it( "additionally runs assessments that require a text, a keyword, and a meta description", function() {
-		assessor.assess( new Paper( "text", { keyword: "keyword", description: "description" } ) );
-		const assessments = getResults( assessor.getValidResults() );
-
-		expect( assessments ).toEqual( [
-			"introductionKeyword",
-			"keyphraseLength",
+			"keyphraseDensity",
 			"metaDescriptionKeyword",
-		] );
+			"functionWordsInKeyphrase",
+			"textCompetingLinks",
+		];
+		if ( /(collectionRelatedKeywordAssessor|relatedKeywordsTaxonomyAssessor)/ig.test( assessor.type ) ) {
+			defaultAssessments = defaultAssessments.slice( 0, 5 );
+		}
+		expect( assessments ).toEqual( defaultAssessments );
 	} );
 
 	it( "additionally runs assessments that require a text of at least 100 words and a keyword", function() {
@@ -68,11 +51,17 @@ export function checkAssessmentAvailability( assessor ) {
 		assessor.assess( paper );
 		const assessments = getResults( assessor.getValidResults() );
 
-		expect( assessments ).toEqual( [
+		let defaultAssessments = [
 			"introductionKeyword",
 			"keyphraseLength",
 			"keyphraseDensity",
-		] );
+			"metaDescriptionKeyword",
+			"textCompetingLinks",
+		];
+		if ( /(collectionRelatedKeywordAssessor|relatedKeywordsTaxonomyAssessor)/ig.test( assessor.type ) ) {
+			defaultAssessments = defaultAssessments.slice( 0, 4 );
+		}
+		expect( assessments ).toEqual( defaultAssessments );
 	} );
 }
 
@@ -83,6 +72,7 @@ export function checkAssessmentAvailability( assessor ) {
  */
 export function checkUrls( assessor ) {
 	const isCollection = assessor.type.startsWith( "collection" );
+	const isTaxonomy = assessor.type.startsWith( "taxonomy" );
 
 	test( "IntroductionKeyword", () => {
 		const assessment = assessor.getAssessment( "introductionKeyword" );
@@ -123,7 +113,7 @@ export function checkUrls( assessor ) {
 	test( "TextCompetingLinks", () => {
 		const assessment = assessor.getAssessment( "textCompetingLinks" );
 
-		if ( isCollection ) {
+		if ( isCollection || isTaxonomy ) {
 			expect( assessment ).toBeUndefined();
 		} else {
 			expect( assessment ).toBeDefined();
@@ -142,16 +132,15 @@ export function checkUrls( assessor ) {
 		expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoa.st/shopify51' target='_blank'>" );
 	} );
 
-	test( "ImageKeyphrase", () => {
-		const assessment = assessor.getAssessment( "imageKeyphrase" );
+	test( "KeyphraseStuffingInAltText", () => {
+		const assessment = assessor.getAssessment( "keyphraseStuffingInAltText" );
 
-		if ( isCollection ) {
+		if ( isCollection || isTaxonomy ) {
 			expect( assessment ).toBeUndefined();
 		} else {
 			expect( assessment ).toBeDefined();
-			expect( assessment._config ).toBeDefined();
-			expect( assessment._config.urlTitle ).toBe( "<a href='https://yoa.st/shopify22' target='_blank'>" );
-			expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoa.st/shopify23' target='_blank'>" );
+			expect( assessment._config.urlTitle ).toBe( "<a href='https://yoa.st/shopify-alt-text-keyphrase-stuffing' target='_blank'>" );
+			expect( assessment._config.urlCallToAction ).toBe( "<a href='https://yoa.st/shopify-alt-text-keyphrase-stuffing-cta' target='_blank'>" );
 		}
 	} );
 }

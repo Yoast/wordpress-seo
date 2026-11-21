@@ -13,13 +13,12 @@ export default compose( [
 			getAdvanced,
 			getBreadcrumbsTitle,
 			getCanonical,
-			getWordProofTimestamp,
 			getIsLoading,
 			getEditorContext,
 			getPreferences,
 		} = select( "yoast-seo/editor" );
 
-		const { isBreadcrumbsDisabled, isPrivateBlog, isWordProofIntegrationActive } = getPreferences();
+		const { isBreadcrumbsDisabled, isPrivateBlog } = getPreferences();
 
 		return {
 			noIndex: getNoIndex(),
@@ -27,12 +26,10 @@ export default compose( [
 			advanced: getAdvanced(),
 			breadcrumbsTitle: getBreadcrumbsTitle(),
 			canonical: getCanonical(),
-			wordproofTimestamp: getWordProofTimestamp(),
 			isLoading: getIsLoading(),
 			editorContext: getEditorContext(),
 			isBreadcrumbsDisabled,
 			isPrivateBlog,
-			isWordProofIntegrationActive,
 		};
 	} ),
 
@@ -43,7 +40,6 @@ export default compose( [
 			setAdvanced,
 			setBreadcrumbsTitle,
 			setCanonical,
-			setWordProofTimestamp,
 			loadAdvancedSettingsData,
 		} = dispatch( "yoast-seo/editor" );
 
@@ -53,7 +49,6 @@ export default compose( [
 			onAdvancedChange: setAdvanced,
 			onBreadcrumbsTitleChange: setBreadcrumbsTitle,
 			onCanonicalChange: setCanonical,
-			onWordProofTimestampChange: setWordProofTimestamp,
 			onLoad: loadAdvancedSettingsData,
 		};
 	} ),

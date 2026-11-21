@@ -11,9 +11,7 @@
 			yst-font-medium
 			yst-align-middle
 			yst-leading-tight
-			yst-whitespace-nowrap
-			yst-bg-blue-100
-			yst-text-blue-800;
+			yst-whitespace-nowrap;
 		}
 
 		/* Variants */
@@ -21,19 +19,39 @@
 		.yst-badge--info {
 			@apply
 			yst-bg-blue-200
-			yst-text-blue-900;
+			yst-text-blue-900
+			yst-border-blue-400;
 		}
 
 		.yst-badge--upsell {
 			@apply
 			yst-bg-amber-200
-			yst-text-amber-900;
+			yst-text-amber-900
+			yst-border-amber-400;
 		}
 
 		.yst-badge--plain {
 			@apply
 			yst-bg-slate-200
-			yst-text-slate-900;
+			yst-text-slate-900
+			yst-border-slate-400;
+		}
+
+		.yst-badge--success {
+			@apply
+			yst-bg-green-200
+			yst-text-green-900
+			yst-border-green-400;
+		}
+
+		.yst-badge--error {
+			@apply
+			yst-bg-red-200
+			yst-text-red-900
+			yst-border-red-400;
+		}
+		.yst-badge--ai {
+			@apply yst-text-white yst-font-semibold yst-bg-ai-500;
 		}
 
 		/* Sizes */

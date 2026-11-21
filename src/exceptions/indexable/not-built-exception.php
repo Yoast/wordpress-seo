@@ -17,7 +17,7 @@ class Not_Built_Exception extends Indexable_Exception {
 	 */
 	public static function invalid_object_id( $object_id ) {
 		return new self(
-			"Indexable was not built because it had an invalid object id of $object_id."
+			"Indexable was not built because it had an invalid object id of $object_id.",
 		);
 	}
 }

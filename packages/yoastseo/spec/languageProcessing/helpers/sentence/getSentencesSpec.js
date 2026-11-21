@@ -1,6 +1,3 @@
-/**
- * @jest-environment jsdom
- */
 import getSentences from "../../../../src/languageProcessing/helpers/sentence/getSentences.js";
 import defaultSentenceTokenizer from "../../../../src/languageProcessing/helpers/sentence/memoizedSentenceTokenizer";
 import japaneseSentenceTokenizer from "../../../../src/languageProcessing/languages/ja/helpers/memoizedSentenceTokenizer";
@@ -18,7 +15,7 @@ import {
 	listParagraphsAndSentencesProcessed,
 } from "../sanitize/mergeListItemsSpec";
 
-import { forEach } from "lodash-es";
+import { forEach } from "lodash";
 
 /**
  * Helper to test sentence detection.

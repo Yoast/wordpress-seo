@@ -9,6 +9,7 @@ import { colors } from "@yoast/style-guide";
 // Internal dependencies.
 import SvgIcon from "../SvgIcon";
 import { YoastButtonBase } from "./YoastButton";
+import { withDefaults } from "../withDefaults";
 
 const settings = {
 	minHeight: 48,
@@ -29,12 +30,13 @@ const IconComponent = styled( SvgIcon )`
  * The styles provided here are meant to be applied to both button and link
  * elements that need to look like styled buttons.
  *
- * @param {ReactElement} component The original component.
+ * @param {ReactElement} component  The original component.
+ * @param {Object}       [defaults] Default prop values to apply via `.attrs`.
  *
  * @returns {ReactElement} Component with applied button styles.
  */
-export function addButtonStyles( component ) {
-	return styled( component )`
+export function addButtonStyles( component, defaults = {} ) {
+	return styled( component ).attrs( withDefaults( defaults ) )`
 		display: inline-flex;
 		align-items: center;
 		justify-content: center;
@@ -76,12 +78,18 @@ export function addButtonStyles( component ) {
 	`;
 }
 
+const upsellButtonBaseDefaults = {
+	backgroundColor: colors.$color_button_upsell,
+	hoverColor: colors.$color_button_hover_upsell,
+	textColor: colors.$color_black,
+};
+
 /**
  * Returns a Button with the upsell button style.
  *
  * See the Safari 10 bug description in the YoastButtonBase JSDoc.
  *
- * @param {object} props The component's props.
+ * @param {Object} props The component's props.
  *
  * @returns {ReactElement} The upsell button.
  */
@@ -103,7 +111,8 @@ export const UpsellButtonBase = addButtonStyles(
 			justify-content: inherit;
 			width: 100%;
 		}
-	`
+	`,
+	upsellButtonBaseDefaults
 );
 
 UpsellButtonBase.propTypes = {
@@ -112,16 +121,17 @@ UpsellButtonBase.propTypes = {
 	textColor: PropTypes.string,
 };
 
-UpsellButtonBase.defaultProps = {
-	backgroundColor: colors.$color_button_upsell,
-	hoverColor: colors.$color_button_hover_upsell,
-	textColor: colors.$color_black,
-};
+// Kept for classic-runtime consumers; addButtonStyles applies these via .attrs for React 19.
+UpsellButtonBase.defaultProps = upsellButtonBaseDefaults;
 
 /**
  * The UpsellButton component.
  *
- * @param {object} props The component's props.
+ * @param {Object} props The component's props.
+ * @param {string} [props.backgroundColor] The background color of the button.
+ * @param {string} [props.hoverColor] The hover color of the button.
+ * @param {string} [props.textColor] The text color of the button.
+ * @param {import("react").ReactNode} [props.children] The content of the button.
  *
  * @returns {ReactElement} The UpsellButtonBase component.
  */
@@ -134,11 +144,4 @@ export const UpsellButton = ( props ) => {
 			<IconComponent icon={ "caret-right" } color={ colors.$color_black } size={ "16px" } />
 		</UpsellButtonBase>
 	);
-};
-
-UpsellButton.propTypes = {
-	backgroundColor: PropTypes.string,
-	hoverColor: PropTypes.string,
-	textColor: PropTypes.string,
-	children: PropTypes.oneOfType( [ PropTypes.arrayOf( PropTypes.node ), PropTypes.node ] ),
 };

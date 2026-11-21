@@ -1,5 +1,7 @@
-import customHelperJapanese from "../../../../src/languageProcessing/languages/ja/helpers/matchTextWithWord";
+import customWordMatchingHelperJapanese from "../../../../src/languageProcessing/languages/ja/helpers/matchTextWithWord";
 import matchWordFormsWithSentence from "../../../../src/languageProcessing/helpers/match/matchWordFormsWithSentence";
+import customSplitIntoTokensIndonesian from "../../../../src/languageProcessing/languages/id/helpers/splitIntoTokensCustom";
+
 
 const testCases = [
 	{
@@ -242,50 +244,6 @@ const testCases = [
 		expectedResult: { count: 1, matches: [ { sourceCodeRange: { startOffset: 18, endOffset: 21 }, text: "key" } ] },
 	},
 	{
-		testDescription: "matches a keyphrase with a dash when the keyphrase occurs with a dash in the text",
-		sentence: {
-			text: "A sentence with a key-word.",
-			tokens: [
-				{ text: "A", sourceCodeRange: { startOffset: 0, endOffset: 1 } },
-				{ text: " ", sourceCodeRange: { startOffset: 1, endOffset: 2 } },
-				{ text: "sentence", sourceCodeRange: { startOffset: 2, endOffset: 10 } },
-				{ text: " ", sourceCodeRange: { startOffset: 10, endOffset: 11 } },
-				{ text: "with", sourceCodeRange: { startOffset: 11, endOffset: 15 } },
-				{ text: " ", sourceCodeRange: { startOffset: 15, endOffset: 16 } },
-				{ text: "a", sourceCodeRange: { startOffset: 16, endOffset: 17 } },
-				{ text: " ", sourceCodeRange: { startOffset: 17, endOffset: 18 } },
-				{ text: "key-word", sourceCodeRange: { startOffset: 18, endOffset: 26 } },
-				{ text: ".", sourceCodeRange: { startOffset: 26, endOffset: 27 } },
-			],
-			sourceCodeRange: { startOffset: 0, endOffset: 27 } },
-		wordForms: [ "key-word", "key-words" ],
-		expectedResult: { count: 1, matches: [
-			{ text: "key-word", sourceCodeRange: { startOffset: 18, endOffset: 26 } },
-		] },
-	},
-	{
-		testDescription: "does not match keyphrase with a dash when the keyphrase occurs without a dash in the text",
-		sentence: {
-			text: "A sentence with a key word.",
-			tokens: [
-				{ text: "A", sourceCodeRange: { startOffset: 0, endOffset: 1 } },
-				{ text: " ", sourceCodeRange: { startOffset: 1, endOffset: 2 } },
-				{ text: "sentence", sourceCodeRange: { startOffset: 2, endOffset: 10 } },
-				{ text: " ", sourceCodeRange: { startOffset: 10, endOffset: 11 } },
-				{ text: "with", sourceCodeRange: { startOffset: 11, endOffset: 15 } },
-				{ text: " ", sourceCodeRange: { startOffset: 15, endOffset: 16 } },
-				{ text: "a", sourceCodeRange: { startOffset: 16, endOffset: 17 } },
-				{ text: " ", sourceCodeRange: { startOffset: 17, endOffset: 18 } },
-				{ text: "key", sourceCodeRange: { startOffset: 18, endOffset: 21 } },
-				{ text: " ", sourceCodeRange: { startOffset: 21, endOffset: 22 } },
-				{ text: "word", sourceCodeRange: { startOffset: 22, endOffset: 26 } },
-				{ text: ".", sourceCodeRange: { startOffset: 26, endOffset: 27 } },
-			],
-			sourceCodeRange: { startOffset: 0, endOffset: 27 } },
-		wordForms: [ "key-word", "key-words" ],
-		expectedResult: { count: 0, matches: [] },
-	},
-	{
 		testDescription: "Matches a keyphrase with an apostrophe.",
 		sentence: {
 			text: "All the keyphrase's forms should be matched.",
@@ -321,7 +279,7 @@ describe.each( testCases )( "find word forms in sentence in English: non-exact m
 } ) => {
 	const locale = "en_US";
 	it( testDescription, () => {
-		expect( matchWordFormsWithSentence( sentence, wordForms, locale, false ) ).toEqual( expectedResult );
+		expect( matchWordFormsWithSentence( sentence, wordForms, locale, false, false, false ) ).toEqual( expectedResult );
 	} );
 } );
 
@@ -525,6 +483,54 @@ const exactMatchingTestCases = [
 			{ text: "key.phrase", sourceCodeRange: { startOffset: 18, endOffset: 28 } },
 		] },
 	},
+	{
+		testDescription: "matches a keyphrase with a dash when the keyphrase occurs with a dash in the text",
+		sentence: {
+			text: "A sentence with a key-word.",
+			tokens: [
+				{ text: "A", sourceCodeRange: { startOffset: 0, endOffset: 1 } },
+				{ text: " ", sourceCodeRange: { startOffset: 1, endOffset: 2 } },
+				{ text: "sentence", sourceCodeRange: { startOffset: 2, endOffset: 10 } },
+				{ text: " ", sourceCodeRange: { startOffset: 10, endOffset: 11 } },
+				{ text: "with", sourceCodeRange: { startOffset: 11, endOffset: 15 } },
+				{ text: " ", sourceCodeRange: { startOffset: 15, endOffset: 16 } },
+				{ text: "a", sourceCodeRange: { startOffset: 16, endOffset: 17 } },
+				{ text: " ", sourceCodeRange: { startOffset: 17, endOffset: 18 } },
+				{ text: "key", sourceCodeRange: { startOffset: 18, endOffset: 21 } },
+				{ text: "-", sourceCodeRange: { startOffset: 21, endOffset: 22 } },
+				{ text: "word", sourceCodeRange: { startOffset: 22, endOffset: 26 } },
+				{ text: ".", sourceCodeRange: { startOffset: 26, endOffset: 27 } },
+			],
+			sourceCodeRange: { startOffset: 0, endOffset: 27 } },
+		wordForms: [ "key-word" ],
+		expectedResult: {
+			count: 1,
+			matches: [ { sourceCodeRange: { endOffset: 21, startOffset: 18 }, text: "key" },
+				{ sourceCodeRange: { endOffset: 22, startOffset: 21 }, text: "-" },
+				{ sourceCodeRange: { endOffset: 26, startOffset: 22 }, text: "word" } ] },
+	},
+	{
+		testDescription: "does not match keyphrase with a dash when the keyphrase occurs without a dash in the text",
+		sentence: {
+			text: "A sentence with a key word.",
+			tokens: [
+				{ text: "A", sourceCodeRange: { startOffset: 0, endOffset: 1 } },
+				{ text: " ", sourceCodeRange: { startOffset: 1, endOffset: 2 } },
+				{ text: "sentence", sourceCodeRange: { startOffset: 2, endOffset: 10 } },
+				{ text: " ", sourceCodeRange: { startOffset: 10, endOffset: 11 } },
+				{ text: "with", sourceCodeRange: { startOffset: 11, endOffset: 15 } },
+				{ text: " ", sourceCodeRange: { startOffset: 15, endOffset: 16 } },
+				{ text: "a", sourceCodeRange: { startOffset: 16, endOffset: 17 } },
+				{ text: " ", sourceCodeRange: { startOffset: 17, endOffset: 18 } },
+				{ text: "key", sourceCodeRange: { startOffset: 18, endOffset: 21 } },
+				{ text: " ", sourceCodeRange: { startOffset: 21, endOffset: 22 } },
+				{ text: "word", sourceCodeRange: { startOffset: 22, endOffset: 26 } },
+				{ text: ".", sourceCodeRange: { startOffset: 26, endOffset: 27 } },
+			],
+			sourceCodeRange: { startOffset: 0, endOffset: 27 } },
+		wordForms: [ "key-word" ],
+		expectedResult: { count: 0, matches: [] },
+	},
 ];
 
 describe.each( exactMatchingTestCases )( "find keyphrase forms in sentence when exact matching is requested", ( {
@@ -535,7 +541,7 @@ describe.each( exactMatchingTestCases )( "find keyphrase forms in sentence when 
 } ) => {
 	const locale = "en_US";
 	it( testDescription, () => {
-		expect( matchWordFormsWithSentence( sentence, wordForms, locale, false, true  ) ).toEqual( expectedResult );
+		expect( matchWordFormsWithSentence( sentence, wordForms, locale, false, true, false  ) ).toEqual( expectedResult );
 	} );
 } );
 
@@ -568,7 +574,7 @@ describe.each( japaneseTestCases )( "test for matching word forms for Japanese: 
 } ) => {
 	it( testDescription, () => {
 		const locale = "ja";
-		expect( matchWordFormsWithSentence( sentence, wordForms, locale, customHelperJapanese, false ) ).toEqual( expectedResult );
+		expect( matchWordFormsWithSentence( sentence, wordForms, locale, customWordMatchingHelperJapanese, false, true ) ).toEqual( expectedResult );
 	} );
 } );
 
@@ -594,7 +600,94 @@ describe.each( exactMatchJapaneseData )( "test for matching word forms for Japan
 } ) => {
 	it( testDescription, () => {
 		const locale = "ja";
-		expect( matchWordFormsWithSentence( sentence, wordForms, locale, customHelperJapanese, true ) ).toEqual( expectedResult );
+		expect( matchWordFormsWithSentence( sentence, wordForms, locale, customWordMatchingHelperJapanese, true, true ) ).toEqual( expectedResult );
+	} );
+} );
+
+const exactMatchIndonesianData = [
+	{
+		testDescription: "matches a keyphrase with a dash when the keyphrase occurs with a dash in the text",
+		sentence: {
+			text: "A sentence with a key-word.",
+			tokens: [
+				{ text: "A", sourceCodeRange: { startOffset: 0, endOffset: 1 } },
+				{ text: " ", sourceCodeRange: { startOffset: 1, endOffset: 2 } },
+				{ text: "sentence", sourceCodeRange: { startOffset: 2, endOffset: 10 } },
+				{ text: " ", sourceCodeRange: { startOffset: 10, endOffset: 11 } },
+				{ text: "with", sourceCodeRange: { startOffset: 11, endOffset: 15 } },
+				{ text: " ", sourceCodeRange: { startOffset: 15, endOffset: 16 } },
+				{ text: "a", sourceCodeRange: { startOffset: 16, endOffset: 17 } },
+				{ text: " ", sourceCodeRange: { startOffset: 17, endOffset: 18 } },
+				{ text: "key-word", sourceCodeRange: { startOffset: 18, endOffset: 26 } },
+				{ text: ".", sourceCodeRange: { startOffset: 26, endOffset: 27 } },
+			],
+			sourceCodeRange: { startOffset: 0, endOffset: 27 } },
+		wordForms: [ "key-word" ],
+		expectedResult: {
+			count: 1,
+			matches: [ { sourceCodeRange: { endOffset: 26, startOffset: 18 }, text: "key-word" } ],
+		},
+	},
+	{
+		testDescription: "doesn't match a keyphrase occurrence without a hyphen if the keyphrase contains a hyphen",
+		sentence: {
+			text: "A sentence with a key word.",
+			tokens: [
+				{ text: "A", sourceCodeRange: { startOffset: 0, endOffset: 1 } },
+				{ text: " ", sourceCodeRange: { startOffset: 1, endOffset: 2 } },
+				{ text: "sentence", sourceCodeRange: { startOffset: 2, endOffset: 10 } },
+				{ text: " ", sourceCodeRange: { startOffset: 10, endOffset: 11 } },
+				{ text: "with", sourceCodeRange: { startOffset: 11, endOffset: 15 } },
+				{ text: " ", sourceCodeRange: { startOffset: 15, endOffset: 16 } },
+				{ text: "a", sourceCodeRange: { startOffset: 16, endOffset: 17 } },
+				{ text: " ", sourceCodeRange: { startOffset: 17, endOffset: 18 } },
+				{ text: "key", sourceCodeRange: { startOffset: 18, endOffset: 21 } },
+				{ text: " ", sourceCodeRange: { startOffset: 21, endOffset: 22 } },
+				{ text: "word", sourceCodeRange: { startOffset: 22, endOffset: 26 } },
+				{ text: ".", sourceCodeRange: { startOffset: 26, endOffset: 27 } },
+			],
+			sourceCodeRange: { startOffset: 0, endOffset: 27 } },
+		wordForms: [ "key-word" ],
+		expectedResult: {
+			count: 0,
+			matches: [],
+		},
+	},
+	{
+		testDescription: "doesn't match a keyphrase occurrence that uses a different type of hyphen/dash than the one in the keyphrase",
+		sentence: {
+			text: "A sentence with a key—word.",
+			tokens: [
+				{ text: "A", sourceCodeRange: { startOffset: 0, endOffset: 1 } },
+				{ text: " ", sourceCodeRange: { startOffset: 1, endOffset: 2 } },
+				{ text: "sentence", sourceCodeRange: { startOffset: 2, endOffset: 10 } },
+				{ text: " ", sourceCodeRange: { startOffset: 10, endOffset: 11 } },
+				{ text: "with", sourceCodeRange: { startOffset: 11, endOffset: 15 } },
+				{ text: " ", sourceCodeRange: { startOffset: 15, endOffset: 16 } },
+				{ text: "a", sourceCodeRange: { startOffset: 16, endOffset: 17 } },
+				{ text: " ", sourceCodeRange: { startOffset: 17, endOffset: 18 } },
+				{ text: "key", sourceCodeRange: { startOffset: 18, endOffset: 21 } },
+				{ text: "-", sourceCodeRange: { startOffset: 21, endOffset: 22 } },
+				{ text: "word", sourceCodeRange: { startOffset: 22, endOffset: 26 } },
+				{ text: ".", sourceCodeRange: { startOffset: 26, endOffset: 27 } },
+			],
+			sourceCodeRange: { startOffset: 0, endOffset: 27 } },
+		wordForms: [ "key—word" ],
+		expectedResult: {
+			count: 0,
+			matches: [],
+		},
+	},
+];
+describe.each( exactMatchIndonesianData )( "test for matching word forms for Indonesian: exact matching", ( {
+	testDescription,
+	sentence,
+	wordForms,
+	expectedResult,
+} ) => {
+	it( testDescription, () => {
+		const locale = "id";
+		expect( matchWordFormsWithSentence( sentence, wordForms, locale, false, true, customSplitIntoTokensIndonesian ) ).toEqual( expectedResult );
 	} );
 } );
 

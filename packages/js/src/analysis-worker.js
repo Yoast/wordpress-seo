@@ -2,23 +2,21 @@
 self.window = self;
 
 /**
- * These dependencies reference objects and methods that
- * are not available inside a web worker, so we disallow
- * loading them.
+ * This array lists the allowed dependencies.
+ * We use an allowlist because we have no control over the dependencies that are loaded alongside the web worker.
  *
- * We need to do that in this file, since we have no
- * control over the dependencies of WordPress dependencies that we want to load.
+ * - lodash: used for functional programming.
+ * - regenerator-runtime: used for (transpiled) async functions.
+ * - wp-hooks: dependency for wp-i18n.
+ * - wp-i18n: used for translation strings.
  *
  * @type {string[]}
  */
-const disallowedDependencies = [
-	/**
-	 * References `Element`, a DOM interface not available in web workers.
-	 *
-	 * Was renamed, hence the two variants.
-	 */
-	"wp-inert-polyfill",
-	"wp-polyfill-inert",
+const allowedDependencies = [
+	"lodash",
+	"regenerator-runtime",
+	"wp-hooks",
+	"wp-i18n",
 ];
 
 /**
@@ -34,7 +32,9 @@ function loadDependencies( dependencies ) {
 			continue;
 		}
 
-		if ( disallowedDependencies.includes( dependency ) ) {
+		// Check if we allow this dependency to be loaded.
+		// A dependency is allowed if it's in the `allowedDependencies` list or if it's an internal dependency.
+		if ( ! ( allowedDependencies.includes( dependency ) || dependency.startsWith( "yoast-seo" ) ) ) {
 			continue;
 		}
 
@@ -42,7 +42,7 @@ function loadDependencies( dependencies ) {
 
 		if ( dependency === "lodash" ) {
 			// eslint-disable-next-line no-undef
-	        self.lodash = _.noConflict();
+			self.lodash = _.noConflict();
 		}
 	}
 }
@@ -56,7 +56,7 @@ function loadDependencies( dependencies ) {
  */
 function loadTranslations( translations ) {
 	for ( const [ domain, translation ] of translations ) {
-		var localeData = translation.locale_data[ domain ] || translation.locale_data.messages;
+		const localeData = translation.locale_data[ domain ] || translation.locale_data.messages;
 		localeData[ "" ].domain = domain;
 		self.wp.i18n.setLocaleData( localeData, domain );
 	}

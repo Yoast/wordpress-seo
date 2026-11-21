@@ -1,60 +1,48 @@
-import { useCallback, useState } from "@wordpress/element";
-import { noop, map } from "lodash";
+import { useArgs } from "@storybook/preview-api";
+import { map, noop } from "lodash";
+import React, { useCallback } from "react";
+import TagField from ".";
+import { InteractiveDocsPage } from "../../../.storybook/interactive-docs-page";
 import { VALIDATION_VARIANTS } from "../../constants";
-import { StoryComponent } from ".";
-
-export default {
-	title: "2) Components/Tag field",
-	component: StoryComponent,
-	parameters: {
-		docs: {
-			description: {
-				component: "A simple tag field component.",
-			},
-		},
-	},
-	argTypes: {
-		labelSuffix: { control: "text" },
-		description: { control: "text" },
-	},
-	args: {
-		id: "tag-field",
-		label: "A tag field",
-		tags: [ "Here", "are", "some", "tags" ],
-	},
-};
 
 const Template = args => {
-	const [ tags, setTags ] = useState( args?.tags || [] );
+	const [ { tags }, updateArgs ] = useArgs();
 	const addTag = useCallback( tag => {
-		setTags( [ ...tags, tag ] );
-	}, [ tags, setTags ] );
+		updateArgs( { tags: [ ...tags, tag ] } );
+	}, [ tags, updateArgs ] );
 	const removeTag = useCallback( index => {
-		setTags( [ ...tags.slice( 0, index ), ...tags.slice( index + 1 ) ] );
-	}, [ tags, setTags ] );
+		updateArgs( { tags: [ ...tags.slice( 0, index ), ...tags.slice( index + 1 ) ] } );
+	}, [ tags, updateArgs ] );
 
 	return (
-		<StoryComponent { ...args } tags={ tags } onAddTag={ addTag } onRemoveTag={ removeTag } />
+		<TagField { ...args } tags={ tags || [] } onAddTag={ addTag } onRemoveTag={ removeTag } />
 	);
 };
 
-export const Factory = Template.bind( {} );
-Factory.parameters = {
-	controls: { disable: false },
+export const Factory = {
+	render: Template.bind( {} ),
+	parameters: {
+		controls: { disable: false },
+	},
 };
 
-export const WithLabelAndDescription = Template.bind( {} );
-WithLabelAndDescription.storyName = "With label and description";
-WithLabelAndDescription.args = {
-	id: "tag-field-1",
-	label: "Tag field with a label",
-	description: "Tag field with a description.",
+export const WithLabelAndDescription = {
+	render: Template.bind( {} ),
+	name: "With label and description",
+	parameters: {
+		controls: { disable: false },
+	},
+	args: {
+		id: "tag-field-1",
+		label: "Tag field with a label",
+		description: "Tag field with a description.",
+	},
 };
 
 export const Validation = () => (
 	<div className="yst-space-y-8">
 		{ map( VALIDATION_VARIANTS, variant => (
-			<StoryComponent
+			<TagField
 				key={ variant }
 				id={ `validation-${ variant }` }
 				name={ `validation-${ variant }` }
@@ -74,3 +62,25 @@ export const Validation = () => (
 		) ) }
 	</div>
 );
+
+export default {
+	title: "2) Components/Tag field",
+	component: TagField,
+	parameters: {
+		docs: {
+			description: {
+				component: "A simple tag field component.",
+			},
+			page: () => <InteractiveDocsPage stories={ [ WithLabelAndDescription, Validation ] } />,
+		},
+	},
+	argTypes: {
+		labelSuffix: { control: "text" },
+		description: { control: "text" },
+	},
+	args: {
+		id: "tag-field",
+		label: "A tag field",
+		tags: [ "Here", "are", "some", "tags" ],
+	},
+};

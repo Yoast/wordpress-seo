@@ -1,21 +1,63 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`ReplacementVariableEditor wraps a Draft.js editor instance 1`] = `
-<ReplacementVariableEditorStandalone
-  ariaLabelledBy="id"
-  content="Dummy content"
-  isDisabled={false}
-  onBlur={[Function]}
-  onChange={[Function]}
-  onFocus={[Function]}
-  onSearchChange={null}
-  placeholder=""
-  recommendedReplacementVariables={Array []}
-  replacementVariables={Array []}
-  theme={
-    Object {
-      "isRtl": "false",
-    }
-  }
-/>
+exports[`ReplacementVariableEditorStandalone wraps a Draft.js editor instance 1`] = `
+.c0 div {
+  z-index: 10995;
+}
+
+.c0 > div {
+  max-height: 450px;
+  overflow-y: auto;
+}
+
+<div>
+  <div
+    class="DraftEditor-root"
+  >
+    <div
+      class="DraftEditor-editorContainer"
+    >
+      <div
+        aria-autocomplete="list"
+        aria-expanded="false"
+        aria-labelledby="id"
+        class="notranslate public-DraftEditor-content"
+        contenteditable="true"
+        id="test-field-id"
+        role="combobox"
+        spellcheck="true"
+        style="outline: none; user-select: text; white-space: pre-wrap; word-wrap: break-word;"
+      >
+        <div
+          data-contents="true"
+        >
+          <div
+            class=""
+            data-block="true"
+            data-editor="2"
+            data-offset-key="1-0-0"
+          >
+            <div
+              class="public-DraftStyleDefault-block public-DraftStyleDefault-rtl"
+              data-offset-key="1-0-0"
+            >
+              <span
+                data-offset-key="1-0-0"
+              >
+                <span
+                  data-text="true"
+                >
+                  Dummy content
+                </span>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    class="c0"
+  />
+</div>
 `;

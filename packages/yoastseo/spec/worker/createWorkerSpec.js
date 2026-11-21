@@ -40,7 +40,6 @@ describe( "The createWorker module", () => {
 		} );
 
 		it( "checks if two URLS of different posts on the same site have the same origin (hostname, port, protocol)", () => {
-			// eslint-disable-next-line max-len
 			const sameURL = isSameOrigin( "https://stackoverflow.com/questions/52968969/jest-url-createobjecturl-is-not-a-function",
 				"https://stackoverflow.com/questions/41885841/how-can-i-mock-the-javascript-window-object-using-jest" );
 			expect( sameURL ).toBeTruthy();
@@ -56,7 +55,7 @@ describe( "The createWorker module", () => {
 	describe( "checks createBlobURL function", () => {
 		it( "creates a blob", async() => {
 			createBlobURL( "https://example.org/some/code.js" );
-			expect( global.URL.createObjectURL ).toBeCalledTimes( 1 );
+			expect( global.URL.createObjectURL ).toHaveBeenCalledTimes( 1 );
 
 			const argumentsOfLastCall = global.URL.createObjectURL.mock.calls[ 0 ];
 			const blob = argumentsOfLastCall[ 0 ];
@@ -71,13 +70,12 @@ describe( "The createWorker module", () => {
 		} );
 
 		it( "uses the webkitURL as a fallback when URL is not available", async() => {
-			// eslint-disable-next-line no-undefined
 			global.URL = undefined;
 
 			global.webkitURL = jest.fn();
 			global.webkitURL.createObjectURL = jest.fn();
 			createBlobURL( "https://example.org/some/code.js" );
-			expect( global.webkitURL.createObjectURL ).toBeCalledTimes( 1 );
+			expect( global.webkitURL.createObjectURL ).toHaveBeenCalledTimes( 1 );
 		} );
 
 		it( "falls back to the BlobBuilder when creating a Blob fails", async() => {
@@ -99,7 +97,7 @@ describe( "The createWorker module", () => {
 
 			createBlobURL( "https://example.org/some/code.js" );
 
-			expect( global.URL.createObjectURL ).toBeCalledTimes( 1 );
+			expect( global.URL.createObjectURL ).toHaveBeenCalledTimes( 1 );
 
 			const text = append.mock.calls[ 0 ][ 0 ];
 
@@ -161,7 +159,7 @@ describe( "The createWorker module", () => {
 			} );
 			expect( () => {
 				createWorker( "http://localhost/some/code.js" );
-			} ).toThrowError();
+			} ).toThrow();
 		} );
 	} );
 } );

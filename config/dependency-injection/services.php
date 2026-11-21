@@ -6,7 +6,6 @@ use Symfony\Component\DependencyInjection\Definition;
 use WPSEO_Addon_Manager;
 use WPSEO_Admin_Asset_Manager;
 use WPSEO_Breadcrumbs;
-use WPSEO_Frontend;
 use WPSEO_Replace_Vars;
 use WPSEO_Shortlinker;
 use WPSEO_Utils;
@@ -36,7 +35,6 @@ $container->register( WPSEO_Utils::class, WPSEO_Utils::class )->setFactory( [ Wr
 
 // Backwards-compatibility classes in the global namespace.
 $container->register( WPSEO_Breadcrumbs::class, WPSEO_Breadcrumbs::class )->setAutowired( true )->setPublic( true );
-$container->register( WPSEO_Frontend::class, WPSEO_Frontend::class )->setAutowired( true )->setPublic( true );
 
 // Non-excluded from excluded directories.
 $container->register( Robots_Txt_Presenter::class, Robots_Txt_Presenter::class )->setAutowired( true )->setPublic( false );
@@ -68,6 +66,7 @@ $yoast_seo_excluded_directories = [
 	'wordpress',
 	'values/oauth',
 	'values/robots',
+	'task-list/application/tasks/child-tasks',
 ];
 
 $yoast_seo_excluded = \implode( ',', \array_merge( $yoast_seo_excluded_directories, $yoast_seo_excluded_files ) );

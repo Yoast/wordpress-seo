@@ -60,7 +60,7 @@ export function isWincherNewlyAuthenticated( state ) {
  *
  * @param {Object} state The state.
  *
- * @returns {int} The trackg limit assigned to the user account.
+ * @returns {number} The track limit assigned to the user account.
  */
 export function getWincherLimit( state ) {
 	return state.WincherRequest.limit;
@@ -71,7 +71,7 @@ export function getWincherLimit( state ) {
  *
  * @param {Object} state The state.
  *
- * @returns {int} The history days limit assigned to the user account.
+ * @returns {number} The history days limit assigned to the user account.
  */
 export function getWincherHistoryDaysLimit( state ) {
 	return state.WincherRequest.historyDays;

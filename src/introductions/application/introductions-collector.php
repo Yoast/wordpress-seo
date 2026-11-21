@@ -47,7 +47,7 @@ class Introductions_Collector {
 				continue;
 			}
 			$bucket->add_introduction(
-				new Introduction_Item( $introduction->get_id(), $introduction->get_priority() )
+				new Introduction_Item( $introduction->get_id(), $introduction->get_priority() ),
 			);
 		}
 
@@ -66,7 +66,9 @@ class Introductions_Collector {
 		 * Filter: Adds the possibility to add additional introductions to be included.
 		 *
 		 * @internal
-		 * @api Introduction_Interface This filter expects a list of Introduction_Interface instances and expects only Introduction_Interface implementations to be added to the list.
+		 *
+		 * @param Introduction_Interface $introductions This filter expects a list of Introduction_Interface instances and
+		 *                                              expects only Introduction_Interface implementations to be added to the list.
 		 */
 		$filtered_introductions = (array) \apply_filters( 'wpseo_introductions', $introductions );
 
@@ -74,7 +76,7 @@ class Introductions_Collector {
 			$filtered_introductions,
 			static function ( $introduction ) {
 				return \is_a( $introduction, Introduction_Interface::class );
-			}
+			},
 		);
 	}
 
@@ -85,7 +87,7 @@ class Introductions_Collector {
 	 *
 	 * @return array The introductions' metadata.
 	 */
-	private function get_metadata( $user_id ) {
+	public function get_metadata( $user_id ) {
 		$metadata = \get_user_meta( $user_id, Introductions_Seen_Repository::USER_META_KEY, true );
 		if ( \is_array( $metadata ) ) {
 			return $metadata;
@@ -104,9 +106,28 @@ class Introductions_Collector {
 	 */
 	private function is_seen( $name, $metadata ) {
 		if ( \array_key_exists( $name, $metadata ) ) {
+			if ( \is_array( $metadata[ $name ] ) ) {
+				return (bool) ( $metadata[ $name ]['is_seen'] );
+			}
 			return (bool) $metadata[ $name ];
 		}
 
+		return false;
+	}
+
+	/**
+	 * Checks if the given introduction ID is a known ID to the system.
+	 *
+	 * @param string $introduction_id The introduction ID to check.
+	 *
+	 * @return bool
+	 */
+	public function is_available_introduction( string $introduction_id ): bool {
+		foreach ( $this->introductions as $introduction ) {
+			if ( $introduction->get_id() === $introduction_id ) {
+				return true;
+			}
+		}
 		return false;
 	}
 }

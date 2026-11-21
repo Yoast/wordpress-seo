@@ -1,5 +1,4 @@
 /* global wpseoAdminL10n */
-import PropTypes from "prop-types";
 import { __, sprintf } from "@wordpress/i18n";
 import { noop } from "lodash";
 import { FeatureUpsell, Label, Root, useRootContext } from "@yoast/ui-library";
@@ -12,9 +11,8 @@ const FeatureUpsellContainer = styled.div`
 `;
 
 /**
- *
  * @param {Object} props The properties passed to this component.
- * @param {string} props.socialMediumName The social medium platform.
+ * @param {("Social"|"Twitter"|"X")} props.socialMediumName The social medium platform.
  *
  * @returns {wp.Element} The FacebookView Component.
  */
@@ -24,8 +22,8 @@ const SocialUpsell = ( props ) => {
 		"data-ctb-id": "f6a84663-465f-4cb5-8ba5-f7a6d72224b2",
 	};
 
-	const labelText = props.socialMediumName === "Twitter"
-		? __( "Twitter share preview", "wordpress-seo" )
+	const labelText = props.socialMediumName === "X"
+		? __( "X share preview", "wordpress-seo" )
 		: __( "Social share preview", "wordpress-seo" );
 
 	const { locationContext } = useRootContext();
@@ -67,10 +65,6 @@ const SocialUpsell = ( props ) => {
 			</FeatureUpsellContainer>
 		</Root>
 	);
-};
-
-SocialUpsell.propTypes = {
-	socialMediumName: PropTypes.oneOf( [ "Social", "Twitter" ] ).isRequired,
 };
 
 export default SocialUpsell;

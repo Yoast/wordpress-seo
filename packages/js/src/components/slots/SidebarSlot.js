@@ -1,6 +1,8 @@
 import { Slot } from "@wordpress/components";
 import sortComponentsByRenderPriority from "../../helpers/sortComponentsByRenderPriority";
 import TopLevelProviders from "../TopLevelProviders";
+import { ErrorBoundary } from "@yoast/ui-library";
+import { SidebarErrorFallback } from "../sidebar-error-fallback";
 
 /**
  * Renders the Sidebar slot.
@@ -16,11 +18,13 @@ export default function SidebarSlot( { theme } ) {
 			theme={ theme }
 			location={ "sidebar" }
 		>
-			<Slot name="YoastSidebar">
-				{ ( fills ) => {
-					return sortComponentsByRenderPriority( fills );
-				} }
-			</Slot>
+			<ErrorBoundary FallbackComponent={ SidebarErrorFallback }>
+				<Slot name="YoastSidebar">
+					{ ( fills ) => {
+						return sortComponentsByRenderPriority( fills );
+					} }
+				</Slot>
+			</ErrorBoundary>
 		</TopLevelProviders>
 	);
 }

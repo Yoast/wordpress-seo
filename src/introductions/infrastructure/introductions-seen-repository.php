@@ -7,12 +7,14 @@ use Yoast\WP\SEO\Introductions\Domain\Invalid_User_Id_Exception;
 
 /**
  * Stores and retrieves whether the user has seen certain introductions.
+ *
+ * @makePublic
  */
 class Introductions_Seen_Repository {
 
-	const USER_META_KEY = '_yoast_wpseo_introductions';
+	public const USER_META_KEY = '_yoast_wpseo_introductions';
 
-	const DEFAULT_VALUE = [];
+	public const DEFAULT_VALUE = [];
 
 	/**
 	 * Holds the User_Helper instance.
@@ -35,9 +37,9 @@ class Introductions_Seen_Repository {
 	 *
 	 * @param int $user_id User ID.
 	 *
-	 * @throws Invalid_User_Id_Exception If an invalid user ID is supplied.
-	 *
 	 * @return array The introductions.
+	 *
+	 * @throws Invalid_User_Id_Exception If an invalid user ID is supplied.
 	 */
 	public function get_all_introductions( $user_id ): array {
 		$seen_introductions = $this->user_helper->get_meta( $user_id, self::USER_META_KEY, true );
@@ -76,15 +78,20 @@ class Introductions_Seen_Repository {
 	 * @param int    $user_id         User ID.
 	 * @param string $introduction_id The introduction ID.
 	 *
-	 * @throws Invalid_User_Id_Exception If an invalid user ID is supplied.
-	 *
 	 * @return bool Whether the introduction is seen.
+	 *
+	 * @throws Invalid_User_Id_Exception If an invalid user ID is supplied.
 	 */
 	public function is_introduction_seen( $user_id, string $introduction_id ): bool {
 		$introductions = $this->get_all_introductions( $user_id );
 
 		if ( \array_key_exists( $introduction_id, $introductions ) ) {
-			return (bool) $introductions[ $introduction_id ];
+			if ( \is_array( $introductions[ $introduction_id ] ) ) {
+				return (bool) $introductions[ $introduction_id ]['is_seen'];
+			}
+			else {
+				return (bool) $introductions[ $introduction_id ];
+			}
 		}
 
 		return false;
@@ -97,18 +104,32 @@ class Introductions_Seen_Repository {
 	 * @param string $introduction_id The introduction ID.
 	 * @param bool   $is_seen         Whether the introduction is seen. Defaults to true.
 	 *
-	 * @throws Invalid_User_Id_Exception If an invalid user ID is supplied.
-	 *
 	 * @return bool False on failure. Not having to update is a success.
+	 *
+	 * @throws Invalid_User_Id_Exception If an invalid user ID is supplied.
 	 */
 	public function set_introduction( $user_id, string $introduction_id, bool $is_seen = true ): bool {
 		$introductions = $this->get_all_introductions( $user_id );
 
 		// Check if the wanted value is already set.
-		if ( \array_key_exists( $introduction_id, $introductions ) && $introductions[ $introduction_id ] === $is_seen ) {
-			return true;
+		if ( \array_key_exists( $introduction_id, $introductions ) ) {
+			if ( \is_array( $introductions[ $introduction_id ] ) ) {
+				// New format with seen_on timestamp.
+				if ( $introductions[ $introduction_id ]['is_seen'] === $is_seen ) {
+					return true;
+				}
+			}
+				// Old format with just a boolean.
+			elseif ( $introductions[ $introduction_id ] === $is_seen ) {
+					return true;
+			}
 		}
-		$introductions[ $introduction_id ] = $is_seen;
+
+		// If not, set it.
+		$introductions[ $introduction_id ] = [
+			'is_seen' => $is_seen,
+			'seen_on' => ( $is_seen === true ) ? \time() : 0,
+		];
 
 		return $this->set_all_introductions( $user_id, $introductions );
 	}

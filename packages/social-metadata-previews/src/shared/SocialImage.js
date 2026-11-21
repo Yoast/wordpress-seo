@@ -1,8 +1,7 @@
-import PropTypes from "prop-types";
 import React from "react";
 import styled from "styled-components";
 
-// Adding && for specificity, competing styles coming from blockeditor.
+// Adding && for specificity, competing styles coming from block editor.
 const StyledImage = styled.img`
 	&& {
 		max-width: ${ props => props.width }px;
@@ -16,7 +15,7 @@ const StyledImage = styled.img`
 `;
 
 const StyledLandscapeImage = styled.img`
-	&&{
+	&& {
 		height: 100%;
 		position: absolute;
 		width: 100%;
@@ -31,13 +30,18 @@ const WrapperDiv = styled.div`
 /**
  * Renders the SocialImage.
  *
- * @param {Object} props The component's props.
+ * @param {Object} props Component props.
+ * @param {Object} props.imageProps The image properties.
+ * @param {string} props.imageProps.src The source of the image.
+ * @param {string} props.imageProps.alt The alt text of the image.
+ * @param {number} props.imageProps.aspectRatio The aspect ratio of the image, as a percentage.
+ * @param {number} props.width The width of the image.
+ * @param {number} props.height The height of the image.
+ * @param {string} [props.imageMode="landscape"] The mode of the image (landscape or portrait).
  *
  * @returns {JSX.Element} The SocialImage component.
  */
-export const SocialImage = ( props ) => {
-	const { imageProps, width, height, imageMode } = props;
-
+export const SocialImage = ( { imageProps, width, height, imageMode = "landscape" } ) => {
 	if ( imageMode === "landscape" ) {
 		return (
 			<WrapperDiv aspectRatio={ imageProps.aspectRatio }>
@@ -53,19 +57,4 @@ export const SocialImage = ( props ) => {
 		height={ height }
 		imageProperties={ imageProps }
 	/>;
-};
-
-SocialImage.propTypes = {
-	imageProps: PropTypes.shape( {
-		src: PropTypes.string.isRequired,
-		alt: PropTypes.string.isRequired,
-		aspectRatio: PropTypes.number.isRequired,
-	} ).isRequired,
-	width: PropTypes.number.isRequired,
-	height: PropTypes.number.isRequired,
-	imageMode: PropTypes.string,
-};
-
-SocialImage.defaultProps = {
-	imageMode: "landscape",
 };

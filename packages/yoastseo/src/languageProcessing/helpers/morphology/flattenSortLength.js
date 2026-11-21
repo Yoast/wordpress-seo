@@ -1,4 +1,4 @@
-import { flatten } from "lodash-es";
+import { flatten } from "lodash";
 
 /**
  * Returns combined list of strings/words, sorted by length (descending).

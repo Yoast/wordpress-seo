@@ -13,7 +13,7 @@ class Post_Not_Built_Exception extends Not_Built_Exception {
 	 *
 	 * @param int $post_id ID of the post.
 	 *
-	 * @throws Post_Not_Built_Exception When the post is not indexable.
+	 * @return Post_Not_Built_Exception
 	 */
 	public static function because_not_indexable( $post_id ) {
 		/* translators: %s: expands to the post id */
@@ -25,7 +25,7 @@ class Post_Not_Built_Exception extends Not_Built_Exception {
 	 *
 	 * @param int $post_id ID of the post.
 	 *
-	 * @throws Post_Not_Built_Exception When the post type is excluded.
+	 * @return Post_Not_Built_Exception
 	 */
 	public static function because_post_type_excluded( $post_id ) {
 		/* translators: %s: expands to the post id */

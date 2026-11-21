@@ -10,5 +10,5 @@ import { get } from "lodash";
 export default function isContentAnalysisActive() {
 	const l10nObject = getL10nObject();
 
-	return get( l10nObject, "contentAnalysisActive", 0 ) === 1;
+	return get( l10nObject, "contentAnalysisActive", false ) === true;
 }

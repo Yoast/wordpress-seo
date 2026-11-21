@@ -68,6 +68,8 @@ class Crawl_Settings_Integration implements Integration_Interface {
 	 * Returns the conditionals based in which this loadable should be active.
 	 *
 	 * In this case: when on an admin page.
+	 *
+	 * @return array<string>
 	 */
 	public static function get_conditionals() {
 		return [ Admin_Conditional::class ];
@@ -86,6 +88,8 @@ class Crawl_Settings_Integration implements Integration_Interface {
 
 	/**
 	 * Registers an action to add a new tab to the General page.
+	 *
+	 * @return void
 	 */
 	public function register_hooks() {
 		$this->register_setting_labels();
@@ -96,6 +100,8 @@ class Crawl_Settings_Integration implements Integration_Interface {
 
 	/**
 	 * Enqueue the workouts app.
+	 *
+	 * @return void
 	 */
 	public function enqueue_assets() {
 		if ( ! \is_network_admin() ) {
@@ -159,22 +165,11 @@ class Crawl_Settings_Integration implements Integration_Interface {
 	}
 
 	/**
-	 * Adds content to the Crawl Cleanup tab.
-	 *
-	 * @deprecated 20.4
-	 * @codeCoverageIgnore
-	 *
-	 * @param Yoast_Form $yform The yoast form object.
-	 */
-	public function add_crawl_settings_tab_content( $yform ) {
-		\_deprecated_function( __METHOD__, 'Yoast SEO 20.4' );
-		$this->add_crawl_settings( $yform );
-	}
-
-	/**
 	 * Adds content to the Crawl Cleanup network tab.
 	 *
 	 * @param Yoast_Form $yform The yoast form object.
+	 *
+	 * @return void
 	 */
 	public function add_crawl_settings_tab_content_network( $yform ) {
 		$this->add_crawl_settings( $yform );
@@ -208,10 +203,10 @@ class Crawl_Settings_Integration implements Integration_Interface {
 		/* Translators: %1$s expands to an opening anchor tag for a link leading to the Yoast SEO page of the Permalink Cleanup features, %2$s expands to a closing anchor tag. */
 			\esc_html__(
 				'These are expert features, so make sure you know what you\'re doing before removing the parameters. %1$sRead more about how your site can be affected%2$s.',
-				'wordpress-seo'
+				'wordpress-seo',
 			),
 			'<a href="' . \esc_url( $this->shortlinker->build_shortlink( 'https://yoa.st/permalink-cleanup' ) ) . '" target="_blank" rel="noopener noreferrer">',
-			'</a>'
+			'</a>',
 		);
 
 		$this->print_toggles( $this->permalink_cleanup_settings, $yform, \__( 'Permalink cleanup settings', 'wordpress-seo' ), [], $permalink_warning );
@@ -281,16 +276,16 @@ class Crawl_Settings_Integration implements Integration_Interface {
 				$toggles,
 				$label,
 				'',
-				$attr
+				$attr,
 			);
 			if ( $this->should_feature_be_disabled_permalink( $setting ) ) {
 				echo '<p class="yoast-crawl-settings-help">';
 				if ( \current_user_can( 'manage_options' ) ) {
-					echo \sprintf(
+					\printf(
 					/* translators: 1: Link start tag to the Permalinks settings page, 2: Link closing tag. */
 						\esc_html__( 'This feature is disabled when your site is not using %1$spretty permalinks%2$s.', 'wordpress-seo' ),
 						'<a href="' . \esc_url( \admin_url( 'options-permalink.php' ) ) . '">',
-						'</a>'
+						'</a>',
 					);
 				}
 				else {

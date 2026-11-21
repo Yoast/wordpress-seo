@@ -1,6 +1,6 @@
-import { useMemo } from "@wordpress/element";
 import { clamp, range, rangeRight, round } from "lodash";
 import PropTypes from "prop-types";
+import React, { useMemo } from "react";
 import Button from "./button";
 
 /**

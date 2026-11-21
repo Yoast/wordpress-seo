@@ -1,14 +1,14 @@
 import { __ } from "@wordpress/i18n";
 import { Link } from "@yoast/ui-library";
-import PropTypes from "prop-types";
 
 /**
- * @param {string} href The href.
- * @param {JSX.node} [children] The content.
- * @param {Object} [props] Extra props.
+ * @param {Object} props Component props. Additional props are passed to the Link.
+ * @param {string} props.href The href.
+ * @param {React.ReactNode} [props.children=null] The content.
+ *
  * @returns {JSX.Element} The element.
  */
-export const OutboundLink = ( { href, children, ...props } ) => (
+export const OutboundLink = ( { href, children = null, ...props } ) => (
 	<Link target="_blank" rel="noopener noreferrer" { ...props } href={ href }>
 		{ children }
 		<span className="yst-sr-only">
@@ -19,10 +19,3 @@ export const OutboundLink = ( { href, children, ...props } ) => (
 		</span>
 	</Link>
 );
-OutboundLink.propTypes = {
-	href: PropTypes.string.isRequired,
-	children: PropTypes.node,
-};
-OutboundLink.defaultProps = {
-	children: null,
-};

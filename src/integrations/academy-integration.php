@@ -5,7 +5,6 @@ namespace Yoast\WP\SEO\Integrations;
 use WPSEO_Addon_Manager;
 use WPSEO_Admin_Asset_Manager;
 use Yoast\WP\SEO\Conditionals\Admin_Conditional;
-use Yoast\WP\SEO\Conditionals\User_Can_Manage_Wpseo_Options_Conditional;
 use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Helpers\Short_Link_Helper;
@@ -15,7 +14,7 @@ use Yoast\WP\SEO\Helpers\Short_Link_Helper;
  */
 class Academy_Integration implements Integration_Interface {
 
-	const PAGE = 'wpseo_page_academy';
+	public const PAGE = 'wpseo_page_academy';
 
 	/**
 	 * Holds the WPSEO_Admin_Asset_Manager.
@@ -71,7 +70,7 @@ class Academy_Integration implements Integration_Interface {
 	 * @return array
 	 */
 	public static function get_conditionals() {
-		return [ Admin_Conditional::class, User_Can_Manage_Wpseo_Options_Conditional::class ];
+		return [ Admin_Conditional::class ];
 	}
 
 	/**
@@ -109,11 +108,11 @@ class Academy_Integration implements Integration_Interface {
 					'wpseo_dashboard',
 					'',
 					\__( 'Academy', 'wordpress-seo' ),
-					'wpseo_manage_options',
+					'edit_posts',
 					self::PAGE,
 					[ $this, 'display_page' ],
 				],
-			]
+			],
 		);
 
 		return $pages;
@@ -121,6 +120,8 @@ class Academy_Integration implements Integration_Interface {
 
 	/**
 	 * Displays the page.
+	 *
+	 * @return void
 	 */
 	public function display_page() {
 		echo '<div id="yoast-seo-academy"></div>';

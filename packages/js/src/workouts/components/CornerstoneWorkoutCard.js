@@ -1,27 +1,28 @@
-// External dependencies.
-import PropTypes from "prop-types";
-import { __ } from "@wordpress/i18n";
 import { useSelect } from "@wordpress/data";
-// Internal dependencies.
-import WorkoutCard from "./WorkoutCard";
+import { __ } from "@wordpress/i18n";
 import { ReactComponent as CornerstoneImageBubble } from "../../../../../images/mirrored_fit_bubble_man_1_optim.svg";
-import { WORKOUTS, FINISHABLE_STEPS } from "../config";
+import { FINISHABLE_STEPS, WORKOUTS } from "../config";
+import WorkoutCard from "./WorkoutCard";
 
 /**
  * The CornerstoneWorkoutCard component.
  *
  * @param {Object} props The props object.
+ * @param {?import("react").ElementType} [props.workout=null] The workout component to render.
+ * @param {JSX.Element[]} [props.badges=[]] The badges to display.
+ * @param {?string} [props.upsellLink=null] The upsell link URL.
+ * @param {?string} [props.upsellText=null] The upsell button text.
  *
- * @returns {WPElement} The CornerstoneWorkoutCard component.
+ * @returns {JSX.Element} The CornerstoneWorkoutCard component.
  */
 export default function CornerstoneWorkoutCard( {
-	workout,
-	badges,
-	upsellLink,
-	upsellText,
+	workout = null,
+	badges = [],
+	upsellLink = null,
+	upsellText = null,
 } ) {
 	const finishedSteps = useSelect( select => select( "yoast-seo/workouts" ).getFinishedSteps( WORKOUTS.cornerstone ) );
-	const actualUpsellLink = upsellLink ? upsellLink :  "https://yoa.st/workout-cornerstone-upsell";
+	const actualUpsellLink = upsellLink ? upsellLink : "https://yoa.st/workout-cornerstone-upsell";
 
 	return <WorkoutCard
 		id={ "cornerstone-workout-card" }
@@ -41,17 +42,3 @@ export default function CornerstoneWorkoutCard( {
 		badges={ badges }
 	/>;
 }
-
-CornerstoneWorkoutCard.propTypes = {
-	workout: PropTypes.func,
-	badges: PropTypes.arrayOf( PropTypes.element ),
-	upsellLink: PropTypes.string,
-	upsellText: PropTypes.string,
-};
-
-CornerstoneWorkoutCard.defaultProps = {
-	workout: null,
-	badges: [],
-	upsellLink: null,
-	upsellText: null,
-};

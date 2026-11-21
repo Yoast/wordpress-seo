@@ -8,8 +8,9 @@
 			yst-py-2
 			yst-px-3
 			yst-gap-1.5
-			yst-border
-			yst-border-slate-300
+			yst-ring-1
+			yst-ring-inset
+			yst-ring-slate-300
 			yst-rounded-md
 			yst-shadow-sm
 			yst-bg-white
@@ -17,9 +18,8 @@
 			yst-text-slate-800
 			yst-placeholder-slate-500
 			yst-leading-6
-			focus-within:yst-ring-1
-			focus-within:yst-ring-primary-500
-			focus-within:yst-border-primary-500;
+			focus-within:yst-ring-2
+			focus-within:yst-ring-primary-500;
 		}
 
 		.yst-tag-input--disabled {
@@ -54,10 +54,9 @@
 		}
 
 		.yst-tag-input__tag {
-			min-height: 20px;
-			padding-inline-end: 0.125rem;
-
 			@apply
+			yst-min-h-[1.25rem] /* Badge is 1rem + 0.125rem top & bottom padding = 1.25rem */
+			yst-pe-0.5
 			yst-gap-0.5
 			yst-cursor-pointer
 			focus:yst-outline-none

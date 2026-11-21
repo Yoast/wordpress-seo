@@ -3,12 +3,10 @@ import { select as wpSelect, withSelect, withDispatch } from "@wordpress/data";
 import { useEffect } from "@wordpress/element";
 import { SnippetEditor } from "@yoast/search-metadata-previews";
 import { __ } from "@wordpress/i18n";
-import PropTypes from "prop-types";
 import SnippetPreviewSection from "../../components/SnippetPreviewSection";
 import withLocation from "../../helpers/withLocation";
 import { strings } from "@yoast/helpers";
-import { applyModifications } from "../initializers/pluggable";
-import { getCurrentReplacementVariablesForEditor } from "../replaceVars/elementor-replacevar-plugin";
+import { applyModifications } from "../../initializers/pluggable";
 
 const { stripHTMLTags } = strings;
 
@@ -65,7 +63,11 @@ const mapEditorDataToPreview = ( data, context ) => {
 /**
  * Wraps a Snippet editor with a Snippet preview section.
  *
- * @param {object} props The props.
+ * @param {Object} props The props. Additional props are passed to the SnippetEditor.
+ * @param {boolean} props.isLoading Whether the snippet editor is still loading.
+ * @param {Function} props.onLoad Called on render while loading.
+ * @param {boolean} props.hasPaperStyle Whether the preview section has the paper style.
+ * @param {string} props.location The location, used as the editor ID suffix.
  *
  * @returns {wp.Element} The component.
  */
@@ -98,13 +100,6 @@ const SnippetEditorWrapper = ( {  isLoading, onLoad, location, ...restProps } ) 
 	);
 };
 
-SnippetEditorWrapper.propTypes = {
-	isLoading: PropTypes.bool.isRequired,
-	onLoad: PropTypes.func.isRequired,
-	hasPaperStyle: PropTypes.bool.isRequired,
-	location: PropTypes.string.isRequired,
-};
-
 export default compose( [
 	withSelect( select => {
 		const {
@@ -121,6 +116,7 @@ export default compose( [
 			isCornerstoneContent,
 			getContentLocale,
 			getSiteName,
+			getReplaceVars,
 		} = select( "yoast-seo/editor" );
 
 		return {
@@ -133,7 +129,7 @@ export default compose( [
 			mobileImageSrc: getEditorDataImageUrl(),
 			mode: getSnippetEditorMode(),
 			recommendedReplacementVariables: getRecommendedReplaceVars(),
-			replacementVariables: getCurrentReplacementVariablesForEditor(),
+			replacementVariables: getReplaceVars(),
 			wordsToHighlight: getSnippetEditorWordsToHighlight(),
 			isCornerstone: isCornerstoneContent(),
 			locale: getContentLocale(),

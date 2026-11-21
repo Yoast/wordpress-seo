@@ -1,6 +1,7 @@
 import { doAction } from "@wordpress/hooks";
 import { actions } from "@yoast/externals/redux";
 import { Paper } from "yoastseo";
+import { saveFieldScores } from "./deriveFieldScores";
 import handleWorkerError from "./handleWorkerError";
 
 let isInitialized = false;
@@ -52,6 +53,7 @@ export default function refreshAnalysis( worker, collectData, applyMarks, store,
 				store.dispatch( actions.setOverallSeoScore( seoResults.score, paper.getKeyword() ) );
 				store.dispatch( actions.refreshSnippetEditor() );
 				dataCollector.saveScores( seoResults.score, paper.getKeyword() );
+				saveFieldScores( seoResults.results );
 			}
 
 			if ( readability ) {

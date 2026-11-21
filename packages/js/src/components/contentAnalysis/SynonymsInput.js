@@ -1,0 +1,29 @@
+import { Root, TextField } from "@yoast/ui-library";
+
+/**
+ * Renders the synonym input field using the ui-library TextField.
+ *
+ * Props that are not consumed by this component are forwarded to the underlying TextField.
+ *
+ * @param {Object} props The component props.
+ * @param {string} props.id The id of the input.
+ * @param {string} props.label The label of the input.
+ * @param {Function} props.onChange The change handler. Receives the raw change event.
+ * @param {(string|JSX.Element)} [props.description=""] The description of the input.
+ *
+ * @returns {JSX.Element} The synonyms input field.
+ */
+const SynonymsInputField = ( { id, label, description = "", onChange, ...inputProps } ) => (
+	<Root>
+		<TextField
+			id={ id }
+			label={ label }
+			onChange={ onChange }
+			autoComplete="off"
+			description={ description }
+			{ ...inputProps }
+		/>
+	</Root>
+);
+
+export default SynonymsInputField;

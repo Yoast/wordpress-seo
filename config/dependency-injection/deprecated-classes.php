@@ -7,8 +7,6 @@
  * @phpcs:disable Yoast.Files.FileName.InvalidFunctionsFileName
  * @phpcs:disable Yoast.Commenting.FileComment.MissingPackageTag
  * @phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
- * @phpcs:disable WordPress.Arrays.CommaAfterArrayItem.NoComma
- * @phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
  * @phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound
  * @phpcs:disable Squiz.Commenting.FunctionComment.Missing
  * @phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped
@@ -17,49 +15,56 @@
 /**
  * Holds the dependency injection container.
  *
- * @var \Symfony\Component\DependencyInjection\ContainerBuilder $container
+ * @var ContainerBuilder $container
  */
 
-use Yoast\WP\SEO\Actions\Indexables_Page_Action;
-use Yoast\WP\SEO\Conditionals\Indexables_Page_Conditional;
-use Yoast\WP\SEO\Conditionals\Schema_Blocks_Conditional;
-use Yoast\WP\SEO\Conditionals\The_Events_Calendar_Conditional;
-use Yoast\WP\SEO\Conditionals\Third_Party\CoAuthors_Plus_Activated_Conditional;
-use Yoast\WP\SEO\Conditionals\Third_Party\CoAuthors_Plus_Flag_Conditional;
-use Yoast\WP\SEO\Generators\Schema\Third_Party\CoAuthor;
-use Yoast\WP\SEO\Generators\Schema\Third_Party\Events_Calendar_Schema;
-use Yoast\WP\SEO\Helpers\Indexables_Page_Helper;
-use Yoast\WP\SEO\Integrations\Admin\Indexables_Page_Integration;
-use Yoast\WP\SEO\Integrations\Admin\Old_Premium_Integration;
-use Yoast\WP\SEO\Integrations\Admin\Social_Templates_Integration;
-use Yoast\WP\SEO\Integrations\Schema_Blocks;
-use Yoast\WP\SEO\Integrations\Third_Party\CoAuthors_Plus;
-use Yoast\WP\SEO\Integrations\Third_Party\The_Events_Calendar;
-use Yoast\WP\SEO\Integrations\Third_Party\Wincher;
-use Yoast\WP\SEO\Integrations\Third_Party\Wordproof_Integration_Toggle;
-use Yoast\WP\SEO\Routes\Indexables_Page_Route;
-use Yoast\WP\SEO\Schema_Templates\Assets\Icons;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Yoast\WP\SEO\AI_Authorization\Application\Code_Verifier_Handler;
+use Yoast\WP\SEO\AI_Authorization\Application\Token_Manager;
+use Yoast\WP\SEO\AI_Authorization\Infrastructure\Access_Token_User_Meta_Repository;
+use Yoast\WP\SEO\AI_Authorization\Infrastructure\Code_Generator;
+use Yoast\WP\SEO\AI_Authorization\Infrastructure\Code_Verifier_User_Meta_Repository;
+use Yoast\WP\SEO\AI_Authorization\Infrastructure\Refresh_Token_User_Meta_Repository;
+use Yoast\WP\SEO\AI_Authorization\User_Interface\Callback_Route;
+use Yoast\WP\SEO\AI_Authorization\User_Interface\Refresh_Callback_Route;
+use Yoast\WP\SEO\AI_Consent\Application\Consent_Handler;
+use Yoast\WP\SEO\AI_Consent\User_Interface\Consent_Route;
+use Yoast\WP\SEO\AI_Generator\Application\Suggestions_Provider;
+use Yoast\WP\SEO\AI_Generator\Infrastructure\WordPress_URLs;
+use Yoast\WP\SEO\AI_Generator\User_Interface\Bust_Subscription_Cache_Route;
+use Yoast\WP\SEO\AI_Generator\User_Interface\Get_Suggestions_Route;
+use Yoast\WP\SEO\AI_Generator\User_Interface\Get_Usage_Route;
+use Yoast\WP\SEO\AI_HTTP_Request\Application\Request_Handler;
+use Yoast\WP\SEO\AI_HTTP_Request\Application\Response_Parser;
+use Yoast\WP\SEO\AI_HTTP_Request\Infrastructure\API_Client;
+use Yoast\WP\SEO\Conditionals\Google_Site_Kit_Feature_Conditional;
+use Yoast\WP\SEO\Conditionals\MyYoast_Connection_Conditional;
+use Yoast\WP\SEO\Conditionals\New_Premium_Or_Free_AI_Conditional;
+use Yoast\WP\SEO\Conditionals\Old_Premium_AI_Conditional;
 
 $deprecated_classes = [
-	CoAuthors_Plus_Activated_Conditional::class => '19.12',
-	CoAuthors_Plus_Flag_Conditional::class      => '19.12',
-	CoAuthor::class                             => '19.12',
-	CoAuthors_Plus::class                       => '19.12',
-	The_Events_Calendar_Conditional::class      => '19.12',
-	Events_Calendar_Schema::class               => '19.12',
-	The_Events_Calendar::class                  => '19.12',
-	Social_Templates_Integration::class         => '20.3',
-	Indexables_Page_Integration::class          => '20.4',
-	Indexables_Page_Route::class                => '20.4',
-	Indexables_Page_Action::class               => '20.4',
-	Indexables_Page_Helper::class               => '20.4',
-	Indexables_Page_Conditional::class          => '20.4',
-	Schema_Blocks_Conditional::class            => '20.5',
-	Schema_Blocks::class                        => '20.5',
-	Icons::class                                => '20.5',
-	Old_Premium_Integration::class              => '20.10',
-	Wincher::class                              => '21.6',
-	Wordproof_Integration_Toggle::class         => '21.6',
+	Google_Site_Kit_Feature_Conditional::class          => '26.7',
+	Old_Premium_AI_Conditional::class                   => '28.4',
+	New_Premium_Or_Free_AI_Conditional::class           => '28.4',
+	Code_Verifier_Handler::class                        => '28.4',
+	Access_Token_User_Meta_Repository::class            => '28.4',
+	Refresh_Token_User_Meta_Repository::class           => '28.4',
+	Code_Generator::class                               => '28.4',
+	Code_Verifier_User_Meta_Repository::class           => '28.4',
+	WordPress_URLs::class                               => '28.4',
+	Refresh_Callback_Route::class                       => '28.4',
+	Response_Parser::class                              => '28.4',
+	Suggestions_Provider::class                         => '28.4',
+	Token_Manager::class                                => '28.4',
+	Get_Usage_Route::class                              => '28.4',
+	Callback_Route::class                               => '28.4',
+	API_Client::class                                   => '28.4',
+	Request_Handler::class                              => '28.4',
+	Get_Suggestions_Route::class                        => '28.4',
+	Bust_Subscription_Cache_Route::class                => '28.4',
+	Consent_Route::class                                => '28.4',
+	Consent_Handler::class                              => '28.4',
+	MyYoast_Connection_Conditional::class               => '29.0',
 ];
 
 foreach ( $deprecated_classes as $original_class => $version ) {
@@ -67,13 +72,15 @@ foreach ( $deprecated_classes as $original_class => $version ) {
 		->setAutowired( true )
 		->setAutoconfigured( true )
 		->setPublic( true )
-		->setDeprecated( true, "%service_id% is deprecated since version $version!" );
+		->setDeprecated( $original_class, $version, "%service_id% is deprecated since version $version!" );
 }
 
 // If the DI container is built by Composer these WordPress functions will not exist.
 if ( ! function_exists( '_deprecated_file' ) ) {
-	function _deprecated_file( $file, $version, $replacement = '', $message = '' ) {}
+	function _deprecated_file( $file, $version, $replacement = '', $message = '' ) {
+	}
 }
 if ( ! function_exists( '_deprecated_function' ) ) {
-	function _deprecated_function( $function_name, $version, $replacement = '' ) {}
+	function _deprecated_function( $function_name, $version, $replacement = '' ) {
+	}
 }

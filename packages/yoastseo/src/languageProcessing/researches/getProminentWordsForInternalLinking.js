@@ -1,5 +1,5 @@
-import { take } from "lodash-es";
-import countWords from "../helpers/word/countWords";
+import { take } from "lodash";
+import countWords from "../helpers/word/countWords.js";
 import {
 	collapseProminentWordsOnStem,
 	filterProminentWords,
@@ -7,11 +7,11 @@ import {
 	getProminentWordsFromPaperAttributes,
 	retrieveAbbreviations,
 	sortProminentWords,
-} from "../helpers/prominentWords/determineProminentWords";
-import { getSubheadingsTopLevel, removeSubheadingsTopLevel } from "../helpers/html/getSubheadings";
-import baseStemmer from "../helpers/morphology/baseStemmer";
+} from "../helpers/prominentWords/determineProminentWords.js";
+import { getSubheadingsTopLevel, removeSubheadingsTopLevel } from "../helpers/html/getSubheadings.js";
+import baseStemmer from "../helpers/morphology/baseStemmer.js";
 import removeURLs from "../helpers/sanitize/removeURLs.js";
-import removeEmailAddresses from "../helpers/sanitize/removeEmailAddresses";
+import removeEmailAddresses from "../helpers/sanitize/removeEmailAddresses.js";
 
 /**
  * Removes URLs and email addresses from the text.
@@ -26,15 +26,19 @@ const sanitizeText = function( text ) {
 };
 
 /**
+ * @typedef ProminentWordsForInternalLinking
+ * @property {ProminentWord[]} prominentWords     Prominent words for this paper, filtered and sorted.
+ * @property {boolean}         hasMetaDescription Whether the metadescription is available in the input paper.
+ * @property {boolean}         hasTitle           Whether the title is available in the input paper.
+ */
+
+/**
  * Retrieves the prominent words from the given paper.
  *
  * @param {Paper}       paper       The paper to determine the prominent words of.
  * @param {Researcher}  researcher  The researcher to use for analysis.
  *
- * @returns {Object}          result                    A compound result object.
- * @returns {ProminentWord[]} result.prominentWords     Prominent words for this paper, filtered and sorted.
- * @returns {boolean}         result.hasMetaDescription Whether the metadescription is available in the input paper.
- * @returns {boolean}         result.hasTitle           Whether the title is available in the input paper.
+ * @returns {ProminentWordsForInternalLinking} result A compound result object.
  */
 function getProminentWordsForInternalLinking( paper, researcher ) {
 	const functionWords = researcher.getConfig( "functionWords" );

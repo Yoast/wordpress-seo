@@ -15,7 +15,7 @@ class WPSEO_Cornerstone_Filter extends WPSEO_Abstract_Post_Filter {
 	 *
 	 * @var string
 	 */
-	const META_NAME = 'is_cornerstone';
+	public const META_NAME = 'is_cornerstone';
 
 	/**
 	 * Registers the hooks.
@@ -51,7 +51,7 @@ class WPSEO_Cornerstone_Filter extends WPSEO_Abstract_Post_Filter {
 
 			$where .= $wpdb->prepare(
 				" AND {$wpdb->posts}.ID IN ( SELECT post_id FROM {$wpdb->postmeta} WHERE meta_key = %s AND meta_value = '1' ) ",
-				WPSEO_Meta::$meta_prefix . self::META_NAME
+				WPSEO_Meta::$meta_prefix . self::META_NAME,
 			);
 		}
 
@@ -104,7 +104,7 @@ class WPSEO_Cornerstone_Filter extends WPSEO_Abstract_Post_Filter {
 			__( 'Mark the most important %1$s as \'cornerstone content\' to improve your site structure. %2$sLearn more about cornerstone content%3$s.', 'wordpress-seo' ),
 			strtolower( $post_type_object->labels->name ),
 			'<a href="' . WPSEO_Shortlinker::get( 'https://yoa.st/1i9' ) . '" target="_blank">',
-			'</a>'
+			'</a>',
 		);
 	}
 
@@ -124,8 +124,8 @@ class WPSEO_Cornerstone_Filter extends WPSEO_Abstract_Post_Filter {
 					meta_key = %s AND meta_value = '1'
 				",
 				$this->get_current_post_type(),
-				WPSEO_Meta::$meta_prefix . self::META_NAME
-			)
+				WPSEO_Meta::$meta_prefix . self::META_NAME,
+			),
 		);
 	}
 
@@ -138,7 +138,7 @@ class WPSEO_Cornerstone_Filter extends WPSEO_Abstract_Post_Filter {
 		/**
 		 * Filter: 'wpseo_cornerstone_post_types' - Filters post types to exclude the cornerstone feature for.
 		 *
-		 * @api array - The accessible post types to filter.
+		 * @param array $post_types The accessible post types to filter.
 		 */
 		$post_types = apply_filters( 'wpseo_cornerstone_post_types', parent::get_post_types() );
 		if ( ! is_array( $post_types ) ) {

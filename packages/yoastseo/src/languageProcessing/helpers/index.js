@@ -1,11 +1,12 @@
-import matchStringWithRegex from "./regex/matchStringWithRegex";
-import { normalize } from "./sanitize/quotes";
-import { filterShortcodesFromHTML } from "./sanitize/filterShortcodesFromTree";
-import removeHtmlBlocks from "./html/htmlParser";
+import { normalize } from "./sanitize/quotes.js";
+import { createShortcodeTagsRegex, filterShortcodesFromHTML } from "./sanitize/filterShortcodesFromTree.js";
+import processExactMatchRequest from "./match/processExactMatchRequest.js";
+import removeHtmlBlocks from "./html/htmlParser.js";
 
 export {
-	matchStringWithRegex,
 	normalize,
 	removeHtmlBlocks,
 	filterShortcodesFromHTML,
+	createShortcodeTagsRegex,
+	processExactMatchRequest,
 };

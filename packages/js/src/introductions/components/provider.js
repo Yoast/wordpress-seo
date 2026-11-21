@@ -1,7 +1,7 @@
 import { useSelect } from "@wordpress/data";
 import { createContext, useCallback, useContext, useEffect, useState } from "@wordpress/element";
+import { doAction } from "@wordpress/hooks";
 import { find } from "lodash";
-import PropTypes from "prop-types";
 import { STORE_NAME_INTRODUCTIONS } from "../constants";
 
 // Prepare global.
@@ -15,8 +15,10 @@ const IntroductionsContext = createContext( {} );
 export const useIntroductionsContext = () => useContext( IntroductionsContext );
 
 /**
- * @param {JSX.node} children The children.
- * @param {Object} initialComponents The initial components.
+ * @param {Object} props Component props.
+ * @param {import("react").ReactNode} props.children The children.
+ * @param {Object} props.initialComponents The initial components.
+ *
  * @returns {JSX.Element} The element.
  */
 export const IntroductionProvider = ( { children, initialComponents } ) => {
@@ -26,8 +28,6 @@ export const IntroductionProvider = ( { children, initialComponents } ) => {
 	const registerComponent = useCallback( ( id, Component ) => {
 		const introduction = find( introductions, { id } );
 		if ( ! introduction ) {
-			// Bail when unknown.
-			console.error( "Warning: Introductions received a registration for an unknown key:", id );
 			return;
 		}
 		setComponents( currentComponents => ( { ...currentComponents, [ id ]: Component } ) );
@@ -36,16 +36,14 @@ export const IntroductionProvider = ( { children, initialComponents } ) => {
 	useEffect( () => {
 		// Update the global window registration method.
 		window.YoastSEO._registerIntroductionComponent = registerComponent;
-	}, [ registerComponent ] );
 
+		// Signal that the introductions API is ready.
+		doAction( "yoast.introductions.ready" );
+	}, [ registerComponent ] );
 
 	return (
 		<IntroductionsContext.Provider value={ components }>
 			{ children }
 		</IntroductionsContext.Provider>
 	);
-};
-IntroductionProvider.propTypes = {
-	children: PropTypes.node.isRequired,
-	initialComponents: PropTypes.object.isRequired,
 };

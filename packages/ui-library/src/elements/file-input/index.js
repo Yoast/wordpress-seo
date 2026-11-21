@@ -1,8 +1,8 @@
-import { useState, useCallback, forwardRef } from "@wordpress/element";
+import DocumentAddIcon from "@heroicons/react/outline/DocumentAddIcon";
+import classNames from "classnames";
 import { isEmpty, noop } from "lodash";
 import PropTypes from "prop-types";
-import classNames from "classnames";
-import { DocumentAddIcon } from "@heroicons/react/outline";
+import React, { forwardRef, useCallback, useState } from "react";
 
 import Link from "../link";
 
@@ -30,12 +30,12 @@ const FileInput = forwardRef( ( {
 	selectLabel,
 	dropLabel,
 	screenReaderLabel,
-	selectDescription,
-	disabled,
-	iconAs: IconComponent,
+	selectDescription = "",
+	disabled = false,
+	iconAs: IconComponent = DocumentAddIcon,
 	onChange,
-	onDrop,
-	className,
+	onDrop = noop,
+	className = "",
 	...props
 }, ref ) => {
 	const [ isDragOver, setIsDragOver ] = useState( false );
@@ -99,7 +99,8 @@ const FileInput = forwardRef( ( {
 	);
 } );
 
-const propTypes = {
+FileInput.displayName = "FileInput";
+FileInput.propTypes = {
 	id: PropTypes.string.isRequired,
 	name: PropTypes.string.isRequired,
 	value: PropTypes.string.isRequired,
@@ -113,21 +114,5 @@ const propTypes = {
 	onDrop: PropTypes.func,
 	className: PropTypes.string,
 };
-
-FileInput.defaultProps = {
-	selectDescription: "",
-	disabled: false,
-	iconAs: DocumentAddIcon,
-	className: "",
-	onDrop: noop,
-};
-
-FileInput.propTypes = propTypes;
-
-// eslint-disable-next-line require-jsdoc
-export const StoryComponent = props => <FileInput { ...props } />;
-StoryComponent.propTypes = propTypes;
-StoryComponent.defaultProps = FileInput.defaultProps;
-StoryComponent.displayName = "FileInput";
 
 export default FileInput;

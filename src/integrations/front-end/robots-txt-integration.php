@@ -65,7 +65,7 @@ class Robots_Txt_Integration implements Integration_Interface {
 	 * @return void
 	 */
 	public function register_hooks() {
-		\add_filter( 'robots_txt', [ $this, 'filter_robots' ], 99999 );
+		\add_filter( 'robots_txt', [ $this, 'filter_robots' ], 99_999 );
 
 		if ( $this->options_helper->get( 'deny_search_crawling' ) && ! \is_multisite() ) {
 			\add_action( 'Yoast\WP\SEO\register_robots_rules', [ $this, 'add_disallow_search_to_robots' ], 10, 1 );
@@ -157,7 +157,7 @@ class Robots_Txt_Integration implements Integration_Interface {
 		return \preg_replace(
 			'`User-agent: \*[\r\n]+Disallow: /wp-admin/[\r\n]+Allow: /wp-admin/admin-ajax\.php[\r\n]+`',
 			'',
-			$robots_txt
+			$robots_txt,
 		);
 	}
 

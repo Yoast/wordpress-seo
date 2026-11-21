@@ -1,68 +1,66 @@
+/* eslint-disable complexity */
 import { SvgIcon } from "@yoast/components";
-import PropTypes from "prop-types";
 
 /**
- * Sidebar Collapsible component with default padding and separator
+ * Sidebar Collapsible component with default padding and separator.
  *
- * @param {Object} props The properties for the component.
+ * @param {Object} props Component props.
+ * @param {Function} props.onClick The click handler.
+ * @param {string} props.title The button title.
+ * @param {string} [props.id=""] The button id.
+ * @param {string} [props.subTitle=""] The subtitle.
+ * @param {Object} [props.suffixIcon=null] The suffix icon object.
+ * @param {JSX.Element} [props.SuffixHeroIcon=null] Optional hero icon component.
+ * @param {Object} [props.prefixIcon=null] The prefix icon object.
+ * @param {React.ReactNode} [props.children=null] Optional children.
  *
- * @returns {wp.Element} The Collapsible component.
+ * @returns {JSX.Element} The Collapsible component.
  */
-const SidebarButton = ( props ) => {
+const SidebarButton = ( {
+	onClick,
+	title,
+	id = "",
+	subTitle = "",
+	suffixIcon = null,
+	SuffixHeroIcon = null,
+	prefixIcon = null,
+	children = null,
+} ) => {
 	return <div className="yoast components-panel__body">
 		<h2 className="components-panel__body-title">
 			<button
-				id={ props.id }
-				onClick={ props.onClick }
+				id={ id }
+				onClick={ onClick }
 				className="components-button components-panel__body-toggle"
+				type="button"
 			>
-				{ props.prefixIcon && ( <span
+				{ prefixIcon && ( <span
 					className="yoast-icon-span"
-					style={ { fill: `${ props.prefixIcon && props.prefixIcon.color || "" }` } }
+					style={ { fill: `${ prefixIcon && prefixIcon.color || "" }` } }
 				>
 					{
-						 <SvgIcon
-							size={ props.prefixIcon.size }
-							icon={ props.prefixIcon.icon }
-						 />
+						<SvgIcon
+							size={ prefixIcon.size }
+							icon={ prefixIcon.icon }
+						/>
 					}
 				</span> ) }
 
 				<span className="yoast-title-container">
-					<div className="yoast-title">{ props.title }</div>
-					<div className="yoast-subtitle">{ props.subTitle }</div>
+					<div className="yoast-title">{ title }</div>
+					<div className="yoast-subtitle">{ subTitle }</div>
 				</span>
-				{ props.children }
+				{ children }
 				{
-					props.suffixIcon && <SvgIcon
-						size={ props.suffixIcon.size }
-						icon={ props.suffixIcon.icon }
+					suffixIcon && <SvgIcon
+						size={ suffixIcon.size }
+						icon={ suffixIcon.icon }
 					/>
 				}
-				{ props.SuffixHeroIcon }
+				{ SuffixHeroIcon }
 			</button>
 		</h2>
 	</div>;
 };
 
 export default SidebarButton;
-
-SidebarButton.propTypes = {
-	onClick: PropTypes.func.isRequired,
-	title: PropTypes.string.isRequired,
-	id: PropTypes.string,
-	subTitle: PropTypes.string,
-	suffixIcon: PropTypes.object,
-	SuffixHeroIcon: PropTypes.object,
-	prefixIcon: PropTypes.object,
-	children: PropTypes.node,
-};
-
-SidebarButton.defaultProps = {
-	id: "",
-	suffixIcon: null,
-	SuffixHeroIcon: null,
-	prefixIcon: null,
-	subTitle: "",
-	children: null,
-};

@@ -1,5 +1,3 @@
-/** @module config/transitionWords */
-
 export const singleWords = [ "kvôli", "miesto", "pre", "oproti", "aj", "i", "ani", "ale", "avšak", "však", "preto", "tak", "teda",
 	"hoci", "aby", "ako", "keď", "keďže", "kým", "pokiaľ", "ohľadne", "takto", "tiež ", "potom", "takže", "odtiaľ", "odteraz",
 	"lebo", "akonáhle", "lenže", "okrem", "nakoľko", "pokým", "pretože", "čiže", "jednako", "doteraz", "dosiaľ", "najmä",

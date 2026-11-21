@@ -1,12 +1,17 @@
-import getAllWordsFromTree from "../helpers/word/getAllWordsFromTree";
+import getAllWordsFromTree from "../helpers/word/getAllWordsFromTree.js";
+
+/**
+ * @typedef {import("../../languageProcessing/AbstractResearcher").default } Researcher
+ * @typedef {import("../../values/").Paper } Paper
+ */
 
 /**
  * Calculates the keyphrase density.
  *
- * @param {Paper} paper        The paper containing keyphrase and text.
- * @param {Researcher} researcher   The researcher.
+ * @param {Paper} paper The paper containing keyphrase and text.
+ * @param {Researcher} researcher The researcher.
  *
- * @returns {Object} The keyphrase density.
+ * @returns {{density: number, textLength: number}} The keyphrase density and text length.
  */
 export default function getKeyphraseDensity( paper, researcher ) {
 	const getWordsCustomHelper = researcher.getHelper( "getWordsCustomHelper" );
@@ -14,18 +19,24 @@ export default function getKeyphraseDensity( paper, researcher ) {
 
 	// If there is a custom getWords helper, use its output for countWords.
 	if ( getWordsCustomHelper ) {
-		wordCount =  getWordsCustomHelper( paper.getText() ).length;
+		wordCount = getWordsCustomHelper( paper.getText() ).length;
 	} else {
 		wordCount = getAllWordsFromTree( paper ).length;
 	}
 
 	if ( wordCount === 0 ) {
-		return 0;
+		return {
+			density: 0,
+			textLength: 0,
+		};
 	}
 
 	const keyphraseCount = researcher.getResearch( "getKeyphraseCount" );
 
-	return ( keyphraseCount.count / wordCount ) * 100;
+	return {
+		density: ( keyphraseCount.count / wordCount ) * 100,
+		textLength: wordCount,
+	};
 }
 
 /**
@@ -33,12 +44,12 @@ export default function getKeyphraseDensity( paper, researcher ) {
  *
  * @deprecated Use getKeyphraseDensity instead.
  *
- * @param {Object} paper        The paper containing keyphrase and text.
- * @param {Object} researcher   The researcher.
+ * @param {Paper} paper The paper containing keyphrase and text.
+ * @param {Researcher} researcher The researcher.
  *
- * @returns {Object} The keyphrase density.
+ * @returns {{density: number, textLength: number}} The keyphrase density and text length.
  */
 export function getKeywordDensity( paper, researcher ) {
 	console.warn( "This function is deprecated, use getKeyphraseDensity instead." );
-	return getKeywordDensity( paper, researcher );
+	return getKeyphraseDensity( paper, researcher );
 }

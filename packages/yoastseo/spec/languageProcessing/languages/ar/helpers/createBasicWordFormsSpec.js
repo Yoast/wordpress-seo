@@ -1,13 +1,13 @@
 import { createBasicWordForms } from "../../../../../src/languageProcessing/languages/ar/helpers/createBasicWordForms";
 
 const wordsToStem = [
-	 // Creates prefixed forms based on an input word that starts with a valid prefix.
-	 /*
+	// Creates prefixed forms based on an input word that starts with a valid prefix.
+	/*
 	  * Prefix ل "to, because"
 	  * To ignore "لتجاهل"
 	  * Ignore "تجاهل"
 	  */
-	  {
+	{
 		original: "لتجاهل",
 		forms: [
 			// Prefixed forms based on original:
@@ -57,13 +57,13 @@ const wordsToStem = [
 			"وللتجاهل",
 			"وبالتجاهل",
 		],
-	  },
-	  /*
+	},
+	/*
 	   * Prefix ب "with, in, by"
 	   * With happiness "بسعادة"
 	   * Happiness "سعادة"
 	   */
-	  {
+	{
 		original: "بسعادة",
 		forms: [
 			// Prefixed forms based on original:
@@ -113,13 +113,13 @@ const wordsToStem = [
 			"وللسعادة",
 			"وبالسعادة",
 		],
-	  },
-	  /*
+	},
+	/*
 	   * Prefix ال "the"
 	   * The home "المنزل"
 	   * Home "منزل"
 	   */
-	  {
+	{
 		original: "المنزل",
 		forms: [
 			// Prefixed forms based on original:
@@ -169,13 +169,13 @@ const wordsToStem = [
 			"وللمنزل",
 			"وبالمنزل",
 		],
-	  },
-	  /*
+	},
+	/*
 	   * Prefix ك "like, as"
 	   * Like a bird "كطائر"
 	   * Bird "طائر"
 	   */
-	  {
+	{
 		original: "كطائر",
 		forms: [
 			// Prefixed forms based on original:
@@ -225,13 +225,13 @@ const wordsToStem = [
 			"وللطائر",
 			"وبالطائر",
 		],
-	  },
-	  /*
+	},
+	/*
 	   * Prefix و "and"
 	   * And key "ومفتاح"
 	   * Key "مفتاح"
 	   */
-	  {
+	{
 		original: "ومفتاح",
 		forms: [
 			// Prefixed forms based on original:
@@ -281,13 +281,13 @@ const wordsToStem = [
 			"وللمفتاح",
 			"وبالمفتاح",
 		],
-	  },
-	  /*
+	},
+	/*
        * Prefix ف "so, then"
        * So I answered you "فأجبتك"
        * I answered you "أجبتك"
        */
-	  {
+	{
 		original: "فأجبتك",
 		forms: [
 			// Prefixed forms based on original:
@@ -337,13 +337,13 @@ const wordsToStem = [
 			"وللأجبتك",
 			"وبالأجبتك",
 		],
-	  },
-	  /*
+	},
+	/*
        * Prefix س "will, being willing"
        * He will write "سيكتب"
        * He writes "يكتب"
        */
-	  {
+	{
 		original: "سيكتب",
 		forms: [
 			// Prefixed forms based on original:
@@ -393,13 +393,13 @@ const wordsToStem = [
 			"ولليكتب",
 			"وباليكتب",
 		],
-	  },
-	  /*
+	},
+	/*
        * Prefix أ "Questioning prefix"
        * Did you eat? "أأكلت"
        * You ate "أكلت"
        */
-	  {
+	{
 		original: "أأكلت",
 		forms: [
 			// Prefixed forms based on original:
@@ -449,7 +449,7 @@ const wordsToStem = [
 			"وللأكلت",
 			"وبالأكلت",
 		],
-	  },
+	},
 	/*
 	 * Prefix وب "and with"
 	 * and with freedom "وبحرية"
@@ -506,7 +506,7 @@ const wordsToStem = [
 			"وبالحرية",
 		],
 	},
-	 /*
+	/*
       * Prefix لل and (to) for
       * and (to) for freedom "للحرية"
       * freedom "حرية"

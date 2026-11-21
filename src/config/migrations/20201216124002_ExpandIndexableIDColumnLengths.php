@@ -39,7 +39,7 @@ class ExpandIndexableIDColumnLengths extends Migration {
 				$this->get_table_name(),
 				$column,
 				'biginteger',
-				[ 'limit' => 20 ]
+				[ 'limit' => 20 ],
 			);
 		}
 	}

@@ -1,7 +1,8 @@
 /* eslint-disable complexity */
-import { createInterpolateElement, useMemo } from "@wordpress/element";
+import { useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { Badge, Code, FeatureUpsell, Link } from "@yoast/ui-library";
+import { safeCreateInterpolateElement } from "../../helpers/i18n";
 import { useFormikContext } from "formik";
 import {
 	FieldsetLayout,
@@ -41,7 +42,7 @@ const FormatArchives = () => {
 	const socialAppearancePremiumLink = useSelectSettings( "selectLink", [], "https://yoa.st/4e0" );
 	const exampleUrl = useSelectSettings( "selectExampleUrl", [], "/format/example/" );
 
-	const recommendedSize = useMemo( () => createInterpolateElement(
+	const recommendedSize = useMemo( () => safeCreateInterpolateElement(
 		sprintf(
 			/**
 			 * translators: %1$s expands to an opening strong tag.
@@ -57,7 +58,7 @@ const FormatArchives = () => {
 			strong: <strong className="yst-font-semibold" />,
 		}
 	), [] );
-	const description = useMemo( () => createInterpolateElement(
+	const description = useMemo( () => safeCreateInterpolateElement(
 		sprintf(
 			/* translators: %1$s expands to an opening tag. %2$s expands to a closing tag. */
 			__( "(e.g., %1$s)", "wordpress-seo" ),
@@ -93,7 +94,6 @@ const FormatArchives = () => {
 					<FieldsetLayout
 						title={ __( "Search appearance", "wordpress-seo" ) }
 						description={ sprintf(
-							// eslint-disable-next-line max-len
 							// translators: %1$s expands to "formats". %2$s expands to "Yoast SEO".
 							__( "Determine how your %1$s should look in search engines. You can always customize the settings for individual %1$s in the %2$s metabox.", "wordpress-seo" ),
 							labelLower,
@@ -152,7 +152,6 @@ const FormatArchives = () => {
 							{ isPremium && <Badge variant="upsell">Premium</Badge> }
 						</div> }
 						description={ sprintf(
-							// eslint-disable-next-line max-len
 							// translators: %1$s expands to "formats". %2$s expands to "Yoast SEO".
 							__( "Determine how your %1$s should look on social media by default. You can always customize the settings for individual %1$s in the %2$s metabox.", "wordpress-seo" ),
 							labelLower,

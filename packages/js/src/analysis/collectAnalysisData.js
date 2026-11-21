@@ -2,7 +2,9 @@ import { applyFilters } from "@wordpress/hooks";
 import {
 	cloneDeep,
 	merge,
+	get,
 } from "lodash";
+import { serialize } from "@wordpress/blocks";
 
 import measureTextWidth from "../helpers/measureTextWidth";
 import getContentLocale from "./getContentLocale";
@@ -10,7 +12,29 @@ import getWritingDirection from "./getWritingDirection";
 
 import { Paper } from "yoastseo";
 
+/**
+ * @typedef {import("./CustomAnalysisData").default} CustomAnalysisData
+ */
+
 /* eslint-disable complexity */
+/**
+ * Maps the Gutenberg blocks to a format that can be used in the analysis.
+ *
+ * @param {object[]} blocks The Gutenberg blocks.
+ * @returns {object[]} The mapped Gutenberg blocks.
+ */
+export const mapGutenbergBlocks = ( blocks ) => {
+	blocks = blocks.filter( block => block.isValid );
+	blocks = blocks.map( block => {
+		const serializedBlock = serialize( [ block ], { isInnerBlocks: false } );
+		block.blockLength = serializedBlock && serializedBlock.length;
+		if ( block.innerBlocks ) {
+			block.innerBlocks = mapGutenbergBlocks( block.innerBlocks );
+		}
+		return block;
+	} );
+	return blocks;
+};
 
 /**
  * Retrieves the data needed for the analyses.
@@ -20,16 +44,19 @@ import { Paper } from "yoastseo";
  * 2. Custom data callbacks.
  * 3. Pluggable modifications.
  * 4. The WordPress block-editor Redux store.
+ * 5. The WordPress editor Redux store.
  *
  * @param {Object}             editorData             The editorData instance.
  * @param {Object}             store                  The redux store.
  * @param {CustomAnalysisData} customAnalysisData     The custom analysis data.
  * @param {Pluggable}          pluggable              The Pluggable.
  * @param {Object}            [blockEditorDataModule] The WordPress block editor data module. E.g. `window.wp.data.select("core/block-editor")`
+ * @param {Object}			 [editorDataModule]      The WordPress editor data module. E.g. `window.wp.data.select("core/editor")`
  *
  * @returns {Paper} The paper data used for the analyses.
  */
-export default function collectAnalysisData( editorData, store, customAnalysisData, pluggable, blockEditorDataModule ) {
+export default function collectAnalysisData( editorData, store, customAnalysisData, pluggable,
+	blockEditorDataModule, editorDataModule ) {
 	const storeData = cloneDeep( store.getState() );
 	merge( storeData, customAnalysisData.getData() );
 	const editData = editorData.getData();
@@ -37,8 +64,26 @@ export default function collectAnalysisData( editorData, store, customAnalysisDa
 	// Retrieve the block editor blocks from WordPress and filter on useful information.
 	let blocks = null;
 	if ( blockEditorDataModule ) {
-		blocks = blockEditorDataModule.getBlocks() || [];
-		blocks = blocks.filter( block => block.isValid );
+		const isTemplateLocked = editorDataModule?.getRenderingMode() === "template-locked";
+		const postContentBlock = blockEditorDataModule.getBlocksByName( "core/post-content" );
+		// In template-locked mode, we need to get the blocks from the post-content block.
+		blocks = ( isTemplateLocked && postContentBlock?.length )
+			? blockEditorDataModule.getBlocks( postContentBlock[ 0 ] )
+			: blockEditorDataModule.getBlocks();
+		/*
+		* We need to clone the blocks to prevent the original blocks from being modified.
+		* This is necessary because otherwise, invalid blocks will be removed from the editor.
+		* We are using JSON.parse and JSON.stringify to clone the blocks over lodash.cloneDeep or structuredClone for the following reasons:
+		* - lodash.cloneDeep cannot handle private members of classes from the blocks.
+		* - structuredClone failed in cloning invalid blocks.
+		* - Both methods will result in the analysis failing because the blocks are not cloned correctly.
+		*
+		* We are aware of the performance implications of using JSON.parse and JSON.stringify.
+		* However, considering the reasons we've mentioned above regarding the other methods, and we're running this once and not recursively,
+		* we consider the performance impact to be negligible.
+		* */
+		blocks = JSON.parse( JSON.stringify( blocks ) );
+		blocks = mapGutenbergBlocks( blocks );
 	}
 
 	// Make a data structure for the paper data.
@@ -77,6 +122,7 @@ export default function collectAnalysisData( editorData, store, customAnalysisDa
 	data.shortcodes = window.wpseoScriptData.analysis.plugins.shortcodes
 		? window.wpseoScriptData.analysis.plugins.shortcodes.wpseo_shortcode_tags
 		: [];
+	data.isFrontPage = get( window, "wpseoScriptData.isFrontPage", "0" ) === "1";
 
 	return Paper.parse( applyFilters( "yoast.analysis.data", data ) );
 }

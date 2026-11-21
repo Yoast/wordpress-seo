@@ -51,7 +51,9 @@ class WPSEO_Post_Type {
 	 * @return array The filtered array.
 	 */
 	public static function filter_attachment_post_type( array $post_types ) {
-		unset( $post_types['attachment'] );
+		if ( WPSEO_Options::get( 'disable-attachment' ) === true ) {
+			unset( $post_types['attachment'] );
+		}
 
 		return $post_types;
 	}
@@ -97,35 +99,5 @@ class WPSEO_Post_Type {
 	 */
 	public static function has_metabox_enabled( $post_type ) {
 		return WPSEO_Options::get( 'display-metabox-pt-' . $post_type, false );
-	}
-
-	/* ********************* DEPRECATED METHODS ********************* */
-
-	/**
-	 * Removes the notification related to the post types which have been made public.
-	 *
-	 * @deprecated 20.10
-	 * @codeCoverageIgnore
-	 *
-	 * @return void
-	 */
-	public static function remove_post_types_made_public_notification() {
-		_deprecated_function( __METHOD__, 'Yoast SEO 20.10', 'Content_Type_Visibility_Dismiss_Notifications::dismiss_notifications' );
-		$notification_center = Yoast_Notification_Center::get();
-		$notification_center->remove_notification_by_id( 'post-types-made-public' );
-	}
-
-	/**
-	 * Removes the notification related to the taxonomies which have been made public.
-	 *
-	 * @deprecated 20.10
-	 * @codeCoverageIgnore
-	 *
-	 * @return void
-	 */
-	public static function remove_taxonomies_made_public_notification() {
-		_deprecated_function( __METHOD__, 'Yoast SEO 20.10', 'Content_Type_Visibility_Dismiss_Notifications::dismiss_notifications' );
-		$notification_center = Yoast_Notification_Center::get();
-		$notification_center->remove_notification_by_id( 'taxonomies-made-public' );
 	}
 }

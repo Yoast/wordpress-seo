@@ -1,16 +1,15 @@
-import PropTypes from "prop-types";
-import { ThemeProvider } from "styled-components";
 import { LocationProvider } from "@yoast/externals/contexts";
+import { ThemeProvider } from "styled-components";
 
 /**
  * A collection of top level providers that are used by multiple parts of the application.
  *
- * @param {Object} props The props.
- * @param {object} props.theme    The styled-components theme.
- * @param {string} props.location The place where the wrapped component is rendered.
- * @param {wp.Element} props.children The element that should be wrapped.
+ * @param {Object} props Component props.
+ * @param {Object} props.theme The styled-components theme.
+ * @param {("sidebar"|"metabox"|"modal")} props.location The place where the wrapped component is rendered.
+ * @param {React.ReactNode} props.children The content that should be wrapped.
  *
- * @returns {wp.Element} The wrapped element.
+ * @returns {JSX.Element} The wrapped element.
  */
 const TopLevelProviders = ( { theme, location, children } ) => {
 	return (
@@ -20,12 +19,6 @@ const TopLevelProviders = ( { theme, location, children } ) => {
 			</ThemeProvider>
 		</LocationProvider>
 	);
-};
-
-TopLevelProviders.propTypes = {
-	theme: PropTypes.object.isRequired,
-	location: PropTypes.oneOf( [ "sidebar", "metabox", "modal" ] ).isRequired,
-	children: PropTypes.element.isRequired,
 };
 
 export default TopLevelProviders;

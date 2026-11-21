@@ -29,7 +29,7 @@ class Time_Interval {
 	 * @codeCoverageIgnore
 	 *
 	 * @param int $time_start Interval start time.
-	 * @param int $time_end  Interval end time.
+	 * @param int $time_end   Interval end time.
 	 */
 	public function __construct( int $time_start, int $time_end ) {
 		$this->time_start = $time_start;

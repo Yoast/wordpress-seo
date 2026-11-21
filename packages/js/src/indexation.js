@@ -1,13 +1,16 @@
-import { render } from "@wordpress/element";
+import { createRoot } from "@wordpress/element";
 import jQuery from "jquery";
 
 import Indexation from "./components/Indexation";
+import { doAjaxRequest } from "./helpers/ajaxHelper";
 
 window.yoast = window.yoast || {};
 window.yoast.indexing = window.yoast.indexing || {};
 
 window.yoast.indexing.preIndexingActions = {};
 window.yoast.indexing.indexingActions = {};
+// Add-ons registering indexing actions need this helper on pages where the editor bundles are absent.
+window.yoast.indexing.helpers = { doAjaxRequest };
 
 let root;
 
@@ -17,16 +20,10 @@ let root;
  * @returns {void}
  */
 function renderRoot() {
-	if ( ! root ) {
-		root = document.getElementById( "yoast-seo-indexing-action" );
-	}
-
-	if ( root ) {
-		render( <Indexation
-			preIndexingActions={ window.yoast.indexing.preIndexingActions }
-			indexingActions={ window.yoast.indexing.indexingActions }
-		/>, root );
-	}
+	root?.render( <Indexation
+		preIndexingActions={ window.yoast.indexing.preIndexingActions }
+		indexingActions={ window.yoast.indexing.indexingActions }
+	/> );
 }
 
 /**
@@ -62,5 +59,11 @@ window.yoast.indexing.registerIndexingAction = ( endpoint, action ) => {
 };
 
 jQuery( function() {
+	// Create the root first.
+	const rootElement = document.getElementById( "yoast-seo-indexing-action" );
+	if ( rootElement ) {
+		root = createRoot( rootElement );
+	}
+
 	renderRoot();
 } );

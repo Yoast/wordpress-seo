@@ -1,7 +1,7 @@
 import classNames from "classnames";
 import PropTypes from "prop-types";
+import React, { forwardRef } from "react";
 import { ValidationIcon, ValidationMessage } from "../validation";
-import { forwardRef } from "@wordpress/element";
 
 export const classNameMap = {
 	variant: {
@@ -58,21 +58,7 @@ const propTypes = {
 	role: PropTypes.oneOf( Object.keys( roleMap ) ),
 };
 
+Alert.displayName = "Alert";
 Alert.propTypes = propTypes;
 
-Alert.defaultProps = {
-	as: "span",
-	variant: "info",
-	className: "",
-	role: "status",
-};
-
 export default Alert;
-
-// eslint-disable-next-line require-jsdoc
-export const StoryComponent = props => <Alert { ...props } />;
-// eslint-disable-next-line react/forbid-foreign-prop-types
-StoryComponent.propTypes = Alert.propTypes;
-// eslint-disable-next-line react/no-typos
-StoryComponent.DefaultProps = Alert.defaultProps;
-StoryComponent.displayName = "Alert";

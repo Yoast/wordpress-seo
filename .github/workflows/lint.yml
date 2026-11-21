@@ -37,26 +37,30 @@ jobs:
       matrix:
         # Lint against the highest/lowest supported versions of each PHP major.
         # And also do a run against "nightly" (the current dev version of PHP).
-        php_version: ["7.2", "7.4", "8.0", "8.1", "8.2"]
+        php_version: ["7.4", "8.0", "8.2", "8.3"]
 
     name: "Lint: PHP ${{ matrix.php_version }}"
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
 
       # For the purpose of linting the code, we need the `vendor-prefixed` directory to
       # be created as the prefixed code should be linted to ensure there are no parse errors
       # in the generated code against any of the supported PHP versions.
       # The prefix-dependencies task makes use of reflection-based PHP code that only works on PHP > 7.2.
       - name: Install PHP 7.x for generating the vendor_prefixed directory
-        uses: shivammathur/setup-php@v2
+        uses: shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962 # 2.40.0
         with:
-          php-version: 7.2
+          php-version: 7.4
           coverage: none
+        env:
+          fail-fast: true
 
       - name: Install Composer dependencies and generate vendor_prefixed directory
-        uses: ramsey/composer-install@v2
+        uses: ramsey/composer-install@65e4f84970763564f46a70b8a54b90d033b3bdda # 4.0.0
         with:
           # Bust the cache at least once a week - output format: YYYY-MM-DD.
           custom-cache-suffix: $(/bin/date -u --date='last Mon' "+%F")
@@ -67,12 +71,15 @@ jobs:
         run: composer remove --dev --no-scripts humbug/php-scoper
 
       - name: Install PHP for the actual linting
-        uses: shivammathur/setup-php@v2
+        uses: shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962 # 2.40.0
         with:
           php-version: ${{ matrix.php_version }}
-          ini-values: zend.assertions=1, error_reporting=-1, display_errors=On
+          ini-values: zend.assertions=1, assert.exception=1, error_reporting=-1, display_errors=On, display_startup_errors=On
           coverage: none
           tools: cs2pr
+        env:
+          fail-fast: true
+          update: true
 
       - name: Lint against parse errors
         run: composer lint -- --checkstyle | cs2pr

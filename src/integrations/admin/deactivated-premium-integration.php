@@ -29,7 +29,9 @@ class Deactivated_Premium_Integration implements Integration_Interface {
 	private $admin_asset_manager;
 
 	/**
-	 * {@inheritDoc}
+	 * Returns the conditionals based in which this loadable should be active.
+	 *
+	 * @return array<string>
 	 */
 	public static function get_conditionals() {
 		return [ Admin_Conditional::class, Non_Multisite_Conditional::class ];
@@ -50,7 +52,11 @@ class Deactivated_Premium_Integration implements Integration_Interface {
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * Initializes the integration.
+	 *
+	 * This is the place to register hooks and filters.
+	 *
+	 * @return void
 	 */
 	public function register_hooks() {
 		\add_action( 'admin_notices', [ $this, 'premium_deactivated_notice' ] );
@@ -88,12 +94,12 @@ class Deactivated_Premium_Integration implements Integration_Interface {
 				'<a href="' . \esc_url(
 					\wp_nonce_url(
 						\self_admin_url( 'plugins.php?action=activate&plugin=' . $premium_file ),
-						'activate-plugin_' . $premium_file
-					)
+						'activate-plugin_' . $premium_file,
+					),
 				) . '">',
-				'</a>'
+				'</a>',
 			);
-            // phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped -- Output escaped above.
+			// phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped -- Output escaped above.
 			echo new Notice_Presenter(
 				/* translators: 1: Yoast SEO Premium */
 				\sprintf( \__( 'Activate %1$s!', 'wordpress-seo' ), 'Yoast SEO Premium' ),
@@ -101,20 +107,20 @@ class Deactivated_Premium_Integration implements Integration_Interface {
 				'support-team.svg',
 				null,
 				true,
-				'yoast-premium-deactivated-notice'
+				'yoast-premium-deactivated-notice',
 			);
-            // phpcs:enable
+			// phpcs:enable
 
 			// Enable permanently dismissing the notice.
 			echo "<script>
                 function dismiss_premium_deactivated_notice(){
                     var data = {
                     'action': 'dismiss_premium_deactivated_notice',
+                    'nonce': '" . \esc_js( \wp_create_nonce( 'wpseo-dismiss-premium-deactivated-notice' ) ) . "',
                     };
 
-                    jQuery.post( ajaxurl, data, function( response ) {
-                        jQuery( '#yoast-premium-deactivated-notice' ).hide();
-                    });
+                    jQuery( '#yoast-premium-deactivated-notice' ).hide();
+                    jQuery.post( ajaxurl, data, function( response ) {});
                 }
 
                 jQuery( document ).ready( function() {
@@ -132,6 +138,14 @@ class Deactivated_Premium_Integration implements Integration_Interface {
 	 * @return bool
 	 */
 	public function dismiss_premium_deactivated_notice() {
+		if ( ! \check_ajax_referer( 'wpseo-dismiss-premium-deactivated-notice', 'nonce', false ) ) {
+			return false;
+		}
+
+		if ( ! \current_user_can( 'activate_plugin', 'wordpress-seo-premium/wp-seo-premium.php' ) ) {
+			return false;
+		}
+
 		return $this->options_helper->set( 'dismiss_premium_deactivated_notice', true );
 	}
 

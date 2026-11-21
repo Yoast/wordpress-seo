@@ -1,39 +1,37 @@
 import PassiveVoiceAssessment from "../../../../src/scoring/assessments/readability/PassiveVoiceAssessment.js";
 import Paper from "../../../../src/values/Paper.js";
-import Factory from "../../../specHelpers/factory.js";
+import Factory from "../../../../src/helpers/factory.js";
 import Mark from "../../../../src/values/Mark.js";
 import DefaultResearcher from "../../../../src/languageProcessing/languages/_default/Researcher";
 import EnglishResearcher from "../../../../src/languageProcessing/languages/en/Researcher";
 
 describe( "An assessment for scoring passive voice.", function() {
-	const paper = new Paper();
+	const paper = new Paper( "" );
+	const goodFeedback = "<a href='https://yoa.st/34t' target='_blank'>Passive voice</a>: You are not using too much passive voice. That's great!";
+
 	it( "returns result when the text is empty", function() {
 		const assessment = new PassiveVoiceAssessment().getResult( paper, Factory.buildMockResearcher( { total: 0, passives: [] } ) );
 		expect( assessment.getScore() ).toBe( 9 );
-		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/34t' target='_blank'>Passive voice</a>: You're using enough" +
-			" active voice. That's great!" );
+		expect( assessment.getText() ).toBe( goodFeedback );
 	} );
 
 	it( "scores 0 passive sentences - 0%", function() {
 		const assessment = new PassiveVoiceAssessment().getResult( paper, Factory.buildMockResearcher( { total: 20, passives: [] } ) );
 		expect( assessment.getScore() ).toBe( 9 );
-		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/34t' target='_blank'>Passive voice</a>: You're using enough" +
-			" active voice. That's great!" );
+		expect( assessment.getText() ).toBe( goodFeedback );
 	} );
 
 	it( "scores 1 passive sentence - 5%", function() {
 		const assessment = new PassiveVoiceAssessment().getResult( paper, Factory.buildMockResearcher( { total: 20, passives: [ 1 ] } ) );
 		expect( assessment.getScore() ).toBe( 9 );
-		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/34t' target='_blank'>Passive voice</a>: You're using enough" +
-			" active voice. That's great!" );
+		expect( assessment.getText() ).toBe( goodFeedback );
 		expect( assessment.hasMarks() ).toBe( true );
 	} );
 
 	it( "scores 2 passive sentences - 10%", function() {
 		const assessment = new PassiveVoiceAssessment().getResult( paper, Factory.buildMockResearcher( { total: 20, passives: [ 1, 2 ] } ) );
 		expect( assessment.getScore() ).toBe( 9 );
-		expect( assessment.getText() ).toBe( "<a href='https://yoa.st/34t' target='_blank'>Passive voice</a>: You're using enough" +
-			" active voice. That's great!" );
+		expect( assessment.getText() ).toBe( goodFeedback );
 		expect( assessment.hasMarks() ).toBe( true );
 	} );
 
@@ -67,38 +65,13 @@ describe( "An assessment for scoring passive voice.", function() {
 } );
 
 describe( "A test for checking the applicability", function() {
-	it( "returns true for isApplicable for an English paper with text.", function() {
-		const paper = new Paper( "This is a very interesting paper. With at least 50 characters.", { locale: "en_US" } );
+	it( "returns true if the researcher has the passive voice research.", function() {
+		const paper = new Paper( "This is a very interesting paper.", { locale: "en_US" } );
 		expect( new PassiveVoiceAssessment().isApplicable( paper, new EnglishResearcher( paper ) ) ).toBe( true );
 	} );
 
-	it( "should return false for isApplicable for a paper with only an image.", function() {
-		const paper = new Paper( "<img src='https://example.com/image.png' alt='test'>" );
-		expect( new PassiveVoiceAssessment().isApplicable( paper, new EnglishResearcher( paper ) ) ).toBe( false );
-	} );
-
-	it( "should return false for isApplicable for a paper with only spaces.", function() {
-		const paper = new Paper( "        " );
-		expect( new PassiveVoiceAssessment().isApplicable( paper, new EnglishResearcher( paper ) ) ).toBe( false );
-	} );
-
-	it( "returns false if the text is too short", function() {
-		const paper = new Paper( "hallo" );
-		expect( new PassiveVoiceAssessment().isApplicable( paper, new EnglishResearcher( paper ) ) ).toBe( false );
-	} );
-
-	it( "returns false for isApplicable for an Afrikaans paper with text.", function() {
-		const paper = new Paper( "Hierdie is 'n interessante papier.", { locale: "af_ZA" } );
-		expect( new PassiveVoiceAssessment().isApplicable( paper, new DefaultResearcher( paper ) ) ).toBe( false );
-	} );
-
-	it( "returns false for isApplicable for an English paper without text.", function() {
-		const paper = new Paper( "", { locale: "en_US" } );
-		expect( new PassiveVoiceAssessment().isApplicable( paper, new EnglishResearcher( paper ) ) ).toBe( false );
-	} );
-
-	it( "returns false for isApplicable for an Afrikaans paper without text.", function() {
-		const paper = new Paper( "", { locale: "af_ZA" } );
+	it( "returns false if the researcher doesn't have the passive voice research.", function() {
+		const paper = new Paper( "This is a very interesting paper.' alt='test'>" );
 		expect( new PassiveVoiceAssessment().isApplicable( paper, new DefaultResearcher( paper ) ) ).toBe( false );
 	} );
 } );

@@ -1,0 +1,254 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AlertsList should match snapshot 1`] = `
+<div>
+  <div
+    class="yst-paper"
+  >
+    <div
+      class="yst-paper__content yst-max-w-[600px] yst-flex yst-flex-col yst-gap-y-6"
+    >
+      <div>
+        <div
+          class="yst-flex yst-justify-between yst-gap-2 yst-items-center"
+        >
+          <svg
+            aria-hidden="true"
+            class="yst-w-6 yst-h-6 yst-text-blue-500"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+          <h2
+            class="yst-title yst-title--2 yst-grow"
+          >
+            Notifications
+             
+            (4)
+          </h2>
+        </div>
+      </div>
+      <ul
+        class=""
+      >
+        <li
+          class="yst-flex yst-justify-between yst-gap-x-5 yst-border-b yst-border-slate-200 last:yst-border-b-0 yst-py-6 first:yst-pt-0 last:yst-pb-0"
+        >
+          <div
+            class="yst-mt-1"
+          >
+            <svg
+              class="yst-fill-blue-500"
+              height="11"
+              width="11"
+            >
+              <circle
+                cx="5.5"
+                cy="5.5"
+                r="5.5"
+              />
+            </svg>
+          </div>
+          <div
+            class="yst-text-sm yst-text-slate-600 yst-grow"
+          >
+            You've added a new type of content. We recommend that you review the corresponding Search appearance settings.
+          </div>
+          <button
+            class="yst-button yst-button--secondary yst-button--small yst-self-center yst-h-8"
+            type="button"
+          >
+            <svg
+              aria-hidden="true"
+              class="yst-w-4 yst-h-4 yst-text-neutral-700"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </button>
+        </li>
+        <li
+          class="yst-flex yst-justify-between yst-gap-x-5 yst-border-b yst-border-slate-200 last:yst-border-b-0 yst-py-6 first:yst-pt-0 last:yst-pb-0"
+        >
+          <div
+            class="yst-mt-1"
+          >
+            <svg
+              class="yst-fill-blue-500"
+              height="11"
+              width="11"
+            >
+              <circle
+                cx="5.5"
+                cy="5.5"
+                r="5.5"
+              />
+            </svg>
+          </div>
+          <div
+            class="yst-text-sm yst-text-slate-600 yst-grow"
+          >
+            We notice that you have installed WPML. To make sure your canonical URLs are set correctly, install and activate the WPML SEO add-on as well!
+          </div>
+          <button
+            class="yst-button yst-button--secondary yst-button--small yst-self-center yst-h-8"
+            type="button"
+          >
+            <svg
+              aria-hidden="true"
+              class="yst-w-4 yst-h-4 yst-text-neutral-700"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </button>
+        </li>
+        <li
+          class="yst-flex yst-justify-between yst-gap-x-5 yst-border-b yst-border-slate-200 last:yst-border-b-0 yst-py-6 first:yst-pt-0 last:yst-pb-0"
+        >
+          <div
+            class="yst-mt-1"
+          >
+            <svg
+              class="yst-fill-blue-500"
+              height="11"
+              width="11"
+            >
+              <circle
+                cx="5.5"
+                cy="5.5"
+                r="5.5"
+              />
+            </svg>
+          </div>
+          <div
+            class="yst-text-sm yst-text-slate-600 yst-grow"
+          >
+            Huge SEO Issue: You're blocking access to robots. If you want search engines to show this site in their results, you must go to your Reading Settings and uncheck the box for Search Engine Visibility. I don't want this site to show in the search results.
+          </div>
+          <button
+            class="yst-button yst-button--secondary yst-button--small yst-self-center yst-h-8"
+            type="button"
+          >
+            <svg
+              aria-hidden="true"
+              class="yst-w-4 yst-h-4 yst-text-neutral-700"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </button>
+        </li>
+        <li
+          class="yst-flex yst-justify-between yst-gap-x-5 yst-border-b yst-border-slate-200 last:yst-border-b-0 yst-py-6 first:yst-pt-0 last:yst-pb-0"
+        >
+          <div
+            class="yst-mt-1"
+          >
+            <svg
+              class="yst-fill-blue-500"
+              height="11"
+              width="11"
+            >
+              <circle
+                cx="5.5"
+                cy="5.5"
+                r="5.5"
+              />
+            </svg>
+          </div>
+          <div
+            class="yst-text-sm yst-text-slate-600 yst-grow"
+          >
+            We need to re-analyze some of your SEO data because of a change in the visibility of your taxonomies. Please help us do that by running the SEO data optimization. We estimate this will take less than a minute.
+          </div>
+          <button
+            class="yst-button yst-button--secondary yst-button--small yst-self-center yst-h-8"
+            type="button"
+          >
+            <svg
+              aria-hidden="true"
+              class="yst-w-4 yst-h-4 yst-text-neutral-700"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </button>
+        </li>
+      </ul>
+      <div
+        class="yst-shadow-sm yst-border-slate-300 yst-rounded-md yst-border"
+      >
+        <button
+          aria-expanded="false"
+          class="yst-w-full yst-flex yst-justify-between yst-py-4 yst-pe-4 yst-ps-6 yst-items-center"
+          data-headlessui-state=""
+          id="headlessui-disclosure-button-:r0:"
+          type="button"
+        >
+          <div
+            class="yst-font-medium"
+          >
+            4 hidden notifications
+          </div>
+          <svg
+            aria-hidden="true"
+            class="yst-h-5 yst-w-5 flex-shrink-0 yst-text-slate-400"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M19 9l-7 7-7-7"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+`;

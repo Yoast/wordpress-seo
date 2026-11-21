@@ -1,4 +1,6 @@
-import { singleWords as transitionWords } from "./transitionWords";
+import { singleWords as transitionWords } from "./transitionWords.js";
+import transformWordsWithHyphens from "../../../helpers/transform/transformWordsWithHyphens.js";
+
 /**
  * Returns an array of Slovak function words.
  *
@@ -849,5 +851,5 @@ export const functionWords = [
 	"milión",
 ];
 
-export const all = functionWords.concat( transitionWords );
+export const all = transformWordsWithHyphens( functionWords.concat( transitionWords ) );
 export default all;

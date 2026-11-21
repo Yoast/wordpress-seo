@@ -1,31 +1,37 @@
-import { useCallback } from "@wordpress/element";
 import classNames from "classnames";
-import { includes, without, noop } from "lodash";
+import { includes, noop, without } from "lodash";
 import PropTypes from "prop-types";
+import React, { useCallback } from "react";
 import Checkbox from "../../elements/checkbox";
 import Label from "../../elements/label";
 
+// Stable references so the empty-array defaults keep a constant identity across renders.
+const DEFAULT_VALUES = [];
+const DEFAULT_OPTIONS = [];
+
 /**
- * @param {JSX.node} children Children are rendered below the checkbox group.
+ * @param {JSX.node} [children=null] Children are rendered below the checkbox group. Either use this or the `options` prop.
  * @param {string} [id] Identifier.
  * @param {string} [name] Name.
  * @param {string[]} [values] Values.
  * @param {string} [label] Label.
  * @param {string} [description] Description.
- * @param {{ value: string, label: string }[]} options Options to choose from.
- * @param {Function} onChange Change handler.
- * @param {string} [className] CSS class.
+ * @param {boolean} [disabled=false] Whether the checkbox group is disabled.
+ * @param {{value: string, label: string}[]} [options=[]] Options to choose from. Either use this or the `children` prop.
+ * @param {Function} [onChange=noop] Change handler.
+ * @param {string} [className=""] CSS class.
+ * @param {...any} [props] Additional props.
  * @returns {JSX.Element} CheckboxGroup component.
  */
 const CheckboxGroup = ( {
 	children = null,
 	id = "",
 	name = "",
-	values = [],
+	values = DEFAULT_VALUES,
 	label = "",
 	description = "",
 	disabled = false,
-	options,
+	options = DEFAULT_OPTIONS,
 	onChange = noop,
 	className = "",
 	...props
@@ -85,7 +91,6 @@ CheckboxGroup.propTypes = {
 };
 
 CheckboxGroup.Checkbox = Checkbox;
-
 CheckboxGroup.Checkbox.displayName = "CheckboxGroup.Checkbox";
 
 export default CheckboxGroup;

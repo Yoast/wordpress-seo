@@ -4,15 +4,18 @@ namespace Yoast\WP\SEO\Integrations;
 
 use WP_HTML_Tag_Processor;
 use WPSEO_Replace_Vars;
+use Yoast\WP\SEO\Conditionals\Dynamic_Product_Permalinks_Conditional;
 use Yoast\WP\SEO\Conditionals\Front_End_Conditional;
+use Yoast\WP\SEO\Conditionals\WooCommerce_Version_Conditional;
 use Yoast\WP\SEO\Context\Meta_Tags_Context;
 use Yoast\WP\SEO\Helpers\Options_Helper;
-use Yoast\WP\SEO\Helpers\Request_Helper;
+use Yoast\WP\SEO\Helpers\Permalink_Helper;
 use Yoast\WP\SEO\Memoizers\Meta_Tags_Context_Memoizer;
 use Yoast\WP\SEO\Presenters\Abstract_Indexable_Presenter;
 use Yoast\WP\SEO\Presenters\Debug\Marker_Close_Presenter;
 use Yoast\WP\SEO\Presenters\Debug\Marker_Open_Presenter;
 use Yoast\WP\SEO\Presenters\Title_Presenter;
+use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Surfaces\Helpers_Surface;
 use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -43,11 +46,11 @@ class Front_End_Integration implements Integration_Interface {
 	protected $options;
 
 	/**
-	 * Represents the request helper.
+	 * Represents the permalink helper.
 	 *
-	 * @var Request_Helper
+	 * @var Permalink_Helper
 	 */
-	protected $request;
+	protected $permalink_helper;
 
 	/**
 	 * The helpers surface.
@@ -55,6 +58,13 @@ class Front_End_Integration implements Integration_Interface {
 	 * @var Helpers_Surface
 	 */
 	protected $helpers;
+
+	/**
+	 * The indexable repository.
+	 *
+	 * @var Indexable_Repository
+	 */
+	protected $indexable_repository;
 
 	/**
 	 * The replace vars helper.
@@ -108,7 +118,7 @@ class Front_End_Integration implements Integration_Interface {
 	/**
 	 * The Open Graph specific presenters that should be output on error pages.
 	 *
-	 * @var array
+	 * @var array<string>
 	 */
 	protected $open_graph_error_presenters = [
 		'Open_Graph\Locale',
@@ -119,7 +129,7 @@ class Front_End_Integration implements Integration_Interface {
 	/**
 	 * The Twitter card specific presenters.
 	 *
-	 * @var string[]
+	 * @var array<string>
 	 */
 	protected $twitter_card_presenters = [
 		'Twitter\Card',
@@ -133,7 +143,7 @@ class Front_End_Integration implements Integration_Interface {
 	/**
 	 * The Slack specific presenters.
 	 *
-	 * @var string[]
+	 * @var array<string>
 	 */
 	protected $slack_presenters = [
 		'Slack\Enhanced_Data',
@@ -142,9 +152,10 @@ class Front_End_Integration implements Integration_Interface {
 	/**
 	 * The Webmaster verification specific presenters.
 	 *
-	 * @var string[]
+	 * @var array<string>
 	 */
 	protected $webmaster_verification_presenters = [
+		'Webmaster\Ahrefs',
 		'Webmaster\Baidu',
 		'Webmaster\Bing',
 		'Webmaster\Google',
@@ -155,7 +166,7 @@ class Front_End_Integration implements Integration_Interface {
 	/**
 	 * Presenters that are only needed on singular pages.
 	 *
-	 * @var string[]
+	 * @var array<string>
 	 */
 	protected $singular_presenters = [
 		'Meta_Author',
@@ -170,7 +181,7 @@ class Front_End_Integration implements Integration_Interface {
 	/**
 	 * The presenters we want to be last in our output.
 	 *
-	 * @var string[]
+	 * @var array<string>
 	 */
 	protected $closing_presenters = [
 		'Schema',
@@ -193,7 +204,7 @@ class Front_End_Integration implements Integration_Interface {
 	/**
 	 * Returns the conditionals based on which this loadable should be active.
 	 *
-	 * @return array The conditionals.
+	 * @return array<string> The conditionals.
 	 */
 	public static function get_conditionals() {
 		return [ Front_End_Conditional::class ];
@@ -204,27 +215,30 @@ class Front_End_Integration implements Integration_Interface {
 	 *
 	 * @codeCoverageIgnore It sets dependencies.
 	 *
-	 * @param Meta_Tags_Context_Memoizer $context_memoizer  The meta tags context memoizer.
-	 * @param ContainerInterface         $service_container The DI container.
-	 * @param Options_Helper             $options           The options helper.
-	 * @param Request_Helper             $request           The request helper.
-	 * @param Helpers_Surface            $helpers           The helpers surface.
-	 * @param WPSEO_Replace_Vars         $replace_vars      The replace vars helper.
+	 * @param Meta_Tags_Context_Memoizer $context_memoizer     The meta tags context memoizer.
+	 * @param ContainerInterface         $service_container    The DI container.
+	 * @param Options_Helper             $options              The options helper.
+	 * @param Helpers_Surface            $helpers              The helpers surface.
+	 * @param WPSEO_Replace_Vars         $replace_vars         The replace vars helper.
+	 * @param Indexable_Repository       $indexable_repository The indexable repository.
+	 * @param Permalink_Helper           $permalink_helper     The permalink helper.
 	 */
 	public function __construct(
 		Meta_Tags_Context_Memoizer $context_memoizer,
 		ContainerInterface $service_container,
 		Options_Helper $options,
-		Request_Helper $request,
 		Helpers_Surface $helpers,
-		WPSEO_Replace_Vars $replace_vars
+		WPSEO_Replace_Vars $replace_vars,
+		Indexable_Repository $indexable_repository,
+		Permalink_Helper $permalink_helper
 	) {
-		$this->container        = $service_container;
-		$this->context_memoizer = $context_memoizer;
-		$this->options          = $options;
-		$this->request          = $request;
-		$this->helpers          = $helpers;
-		$this->replace_vars     = $replace_vars;
+		$this->container            = $service_container;
+		$this->context_memoizer     = $context_memoizer;
+		$this->options              = $options;
+		$this->helpers              = $helpers;
+		$this->replace_vars         = $replace_vars;
+		$this->indexable_repository = $indexable_repository;
+		$this->permalink_helper     = $permalink_helper;
 	}
 
 	/**
@@ -232,6 +246,8 @@ class Front_End_Integration implements Integration_Interface {
 	 *
 	 * Removes some actions to remove metadata that WordPress shows on the frontend,
 	 * to avoid duplicate and/or mismatched metadata.
+	 *
+	 * @return void
 	 */
 	public function register_hooks() {
 		\add_filter( 'render_block', [ $this, 'query_loop_next_prev' ], 1, 2 );
@@ -246,6 +262,7 @@ class Front_End_Integration implements Integration_Interface {
 		\add_filter( 'wpseo_frontend_presenter_classes', [ $this, 'filter_robots_presenter' ] );
 
 		\add_action( 'wpseo_head', [ $this, 'present_head' ], -9999 );
+		\add_action( 'wpseo_head', [ $this, 'update_outdated_permalink' ], -10_000 );
 
 		\remove_action( 'wp_head', 'rel_canonical' );
 		\remove_action( 'wp_head', 'index_rel_link' );
@@ -280,10 +297,52 @@ class Front_End_Integration implements Integration_Interface {
 	}
 
 	/**
+	 * Checks if the current entity has a permalink that has a mismatch
+	 * with the permalink stored in its indexable. If they differ, purges the indexable's
+	 * permalink so it will be recalculated in the same request.
+	 *
+	 * @return void
+	 */
+	public function update_outdated_permalink() {
+		$dynamic_permalinks_conditional = new Dynamic_Product_Permalinks_Conditional();
+		if ( ! $dynamic_permalinks_conditional->is_met() ) {
+			return;
+		}
+
+		$woocommerce_version_conditional = new WooCommerce_Version_Conditional();
+		if ( ! $woocommerce_version_conditional->is_met() ) {
+			return;
+		}
+
+		$context = $this->context_memoizer->for_current_page();
+
+		// We're adding this fix only for products because of the 10.5 Woo release. We might expand this for all cases in the future.
+		if ( $context->indexable->object_sub_type !== 'product' ) {
+			return;
+		}
+
+		$current_permalink   = $this->permalink_helper->get_permalink_for_post( $context->indexable->object_sub_type, $context->indexable->object_id );
+		$indexable_permalink = $context->indexable->permalink;
+
+		// Only purge if the permalinks differ.
+		if ( $current_permalink !== $indexable_permalink ) {
+			$this->indexable_repository->reset_permalink(
+				$context->indexable->object_type,
+				$context->indexable->object_sub_type,
+				$context->indexable->object_id,
+			);
+
+			// Clear the memoizer caches so present_head() sees the updated indexable.
+			$this->context_memoizer->clear_for_current_page();
+			$this->context_memoizer->clear( $context->indexable );
+		}
+	}
+
+	/**
 	 * Filters the next and prev links in the query loop block.
 	 *
-	 * @param string $html  The HTML output.
-	 * @param array  $block The block.
+	 * @param string                   $html  The HTML output.
+	 * @param array<string|array|null> $block The block.
 	 * @return string The filtered HTML output.
 	 */
 	public function query_loop_next_prev( $html, $block ) {
@@ -306,7 +365,9 @@ class Front_End_Integration implements Integration_Interface {
 	}
 
 	/**
-	 * Returns correct adjacent pages when QUery loop block does not inherit query from template.
+	 * Returns correct adjacent pages when Query loop block does not inherit query from template.
+	 * Prioritizes existing prev and next links.
+	 * Includes a safety check for full urls though it is not expected in the query pagination block.
 	 *
 	 * @param string                      $link         The current link.
 	 * @param string                      $rel          Link relationship, prev or next.
@@ -315,31 +376,42 @@ class Front_End_Integration implements Integration_Interface {
 	 * @return string The correct link.
 	 */
 	public function adjacent_rel_url( $link, $rel, $presentation = null ) {
-		if ( $link === \home_url( '/' ) ) {
+		// Prioritize existing prev and next links.
+		if ( $link ) {
 			return $link;
 		}
 
-		if ( $rel === 'next' || $rel === 'prev' ) {
+		// Safety check for rel value.
+		if ( $rel !== 'next' && $rel !== 'prev' ) {
+			return $link;
+		}
 
-			// WP_HTML_Tag_Processor was introduced in WordPress 6.2.
-			if ( \class_exists( WP_HTML_Tag_Processor::class ) ) {
-				$processor = new WP_HTML_Tag_Processor( $this->$rel );
-				while ( $processor->next_tag( [ 'tag_name' => 'a' ] ) ) {
-					$href = $processor->get_attribute( 'href' );
-					if ( $href ) {
-						return $presentation->permalink . substr( $href, 1 );
-					}
-				}
-			}
-			// Remove else when dropping support for WordPress 6.1 and lower.
-			else {
-				$pattern = '/"(.*?)"/';
-				// Find all matches of the pattern in the HTML string.
-				\preg_match_all( $pattern, $this->$rel, $matches );
-				if ( isset( $matches[1] ) && isset( $matches[1][0] ) && $matches[1][0] ) {
-					return $presentation->permalink . \substr( $matches[1][0], 1 );
-				}
-			}
+		// Check $this->next or $this->prev for existing links.
+		if ( $this->$rel === null ) {
+			return $link;
+		}
+
+		$processor = new WP_HTML_Tag_Processor( $this->$rel );
+
+		if ( ! $processor->next_tag( [ 'tag_name' => 'a' ] ) ) {
+			return $link;
+		}
+
+		$href = $processor->get_attribute( 'href' );
+
+		if ( ! $href ) {
+			return $link;
+		}
+
+		// Safety check for full url, not expected.
+		if ( \strpos( $href, 'http' ) === 0 ) {
+			return $href;
+		}
+
+		// Check if $href is relative and append last part of the url to permalink.
+		if ( \strpos( $href, '/' ) === 0 ) {
+			$href_parts = \explode( '/', $href );
+			return $presentation->permalink . \end( $href_parts );
 		}
 
 		return $link;
@@ -348,9 +420,9 @@ class Front_End_Integration implements Integration_Interface {
 	/**
 	 * Filters our robots presenter, but only when wp_robots is attached to the wp_head action.
 	 *
-	 * @param array $presenters The presenters for current page.
+	 * @param array<string> $presenters The presenters for current page.
 	 *
-	 * @return array The filtered presenters.
+	 * @return array<string> The filtered presenters.
 	 */
 	public function filter_robots_presenter( $presenters ) {
 		if ( ! \function_exists( 'wp_robots' ) ) {
@@ -361,7 +433,7 @@ class Front_End_Integration implements Integration_Interface {
 			return $presenters;
 		}
 
-		if ( $this->request->is_rest_request() ) {
+		if ( \wp_is_serving_rest_request() ) {
 			return $presenters;
 		}
 
@@ -372,6 +444,8 @@ class Front_End_Integration implements Integration_Interface {
 	 * Presents the head in the front-end. Resets wp_query if it's not the main query.
 	 *
 	 * @codeCoverageIgnore It just calls a WordPress function.
+	 *
+	 * @return void
 	 */
 	public function call_wpseo_head() {
 		global $wp_query;
@@ -388,6 +462,8 @@ class Front_End_Integration implements Integration_Interface {
 
 	/**
 	 * Echoes all applicable presenters for a page.
+	 *
+	 * @return void
 	 */
 	public function present_head() {
 		$context    = $this->context_memoizer->for_current_page();
@@ -396,7 +472,8 @@ class Front_End_Integration implements Integration_Interface {
 		/**
 		 * Filter 'wpseo_frontend_presentation' - Allow filtering the presentation used to output our meta values.
 		 *
-		 * @api Indexable_Presention The indexable presentation.
+		 * @param Indexable_Presentation $presentation The indexable presentation.
+		 * @param Meta_Tags_Context    $context      The meta tags context for the current page.
 		 */
 		$presentation = \apply_filters( 'wpseo_frontend_presentation', $context->presentation, $context );
 
@@ -424,13 +501,11 @@ class Front_End_Integration implements Integration_Interface {
 	 * @return Abstract_Indexable_Presenter[] The presenters.
 	 */
 	public function get_presenters( $page_type, $context = null ) {
-		if ( \is_null( $context ) ) {
-			$context = $this->context_memoizer->for_current_page();
-		}
+		$context ??= $this->context_memoizer->for_current_page();
 
 		$needed_presenters = $this->get_needed_presenters( $page_type );
 
-		$callback   = static function( $presenter ) {
+		$callback   = static function ( $presenter ) {
 			if ( ! \class_exists( $presenter ) ) {
 				return null;
 			}
@@ -441,10 +516,8 @@ class Front_End_Integration implements Integration_Interface {
 		/**
 		 * Filter 'wpseo_frontend_presenters' - Allow filtering the presenter instances in or out of the request.
 		 *
-		 * @param array             $presenters The presenters.
-		 * @param Meta_Tags_Context $context    The meta tags context for the current page.
-		 *
-		 * @api Abstract_Indexable_Presenter[] List of presenter instances.
+		 * @param Abstract_Indexable_Presenter[] $presenters List of presenter instances.
+		 * @param Meta_Tags_Context              $context    The meta tags context for the current page.
 		 */
 		$presenter_instances = \apply_filters( 'wpseo_frontend_presenters', $presenters, $context );
 
@@ -460,7 +533,7 @@ class Front_End_Integration implements Integration_Interface {
 		return \array_merge(
 			[ new Marker_Open_Presenter() ],
 			$presenter_instances,
-			[ new Marker_Close_Presenter() ]
+			[ new Marker_Close_Presenter() ],
 		);
 	}
 
@@ -564,7 +637,7 @@ class Front_End_Integration implements Integration_Interface {
 	 */
 	private function maybe_remove_title_presenter( $presenters ) {
 		// Do not remove the title if we're on a REST request.
-		if ( $this->request->is_rest_request() ) {
+		if ( \wp_is_serving_rest_request() ) {
 			return $presenters;
 		}
 

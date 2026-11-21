@@ -1,7 +1,8 @@
-/* global require, process */
-var timeGrunt = require( "time-grunt" );
-var path = require( "path" );
-var loadGruntConfig = require( "load-grunt-config" );
+// eslint-disable-next-line import/no-extraneous-dependencies
+const timeGrunt = require( "time-grunt" );
+const path = require( "path" );
+// eslint-disable-next-line import/no-extraneous-dependencies
+const loadGruntConfig = require( "load-grunt-config" );
 const { flattenVersionForFile } = require( "./config/webpack/paths" );
 require( "dotenv" ).config();
 
@@ -12,7 +13,7 @@ module.exports = function( grunt ) {
 	const pluginVersion = pkg.yoast.pluginVersion;
 
 	/* Used to switch between development and release builds.
-	Switches based on the grunt command (which is the third 'argv', after node and grunt,  so index 2).*/
+	 Switches based on the grunt command (which is the third 'argv', after node and grunt,  so index 2).*/
 	const developmentBuild = ! [ "create-rc", "release", "release:js", "artifact", "deploy:trunk", "deploy:master" ].includes( process.argv[ 2 ] );
 
 	// Define project configuration.
@@ -142,6 +143,10 @@ module.exports = function( grunt ) {
 				"update-changelog-to-latest": "@yoast/grunt-plugin-tasks",
 				"register-prompt": "grunt-prompt",
 				"notify-slack": "notify-slack",
+				// `update-myyoast-credentials` and `sign-v0-myyoast-credentials`
+				// are both registered by `update-myyoast-credentials.js`;
+				// jit-grunt needs an explicit mapping for the secondary task.
+				"sign-v0-myyoast-credentials": "./config/grunt/custom-tasks/update-myyoast-credentials.js",
 			},
 			customTasksDir: "config/grunt/custom-tasks",
 		},

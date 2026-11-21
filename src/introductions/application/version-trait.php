@@ -14,9 +14,8 @@ trait Version_Trait {
 	 * @return bool Whether the version is between a min and max.
 	 */
 	private function is_version_between( $version, $min_version, $max_version ) {
-		return (
-			\version_compare( $version, $min_version, '>=' ) &&
-			\version_compare( $version, $max_version, '<' )
+		return ( \version_compare( $version, $min_version, '>=' )
+			&& \version_compare( $version, $max_version, '<' )
 		);
 	}
 }

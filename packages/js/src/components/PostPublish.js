@@ -1,11 +1,13 @@
-import PropTypes from "prop-types";
 import { __ } from "@wordpress/i18n";
 import { Fragment } from "@wordpress/element";
 import { ReactComponent as FacebookIcon } from "../../images/icon-facebook.svg";
-import { ReactComponent as TwitterIcon } from "../../images/icon-twitter.svg";
+import { ReactComponent as TwitterIcon } from "../../images/x-logo.svg";
 
 /**
  * Renders the PostPublish Yoast integration.
+ *
+ * @param {Object} props Component props.
+ * @param {string} props.permalink The permalink of the published post, used in the share links.
  *
  * @returns {wp.Element} The PostPublish panel.
  */
@@ -30,9 +32,9 @@ export default function PostPublish( { permalink } ) {
 				</a>
 			</li>
 			<li>
-				<a href={ "https://twitter.com/share?url=" + encodedUrl } target="_blank" rel="noopener noreferrer">
+				<a href={ "https://twitter.com/share?url=" + encodedUrl } target="_blank" rel="noopener noreferrer" className="x-share">
 					<TwitterIcon />
-					{ __( "Twitter", "wordpress-seo" ) }
+					{ __( "X", "wordpress-seo" ) }
 					<span className="screen-reader-text">
 						{
 							/* translators: Hidden accessibility text. */
@@ -44,7 +46,3 @@ export default function PostPublish( { permalink } ) {
 		</ul>
 	</Fragment>;
 }
-
-PostPublish.propTypes = {
-	permalink: PropTypes.string.isRequired,
-};

@@ -61,7 +61,7 @@ abstract class WPSEO_Option {
 	 *
 	 * @var string
 	 */
-	const ALLOW_KEY_PREFIX = 'allow_';
+	public const ALLOW_KEY_PREFIX = 'allow_';
 
 	/**
 	 * Option name - MUST be set in concrete class and set to public.
@@ -137,7 +137,6 @@ abstract class WPSEO_Option {
 	 */
 	protected static $instance;
 
-
 	/* *********** INSTANTIATION METHODS *********** */
 
 	/**
@@ -185,9 +184,6 @@ abstract class WPSEO_Option {
 		 * (only available on back-end).
 		 */
 		add_filter( 'sanitize_option_' . $this->option_name, [ $this, 'validate' ] );
-
-		// Flushes the rewrite rules when option is updated.
-		add_action( 'update_option_' . $this->option_name, [ 'WPSEO_Utils', 'clear_rewrites' ] );
 
 		/* Register our option for the admin pages */
 		add_action( 'admin_init', [ $this, 'register_setting' ] );
@@ -296,6 +292,8 @@ abstract class WPSEO_Option {
 	 * @param array  $dirty Dirty data with the new values.
 	 * @param array  $old   Old data.
 	 * @param array  $clean Clean data by reference, normally the default values.
+	 *
+	 * @return void
 	 */
 	public function validate_verification_string( $key, $dirty, $old, &$clean ) {
 		if ( isset( $dirty[ $key ] ) && $dirty[ $key ] !== '' ) {
@@ -311,30 +309,18 @@ abstract class WPSEO_Option {
 
 			$meta = sanitize_text_field( $meta );
 			if ( $meta !== '' ) {
-				$regex   = '`^[A-Fa-f0-9_-]+$`';
-				$service = '';
+				$regex = '`^[A-Fa-f0-9_-]+$`';
 
 				switch ( $key ) {
-					case 'baiduverify':
-						$regex   = '`^[A-Za-z0-9_-]+$`';
-						$service = 'Baidu Webmaster tools';
-						break;
-
 					case 'googleverify':
-						$regex   = '`^[A-Za-z0-9_-]+$`';
-						$service = 'Google Webmaster tools';
+					case 'ahrefsverify':
+					case 'baiduverify':
+						$regex = '`^[A-Za-z0-9_-]+$`';
 						break;
 
 					case 'msverify':
-						$service = 'Bing Webmaster tools';
-						break;
-
 					case 'pinterestverify':
-						$service = 'Pinterest';
-						break;
-
 					case 'yandexverify':
-						$service = 'Yandex Webmaster tools';
 						break;
 				}
 
@@ -345,16 +331,6 @@ abstract class WPSEO_Option {
 					// Restore the previous value, if any.
 					if ( isset( $old[ $key ] ) && preg_match( $regex, $old[ $key ] ) ) {
 						$clean[ $key ] = $old[ $key ];
-					}
-
-					if ( function_exists( 'add_settings_error' ) ) {
-						add_settings_error(
-							$this->group_name, // Slug title of the setting.
-							$key, // Suffix-ID for the error message box. WordPress prepends `setting-error-`.
-							/* translators: 1: Verification string from user input; 2: Service name. */
-							sprintf( __( '%1$s does not seem to be a valid %2$s verification string. Please correct.', 'wordpress-seo' ), '<strong>' . esc_html( $meta ) . '</strong>', $service ), // The error message.
-							'error' // CSS class for the WP notice, either the legacy 'error' / 'updated' or the new `notice-*` ones.
-						);
 					}
 
 					Yoast_Input_Validation::add_dirty_value_to_settings_errors( $key, $meta );
@@ -371,6 +347,8 @@ abstract class WPSEO_Option {
 	 * @param array  $dirty Dirty data with the new values.
 	 * @param array  $old   Old data.
 	 * @param array  $clean Clean data by reference, normally the default values.
+	 *
+	 * @return void
 	 */
 	public function validate_url( $key, $dirty, $old, &$clean ) {
 		if ( isset( $dirty[ $key ] ) && $dirty[ $key ] !== '' ) {
@@ -379,23 +357,6 @@ abstract class WPSEO_Option {
 			$validated_url = filter_var( WPSEO_Utils::sanitize_url( $submitted_url ), FILTER_VALIDATE_URL );
 
 			if ( $validated_url === false ) {
-				if ( function_exists( 'add_settings_error' ) ) {
-					add_settings_error(
-						// Slug title of the setting.
-						$this->group_name,
-						// Suffix-ID for the error message box. WordPress prepends `setting-error-`.
-						$key,
-						// The error message.
-						sprintf(
-							/* translators: %s expands to an invalid URL. */
-							__( '%s does not seem to be a valid url. Please correct.', 'wordpress-seo' ),
-							'<strong>' . esc_url( $submitted_url ) . '</strong>'
-						),
-						// Message type.
-						'error'
-					);
-				}
-
 				// Restore the previous URL value, if any.
 				if ( isset( $old[ $key ] ) && $old[ $key ] !== '' ) {
 					$url = WPSEO_Utils::sanitize_url( $old[ $key ] );
@@ -870,7 +831,7 @@ abstract class WPSEO_Option {
 	/**
 	 * Check whether a given array key conforms to one of the variable array key patterns for this option.
 	 *
-	 * @usedby validate_option() methods for options with variable array keys.
+	 * @used-by validate_option() methods for options with variable array keys.
 	 *
 	 * @param string $key Array key to check.
 	 *

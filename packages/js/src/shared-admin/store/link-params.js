@@ -22,8 +22,9 @@ linkParamsSelectors.selectLink = createSelector(
 	[
 		linkParamsSelectors.selectLinkParams,
 		( state, url ) => url,
+		( state, url, extraParams = {} ) => extraParams,
 	],
-	( linkParams, link ) => addQueryArgs( link, linkParams )
+	( linkParams, link, extraParams ) => addQueryArgs( link, { ...linkParams, ...extraParams } )
 );
 
 export const linkParamsActions = slice.actions;

@@ -1,5 +1,7 @@
 import Scheduler from "../../../src/worker/scheduler/Scheduler";
 
+jest.useRealTimers();
+
 describe( "Worker Scheduler", () => {
 	let scheduler;
 
@@ -115,8 +117,8 @@ describe( "Worker Scheduler", () => {
 			const execute = jest.fn();
 			scheduler.schedule( { id, execute, done: () => {}, data, type: "analyze" } );
 			scheduler.executeNextTask().then( () => {
-				expect( execute ).toBeCalledTimes( 1 );
-				expect( execute ).toBeCalledWith( id, data );
+				expect( execute ).toHaveBeenCalledTimes( 1 );
+				expect( execute ).toHaveBeenCalledWith( id, data );
 				done();
 			} );
 		} );
@@ -127,8 +129,8 @@ describe( "Worker Scheduler", () => {
 			const done = jest.fn();
 			scheduler.schedule( { id, execute, done, data: {}, type: "analyze" } );
 			scheduler.executeNextTask().then( result => {
-				expect( done ).toBeCalledTimes( 1 );
-				expect( done ).toBeCalledWith( id, "result" );
+				expect( done ).toHaveBeenCalledTimes( 1 );
+				expect( done ).toHaveBeenCalledWith( id, "result" );
 				expect( result ).toBe( "result" );
 				testDone();
 			} );

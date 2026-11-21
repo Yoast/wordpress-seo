@@ -59,7 +59,7 @@ function socialPreview( state = initialState, action ) {
 				id: null,
 				alt: "",
 			} };
-	  default:
+		default:
 			return state;
 	}
 }
@@ -74,13 +74,13 @@ function socialPreview( state = initialState, action ) {
 function createNamedWrapperReducer( reducerFunction, platformName ) {
 	return ( state, action ) => {
 		const { platform } = action;
-		// eslint-disable-next-line no-undefined
+
 		const isInitializationCall = state === undefined;
 		if ( isInitializationCall ) {
 			return initialState;
 		}
 		if ( platform !== platformName ) {
-			 return state;
+			return state;
 		}
 		return reducerFunction( state, action );
 	};

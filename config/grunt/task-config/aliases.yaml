@@ -19,23 +19,26 @@
 
 # Compile the JavaScript packages that need it.
 'build:packages':
-  - 'shell:build-ui-library'
+  - 'shell:yarn:build --ignore @yoast/wordpress-seo'
 
 # Build JavaScript from assets to development
 'build:js':
   - 'clean:build-assets-js'
-  - 'shell:webpack'
+  - 'shell:yarn:build --scope @yoast/wordpress-seo'
 
 # Build CSS for development
 'build:css':
   - 'clean:build-assets-css'
   - 'copy:css-files'
-  - 'shell:postcss-dev'
+  - 'shell:yarn:build:css'
   - 'rtlcss:build'
 
 clean:build-assets:
   - 'clean:build-assets-js'
   - 'clean:build-assets-css'
+
+'eslint':
+  - 'shell:yarn:lint'
 
 # Update all versions except the stable tag
 'update-version-trunk':
@@ -50,6 +53,8 @@ clean:build-assets:
   - 'shell:composer-install-production'
   # Build like we normally would
   - 'release'
+  # Bake fresh MyYoast credentials into Issuer_Config (or fall back to v0)
+  - 'update-myyoast-credentials'
   # Remove build folder
   - 'clean:artifact'
   # Copy only the relevant files to the folder
@@ -67,7 +72,6 @@ clean:build-assets:
   - 'sync-gutenberg-version'
   - 'artifact'
   - 'github-pre-release'
-  - 'notify-slack:beta'
   - 'sync-readme-stable-tag'
   - 'check-deploy-allowed'
   - 'wp_deploy:trunk'
@@ -84,7 +88,6 @@ clean:build-assets:
   - 'sync-gutenberg-version'
   - 'artifact'
   - 'github-pre-release'
-  - 'notify-slack:rc'
   - 'sync-readme-stable-tag'
   - 'check-deploy-allowed'
   - 'wp_deploy:trunk'
@@ -104,15 +107,15 @@ release:
   - 'release:css'
 # Compile the JavaScript packages that need it.
 'release:packages':
-  - 'shell:build-ui-library'
+  - 'shell:yarn-prod:build --ignore @yoast/wordpress-seo'
 'release:js':
-  - 'shell:webpack-prod'
+  - 'shell:yarn-prod:build --scope @yoast/wordpress-seo'
 
 # Build CSS for production
 'release:css':
   - 'clean:build-assets-css'
   - 'copy:css-files'
-  - 'shell:postcss-release'
+  - 'shell:yarn-prod:build:css'
   - 'rtlcss:build'
 
 'deploy:master':

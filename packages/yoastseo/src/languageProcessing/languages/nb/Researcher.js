@@ -2,18 +2,19 @@ import { languageProcessing } from "yoastseo";
 const { AbstractResearcher } = languageProcessing;
 
 // All config
-import firstWordExceptions from "./config/firstWordExceptions";
-import functionWords from "./config/functionWords";
-import stopWords from "./config/stopWords";
-import transitionWords from "./config/transitionWords";
-import twoPartTransitionWords from "./config/twoPartTransitionWords";
+import firstWordExceptions from "./config/firstWordExceptions.js";
+import functionWords from "./config/functionWords.js";
+import redundantPhraseInAltText from "./config/redundantPhraseInAltText.js";
+import stopWords from "./config/stopWords.js";
+import transitionWords from "./config/transitionWords.js";
+import twoPartTransitionWords from "./config/twoPartTransitionWords.js";
 
 // All helpers
-import getStemmer from "./helpers/getStemmer";
-import getClauses from "./helpers/getClauses";
+import getStemmer from "./helpers/getStemmer.js";
+import getClauses from "./helpers/getClauses.js";
 
 /**
- * The researches contains all the researches
+ * The researcher contains all the researches, helpers, data, and config.
  */
 export default class Researcher extends AbstractResearcher {
 	/**
@@ -32,6 +33,7 @@ export default class Researcher extends AbstractResearcher {
 			passiveConstructionType: "periphrastic",
 			functionWords,
 			firstWordExceptions,
+			redundantPhraseInAltText,
 			transitionWords,
 			twoPartTransitionWords,
 			stopWords,

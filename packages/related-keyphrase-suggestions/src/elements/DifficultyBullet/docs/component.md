@@ -1,0 +1,2 @@
+The difficulty bullet component is used to display the difficulty score and a bullet point with a color that matches the score.
+Very easy (0-14), Easy (15-29), Medium (30-49), Hard (50-69), Very hard (70-100). When hovering on those bullets the tooltip will show the score info.

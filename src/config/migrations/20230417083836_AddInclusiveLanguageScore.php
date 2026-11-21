@@ -32,7 +32,7 @@ class AddInclusiveLanguageScore extends Migration {
 			[
 				'null'  => true,
 				'limit' => 3,
-			]
+			],
 		);
 	}
 

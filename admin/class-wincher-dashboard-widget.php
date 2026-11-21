@@ -26,6 +26,8 @@ class Wincher_Dashboard_Widget implements WPSEO_WordPress_Integration {
 
 	/**
 	 * Register WordPress hooks.
+	 *
+	 * @return void
 	 */
 	public function register_hooks() {
 		add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_wincher_dashboard_assets' ] );
@@ -45,6 +47,8 @@ class Wincher_Dashboard_Widget implements WPSEO_WordPress_Integration {
 
 	/**
 	 * Adds the Wincher dashboard widget to WordPress.
+	 *
+	 * @return void
 	 */
 	public function add_wincher_dashboard_widget() {
 		add_filter( 'postbox_classes_dashboard_wpseo-wincher-dashboard-overview', [ $this, 'wpseo_wincher_dashboard_overview_class' ] );
@@ -52,7 +56,7 @@ class Wincher_Dashboard_Widget implements WPSEO_WordPress_Integration {
 			'wpseo-wincher-dashboard-overview',
 			/* translators: %1$s expands to Yoast SEO, %2$s to Wincher */
 			sprintf( __( '%1$s / %2$s: Top Keyphrases', 'wordpress-seo' ), 'Yoast SEO', 'Wincher' ),
-			[ $this, 'display_wincher_dashboard_widget' ]
+			[ $this, 'display_wincher_dashboard_widget' ],
 		);
 	}
 
@@ -70,6 +74,8 @@ class Wincher_Dashboard_Widget implements WPSEO_WordPress_Integration {
 
 	/**
 	 * Displays the Wincher dashboard widget.
+	 *
+	 * @return void
 	 */
 	public function display_wincher_dashboard_widget() {
 		echo '<div id="yoast-seo-wincher-dashboard-widget"></div>';
@@ -77,6 +83,8 @@ class Wincher_Dashboard_Widget implements WPSEO_WordPress_Integration {
 
 	/**
 	 * Enqueues assets for the dashboard if the current page is the dashboard.
+	 *
+	 * @return void
 	 */
 	public function enqueue_wincher_dashboard_assets() {
 		if ( ! $this->is_dashboard_screen() ) {

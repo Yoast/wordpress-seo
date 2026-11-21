@@ -11,7 +11,6 @@ export default compose( [
 		const readabilityScoreIndicator = getIndicatorForScore( data.getReadabilityResults().overallScore );
 		const { isKeywordAnalysisActive, isContentAnalysisActive } = data.getPreferences();
 
-		/* eslint-disable-next-line no-unused-vars */
 		let readabilityScoreColor;
 		switch ( readabilityScoreIndicator.className ) {
 			case "good":
@@ -26,7 +25,6 @@ export default compose( [
 				break;
 		}
 
-		/* eslint-disable-next-line no-unused-vars */
 		let seoScoreColor;
 		switch ( seoScoreIndicator.className ) {
 			case "good":

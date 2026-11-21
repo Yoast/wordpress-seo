@@ -95,6 +95,8 @@ class Crawl_Cleanup_Searches implements Integration_Interface {
 
 	/**
 	 * Redirect pretty search URLs to the "raw" equivalent
+	 *
+	 * @return void
 	 */
 	public function maybe_redirect_searches() {
 		if ( ! \is_search() ) {
@@ -116,7 +118,7 @@ class Crawl_Cleanup_Searches implements Integration_Interface {
 
 			$proper_url = \home_url( '/' );
 
-			if ( \intval( \get_query_var( 'paged' ) ) > 1 ) {
+			if ( (int) \get_query_var( 'paged' ) > 1 ) {
 				$proper_url .= \sprintf( 'page/%s/', \get_query_var( 'paged' ) );
 				unset( $args['paged'] );
 			}

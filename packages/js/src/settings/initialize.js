@@ -1,14 +1,14 @@
 import { SlotFillProvider } from "@wordpress/components";
 import { dispatch, select } from "@wordpress/data";
 import domReady from "@wordpress/dom-ready";
-import { render } from "@wordpress/element";
+import { createRoot } from "@wordpress/element";
 import { Root } from "@yoast/ui-library";
 import { Formik } from "formik";
 import { chunk, filter, forEach, get, includes, reduce } from "lodash";
 import { HashRouter } from "react-router-dom";
 import { StyleSheetManager } from "styled-components";
 import { fixWordPressMenuScrolling } from "../shared-admin/helpers";
-import { LINK_PARAMS_NAME } from "../shared-admin/store";
+import { LINK_PARAMS_NAME, REPLACEMENT_VARIABLES_NAME, getReplacementVariablesInitialState } from "../shared-admin/store";
 import App from "./app";
 import { STORE_NAME } from "./constants";
 import { createValidationSchema, handleSubmit } from "./helpers";
@@ -46,6 +46,20 @@ const preloadUsers = async( { settings } ) => {
 	if ( userId ) {
 		fetchUsers( { include: [ userId ] } );
 	}
+};
+
+/**
+ * Preloads the indexable pages that are selected by the user.
+ *
+ * @returns {void}
+ */
+const preloadIndexablePages = () => {
+	const initialIndexablePages = Object.values( get( window, "wpseoScriptData.initialLlmTxtPages", {} ) );
+	if ( initialIndexablePages.length === 0 ) {
+		return;
+	}
+
+	dispatch( STORE_NAME ).addIndexablePages( initialIndexablePages );
 };
 
 /**
@@ -100,22 +114,28 @@ domReady( () => {
 			description: __( "Please see the “New” badges and review the Search appearance settings.", "wordpress-seo" ),
 		} } : {};
 
+	const replacementVariables = get( window, "wpseoScriptData.replacementVariables", {} );
 
 	registerStore( {
 		initialState: {
 			notifications,
 			[ LINK_PARAMS_NAME ]: get( window, "wpseoScriptData.linkParams", {} ),
+			currentPromotions: { promotions: get( window, "wpseoScriptData.currentPromotions", [] ) },
+			llmsTxt: get( window, "wpseoScriptData.llmsTxt", {} ),
+			schemaFramework: get( window, "wpseoScriptData.schemaFrameworkConfiguration", {} ),
+			[ REPLACEMENT_VARIABLES_NAME ]: getReplacementVariablesInitialState( replacementVariables ),
 		},
 	} );
 
 	preloadMedia( { settings, fallbacks } );
 	preloadUsers( { settings } );
+	preloadIndexablePages();
 	fixFocusLinkCompatibility();
 	fixWordPressMenuScrolling();
 
 	const isRtl = select( STORE_NAME ).selectPreference( "isRtl", false );
 
-	render(
+	createRoot( root ).render(
 		<Root context={ { isRtl } }>
 			<StyleSheetManager target={ shadowRoot }>
 				<SlotFillProvider>
@@ -130,7 +150,6 @@ domReady( () => {
 					</HashRouter>
 				</SlotFillProvider>
 			</StyleSheetManager>
-		</Root>,
-		root
+		</Root>
 	);
 } );

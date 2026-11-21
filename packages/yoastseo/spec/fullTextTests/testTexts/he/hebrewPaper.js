@@ -47,12 +47,14 @@ const expectedResults = {
 			" <a href='https://yoa.st/34e' target='_blank'>you should reduce the length</a>!",
 	},
 	subheadingsKeyword: {
-		isApplicable: false,
+		isApplicable: true,
+		score: 2,
+		resultText: "<a href='https://yoa.st/33m' target='_blank'>Keyphrase in subheading</a>: You are not using any higher-level subheadings containing the keyphrase or its synonyms. <a href='https://yoa.st/33n' target='_blank'>Fix that</a>!",
 	},
 	textCompetingLinks: {
 		isApplicable: true,
-		score: 0,
-		resultText: "",
+		score: 8,
+		resultText: "<a href='https://yoa.st/34l' target='_blank'>Competing links</a>: There are no links which use your keyphrase or synonym as their anchor text. Nice!",
 	},
 	textLength: {
 		isApplicable: true,
@@ -114,13 +116,13 @@ const expectedResults = {
 		isApplicable: true,
 		score: 3,
 		resultText: "<a href='https://yoa.st/35d' target='_blank'>Paragraph length</a>: " +
-			"1 of the paragraphs contains more than the recommended maximum of 150 words." +
+			"1 of the paragraphs contains more than the recommended maximum number of words (150)." +
 			" <a href='https://yoa.st/35e' target='_blank'>Shorten your paragraphs</a>!",
 	},
 	textSentenceLength: {
 		isApplicable: true,
 		score: 3,
-		resultText: "<a href='https://yoa.st/34v' target='_blank'>Sentence length</a>: 66.7% of the sentences contain more than 15 words," +
+		resultText: "<a href='https://yoa.st/34v' target='_blank'>Sentence length</a>: 78.9% of the sentences contain more than 15 words," +
 			" which is more than the recommended maximum of 25%. <a href='https://yoa.st/34w' target='_blank'>Try to shorten the sentences</a>.",
 	},
 	textTransitionWords: {
@@ -144,11 +146,7 @@ const expectedResults = {
 		isApplicable: true,
 		score: 9,
 		resultText: "<a href='https://yoa.st/35f' target='_blank'>Consecutive sentences</a>:" +
-			" There is enough variety in your sentences. That's great!",
-	},
-	imageKeyphrase: {
-		// This is not applicable to this paper since the text doesn't have any image in it.
-		isApplicable: false,
+			" There are no repetitive sentence beginnings. That's great!",
 	},
 	imageCount: {
 		isApplicable: true,

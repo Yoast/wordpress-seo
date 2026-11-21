@@ -4,7 +4,7 @@
 	xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/8.5/phpunit.xsd"
 		backupGlobals="false"
 		backupStaticAttributes="false"
-		bootstrap="tests/unit/bootstrap.php"
+		bootstrap="tests/Unit/bootstrap.php"
 		colors="true"
 		convertDeprecationsToExceptions="true"
 		convertErrorsToExceptions="true"
@@ -20,7 +20,7 @@
 	>
 	<testsuites>
 		<testsuite name="yoastseo">
-			<directory suffix="-test.php">./tests/unit/</directory>
+			<directory suffix="Test.php">./tests/Unit/</directory>
 		</testsuite>
 	</testsuites>
 

@@ -19,7 +19,6 @@ class ReplacementVariableEditorMock extends React.Component {
 	constructor( props ) {
 		super( props );
 
-		// eslint-disable-next-line react/prop-types
 		props.editorRef( { focus } );
 	}
 

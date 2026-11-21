@@ -29,13 +29,13 @@ class Asset_Helper {
 	 *
 	 * @param string $handle The handle.
 	 *
-	 * @return string[]|bool All dependencies of the given handle.
+	 * @return string[] All dependencies of the given handle.
 	 */
 	public function get_dependency_handles( $handle ) {
 		$scripts = \wp_scripts();
 
 		if ( ! isset( $scripts->registered[ $handle ] ) ) {
-			return false;
+			return [];
 		}
 
 		$obj  = $scripts->registered[ $handle ];

@@ -12,9 +12,9 @@ use Yoast\WP\SEO\Helpers\User_Helper;
  */
 class Wistia_Embed_Permission_Repository {
 
-	const USER_META_KEY = '_yoast_wpseo_wistia_embed_permission';
+	public const USER_META_KEY = '_yoast_wpseo_wistia_embed_permission';
 
-	const DEFAULT_VALUE = false;
+	public const DEFAULT_VALUE = false;
 
 	/**
 	 * Holds the User_Helper instance.
@@ -37,9 +37,9 @@ class Wistia_Embed_Permission_Repository {
 	 *
 	 * @param int $user_id User ID.
 	 *
-	 * @throws Exception If an invalid user ID is supplied.
-	 *
 	 * @return bool The current value.
+	 *
+	 * @throws Exception If an invalid user ID is supplied.
 	 */
 	public function get_value_for_user( $user_id ) {
 		$value = $this->user_helper->get_meta( $user_id, self::USER_META_KEY, true );
@@ -66,9 +66,9 @@ class Wistia_Embed_Permission_Repository {
 	 * @param int  $user_id The user ID.
 	 * @param bool $value   The value.
 	 *
-	 * @throws Exception If an invalid user ID is supplied.
-	 *
 	 * @return bool Whether the update was successful.
+	 *
+	 * @throws Exception If an invalid user ID is supplied.
 	 */
 	public function set_value_for_user( $user_id, $value ) {
 		// The value is stored as a string because otherwise we can not see the difference between false and an invalid user ID.

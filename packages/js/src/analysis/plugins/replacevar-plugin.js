@@ -5,6 +5,7 @@ import { actions } from "@yoast/externals/redux";
 import { filter, forEach, isUndefined, trim } from "lodash";
 import isBlockEditor from "../../helpers/isBlockEditor";
 import ReplaceVar from "../../values/replaceVar";
+import { __ } from "@wordpress/i18n";
 
 const {
 	removeReplacementVariable,
@@ -623,7 +624,7 @@ YoastReplaceVarPlugin.prototype.hasParentTitle = function( parent ) {
 YoastReplaceVarPlugin.prototype.getParentTitleReplacement = function( parent ) {
 	var parentText = parent.find( "option:selected" ).text();
 
-	if ( parentText === wpseoScriptData.analysis.plugins.replaceVars.no_parent_text ) {
+	if ( parentText === __( "(no parent)", "wordpress-seo" ) ) {
 		return "";
 	}
 

@@ -1,0 +1,21 @@
+@layer components {
+	.yst-root {
+
+        .yst-intent-badge {
+            @apply yst-rounded-sm yst-w-5 yst-h-5 yst-flex yst-items-center yst-justify-center yst-font-semibold yst-text-sm yst-relative yst-uppercase;
+
+            &.yst-intent-badge--i {
+                @apply yst-text-blue-900 yst-bg-blue-200;
+            }
+            &.yst-intent-badge--n {
+                @apply yst-text-violet-900 yst-bg-violet-200;
+            }
+            &.yst-intent-badge--c {
+                @apply yst-text-amber-900 yst-bg-amber-200;
+            }
+            &.yst-intent-badge--t {
+                @apply yst-text-green-900 yst-bg-green-200;
+            }
+        }
+    }
+}

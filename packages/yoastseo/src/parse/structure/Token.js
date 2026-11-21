@@ -1,4 +1,8 @@
-import { normalizeSingle } from "../../languageProcessing";
+import { normalizeSingle } from "../../languageProcessing/index.js";
+
+/**
+ * @typedef {import("./SourceCodeLocation").SourceCodeRange} SourceCodeRange
+ */
 
 /**
  * A token representing a word, whitespace or punctuation in the sentence.

@@ -1,4 +1,3 @@
-// eslint-disable-next-line import/named
 import { combineReducers, createReduxStore, register } from "@wordpress/data";
 import { merge } from "lodash";
 import {
@@ -18,6 +17,12 @@ import {
 	wistiaEmbedPermissionControls,
 	wistiaEmbedPermissionReducer,
 	wistiaEmbedPermissionSelectors,
+	getInitialHasAiGeneratorConsentState,
+	HAS_AI_GENERATOR_CONSENT_NAME,
+	hasAiGeneratorConsentActions,
+	hasAiGeneratorConsentControls,
+	hasAiGeneratorConsentReducer,
+	hasAiGeneratorConsentSelectors,
 } from "../../shared-admin/store";
 import { STORE_NAME_INTRODUCTIONS } from "../constants";
 import {
@@ -41,12 +46,14 @@ const createStore = ( initialState ) => {
 			...linkParamsActions,
 			...pluginUrlActions,
 			...wistiaEmbedPermissionActions,
+			...hasAiGeneratorConsentActions,
 		},
 		selectors: {
 			...introductionsSelectors,
 			...linkParamsSelectors,
 			...pluginUrlSelectors,
 			...wistiaEmbedPermissionSelectors,
+			...hasAiGeneratorConsentSelectors,
 		},
 		initialState: merge(
 			{},
@@ -55,6 +62,7 @@ const createStore = ( initialState ) => {
 				[ LINK_PARAMS_NAME ]: getInitialLinkParamsState(),
 				[ PLUGIN_URL_NAME ]: getInitialPluginUrlState(),
 				[ WISTIA_EMBED_PERMISSION_NAME ]: getInitialWistiaEmbedPermissionState(),
+				[ HAS_AI_GENERATOR_CONSENT_NAME ]: getInitialHasAiGeneratorConsentState(),
 			},
 			initialState
 		),
@@ -63,9 +71,11 @@ const createStore = ( initialState ) => {
 			[ LINK_PARAMS_NAME ]: linkParamsReducer,
 			[ PLUGIN_URL_NAME ]: pluginUrlReducer,
 			[ WISTIA_EMBED_PERMISSION_NAME ]: wistiaEmbedPermissionReducer,
+			[ HAS_AI_GENERATOR_CONSENT_NAME ]: hasAiGeneratorConsentReducer,
 		} ),
 		controls: {
 			...wistiaEmbedPermissionControls,
+			...hasAiGeneratorConsentControls,
 		},
 	} );
 };

@@ -1,6 +1,6 @@
 /** @module stringProcessing/stringToRegex */
-import { escapeRegExp, isUndefined, memoize } from "lodash-es";
-import sanitizeString from "../sanitize/sanitizeString";
+import { escapeRegExp, isUndefined, memoize } from "lodash";
+import sanitizeString from "../sanitize/sanitizeString.js";
 import replaceDiacritics from "../transliterate/replaceDiacritics.js";
 import addWordBoundary from "../word/addWordboundary.js";
 

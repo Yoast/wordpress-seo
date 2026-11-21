@@ -1,7 +1,7 @@
-import { Description, Meta } from "@storybook/addon-docs";
-import installation from "./installation.md";
+import { Markdown, Meta } from "@storybook/addon-docs";
+import installation from "./installation.md?raw";
 
-<Meta title="Installation" parameters={ { storyshots: { disable: true } } } />
+<Meta title="Installation" />
 
-<Description markdown={ installation } />
+<Markdown>{ installation }</Markdown>
 

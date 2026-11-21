@@ -17,19 +17,19 @@ abstract class Abstract_Aioseo_Settings_Importing_Action extends Abstract_Aioseo
 	 *
 	 * @var string
 	 */
-	const PLUGIN = null;
+	public const PLUGIN = null;
 
 	/**
 	 * The type the class deals with.
 	 *
 	 * @var string
 	 */
-	const TYPE = null;
+	public const TYPE = null;
 
 	/**
 	 * The option_name of the AIOSEO option that contains the settings.
 	 */
-	const SOURCE_OPTION_NAME = null;
+	public const SOURCE_OPTION_NAME = null;
 
 	/**
 	 * The map of aioseo_options to yoast settings.
@@ -48,9 +48,9 @@ abstract class Abstract_Aioseo_Settings_Importing_Action extends Abstract_Aioseo
 	/**
 	 * Additional mapping between AiOSEO replace vars and Yoast replace vars.
 	 *
-	 * @var array
-	 *
 	 * @see https://yoast.com/help/list-available-snippet-variables-yoast-seo/
+	 *
+	 * @var array
 	 */
 	protected $replace_vars_edited_map = [];
 
@@ -74,6 +74,8 @@ abstract class Abstract_Aioseo_Settings_Importing_Action extends Abstract_Aioseo
 	 * @required
 	 *
 	 * @param Import_Helper $import_helper The import helper.
+	 *
+	 * @return void
 	 */
 	public function set_import_helper( Import_Helper $import_helper ) {
 		$this->import_helper = $import_helper;
@@ -232,7 +234,7 @@ abstract class Abstract_Aioseo_Settings_Importing_Action extends Abstract_Aioseo
 		/**
 		 * Filter 'wpseo_aioseo_<identifier>_import_cursor' - Allow filtering the value of the aioseo settings import cursor.
 		 *
-		 * @api int The value of the aioseo posttype default settings import cursor.
+		 * @param int $import_cursor The value of the aioseo posttype default settings import cursor.
 		 */
 		$cursor = \apply_filters( 'wpseo_aioseo_' . $this->get_type() . '_import_cursor', $cursor );
 
@@ -257,7 +259,7 @@ abstract class Abstract_Aioseo_Settings_Importing_Action extends Abstract_Aioseo
 		/**
 		 * Filter 'wpseo_aioseo_<identifier>_indexation_limit' - Allow filtering the number of settings imported during each importing pass.
 		 *
-		 * @api int The maximum number of posts indexed.
+		 * @param int $max_posts The maximum number of posts indexed.
 		 */
 		$limit = \apply_filters( 'wpseo_aioseo_' . $this->get_type() . '_indexation_limit', 25 );
 

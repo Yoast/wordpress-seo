@@ -1,4 +1,5 @@
 import { assessments, helpers, languageProcessing } from "yoastseo";
+import { colors } from "@yoast/style-guide";
 
 /**
  * Gets the title progress.
@@ -54,4 +55,22 @@ export const getDescriptionProgress = ( description, date, isCornerstone, isTaxo
 		actual: descriptionLength,
 		score: score,
 	};
+};
+
+/**
+ * Gets the progress color for a given score.
+ * @param {number} score The score to determine a color for.
+ *
+ * @returns {string} A hex color.
+ */
+export const getProgressColor = ( score ) => {
+	if ( score >= 7 ) {
+		return colors.$color_good;
+	}
+
+	if ( score >= 5 ) {
+		return colors.$color_ok;
+	}
+
+	return colors.$color_bad;
 };

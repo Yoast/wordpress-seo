@@ -31,14 +31,14 @@ $gsc_notification        = sprintf(
 	/* Translators: %1$s: expands to opening anchor tag, %2$s expands to closing anchor tag. */
 	__( 'Google has discontinued its Crawl Errors API. Therefore, any possible crawl errors you might have cannot be displayed here anymore. %1$sRead our statement on this for further information%2$s.', 'wordpress-seo' ),
 	'<a style="' . $gsc_style_alert_link . '" href="' . WPSEO_Shortlinker::get( $gsc_post_url ) . '" target="_blank" rel="noopener">',
-	WPSEO_Admin_Utils::get_new_tab_message() . '</a>'
+	WPSEO_Admin_Utils::get_new_tab_message() . '</a>',
 );
 $gsc_notification .= '<br/><br/>';
 $gsc_notification .= sprintf(
 	/* Translators: %1$s: expands to opening anchor tag, %2$s expands to closing anchor tag. */
 	__( 'To view your current crawl errors, %1$splease visit Google Search Console%2$s.', 'wordpress-seo' ),
 	'<a style="' . $gsc_style_alert_link . '" href="' . $gsc_url . '" target="_blank" rel="noopener noreferrer">',
-	WPSEO_Admin_Utils::get_new_tab_message() . '</a>'
+	WPSEO_Admin_Utils::get_new_tab_message() . '</a>',
 );
 ?>
 	<div style="<?php echo $gsc_style_alert; ?>">

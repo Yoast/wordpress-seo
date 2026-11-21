@@ -1,13 +1,15 @@
-/* eslint-disable no-undefined */
 import classNames from "classnames";
 import PropTypes from "prop-types";
-import { forwardRef } from "@wordpress/element";
+import React, { forwardRef } from "react";
 
 const classNameMap = {
 	variant: {
 		info: "yst-badge--info",
 		upsell: "yst-badge--upsell",
 		plain: "yst-badge--plain",
+		success: "yst-badge--success",
+		error: "yst-badge--error",
+		ai: "yst-badge--ai",
 	},
 	size: {
 		"default": "",
@@ -26,10 +28,10 @@ const classNameMap = {
  */
 const Badge = forwardRef( ( {
 	children,
-	as: Component,
-	variant,
-	size,
-	className,
+	as: Component = "span",
+	variant = "info",
+	size = "default",
+	className = "",
 	...props
 }, ref ) => (
 	<Component
@@ -54,19 +56,7 @@ const propTypes = {
 	className: PropTypes.string,
 };
 
+Badge.displayName = "Badge";
 Badge.propTypes = propTypes;
 
-Badge.defaultProps = {
-	as: "span",
-	variant: "info",
-	size: "default",
-	className: "",
-};
-
 export default Badge;
-
-// eslint-disable-next-line require-jsdoc
-export const StoryComponent = props => <Badge { ...props } />;
-StoryComponent.propTypes = propTypes;
-StoryComponent.defaultProps = Badge.defaultProps;
-StoryComponent.displayName = "Badge";

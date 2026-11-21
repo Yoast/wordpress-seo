@@ -17,7 +17,7 @@ class WPSEO_Sitemaps {
 	 *
 	 * @var string
 	 */
-	const SITEMAP_INDEX_TYPE = '1';
+	public const SITEMAP_INDEX_TYPE = '1';
 
 	/**
 	 * Content of the sitemap to output.
@@ -115,6 +115,8 @@ class WPSEO_Sitemaps {
 	 * Initialize sitemap providers classes.
 	 *
 	 * @since 5.3
+	 *
+	 * @return void
 	 */
 	public function init_sitemaps_providers() {
 
@@ -135,6 +137,8 @@ class WPSEO_Sitemaps {
 
 	/**
 	 * Check the current request URI, if we can determine it's probably an XML sitemap, kill loading the widgets.
+	 *
+	 * @return void
 	 */
 	public function reduce_query_load() {
 		if ( ! isset( $_SERVER['REQUEST_URI'] ) ) {
@@ -142,7 +146,7 @@ class WPSEO_Sitemaps {
 		}
 		$request_uri = sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) );
 		$extension   = substr( $request_uri, -4 );
-		if ( stripos( $request_uri, 'sitemap' ) !== false && in_array( $extension, [ '.xml', '.xsl' ], true ) ) {
+		if ( stripos( $request_uri, 'sitemap' ) !== false && in_array( $extension, [ '.xml', '.xsl', '.css' ], true ) ) {
 			remove_all_actions( 'widgets_init' );
 		}
 	}
@@ -153,11 +157,13 @@ class WPSEO_Sitemaps {
 	 * @param string   $name              The name of the sitemap.
 	 * @param callback $building_function Function to build your sitemap.
 	 * @param string   $rewrite           Optional. Regular expression to match your sitemap with.
+	 *
+	 * @return void
 	 */
 	public function register_sitemap( $name, $building_function, $rewrite = '' ) {
 		add_action( 'wpseo_do_sitemap_' . $name, $building_function );
-		if ( ! empty( $rewrite ) ) {
-			add_rewrite_rule( $rewrite, 'index.php?sitemap=' . $name, 'top' );
+		if ( $rewrite ) {
+			Yoast_Dynamic_Rewrites::instance()->add_rule( $rewrite, 'index.php?sitemap=' . $name, 'top' );
 		}
 	}
 
@@ -165,15 +171,43 @@ class WPSEO_Sitemaps {
 	 * Register your own XSL file. Call this during 'init'.
 	 *
 	 * @since 1.4.23
+	 * @deprecated 29.0
+	 * @codeCoverageIgnore
 	 *
 	 * @param string   $name              The name of the XSL file.
 	 * @param callback $building_function Function to build your XSL file.
 	 * @param string   $rewrite           Optional. Regular expression to match your sitemap with.
+	 *
+	 * @return void
 	 */
 	public function register_xsl( $name, $building_function, $rewrite = '' ) {
+		_deprecated_function( __METHOD__, 'Yoast SEO 29.0', 'WPSEO_Sitemaps::register_css' );
+
 		add_action( 'wpseo_xsl_' . $name, $building_function );
-		if ( ! empty( $rewrite ) ) {
-			add_rewrite_rule( $rewrite, 'index.php?yoast-sitemap-xsl=' . $name, 'top' );
+		if ( $rewrite ) {
+			Yoast_Dynamic_Rewrites::instance()->add_rule( $rewrite, 'index.php?yoast-sitemap-xsl=' . $name, 'top' );
+		}
+	}
+
+	/**
+	 * Register your own CSS stylesheet. Call this during 'init'.
+	 *
+	 * The stylesheet is served from `<name>-sitemap.css` on the home URL, with the right headers.
+	 * Pass `$rewrite` only when `$name` has other characters than lowercase letters. A rewrite of the form
+	 * `<letters>-sitemap.css` is matched as the stylesheet named `<letters>`, not as `$name`.
+	 *
+	 * @since 29.0
+	 *
+	 * @param string   $name              The name of the CSS stylesheet.
+	 * @param callback $building_function Function to output the content of your CSS stylesheet.
+	 * @param string   $rewrite           Optional. Regular expression to match your stylesheet with.
+	 *
+	 * @return void
+	 */
+	public function register_css( $name, $building_function, $rewrite = '' ) {
+		add_action( 'wpseo_css_' . $name, $building_function );
+		if ( $rewrite ) {
+			Yoast_Dynamic_Rewrites::instance()->add_rule( $rewrite, 'index.php?yoast-sitemap-css=' . $name, 'top' );
 		}
 	}
 
@@ -182,10 +216,12 @@ class WPSEO_Sitemaps {
 	 * in a one-off process.
 	 *
 	 * @param int $current_page The part that should be generated.
+	 *
+	 * @return void
 	 */
 	public function set_n( $current_page ) {
-		if ( is_scalar( $current_page ) && intval( $current_page ) > 0 ) {
-			$this->current_page = intval( $current_page );
+		if ( is_scalar( $current_page ) && (int) $current_page > 0 ) {
+			$this->current_page = (int) $current_page;
 		}
 	}
 
@@ -193,6 +229,8 @@ class WPSEO_Sitemaps {
 	 * Set the sitemap content to display after you have generated it.
 	 *
 	 * @param string $sitemap The generated sitemap to output.
+	 *
+	 * @return void
 	 */
 	public function set_sitemap( $sitemap ) {
 		$this->sitemap = $sitemap;
@@ -202,6 +240,8 @@ class WPSEO_Sitemaps {
 	 * Set as true to make the request 404. Used stop the display of empty sitemaps or invalid requests.
 	 *
 	 * @param bool $is_bad Is this a bad request. True or false.
+	 *
+	 * @return void
 	 */
 	public function set_bad_sitemap( $is_bad ) {
 		$this->bad_sitemap = (bool) $is_bad;
@@ -211,20 +251,37 @@ class WPSEO_Sitemaps {
 	 * Prevent stupid plugins from running shutdown scripts when we're obviously not outputting HTML.
 	 *
 	 * @since 1.4.16
+	 *
+	 * @return void
 	 */
 	public function sitemap_close() {
 		remove_all_actions( 'wp_footer' );
-		die();
+		exit();
 	}
 
 	/**
-	 * Hijack requests for potential sitemaps and XSL files.
+	 * Hijack requests for potential sitemaps and stylesheet files.
 	 *
-	 * @param \WP_Query $query Main query instance.
+	 * @param WP_Query $query Main query instance.
+	 *
+	 * @return void
 	 */
 	public function redirect( $query ) {
 
 		if ( ! $query->is_main_query() ) {
+			return;
+		}
+
+		$yoast_sitemap_css = get_query_var( 'yoast-sitemap-css' );
+
+		if ( ! empty( $yoast_sitemap_css ) ) {
+			/*
+			 * This is a method to provide the stylesheet via the home_url.
+			 * Needed when the site_url and home_url are not the same.
+			 */
+			$this->css_output( $yoast_sitemap_css );
+			$this->sitemap_close();
+
 			return;
 		}
 
@@ -238,7 +295,7 @@ class WPSEO_Sitemaps {
 			 *
 			 * Whenever home_url and site_url are the same, the file can be loaded directly.
 			 */
-			$this->xsl_output( $yoast_sitemap_xsl );
+			$this->output_xsl( $yoast_sitemap_xsl );
 			$this->sitemap_close();
 
 			return;
@@ -252,7 +309,7 @@ class WPSEO_Sitemaps {
 
 		if ( get_query_var( 'sitemap_n' ) === '1' || get_query_var( 'sitemap_n' ) === '0' ) {
 			wp_safe_redirect( home_url( "/$type-sitemap.xml" ), 301, 'Yoast SEO' );
-			exit;
+			exit();
 		}
 
 		$this->set_n( get_query_var( 'sitemap_n' ) );
@@ -332,6 +389,8 @@ class WPSEO_Sitemaps {
 	 * Sets $bad_sitemap if this isn't for the root sitemap, a post type or taxonomy.
 	 *
 	 * @param string $type The requested sitemap's identifier.
+	 *
+	 * @return void
 	 */
 	public function build_sitemap( $type ) {
 
@@ -382,6 +441,8 @@ class WPSEO_Sitemaps {
 
 	/**
 	 * Build the root sitemap (example.com/sitemap_index.xml) which lists sub-sitemaps for other content types.
+	 *
+	 * @return void
 	 */
 	public function build_root_map() {
 
@@ -410,41 +471,98 @@ class WPSEO_Sitemaps {
 	}
 
 	/**
-	 * Spits out the XSL for the XML sitemap.
+	 * Spits out the XSL for XML sitemaps registered through `register_xsl()`.
+	 *
+	 * The main XML sitemap is styled with CSS, see `css_output()`.
 	 *
 	 * @since 1.4.13
+	 * @deprecated 29.0
+	 * @codeCoverageIgnore
 	 *
 	 * @param string $type Type to output.
+	 *
+	 * @return void
 	 */
 	public function xsl_output( $type ) {
+		_deprecated_function( __METHOD__, 'Yoast SEO 29.0', 'WPSEO_Sitemaps::css_output' );
+
+		$this->output_xsl( $type );
+	}
+
+	/**
+	 * Spits out the XSL for XML sitemaps that still hook into the deprecated `wpseo_xsl_<type>` action.
+	 *
+	 * @param string $type Type to output.
+	 *
+	 * @return void
+	 */
+	private function output_xsl( $type ) {
 
 		if ( $type !== 'main' ) {
 
 			/**
 			 * Fires for the output of XSL for XML sitemaps, other than type "main".
+			 *
+			 * @deprecated 29.0. Use the {@see 'wpseo_css_<type>'} action instead.
 			 */
-			do_action( 'wpseo_xsl_' . $type );
+			do_action_deprecated( 'wpseo_xsl_' . $type, [], 'Yoast SEO 29.0', 'wpseo_css_' . $type );
 
 			return;
 		}
 
-		header( $this->http_protocol . ' 200 OK', true, 200 );
-		// Prevent the search engines from indexing the XML Sitemap.
-		header( 'X-Robots-Tag: noindex, follow', true );
-		header( 'Content-Type: text/xml' );
+		if ( ! headers_sent() ) {
+			header( $this->http_protocol . ' 404 Not Found', true, 404 );
+		}
+	}
 
-		// Make the browser cache this file properly.
-		$expires = YEAR_IN_SECONDS;
-		header( 'Pragma: public' );
-		header( 'Cache-Control: max-age=' . $expires );
-		header( 'Expires: ' . YoastSEO()->helpers->date->format_timestamp( ( time() + $expires ), 'D, d M Y H:i:s' ) . ' GMT' );
+	/**
+	 * Spits out the CSS for the XML sitemap, or for XML sitemaps registered through `register_css()`.
+	 *
+	 * @param string $type Optional. Type to output. Defaults to the main XML sitemap.
+	 *
+	 * @return void
+	 */
+	public function css_output( $type = 'main' ) {
+		$is_main = in_array( (string) $type, [ 'main', '1' ], true );
+
+		if ( ! $is_main && ! has_action( 'wpseo_css_' . $type ) ) {
+			if ( ! headers_sent() ) {
+				header( $this->http_protocol . ' 404 Not Found', true, 404 );
+			}
+
+			return;
+		}
+
+		if ( ! headers_sent() ) {
+			header( $this->http_protocol . ' 200 OK', true, 200 );
+			// Prevent the search engines from indexing the XML Sitemap.
+			header( 'X-Robots-Tag: noindex, follow', true );
+			header( 'Content-Type: text/css; charset=UTF-8' );
+
+			// Make the browser cache this file properly.
+			$expires = MONTH_IN_SECONDS;
+			header( 'Pragma: public' );
+			header( 'Cache-Control: max-age=' . $expires );
+			header( 'Expires: ' . YoastSEO()->helpers->date->format_timestamp( ( time() + $expires ), 'D, d M Y H:i:s' ) . ' GMT' );
+		}
+
+		if ( ! $is_main ) {
+			/**
+			 * Fires for the output of the CSS for XML sitemaps, other than type "main".
+			 */
+			do_action( 'wpseo_css_' . $type );
+
+			return;
+		}
 
 		// Don't use WP_Filesystem() here because that's not initialized yet. See https://yoast.atlassian.net/browse/QAK-2043.
-		readfile( WPSEO_PATH . 'css/main-sitemap.xsl' );
+		readfile( WPSEO_PATH . 'css/main-sitemap.css' );
 	}
 
 	/**
 	 * Spit out the generated sitemap.
+	 *
+	 * @return void
 	 */
 	public function output() {
 		$this->send_headers();
@@ -492,25 +610,48 @@ class WPSEO_Sitemaps {
 			}
 		}
 
-		if ( is_null( $post_type_dates ) ) {
+		if ( $post_type_dates === null ) {
 
 			$post_type_dates = [];
 			$post_type_names = WPSEO_Post_Type::get_accessible_post_types();
 
 			if ( ! empty( $post_type_names ) ) {
 				$post_statuses = array_map( 'esc_sql', self::get_post_statuses() );
+				$replacements  = array_merge(
+					[
+						'post_type',
+						'post_modified_gmt',
+						'date',
+						$wpdb->posts,
+						'post_status',
+					],
+					$post_statuses,
+					[ 'post_type' ],
+					array_keys( $post_type_names ),
+					[
+						'post_type',
+						'date',
+					],
+				);
 
-				$sql = "
-					SELECT post_type, MAX(post_modified_gmt) AS date
-					FROM $wpdb->posts
-					WHERE post_status IN ('" . implode( "','", $post_statuses ) . "')
-						AND post_type IN ('" . implode( "','", $post_type_names ) . "')
-					GROUP BY post_type
-					ORDER BY date DESC
-				";
+				//phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- We need to use a direct query here.
+				//phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching -- Reason: No relevant caches.
+				$dates = $wpdb->get_results(
+					//phpcs:disable WordPress.DB.PreparedSQLPlaceholders -- %i placeholder is still not recognized.
+					$wpdb->prepare(
+						'
+					SELECT %i, MAX(%i) AS %i
+					FROM %i
+					WHERE %i IN (' . implode( ', ', array_fill( 0, count( $post_statuses ), '%s' ) ) . ')
+						AND %i IN (' . implode( ', ', array_fill( 0, count( $post_type_names ), '%s' ) ) . ')
+					GROUP BY %i
+					ORDER BY %i DESC
+				',
+						$replacements,
+					),
+				);
 
-				// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery -- They are prepared on the lines above and a direct query is required.
-				foreach ( $wpdb->get_results( $sql ) as $obj ) {
+				foreach ( $dates as $obj ) {
 					$post_type_dates[ $obj->post_type ] = $obj->date;
 				}
 			}
@@ -592,6 +733,8 @@ class WPSEO_Sitemaps {
 
 	/**
 	 * Sends all the required HTTP Headers.
+	 *
+	 * @return void
 	 */
 	private function send_headers() {
 		if ( headers_sent() ) {

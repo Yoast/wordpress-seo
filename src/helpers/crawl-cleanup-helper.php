@@ -93,7 +93,6 @@ class Crawl_Cleanup_Helper {
 		 *
 		 * @param array $allowed_extravars The list of the allowed vars (empty by default).
 		 */
-
 		$allowed_extravars = \apply_filters( 'Yoast\WP\SEO\allowlist_permalink_vars', $default_allowed_extravars );
 
 		$clean_permalinks_extra_variables = $this->options_helper->get( 'clean_permalinks_extra_variables' );
@@ -156,7 +155,7 @@ class Crawl_Cleanup_Helper {
 		}
 
 		// Fix reply to comment links, whoever decided this should be a GET variable?
-        // phpcs:ignore WordPress.Security -- We know this is scary.
+		// phpcs:ignore WordPress.Security -- We know this is scary.
 		if ( isset( $_SERVER['REQUEST_URI'] ) && \preg_match( '`(\?replytocom=[^&]+)`', \sanitize_text_field( $_SERVER['REQUEST_URI'] ), $matches ) ) {
 			$proper_url .= \str_replace( '?replytocom=', '#comment-', $matches[0] );
 		}
@@ -271,7 +270,7 @@ class Crawl_Cleanup_Helper {
 			/* translators: %1$s: Yoast SEO */
 			\__( '%1$s: unregistered URL parameter removed. See %2$s', 'wordpress-seo' ),
 			'Yoast SEO',
-			'https://yoa.st/advanced-crawl-settings'
+			'https://yoa.st/advanced-crawl-settings',
 		);
 
 		$this->redirect_helper->do_safe_redirect( $proper_url, 301, $message );

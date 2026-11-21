@@ -1,5 +1,5 @@
-import { shallow } from "enzyme";
 import AnalysisChecklist from "../../src/components/AnalysisChecklist";
+import { fireEvent, render, screen } from "../test-utils";
 
 describe( "The AnalysisChecklist component", () => {
 	it( "renders a checklist with a button when not all checks are good", () => {
@@ -20,16 +20,16 @@ describe( "The AnalysisChecklist component", () => {
 				scoreValue: "Good",
 			},
 		];
-
 		const onClick = jest.fn();
 
-		const checklist = shallow( <AnalysisChecklist checklist={ checks } onClick={ onClick } /> );
+		render( <AnalysisChecklist checklist={ checks } onClick={ onClick } /> );
 
-		const checklistItems = checklist.find( "AnalysisCheck" );
+		const checklistItems = document.querySelectorAll( ".yoast-analysis-check" );
 		expect( checklistItems ).toHaveLength( 3 );
 
-		const buttons = checklist.find( "Button" );
-		expect( buttons ).toHaveLength( 1 );
+		const button = screen.getByRole( "button" );
+		expect( button ).toBeInTheDocument();
+		expect( button ).toHaveTextContent( "Improve your post with Yoast SEO" );
 	} );
 
 	it( "renders a checklist without a button when every check is good", () => {
@@ -45,13 +45,14 @@ describe( "The AnalysisChecklist component", () => {
 				scoreValue: "Needs improvement",
 			},
 		];
-
 		const onClick = jest.fn();
 
-		const checklist = shallow( <AnalysisChecklist checklist={ checks } onClick={ onClick } /> );
+		render( <AnalysisChecklist checklist={ checks } onClick={ onClick } /> );
 
-		const checklistItems = checklist.find( "AnalysisCheck" );
+		const checklistItems = document.querySelectorAll( ".yoast-analysis-check" );
 		expect( checklistItems ).toHaveLength( 2 );
+
+		expect( screen.queryByRole( "button" ) ).not.toBeInTheDocument();
 	} );
 
 	it( "calls the onClick handler when the button is clicked", () => {
@@ -67,12 +68,10 @@ describe( "The AnalysisChecklist component", () => {
 				scoreValue: "Needs improvement",
 			},
 		];
-
 		const onClick = jest.fn();
 
-		const checklist = shallow( <AnalysisChecklist checklist={ checks } onClick={ onClick } shouldShowIntro={ true } /> );
-
-		checklist.find( "Button" ).simulate( "click" );
+		render( <AnalysisChecklist checklist={ checks } onClick={ onClick } /> );
+		fireEvent.click( screen.getByRole( "button" ) );
 
 		expect( onClick ).toHaveBeenCalled();
 	} );

@@ -1,5 +1,5 @@
 import React from "react";
-import renderer from "react-test-renderer";
+import { render } from "@testing-library/react";
 import ContentAnalysis from "../src/ContentAnalysis.js";
 
 const problemsResults = [
@@ -78,7 +78,7 @@ const upsellResults = [
 
 describe( "ContentAnalysis", () => {
 	it( "the ContentAnalysis component without language notice matches the snapshot", () => {
-		const component = renderer.create(
+		const { container } = render(
 			<ContentAnalysis
 				problemsResults={ problemsResults }
 				improvementsResults={ improvementsResults }
@@ -88,12 +88,11 @@ describe( "ContentAnalysis", () => {
 			/>
 		);
 
-		const tree = component.toJSON();
-		expect( tree ).toMatchSnapshot();
+		expect( container.firstChild ).toMatchSnapshot();
 	} );
 
 	it( "the ContentAnalysis component without problems matches the snapshot", () => {
-		const component = renderer.create(
+		const { container } = render(
 			<ContentAnalysis
 				problemsResults={ [] }
 				improvementsResults={ improvementsResults }
@@ -103,12 +102,11 @@ describe( "ContentAnalysis", () => {
 			/>
 		);
 
-		const tree = component.toJSON();
-		expect( tree ).toMatchSnapshot();
+		expect( container.firstChild ).toMatchSnapshot();
 	} );
 
 	it( "the ContentAnalysis component without problems and improvements matches the snapshot", () => {
-		const component = renderer.create(
+		const { container } = render(
 			<ContentAnalysis
 				problemsResults={ [] }
 				improvementsResults={ [] }
@@ -118,12 +116,11 @@ describe( "ContentAnalysis", () => {
 			/>
 		);
 
-		const tree = component.toJSON();
-		expect( tree ).toMatchSnapshot();
+		expect( container.firstChild ).toMatchSnapshot();
 	} );
 
 	it( "the ContentAnalysis component without problems, improvements and considerations matches the snapshot", () => {
-		const component = renderer.create(
+		const { container } = render(
 			<ContentAnalysis
 				problemsResults={ [] }
 				improvementsResults={ [] }
@@ -133,12 +130,11 @@ describe( "ContentAnalysis", () => {
 			/>
 		);
 
-		const tree = component.toJSON();
-		expect( tree ).toMatchSnapshot();
+		expect( container.firstChild ).toMatchSnapshot();
 	} );
 
 	it( "the ContentAnalysis component without problems and considerations, but with improvements and good matches the snapshot", () => {
-		const component = renderer.create(
+		const { container } = render(
 			<ContentAnalysis
 				problemsResults={ [] }
 				improvementsResults={ improvementsResults }
@@ -148,12 +144,11 @@ describe( "ContentAnalysis", () => {
 			/>
 		);
 
-		const tree = component.toJSON();
-		expect( tree ).toMatchSnapshot();
+		expect( container.firstChild ).toMatchSnapshot();
 	} );
 
 	it( "the ContentAnalysis component with specified header level matches the snapshot", () => {
-		const component = renderer.create(
+		const { container } = render(
 			<ContentAnalysis
 				headingLevel={ 3 }
 				problemsResults={ problemsResults }
@@ -164,12 +159,11 @@ describe( "ContentAnalysis", () => {
 			/>
 		);
 
-		const tree = component.toJSON();
-		expect( tree ).toMatchSnapshot();
+		expect( container.firstChild ).toMatchSnapshot();
 	} );
 
 	it( "the ContentAnalysis component with disabled buttons matches the snapshot", () => {
-		const component = renderer.create(
+		const { container } = render(
 			<ContentAnalysis
 				problemsResults={ problemsResults }
 				improvementsResults={ improvementsResults }
@@ -180,12 +174,11 @@ describe( "ContentAnalysis", () => {
 			/>
 		);
 
-		const tree = component.toJSON();
-		expect( tree ).toMatchSnapshot();
+		expect( container.firstChild ).toMatchSnapshot();
 	} );
 
 	it( "the ContentAnalysis component with hidden buttons matches the snapshot", () => {
-		const component = renderer.create(
+		const { container } = render(
 			<ContentAnalysis
 				problemsResults={ problemsResults }
 				improvementsResults={ improvementsResults }
@@ -196,12 +189,11 @@ describe( "ContentAnalysis", () => {
 			/>
 		);
 
-		const tree = component.toJSON();
-		expect( tree ).toMatchSnapshot();
+		expect( container.firstChild ).toMatchSnapshot();
 	} );
 
 	it( "the ContentAnalysis component with upsell results matches the snapshot", () => {
-		const component = renderer.create(
+		const { container } = render(
 			<ContentAnalysis
 				problemsResults={ problemsResults }
 				improvementsResults={ improvementsResults }
@@ -212,8 +204,7 @@ describe( "ContentAnalysis", () => {
 			/>
 		);
 
-		const tree = component.toJSON();
-		expect( tree ).toMatchSnapshot();
+		expect( container.firstChild ).toMatchSnapshot();
 	} );
 
 	it( "the ContentAnalysis component with custom result category labels matches the snapshot", () => {
@@ -222,7 +213,7 @@ describe( "ContentAnalysis", () => {
 			goodResults: "Well done!",
 		};
 
-		const component = renderer.create(
+		const { container } = render(
 			<ContentAnalysis
 				problemsResults={ problemsResults }
 				improvementsResults={ improvementsResults }
@@ -233,7 +224,6 @@ describe( "ContentAnalysis", () => {
 			/>
 		);
 
-		const tree = component.toJSON();
-		expect( tree ).toMatchSnapshot();
+		expect( container.firstChild ).toMatchSnapshot();
 	} );
 } );

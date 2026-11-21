@@ -10,14 +10,14 @@
  *
  * @noinspection PhpUnusedLocalVariableInspection
  *
- * @var array
+ * @var array $notifications_data
  */
 $notifications_data = Yoast_Notifications::get_template_variables();
 
 $wpseo_contributors_phrase = sprintf(
 	/* translators: %1$s expands to Yoast SEO */
 	__( 'See who contributed to %1$s.', 'wordpress-seo' ),
-	'Yoast SEO'
+	'Yoast SEO',
 );
 
 ?>

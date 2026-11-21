@@ -117,6 +117,40 @@ describe( "Paper", function() {
 			expect( paper.getCustomData() ).toEqual( { hasGlobalIdentifier: false, hasVariants: true, doAllVariantsHaveIdentifier: true } );
 		} );
 
+		it( "returns product data", function() {
+			const attributes = {
+				productData: { isVariableProduct: true, hasVariants: true, hasGlobalSKU: false },
+			};
+			const paper = new Paper( "", attributes );
+			expect( paper.getProductData() ).toEqual( { isVariableProduct: true, hasVariants: true, hasGlobalSKU: false } );
+		} );
+
+		it( "returns an empty object for the product data when none is provided", function() {
+			const paper = new Paper( "" );
+			expect( paper.getProductData() ).toEqual( {} );
+		} );
+
+		it( "returns the provided images", function() {
+			const attributes = {
+				providedImages: [ { id: 1, src: "https://example.com/image.jpg", alt: "An image" }, { id: 2, src: "", alt: "" } ],
+			};
+			const paper = new Paper( "", attributes );
+			expect( paper.getProvidedImages() ).toEqual( attributes.providedImages );
+		} );
+
+		it( "returns null for the provided images when none are provided", function() {
+			const paper = new Paper( "" );
+			expect( paper.getProvidedImages() ).toBeNull();
+			expect( paper.hasProvidedImages() ).toBe( false );
+		} );
+
+		it( "treats an explicitly provided empty providedImages array as having provided images", function() {
+			// The producer opted in: a product without images, which the image assessments must score as such.
+			const paper = new Paper( "", { providedImages: [] } );
+			expect( paper.getProvidedImages() ).toEqual( [] );
+			expect( paper.hasProvidedImages() ).toBe( true );
+		} );
+
 		it( "returns the text title", function() {
 			const attributes = {
 				textTitle: "A text title",
@@ -195,6 +229,81 @@ describe( "Paper", function() {
 			const paper2 = new Paper( "This is a test", attributes2 );
 			expect( paper1.equals( paper2 ) ).toBe( false );
 		} );
+
+		it( "should identify two papers with similar content but dissimilar provided images as not equal", function() {
+			const paper1 = new Paper( "This is a test", { providedImages: [ { id: 1, src: "https://example.com/image.jpg", alt: "An image" } ] } );
+			const paper2 = new Paper( "This is a test", { providedImages: [ { id: 1, src: "https://example.com/image.jpg", alt: "New alt" } ] } );
+			expect( paper1.equals( paper2 ) ).toBe( false );
+		} );
+	} );
+
+	describe( "hasSameTreeInputsAs", function() {
+		it( "returns true for two papers with identical text and tree-relevant attributes", function() {
+			const paper1 = new Paper( "<p>Hello world.</p>" );
+			const paper2 = new Paper( "<p>Hello world.</p>" );
+			expect( paper1.hasSameTreeInputsAs( paper2 ) ).toBe( true );
+		} );
+
+		it( "returns true when only non-tree attributes (keyword, title, description, …) differ", function() {
+			const paper1 = new Paper( "<p>Hello world.</p>", { keyword: "alpha", title: "Title A", description: "Desc A" } );
+			const paper2 = new Paper( "<p>Hello world.</p>", { keyword: "beta",  title: "Title B", description: "Desc B" } );
+			expect( paper1.hasSameTreeInputsAs( paper2 ) ).toBe( true );
+		} );
+
+		it( "returns true when only the provided images differ", function() {
+			// Provided images don't feed the tree builder, so a change must not invalidate the cached tree.
+			const paper1 = new Paper( "<p>Hello world.</p>", { providedImages: [ { id: 1, src: "https://example.com/image.jpg", alt: "An image" } ] } );
+			const paper2 = new Paper( "<p>Hello world.</p>", { providedImages: [ { id: 2, src: "https://example.com/other.jpg", alt: "" } ] } );
+			expect( paper1.hasSameTreeInputsAs( paper2 ) ).toBe( true );
+		} );
+
+		it( "returns false when the text differs", function() {
+			const paper1 = new Paper( "<p>Hello world.</p>" );
+			const paper2 = new Paper( "<p>Goodbye world.</p>" );
+			expect( paper1.hasSameTreeInputsAs( paper2 ) ).toBe( false );
+		} );
+
+		it( "returns false when the locale differs", function() {
+			const paper1 = new Paper( "<p>Hello world.</p>", { locale: "en_US" } );
+			const paper2 = new Paper( "<p>Hello world.</p>", { locale: "nl_NL" } );
+			expect( paper1.hasSameTreeInputsAs( paper2 ) ).toBe( false );
+		} );
+
+		it( "returns false when the shortcodes list differs", function() {
+			const paper1 = new Paper( "<p>Hello world.</p>", { shortcodes: [ "gallery" ] } );
+			const paper2 = new Paper( "<p>Hello world.</p>", { shortcodes: [ "gallery", "caption" ] } );
+			expect( paper1.hasSameTreeInputsAs( paper2 ) ).toBe( false );
+		} );
+
+		it( "returns false when the wpBlocks list differs", function() {
+			const paper1 = new Paper( "<p>Hello world.</p>", { wpBlocks: [ { name: "core/paragraph" } ] } );
+			const paper2 = new Paper( "<p>Hello world.</p>", { wpBlocks: [ { name: "core/heading" } ] } );
+			expect( paper1.hasSameTreeInputsAs( paper2 ) ).toBe( false );
+		} );
+
+		it( "returns false when compared against a falsy value", function() {
+			const paper = new Paper( "<p>Hello world.</p>" );
+			expect( paper.hasSameTreeInputsAs( null ) ).toBe( false );
+		} );
+
+		it( "treats a missing shortcodes attribute as equivalent to an empty array", function() {
+			// A paper deserialized from a payload that omits `shortcodes` ends up with the attribute undefined,
+			// but it produces the same tree as a paper that explicitly carries shortcodes: [], so the predicate
+			// must not report them as different tree inputs.
+			const paper1 = new Paper( "<p>Hello world.</p>", { shortcodes: [] } );
+			const paper2 = new Paper( "<p>Hello world.</p>" );
+			delete paper2._attributes.shortcodes;
+			expect( paper1.hasSameTreeInputsAs( paper2 ) ).toBe( true );
+			expect( paper2.hasSameTreeInputsAs( paper1 ) ).toBe( true );
+		} );
+
+		it( "treats a missing wpBlocks attribute as equivalent to an empty array", function() {
+			const paper1 = new Paper( "<p>Hello world.</p>", { wpBlocks: [] } );
+			const paper2 = new Paper( "<p>Hello world.</p>" );
+			delete paper2._attributes.wpBlocks;
+			expect( paper1.hasSameTreeInputsAs( paper2 ) ).toBe( true );
+			expect( paper2.hasSameTreeInputsAs( paper1 ) ).toBe( true );
+		} );
 	} );
 
 	describe( "hasText", function() {
@@ -207,7 +316,6 @@ describe( "Paper", function() {
 			expect( paper.hasText() ).toBeTruthy();
 		} );
 		it( "should return true if contains only html tag", function() {
-			// eslint-disable-next-line max-len
 			const paper = new Paper( "<img src=\"https://yoast.com/cdn-cgi/image/width=466%2Cheight=244%2Cfit=crop%2Cf=auto%2Conerror=redirect//app/uploads/2017/12/Focus_keyword_FI.jpg\">" );
 			expect( paper.hasText() ).toBeTruthy();
 		} );
@@ -268,6 +376,20 @@ describe( "Paper", function() {
 			it( "does not contain the _parseClass", () => {
 				expect( paper._attributes._parseClass ).not.toBeDefined();
 			} );
+		} );
+
+		it( "round-trips the product data through serialize and parse", () => {
+			const productData = { isVariableProduct: true, hasVariants: true, hasGlobalSKU: false, canRetrieveGlobalSku: false };
+			const paper = new Paper( "text", { productData } );
+			const parsed = Paper.parse( paper.serialize() );
+			expect( parsed.getProductData() ).toEqual( productData );
+		} );
+
+		it( "round-trips the provided images through serialize and parse", () => {
+			const providedImages = [ { id: 1, src: "https://example.com/image.jpg", alt: "An image" }, { id: 2, src: "https://example.com/other.jpg", alt: "" } ];
+			const paper = new Paper( "text", { providedImages } );
+			const parsed = Paper.parse( paper.serialize() );
+			expect( parsed.getProvidedImages() ).toEqual( providedImages );
 		} );
 	} );
 	describe( "A test for setters and getters", function() {

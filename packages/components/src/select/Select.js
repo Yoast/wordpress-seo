@@ -17,37 +17,34 @@ const selectProps = {
 	options: PropTypes.arrayOf( selectOption ).isRequired,
 	selected: PropTypes.oneOfType( [ PropTypes.arrayOf( PropTypes.string ), PropTypes.string ] ),
 	onChange: PropTypes.func,
+	disabled: PropTypes.bool,
 	...FieldGroupProps,
 };
 const selectDefaultProps = {
 	name: "",
 	selected: [],
 	onChange: () => {},
+	disabled: false,
 	...FieldGroupDefaultProps,
 };
 
 /**
  * Renders a HTML option based on a name and value.
  *
- * @param {string} name The name of the option.
- * @param {string} value The value of the option.
+ * @param {Object} props Component props.
+ * @param {string} props.name The name of the option.
+ * @param {string} props.value The value of the option.
  *
  * @returns {React.Component} An HTML option.
  */
 const Option = ( { name, value } ) => <option key={ value } value={ value }>{ name }</option>;
 
-Option.propTypes = {
-	name: PropTypes.string.isRequired,
-	value: PropTypes.string.isRequired,
-};
-
-/* eslint-disable jsx-a11y/no-onchange*/
 /**
  * Function to map options to a react-select compatible array.
  *
  * @param {Option[]} options Select options.
  *
- * @returns {object[]} An react-select compatible array of options.
+ * @returns {Object[]} An react-select compatible array of options.
  */
 const changeOptionFormatToReactSelect = ( options ) => {
 	return options.map( option => {
@@ -61,23 +58,29 @@ const changeOptionFormatToReactSelect = ( options ) => {
 /**
  * ReactSelect using the react-select package.
  *
- * @param {object} props The functional component props.
+ * @param {Object} props The functional component props. Also accepts the FieldGroup props (see field-group/FieldGroup.js).
+ * @param {string} props.id The id of the select.
+ * @param {string} [props.name=""] The name of the select.
+ * @param {Object[]} props.options The select options.
+ * @param {string} [props.options[].name] The name of the option.
+ * @param {string} [props.options[].value] The value of the option.
+ * @param {(string[]|string)} [props.selected] The value or values of the selected options.
+ * @param {Function} [props.onChange] The function to call when the selection changes.
+ * @param {boolean} [props.disabled] Whether the select is disabled.
  *
  * @returns {React.Component} The react-select ReactSelect component.
  */
-export const YoastReactSelect = ( props ) => {
-	const {
-		id,
-		isMulti,
-		isSearchable,
-		inputId,
-		selected,
-		options,
-		name,
-		onChange,
-		...fieldGroupProps
-	} = props;
-
+export const YoastReactSelect = ( {
+	id,
+	isMulti,
+	isSearchable,
+	inputId,
+	selected = selectDefaultProps.selected,
+	options,
+	name = selectDefaultProps.name,
+	onChange = selectDefaultProps.onChange,
+	...fieldGroupProps
+} ) => {
 	// Make sure to pass an array of options to the multiselect.
 	const selections = Array.isArray( selected ) ? selected : [ selected ];
 
@@ -108,18 +111,21 @@ export const YoastReactSelect = ( props ) => {
 	);
 };
 
-YoastReactSelect.propTypes = selectProps;
-YoastReactSelect.defaultProps = selectDefaultProps;
-
 /**
  * SingleSelect component.
- * @param {object} props The functional component props.
+ * @param {Object} props The functional component props. Also accepts the FieldGroup props (see field-group/FieldGroup.js).
+ * @param {string} props.id The id of the select.
+ * @param {string} [props.name=""] The name of the select.
+ * @param {Object[]} props.options The select options.
+ * @param {string} [props.options[].name] The name of the option.
+ * @param {string} [props.options[].value] The value of the option.
+ * @param {(string[]|string)} [props.selected] The value or values of the selected options.
+ * @param {Function} [props.onChange] The function to call when the selection changes.
+ * @param {boolean} [props.disabled] Whether the select is disabled.
  *
  * @returns {React.Component} The react-select MultiSelect component.
  */
-export const SingleSelect = ( props ) => {
-	const { onChange } = props;
-
+export const SingleSelect = ( { onChange = selectDefaultProps.onChange, ...props } ) => {
 	const onChangeHandler = useCallback( selection => onChange( selection.value ) );
 	return <YoastReactSelect
 		{ ...props }
@@ -129,18 +135,21 @@ export const SingleSelect = ( props ) => {
 	/>;
 };
 
-SingleSelect.propTypes = selectProps;
-SingleSelect.defaultProps = selectDefaultProps;
-
 /**
  * MultiSelect component.
- * @param {object} props The functional component props.
+ * @param {Object} props The functional component props. Also accepts the FieldGroup props (see field-group/FieldGroup.js).
+ * @param {string} props.id The id of the select.
+ * @param {string} [props.name=""] The name of the select.
+ * @param {Object[]} props.options The select options.
+ * @param {string} [props.options[].name] The name of the option.
+ * @param {string} [props.options[].value] The value of the option.
+ * @param {(string[]|string)} [props.selected] The value or values of the selected options.
+ * @param {Function} [props.onChange] The function to call when the selection changes.
+ * @param {boolean} [props.disabled] Whether the select is disabled.
  *
  * @returns {React.Component} The react-select MultiSelect component.
  */
-export const MultiSelect = ( props ) => {
-	const { onChange } = props;
-
+export const MultiSelect = ( { onChange = selectDefaultProps.onChange, ...props } ) => {
 	const onChangeHandler = useCallback( selection => {
 		// Make sure that selection is always an array.
 		if ( ! selection ) {
@@ -159,9 +168,6 @@ export const MultiSelect = ( props ) => {
 	/>;
 };
 
-MultiSelect.propTypes = selectProps;
-MultiSelect.defaultProps = selectDefaultProps;
-
 /**
  * React wrapper for a basic HTML select.
  */
@@ -169,7 +175,7 @@ export class Select extends React.Component {
 	/**
 	 * Class constructor.
 	 *
-	 * @param {object} props Class props.
+	 * @param {Object} props Class props.
 	 *
 	 * @returns {void}
 	 */
@@ -188,7 +194,7 @@ export class Select extends React.Component {
 	 *
 	 * We are using onBlur because onChange can negatively impact the a11y.
 	 *
-	 * @param {object} event The event.
+	 * @param {Object} event The event.
 	 *
 	 * @returns {void}
 	 */
@@ -237,6 +243,7 @@ export class Select extends React.Component {
 			id,
 			options,
 			name,
+			disabled,
 			...fieldGroupProps
 		} = this.props;
 
@@ -252,6 +259,7 @@ export class Select extends React.Component {
 					onBlur={ this.onBlurHandler }
 					onInput={ this.onInputHandler }
 					onChange={ noop }
+					disabled={ disabled }
 				>
 					{ options.map( Option ) }
 				</select>

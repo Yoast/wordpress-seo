@@ -1,5 +1,5 @@
-import SentenceTokenizer from "./SentenceTokenizer";
-import { memoize } from "lodash-es";
+import SentenceTokenizer from "./SentenceTokenizer.js";
+import { memoize } from "lodash";
 
 /**
  * Returns the sentences from a certain text.

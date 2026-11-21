@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from "@wordpress/element";
+import { useCallback, useEffect } from "react";
 
 /**
  * @see https://developer.mozilla.org/en-US/docs/Web/API/BeforeUnloadEvent

@@ -1,25 +1,21 @@
-/* External dependencies */
 import { __, sprintf } from "@wordpress/i18n";
-import PropTypes from "prop-types";
-
-/* Yoast dependencies */
 import { Alert } from "@yoast/components";
 
 /**
  * Creates the content for the Wincher currently tracking alert in the Track SEO Performance modal.
  *
- * @param {Object} props The props to use.
+ * @param {Object} props Component props.
+ * @param {string} [props.className=""] Optional className for the alert.
  *
- * @returns {wp.Element} The Wincher currently tracking alert.
+ * @returns {JSX.Element} The Wincher currently tracking alert.
  */
-const WincherNoTrackedKeyphrasesAlert = ( props ) => {
+const WincherNoTrackedKeyphrasesAlert = ( { className = "" } ) => {
 	return (
-		<Alert type="warning" className={ props.className }>
+		<Alert type="warning" className={ className }>
 			{
 				sprintf(
 					/* translators: %s: Expands to "Wincher". */
 					__(
-						// eslint-disable-next-line max-len
 						"Your %s account does not contain any keyphrases for this website yet. You can track keyphrases by using the \"Track SEO Performance\" button in the post editor.",
 						"wordpress-seo"
 					),
@@ -28,14 +24,6 @@ const WincherNoTrackedKeyphrasesAlert = ( props ) => {
 			}
 		</Alert>
 	);
-};
-
-WincherNoTrackedKeyphrasesAlert.propTypes = {
-	className: PropTypes.string,
-};
-
-WincherNoTrackedKeyphrasesAlert.defaultProps = {
-	className: "",
 };
 
 export default WincherNoTrackedKeyphrasesAlert;

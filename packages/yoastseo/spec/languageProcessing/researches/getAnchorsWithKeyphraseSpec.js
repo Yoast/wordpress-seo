@@ -1,12 +1,14 @@
 import Paper from "../../../src/values/Paper";
 import JapaneseResearcher from "../../../src/languageProcessing/languages/ja/Researcher";
 import EnglishResearcher from "../../../src/languageProcessing/languages/en/Researcher";
+import IndonesianResearcher from "../../../src/languageProcessing/languages/id/Researcher";
 import getAnchorsWithKeyphrase from "../../../src/languageProcessing/researches/getAnchorsWithKeyphrase";
 import buildTree from "../../specHelpers/parse/buildTree";
 import getMorphologyData from "../../specHelpers/getMorphologyData";
 
 const morphologyData = getMorphologyData( "en" );
 const morphologyDataJA = getMorphologyData( "ja" );
+const morphologyDataID = getMorphologyData( "id" );
 
 describe( "A test for getting the anchors that contain the keyphrase or synonym", () => {
 	it( "should return 0 if the paper text is empty", () => {
@@ -207,6 +209,68 @@ describe( "A test for getting the anchors that contain the keyphrase or synonym"
 				startTag: { startOffset: 15, endOffset: 54 },
 				endTag: { startOffset: 67, endOffset: 71 },
 			} },
+		] );
+	} );
+
+	it( "should find a match of a keyphrase in the anchor text when the anchor text contains a hyphen", () => {
+		const attributes = {
+			keyword: "train a dog",
+			permalink: "https://example.org/dog-training",
+		};
+
+		const mockPaper = new Paper( "How to start with <a href='https://test.com/training-for-dogs'>dog-training</a>.", attributes );
+		const researcher = new EnglishResearcher( mockPaper );
+		researcher.addResearchData( "morphology", morphologyData );
+
+		buildTree( mockPaper, researcher );
+		const result = getAnchorsWithKeyphrase( mockPaper, researcher );
+
+		expect( result.anchorsWithKeyphraseCount ).toEqual( 1 );
+		expect( result.anchorsWithKeyphrase ).toEqual( [ {
+			attributes: { href: "https://test.com/training-for-dogs" },
+			childNodes: [ { name: "#text", value: "dog-training", sourceCodeRange: { startOffset: 63, endOffset: 75 } } ],
+			name: "a",
+			sourceCodeLocation: {
+				startOffset: 18,
+				endOffset: 79,
+				startTag: { startOffset: 18, endOffset: 63 },
+				endTag: { startOffset: 75, endOffset: 79 },
+			} },
+		] );
+	} );
+
+	it( "should find a match of a reduplicated keyphrase form in the anchor text in Indonesian, when the keyphrase form would" +
+		" not be matched if it was split on hyphens", () => {
+		const attributes = {
+			keyword: "kayuh",
+			permalink: "https://example.org/kupu",
+		};
+
+		const mockPaper = new Paper( "How to start with <a href='https://test.com/kupu-kupu'>mengayuh-ngayuh</a>.", attributes );
+		const researcher = new IndonesianResearcher( mockPaper );
+		researcher.addResearchData( "morphology", morphologyDataID );
+
+		buildTree( mockPaper, researcher );
+		const result = getAnchorsWithKeyphrase( mockPaper, researcher );
+
+		expect( result.anchorsWithKeyphraseCount ).toEqual( 1 );
+		expect( result.anchorsWithKeyphrase ).toEqual(   [ {
+			attributes: { href: "https://test.com/kupu-kupu" },
+			childNodes: [ { name: "#text", sourceCodeRange: { endOffset: 70, startOffset: 55 }, value: "mengayuh-ngayuh" } ],
+			name: "a",
+			sourceCodeLocation: {
+				endOffset: 74,
+				endTag: {
+					endOffset: 74,
+					startOffset: 70,
+				},
+				startOffset: 18,
+				startTag: {
+					endOffset: 55,
+					startOffset: 18,
+				},
+			},
+		},
 		] );
 	} );
 

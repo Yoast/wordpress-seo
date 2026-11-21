@@ -1,23 +1,27 @@
-import { __ } from "@wordpress/i18n";
-import { CheckIcon, XIcon } from "@heroicons/react/solid";
-import { PropTypes } from "prop-types";
+import CheckIcon from "@heroicons/react/solid/CheckIcon";
+import XIcon from "@heroicons/react/solid/XIcon";
 import { Fragment } from "@wordpress/element";
+import { __ } from "@wordpress/i18n";
 import { SimpleIntegration } from "./simple-integration";
 
-/* eslint-disable complexity */
+/** @typedef {import("./simple-integration").Integration} Integration */
+
 /**
  * Represents an integration.
  *
- * @param {object}  integration The integration.
- * @param {boolean} isActive    The integration state.
+ * @param {Object} props Component props.
+ * @param {Integration} props.integration The integration.
+ * @param {boolean} [props.isActive=true] The integration state.
+ * @param {boolean} [props.isSchemaAPIIntegration=false] Whether this is a Schema API integration.
  *
- * @returns {WPElement} A card representing an integration.
+ * @returns {JSX.Element} A card representing an integration.
  */
-export const PluginIntegration = ( { integration, isActive } ) => {
+export const PluginIntegration = ( { integration, isActive = true, isSchemaAPIIntegration = false } ) => {
 	return (
 		<SimpleIntegration
 			integration={ integration }
 			isActive={ isActive }
+			isSchemaPartner={ isSchemaAPIIntegration }
 		>
 			{ isActive && <Fragment>
 				<span className="yst-text-slate-700 yst-font-medium">{ __( "Integration active", "wordpress-seo" ) }</span>
@@ -37,22 +41,4 @@ export const PluginIntegration = ( { integration, isActive } ) => {
 			</Fragment> }
 		</SimpleIntegration>
 	);
-};
-/* eslint-enable complexity */
-
-PluginIntegration.propTypes = {
-	integration: PropTypes.shape( {
-		name: PropTypes.string,
-		claim: PropTypes.node,
-		slug: PropTypes.string,
-		description: PropTypes.string,
-		usps: PropTypes.array,
-		logo: PropTypes.func,
-		isNew: PropTypes.bool,
-	} ).isRequired,
-	isActive: PropTypes.bool,
-};
-
-PluginIntegration.defaultProps = {
-	isActive: true,
 };

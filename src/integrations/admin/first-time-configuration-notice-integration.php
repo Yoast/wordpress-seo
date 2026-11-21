@@ -36,7 +36,9 @@ class First_Time_Configuration_Notice_Integration implements Integration_Interfa
 	private $first_time_configuration_notice_helper;
 
 	/**
-	 * {@inheritDoc}
+	 * Returns the conditionals based in which this loadable should be active.
+	 *
+	 * @return array<string>
 	 */
 	public static function get_conditionals() {
 		return [ Admin_Conditional::class ];
@@ -60,7 +62,11 @@ class First_Time_Configuration_Notice_Integration implements Integration_Interfa
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * Initializes the integration.
+	 *
+	 * This is the place to register hooks and filters.
+	 *
+	 * @return void
 	 */
 	public function register_hooks() {
 		\add_action( 'wp_ajax_dismiss_first_time_configuration_notice', [ $this, 'dismiss_first_time_configuration_notice' ] );
@@ -77,6 +83,10 @@ class First_Time_Configuration_Notice_Integration implements Integration_Interfa
 		if ( ! \check_ajax_referer( 'wpseo-dismiss-first-time-configuration-notice', 'nonce', false ) ) {
 			return false;
 		}
+		if ( ! \current_user_can( 'wpseo_manage_options' ) ) {
+			return false;
+		}
+
 		return $this->options_helper->set( 'dismiss_configuration_workout_notice', true );
 	}
 
@@ -102,7 +112,7 @@ class First_Time_Configuration_Notice_Integration implements Integration_Interfa
 		$this->admin_asset_manager->enqueue_style( 'monorepo' );
 
 		$title    = $this->first_time_configuration_notice_helper->get_first_time_configuration_title();
-		$link_url = \esc_url( \self_admin_url( 'admin.php?page=wpseo_dashboard#top#first-time-configuration' ) );
+		$link_url = \esc_url( \self_admin_url( 'admin.php?page=wpseo_dashboard#/first-time-configuration' ) );
 
 		if ( ! $this->first_time_configuration_notice_helper->should_show_alternate_message() ) {
 			$content = \sprintf(
@@ -110,7 +120,7 @@ class First_Time_Configuration_Notice_Integration implements Integration_Interfa
 				\__( 'Get started quickly with the %1$s%2$s First-time configuration%3$s and configure Yoast SEO with the optimal SEO settings for your site!', 'wordpress-seo' ),
 				'<a href="' . $link_url . '">',
 				'Yoast SEO',
-				'</a>'
+				'</a>',
 			);
 		}
 		else {
@@ -118,7 +128,7 @@ class First_Time_Configuration_Notice_Integration implements Integration_Interfa
 				/* translators: 1: Link start tag to the first-time configuration, 2: Link closing tag. */
 				\__( 'We noticed that you haven\'t fully configured Yoast SEO yet. Optimize your SEO settings even further by using our improved %1$s First-time configuration%2$s.', 'wordpress-seo' ),
 				'<a href="' . $link_url . '">',
-				'</a>'
+				'</a>',
 			);
 		}
 
@@ -128,7 +138,7 @@ class First_Time_Configuration_Notice_Integration implements Integration_Interfa
 			'mirrored_fit_bubble_woman_1_optim.svg',
 			null,
 			true,
-			'yoast-first-time-configuration-notice'
+			'yoast-first-time-configuration-notice',
 		);
 
 		//phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output from present() is considered safe.
@@ -138,13 +148,12 @@ class First_Time_Configuration_Notice_Integration implements Integration_Interfa
 		echo '<script>
 				jQuery( document ).ready( function() {
 					jQuery( "body" ).on( "click", "#yoast-first-time-configuration-notice .notice-dismiss", function() {
+						jQuery( "#yoast-first-time-configuration-notice" ).hide();
 						const data = {
 							"action": "dismiss_first_time_configuration_notice",
 							"nonce": "' . \esc_js( \wp_create_nonce( 'wpseo-dismiss-first-time-configuration-notice' ) ) . '"
 						};
-						jQuery.post( ajaxurl, data, function( response ) {
-							jQuery( this ).parent( "#yoast-first-time-configuration-notice" ).hide();
-						});
+						jQuery.post( ajaxurl, data, function( response ) {});
 					} );
 				} );
 				</script>';

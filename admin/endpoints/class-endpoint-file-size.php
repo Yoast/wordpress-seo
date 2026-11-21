@@ -15,21 +15,21 @@ class WPSEO_Endpoint_File_Size implements WPSEO_Endpoint {
 	 *
 	 * @var string
 	 */
-	const REST_NAMESPACE = 'yoast/v1';
+	public const REST_NAMESPACE = 'yoast/v1';
 
 	/**
 	 * The route of the endpoint to retrieve the file size.
 	 *
 	 * @var string
 	 */
-	const ENDPOINT_SINGULAR = 'file_size';
+	public const ENDPOINT_SINGULAR = 'file_size';
 
 	/**
 	 * The name of the capability needed to retrieve data using the endpoints.
 	 *
 	 * @var string
 	 */
-	const CAPABILITY_RETRIEVE = 'manage_options';
+	public const CAPABILITY_RETRIEVE = 'manage_options';
 
 	/**
 	 * The service provider.

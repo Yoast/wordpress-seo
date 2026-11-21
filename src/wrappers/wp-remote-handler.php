@@ -57,7 +57,7 @@ class WP_Remote_Handler {
 			$raw_response['headers']->getAll(),
 			$raw_response['body'],
 			$args['httpVersion'],
-			$raw_response['response']['message']
+			$raw_response['response']['message'],
 		);
 
 		return new FulfilledPromise( $response );

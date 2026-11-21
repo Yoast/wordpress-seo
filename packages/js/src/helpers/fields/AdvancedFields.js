@@ -1,5 +1,18 @@
+import {
+	metaKeyNoIndex,
+	metaKeyNoFollow,
+	metaKeyAdvanced,
+	metaKeyBcTitle,
+	metaKeyCanonical,
+} from "../../shared-admin/constants";
+import { getMetaValue, setMetaValue } from "./rest-meta";
+
 /**
  * This class is responsible for handling the interaction with the hidden fields for Advanced Settings.
+ *
+ * When `wpseoScriptData.disableMetaboxInBlockEditor` is true the hidden DOM fields are not rendered.
+ * In that case getters read from the `core/editor` store and setters dispatch to it so that
+ * WordPress saves the values via the REST API on post save.
  */
 export default class AdvancedFields {
 	/**
@@ -48,21 +61,12 @@ export default class AdvancedFields {
 	}
 
 	/**
-	 * Getter for the wordproofTimestampElement.
-	 *
-	 * @returns {HTMLElement} The wordproofTimestampElement.
-	 */
-	static get wordproofTimestampElement() {
-		return document.getElementById( window.wpseoScriptData.isPost ? "yoast_wpseo_wordproof_timestamp" : "hidden_wpseo_wordproof_timestamp" );
-	}
-
-	/**
 	 * Getter for the No Index setting.
 	 *
 	 * @returns {string} The No Index setting.
 	 */
 	static get noIndex() {
-		return AdvancedFields.noIndexElement && AdvancedFields.noIndexElement.value  || "";
+		return getMetaValue( metaKeyNoIndex, AdvancedFields.noIndexElement ) || "0";
 	}
 
 	/**
@@ -73,7 +77,7 @@ export default class AdvancedFields {
 	 * @returns {void}
 	 */
 	static set noIndex( value ) {
-		AdvancedFields.noIndexElement.value = value;
+		setMetaValue( metaKeyNoIndex, AdvancedFields.noIndexElement, value );
 	}
 
 	/**
@@ -82,7 +86,7 @@ export default class AdvancedFields {
 	 * @returns {string} The No Follow setting.
 	 */
 	static get noFollow() {
-		return AdvancedFields.noFollowElement && AdvancedFields.noFollowElement.value || "";
+		return getMetaValue( metaKeyNoFollow, AdvancedFields.noFollowElement ) || "0";
 	}
 
 	/**
@@ -93,7 +97,7 @@ export default class AdvancedFields {
 	 * @returns {void}
 	 */
 	static set noFollow( value ) {
-		AdvancedFields.noFollowElement.value = value;
+		setMetaValue( metaKeyNoFollow, AdvancedFields.noFollowElement, value );
 	}
 
 	/**
@@ -102,7 +106,7 @@ export default class AdvancedFields {
 	 * @returns {string} The Advanced (metarobots) setting.
 	 */
 	static get advanced() {
-		return AdvancedFields.advancedElement && AdvancedFields.advancedElement.value || "";
+		return getMetaValue( metaKeyAdvanced, AdvancedFields.advancedElement, "" );
 	}
 
 	/**
@@ -113,7 +117,7 @@ export default class AdvancedFields {
 	 * @returns {void}
 	 */
 	static set advanced( value ) {
-		AdvancedFields.advancedElement.value = value;
+		setMetaValue( metaKeyAdvanced, AdvancedFields.advancedElement, value );
 	}
 
 	/**
@@ -122,7 +126,7 @@ export default class AdvancedFields {
 	 * @returns {string} The BreadCrumbsTitle setting.
 	 */
 	static get breadcrumbsTitle() {
-		return AdvancedFields.breadcrumbsTitleElement && AdvancedFields.breadcrumbsTitleElement.value || "";
+		return getMetaValue( metaKeyBcTitle, AdvancedFields.breadcrumbsTitleElement, "" );
 	}
 
 	/**
@@ -133,7 +137,7 @@ export default class AdvancedFields {
 	 * @returns {void}
 	 */
 	static set breadcrumbsTitle( value ) {
-		AdvancedFields.breadcrumbsTitleElement.value = value;
+		setMetaValue( metaKeyBcTitle, AdvancedFields.breadcrumbsTitleElement, value );
 	}
 
 	/**
@@ -142,7 +146,7 @@ export default class AdvancedFields {
 	 * @returns {string} The Canonical URL setting.
 	 */
 	static get canonical() {
-		return AdvancedFields.canonicalElement && AdvancedFields.canonicalElement.value  || "";
+		return getMetaValue( metaKeyCanonical, AdvancedFields.canonicalElement, "" );
 	}
 
 	/**
@@ -153,26 +157,6 @@ export default class AdvancedFields {
 	 * @returns {void}
 	 */
 	static set canonical( value ) {
-		AdvancedFields.canonicalElement.value = value;
-	}
-
-	/**
-	 * Getter for the Timestamp setting.
-	 *
-	 * @returns {boolean} The Timestamp setting.
-	 */
-	static get wordproofTimestamp() {
-		return AdvancedFields.wordproofTimestampElement && AdvancedFields.wordproofTimestampElement.value === "1" || false;
-	}
-
-	/**
-	 * Setter for the Timestamp setting.
-	 *
-	 * @param {boolean} value The value to set.
-	 *
-	 * @returns {void}
-	 */
-	static set wordproofTimestamp( value ) {
-		AdvancedFields.wordproofTimestampElement.value = value ? "1" : "0";
+		setMetaValue( metaKeyCanonical, AdvancedFields.canonicalElement, value );
 	}
 }

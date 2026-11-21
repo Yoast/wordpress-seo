@@ -69,15 +69,12 @@ class WPSEO_Meta {
 	 * Meta box field definitions for the meta box form.
 	 *
 	 * {@internal
-	 * - Titles, help texts, description text and option labels are added via a translate_meta_boxes() method
-	 *   in the relevant child classes (WPSEO_Metabox and WPSEO_Social_admin) as they are only needed there.
 	 * - Beware: even though the meta keys are divided into subsets, they still have to be uniquely named!}}
 	 *
 	 * @var array
 	 *            Array format:
 	 *                (required)       'type'          => (string) field type. i.e. text / textarea / checkbox /
 	 *                                                    radio / select / multiselect / upload etc.
-	 *                (required)       'title'         => (string) table row title.
 	 *                (recommended)    'default_value' => (string|array) default value for the field.
 	 *                                                    IMPORTANT:
 	 *                                                    - if the field has options, the default has to be the
@@ -94,134 +91,115 @@ class WPSEO_Meta {
 	 *                (optional)        'autocomplete' => (bool) whether autocomplete is on for text fields,
 	 *                                                    defaults to true.
 	 *                (optional)        'class'        => (string) classname(s) to add to the actual <input> tag.
-	 *                (optional)        'description'  => (string) description to show underneath the field.
-	 *                (optional)        'expl'         => (string) label for a checkbox.
-	 *                (optional)        'help'         => (string) help text to show on mouse over ? image.
 	 *                (optional)        'rows'         => (int) number of rows for a textarea, defaults to 3.
-	 *                (optional)        'placeholder'  => (string) Currently only used by add-on plugins.
 	 *                (optional)        'serialized'   => (bool) whether the value is expected to be serialized,
 	 *                                                     i.e. an array or object, defaults to false.
 	 *                                                     Currently only used by add-on plugins.
 	 */
 	public static $meta_fields = [
-		'general'  => [
+		'general'         => [
 			'focuskw' => [
-				'type'  => 'hidden',
-				'title' => '',
+				'type'         => 'hidden',
+				'title'        => '',
 			],
 			'title' => [
 				'type'          => 'hidden',
-				'title'         => '', // Translation added later.
 				'default_value' => '',
-				'description'   => '', // Translation added later.
-				'help'          => '', // Translation added later.
 			],
 			'metadesc' => [
 				'type'          => 'hidden',
-				'title'         => '', // Translation added later.
 				'default_value' => '',
 				'class'         => 'metadesc',
 				'rows'          => 2,
-				'description'   => '', // Translation added later.
-				'help'          => '', // Translation added later.
 			],
 			'linkdex' => [
 				'type'          => 'hidden',
-				'title'         => 'linkdex',
 				'default_value' => '0',
-				'description'   => '',
 			],
 			'content_score' => [
 				'type'          => 'hidden',
-				'title'         => 'content_score',
 				'default_value' => '0',
-				'description'   => '',
 			],
 			'inclusive_language_score' => [
 				'type'          => 'hidden',
-				'title'         => 'inclusive_language_score',
 				'default_value' => '0',
-				'description'   => '',
+			],
+			'seo_title_score' => [
+				'type'          => 'hidden',
+				'default_value' => '0',
+			],
+			'meta_description_score' => [
+				'type'          => 'hidden',
+				'default_value' => '0',
 			],
 			'is_cornerstone' => [
 				'type'          => 'hidden',
-				'title'         => 'is_cornerstone',
-				'default_value' => 'false',
-				'description'   => '',
+				'default_value' => '0',
+			],
+			'estimated-reading-time-minutes' => [
+				'type'          => 'hidden',
+				'default_value' => '',
 			],
 		],
-		'advanced' => [
+		'advanced'        => [
 			'meta-robots-noindex'  => [
 				'type'          => 'hidden',
-				'title'         => '', // Translation added later.
 				'default_value' => '0', // = post-type default.
 				'options'       => [
-					'0' => '', // Post type default - translation added later.
-					'2' => '', // Index - translation added later.
-					'1' => '', // No-index - translation added later.
+					'0' => '', // Post type default.
+					'2' => '', // Index.
+					'1' => '', // No-index.
 				],
 			],
 			'meta-robots-nofollow' => [
 				'type'          => 'hidden',
-				'title'         => '', // Translation added later.
 				'default_value' => '0', // = follow.
 				'options'       => [
-					'0' => '', // Follow - translation added later.
-					'1' => '', // No-follow - translation added later.
+					'0' => '', // Follow.
+					'1' => '', // No-follow.
 				],
 			],
 			'meta-robots-adv'      => [
 				'type'          => 'hidden',
-				'title'         => '', // Translation added later.
 				'default_value' => '',
-				'description'   => '', // Translation added later.
 				'options'       => [
-					'noimageindex' => '', // Translation added later.
-					'noarchive'    => '', // Translation added later.
-					'nosnippet'    => '', // Translation added later.
+					'noimageindex' => '',
+					'noarchive'    => '',
+					'nosnippet'    => '',
 				],
 			],
 			'bctitle'              => [
 				'type'          => 'hidden',
-				'title'         => '', // Translation added later.
 				'default_value' => '',
-				'description'   => '', // Translation added later.
 			],
 			'canonical'            => [
 				'type'          => 'hidden',
-				'title'         => '', // Translation added later.
 				'default_value' => '',
-				'description'   => '', // Translation added later.
 			],
 			'redirect'             => [
 				'type'          => 'url',
-				'title'         => '', // Translation added later.
 				'default_value' => '',
-				'description'   => '', // Translation added later.
 			],
 		],
-		'social'   => [],
-		'schema'   => [
+		'social'          => [],
+		'schema'          => [
 			'schema_page_type'    => [
 				'type'    => 'hidden',
-				'title'   => '',
 				'options' => Schema_Types::PAGE_TYPES,
 			],
 			'schema_article_type' => [
 				'type'          => 'hidden',
-				'title'         => '',
 				'hide_on_pages' => true,
 				'options'       => Schema_Types::ARTICLE_TYPES,
 			],
 		],
-		/* Fields we should validate & save, but not show on any form. */
-		'non_form' => [
-			'linkdex' => [
-				'type'          => null,
+		'content_planner' => [
+			'is_content_planner_banner_rendered'  => [
+				'type'          => 'hidden',
 				'default_value' => '0',
 			],
-			'zapier_trigger_sent' => [
-				'type'          => null,
+			'is_content_planner_banner_dismissed' => [
+				'type'          => 'hidden',
 				'default_value' => '0',
 			],
 		],
@@ -275,13 +253,11 @@ class WPSEO_Meta {
 	 */
 	public static function init() {
 		foreach ( self::$social_networks as $option => $network ) {
-			if ( WPSEO_Options::get( $option, false ) === true ) {
+			if ( WPSEO_Options::get( $option, false, [ 'wpseo_social' ] ) === true ) {
 				foreach ( self::$social_fields as $box => $type ) {
 					self::$meta_fields['social'][ $network . '-' . $box ] = [
 						'type'          => $type,
-						'title'         => '', // Translation added later.
 						'default_value' => '',
-						'description'   => '', // Translation added later.
 					];
 				}
 			}
@@ -301,10 +277,11 @@ class WPSEO_Meta {
 		foreach ( self::$meta_fields as $subset => $field_group ) {
 			foreach ( $field_group as $key => $field_def ) {
 
+				// Register for all post types: sanitise callback only, REST disabled.
 				register_meta(
 					'post',
 					self::$meta_prefix . $key,
-					[ 'sanitize_callback' => [ __CLASS__, 'sanitize_post_meta' ] ]
+					[ 'sanitize_callback' => [ self::class, 'sanitize_post_meta' ] ],
 				);
 
 				// Set the $fields_index property for efficiency.
@@ -327,8 +304,8 @@ class WPSEO_Meta {
 
 		self::filter_schema_article_types();
 
-		add_filter( 'update_post_metadata', [ __CLASS__, 'remove_meta_if_default' ], 10, 5 );
-		add_filter( 'add_post_metadata', [ __CLASS__, 'dont_save_meta_if_default' ], 10, 4 );
+		add_filter( 'update_post_metadata', [ self::class, 'remove_meta_if_default' ], 10, 5 );
+		add_filter( 'add_post_metadata', [ self::class, 'dont_save_meta_if_default' ], 10, 4 );
 	}
 
 	/**
@@ -371,13 +348,6 @@ class WPSEO_Meta {
 					return [];
 				}
 
-				/* Adjust the no-index text strings based on the post type. */
-				$post_type_object = get_post_type_object( $post_type );
-
-				$field_defs['meta-robots-noindex']['title']        = sprintf( $field_defs['meta-robots-noindex']['title'], $post_type_object->labels->singular_name );
-				$field_defs['meta-robots-noindex']['options']['0'] = sprintf( $field_defs['meta-robots-noindex']['options']['0'], ( ( WPSEO_Options::get( 'noindex-' . $post_type, false ) === true ) ? $field_defs['meta-robots-noindex']['options']['1'] : $field_defs['meta-robots-noindex']['options']['2'] ), $post_type_object->label );
-				$field_defs['meta-robots-nofollow']['title']       = sprintf( $field_defs['meta-robots-nofollow']['title'], $post_type_object->labels->singular_name );
-
 				/* Don't show the breadcrumb title field if breadcrumbs aren't enabled. */
 				if ( WPSEO_Options::get( 'breadcrumbs-enable', false ) !== true && ! current_theme_supports( 'yoast-seo-breadcrumbs' ) ) {
 					unset( $field_defs['bctitle'] );
@@ -402,7 +372,7 @@ class WPSEO_Meta {
 					/** This filter is documented in inc/options/class-wpseo-option-titles.php */
 					$allowed_article_types = apply_filters( 'wpseo_schema_article_types', Schema_Types::ARTICLE_TYPES );
 
-					if ( ! \array_key_exists( $default_schema_article_type, $allowed_article_types ) ) {
+					if ( ! array_key_exists( $default_schema_article_type, $allowed_article_types ) ) {
 						$default_schema_article_type = WPSEO_Options::get_default( 'wpseo_titles', 'schema-article-type-' . $post_type );
 					}
 					$field_defs['schema_article_type']['default'] = $default_schema_article_type;
@@ -442,7 +412,15 @@ class WPSEO_Meta {
 			case ( $meta_key === self::$meta_prefix . 'linkdex' ):
 				$int = WPSEO_Utils::validate_int( $meta_value );
 				if ( $int !== false && $int >= 0 ) {
-					$clean = strval( $int ); // Convert to string to make sure default check works.
+					$clean = (string) $int; // Convert to string to make sure default check works.
+				}
+				break;
+
+			case ( in_array( $meta_key, [ self::$meta_prefix . 'seo_title_score', self::$meta_prefix . 'meta_description_score' ], true ) ):
+				// Per-field scores are 0-100 percentages; out-of-range input keeps the "never scored" default.
+				$int = WPSEO_Utils::validate_int( $meta_value );
+				if ( $int !== false && $int >= 0 && $int <= 100 ) {
+					$clean = (string) $int; // Convert to string to make sure default check works.
 				}
 				break;
 
@@ -489,6 +467,13 @@ class WPSEO_Meta {
 				 */
 				if ( $meta_value === 'true' ) {
 					$clean = '1';
+				}
+				break;
+
+			case ( strpos( $meta_key, self::$meta_prefix . 'primary_' ) === 0 ):
+				$int = WPSEO_Utils::validate_int( $meta_value );
+				if ( $int !== false && $int >= -1 ) {
+					$clean = (string) $int; // Cast to string to make sure default check works.
 				}
 				break;
 
@@ -765,7 +750,7 @@ class WPSEO_Meta {
 				;",
 			$old_metakey,
 			$wpdb->esc_like( self::$meta_prefix . '%' ),
-			self::$meta_prefix . 'linkdex'
+			self::$meta_prefix . 'linkdex',
 		);
 		$oldies = $wpdb->get_results( $query );
 
@@ -817,7 +802,7 @@ class WPSEO_Meta {
 				;",
 			self::$meta_prefix . 'meta-robots',
 			self::$meta_prefix . 'meta-robots-noindex',
-			self::$meta_prefix . 'meta-robots-nofollow'
+			self::$meta_prefix . 'meta-robots-nofollow',
 		);
 		$oldies = $wpdb->get_results( $query );
 
@@ -869,7 +854,7 @@ class WPSEO_Meta {
 
 					$query[] = $wpdb->prepare(
 						"( meta_key = %s AND meta_value NOT IN ( '" . implode( "','", esc_sql( $valid ) ) . "' ) )",
-						self::$meta_prefix . $key
+						self::$meta_prefix . $key,
 					);
 					unset( $valid );
 				}
@@ -877,13 +862,13 @@ class WPSEO_Meta {
 					$query[] = $wpdb->prepare(
 						'( meta_key = %s AND meta_value = %s )',
 						self::$meta_prefix . $key,
-						$field_def['default_value']
+						$field_def['default_value'],
 					);
 				}
 				else {
 					$query[] = $wpdb->prepare(
 						"( meta_key = %s AND meta_value = '' )",
-						self::$meta_prefix . $key
+						self::$meta_prefix . $key,
 					);
 				}
 			}
@@ -921,7 +906,7 @@ class WPSEO_Meta {
 		 */
 		$query  = $wpdb->prepare(
 			"SELECT meta_id, meta_value FROM {$wpdb->postmeta} WHERE meta_key = %s",
-			self::$meta_prefix . 'meta-robots-adv'
+			self::$meta_prefix . 'meta-robots-adv',
 		);
 		$oldies = $wpdb->get_results( $query );
 
@@ -1008,7 +993,7 @@ class WPSEO_Meta {
 		/**
 		 * The indexable repository.
 		 *
-		 * @var Indexable_Repository
+		 * @var Indexable_Repository $repository
 		 */
 		$repository = YoastSEO()->classes->get( Indexable_Repository::class );
 
@@ -1052,16 +1037,15 @@ class WPSEO_Meta {
 	 * @return array The post types.
 	 */
 	public static function post_types_for_ids( $post_ids ) {
-
-		/**
-		 * The indexable repository.
-		 *
-		 * @var Indexable_Repository
-		 */
-		$repository = YoastSEO()->classes->get( Indexable_Repository::class );
-
 		// Check if post ids is not empty.
 		if ( ! empty( $post_ids ) ) {
+			/**
+			 * The indexable repository.
+			 *
+			 * @var Indexable_Repository $repository
+			 */
+			$repository = YoastSEO()->classes->get( Indexable_Repository::class );
+
 			// Get the post subtypes for the posts that share the keyword.
 			$post_types = $repository->query()
 				->select( 'object_sub_type' )

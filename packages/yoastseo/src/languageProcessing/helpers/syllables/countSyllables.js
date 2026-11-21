@@ -2,10 +2,10 @@
 
 import getWords from "../word/getWords.js";
 
-import { filter, find, flatMap, forEach, isUndefined, map, memoize, sum } from "lodash-es";
+import { filter, find, flatMap, forEach, isUndefined, map, memoize, sum } from "lodash";
 
 import SyllableCountIterator from "./syllableCountIterator.js";
-import DeviationFragment from "./DeviationFragment";
+import DeviationFragment from "./DeviationFragment.js";
 
 /**
  * Counts vowel groups inside a word.
@@ -137,7 +137,7 @@ const countUsingVowels = function( word, syllables ) {
  *
  * @returns {number} The syllable count for the word.
  */
-const countSyllablesInWord = function( word, syllables ) {
+export const countSyllablesInWord = function( word, syllables ) {
 	let syllableCount = 0;
 
 	if ( ! isUndefined( syllables.deviations ) && ! isUndefined( syllables.deviations.words ) ) {

@@ -1,5 +1,189 @@
+import { addFilter } from "@wordpress/hooks";
+import { dispatch, select, subscribe } from "@wordpress/data";
+import {
+	metaKeyFocusKw,
+	metaKeyIsCornerstone,
+	metaKeyLinkdex,
+	metaKeyContentScore,
+	metaKeyInclusiveLanguageScore,
+	metaKeyMetaDescriptionScore,
+	metaKeySeoTitleScore,
+	metaKeyEstimatedReadingTime,
+} from "../../shared-admin/constants";
+import { isRestMetaActive, shouldSkipMetaWrite, writeMetaWithoutUndo, getMetaValue } from "./rest-meta";
+
+/**
+ * Returns whether the core/editor store has finished loading the post type config.
+ * Dispatching editPost before the entity config is available throws a runtime error.
+ *
+ * @returns {boolean} True when the post type config is loaded and editPost can be called safely.
+ */
+function isEditorReady() {
+	return Boolean( select( "core/editor" ).getCurrentPostType() );
+}
+
+// Pending meta writes buffered before the editor entity config is ready.
+// Each entry is { value: string, undoIgnore: boolean } so the undo-ignore flag survives queuing.
+// Keyed by meta key so that rapid successive writes for the same key collapse to the last value.
+const pendingWrites = new Map();
+let unsubscribeFlush = null;
+
+/**
+ * Drains pendingWrites, routing undoIgnore entries through writeMetaWithoutUndo and the rest
+ * through editPost so that analysis scores never land on the undo stack regardless of when they
+ * were queued.
+ *
+ * @returns {void}
+ */
+function flushPendingWrites() {
+	if ( pendingWrites.size === 0 ) {
+		return;
+	}
+	const scoreMeta = {};
+	const editMeta = {};
+	for ( const [ key, { value, undoIgnore } ] of pendingWrites ) {
+		if ( undoIgnore ) {
+			scoreMeta[ key ] = value;
+		} else {
+			editMeta[ key ] = value;
+		}
+	}
+	pendingWrites.clear();
+	if ( Object.keys( scoreMeta ).length > 0 ) {
+		writeMetaWithoutUndo( scoreMeta );
+	}
+	if ( Object.keys( editMeta ).length > 0 ) {
+		dispatch( "core/editor" ).editPost( { meta: editMeta } );
+	}
+}
+
+/**
+ * Subscribes to core/editor store changes and flushes pending meta writes as soon as the editor
+ * is ready. Unsubscribes immediately after the first successful flush to avoid ongoing overhead.
+ *
+ * @returns {void}
+ */
+function scheduleFlush() {
+	if ( unsubscribeFlush ) {
+		return;
+	}
+	unsubscribeFlush = subscribe( () => {
+		if ( ! isEditorReady() ) {
+			return;
+		}
+		unsubscribeFlush();
+		unsubscribeFlush = null;
+		flushPendingWrites();
+	}, "core/editor" );
+}
+
+/**
+ * Dispatches a meta write immediately if the editor is ready, or queues it for the next flush.
+ * When the editor is already ready any previously queued writes are flushed together with this
+ * one to minimise unnecessary state updates.
+ *
+ * @param {string}  metaKey    The meta key to write.
+ * @param {string}  value      The value to write.
+ * @param {boolean} undoIgnore When true, the write bypasses the undo stack via editEntityRecord.
+ *                             Use for computed values (e.g. analysis scores) that should not
+ *                             be undoable.
+ *
+ * @returns {void}
+ */
+function writeOrQueue( metaKey, value, undoIgnore = false ) {
+	// All meta fields are registered with type: string. Coerce here so callers that pass
+	// numeric scores (e.g. linkdex) don't trigger a REST API type-validation error.
+	pendingWrites.set( metaKey, { value: String( value ), undoIgnore } );
+	if ( ! isEditorReady() ) {
+		scheduleFlush();
+		return;
+	}
+	// Cancel any pending flush subscription — we are dispatching everything now.
+	if ( unsubscribeFlush ) {
+		unsubscribeFlush();
+		unsubscribeFlush = null;
+	}
+	flushPendingWrites();
+}
+
+/**
+ * Sets a meta value either by writing directly to the DOM element when REST meta is inactive, or via the REST API when active.
+ *
+ * @param {string} metaKey The meta key to write.
+ * @param {HTMLElement|null} element The DOM element to write to when REST meta is inactive.
+ * @param {string} value The value to write.
+ * @returns {void}
+ */
+
+/**
+ * Buffer for score meta writes that should not dirty the post independently.
+ * Keyed by meta key; holds the latest sanitized score string.
+ * Injected into the save payload by the editor.preSavePost filter.
+ */
+const pendingScoreWrites = new Map();
+
+/**
+ * All meta keys managed as derived scores (never user-editable).
+ * Injected via the preSavePost filter and stripped from edits so stale load-time
+ * values never reach the server.
+ */
+const SCORE_KEYS = new Set( [
+	metaKeyLinkdex,
+	metaKeyContentScore,
+	metaKeyInclusiveLanguageScore,
+	metaKeySeoTitleScore,
+	metaKeyMetaDescriptionScore,
+	metaKeyEstimatedReadingTime,
+] );
+
+/**
+ * Mirrors the PHP sanitizer: only non-negative integers are valid; anything else becomes "0".
+ *
+ * @param {string} value The raw score value.
+ * @returns {string} The sanitized score string.
+ */
+const sanitizeScore = ( value ) => {
+	const parsed = parseInt( value, 10 );
+	return ( Number.isInteger( parsed ) && parsed >= 0 ) ? String( parsed ) : "0";
+};
+
+/**
+ * Returns true when buffering the score would be a no-op.
+ *
+ * Skips when the sanitized value already matches the committed meta, or when
+ * the score is "0" and the committed value is "" (the register_post_meta default
+ * for a score that was never persisted — semantically the same as "0").
+ *
+ * @param {string} metaKey   The meta key to check.
+ * @param {string} sanitized The sanitized score string.
+ * @returns {boolean} Whether the write should be skipped.
+ */
+const shouldSkipScoreWrite = ( metaKey, sanitized ) => {
+	const currentValue = select( "core/editor" ).getEditedPostAttribute( "meta" )?.[ metaKey ] ?? "";
+	return sanitized === currentValue || ( sanitized === "0" && currentValue === "" );
+};
+
+export const setScoreMeta = ( metaKey, element, value ) => {
+	if ( isRestMetaActive() ) {
+		const sanitized = sanitizeScore( value );
+		if ( shouldSkipScoreWrite( metaKey, sanitized ) ) {
+			pendingScoreWrites.delete( metaKey );
+			return;
+		}
+		pendingScoreWrites.set( metaKey, sanitized );
+		return;
+	}
+	if ( element ) {
+		element.value = value;
+	}
+};
+
 /**
  * This class is responsible for handling the interaction with the hidden fields for the analysis.
+ *
+ * When `wpseoScriptData.disableMetaboxInBlockEditor` is true the hidden DOM fields are not rendered.
+ * In that case getters read from the `core/editor` store and setters dispatch to it so that
+ * WordPress saves the values via the REST API on post save.
  */
 export default class AnalysisFields {
 	/**
@@ -48,6 +232,24 @@ export default class AnalysisFields {
 	}
 
 	/**
+	 * Getter for the SEO title score hidden field.
+	 *
+	 * @returns {HTMLElement|null} The SEO title score hidden field.
+	 */
+	static get seoTitleScoreElement() {
+		return document.getElementById( window.wpseoScriptData?.isPost ? "yoast_wpseo_seo_title_score" : "hidden_wpseo_seo_title_score" );
+	}
+
+	/**
+	 * Getter for the meta description score hidden field.
+	 *
+	 * @returns {HTMLElement|null} The meta description score hidden field.
+	 */
+	static get metaDescriptionScoreElement() {
+		return document.getElementById( window.wpseoScriptData?.isPost ? "yoast_wpseo_meta_description_score" : "hidden_wpseo_meta_description_score" );
+	}
+
+	/**
 	 * Setter for the keyphrase.
 	 *
 	 * @param {string} value The keyphrase.
@@ -55,6 +257,12 @@ export default class AnalysisFields {
 	 * @returns {void}
 	 */
 	static set keyphrase( value ) {
+		if ( isRestMetaActive() ) {
+			if ( ! shouldSkipMetaWrite( metaKeyFocusKw, value ) ) {
+				writeOrQueue( metaKeyFocusKw, value );
+			}
+			return;
+		}
 		if ( AnalysisFields.keyphraseElement ) {
 			AnalysisFields.keyphraseElement.value = value;
 		}
@@ -66,7 +274,7 @@ export default class AnalysisFields {
 	 * @returns {string} The keyphrase.
 	 */
 	static get keyphrase() {
-		return AnalysisFields.keyphraseElement?.value ?? "";
+		return getMetaValue( metaKeyFocusKw, AnalysisFields.keyphraseElement, "" );
 	}
 
 	/**
@@ -77,6 +285,13 @@ export default class AnalysisFields {
 	 * @returns {void}
 	 */
 	static set isCornerstone( value ) {
+		if ( isRestMetaActive() ) {
+			const newValue = value ? "1" : "0";
+			if ( ! shouldSkipMetaWrite( metaKeyIsCornerstone, newValue ) ) {
+				writeOrQueue( metaKeyIsCornerstone, newValue );
+			}
+			return;
+		}
 		if ( AnalysisFields.isCornerstoneElement ) {
 			AnalysisFields.isCornerstoneElement.value = value ? "1" : "0";
 		}
@@ -88,7 +303,7 @@ export default class AnalysisFields {
 	 * @returns {boolean} The isCornerstone.
 	 */
 	static get isCornerstone() {
-		return AnalysisFields.isCornerstoneElement?.value === "1";
+		return getMetaValue( metaKeyIsCornerstone, AnalysisFields.isCornerstoneElement, "0" ) === "1";
 	}
 
 	/**
@@ -99,9 +314,7 @@ export default class AnalysisFields {
 	 * @returns {void}
 	 */
 	static set seoScore( value ) {
-		if ( AnalysisFields.seoScoreElement ) {
-			AnalysisFields.seoScoreElement.value = value;
-		}
+		setScoreMeta( metaKeyLinkdex, AnalysisFields.seoScoreElement, value );
 	}
 
 	/**
@@ -110,7 +323,7 @@ export default class AnalysisFields {
 	 * @returns {string} The SEO (overall) score.
 	 */
 	static get seoScore() {
-		return AnalysisFields.seoScoreElement?.value ?? "";
+		return getMetaValue( metaKeyLinkdex, AnalysisFields.seoScoreElement, "" );
 	}
 
 	/**
@@ -121,9 +334,7 @@ export default class AnalysisFields {
 	 * @returns {void}
 	 */
 	static set readabilityScore( value ) {
-		if ( AnalysisFields.readabilityScoreElement ) {
-			AnalysisFields.readabilityScoreElement.value = value;
-		}
+		setScoreMeta( metaKeyContentScore, AnalysisFields.readabilityScoreElement, value );
 	}
 
 	/**
@@ -132,7 +343,7 @@ export default class AnalysisFields {
 	 * @returns {string} The Readability (overall) score.
 	 */
 	static get readabilityScore() {
-		return AnalysisFields.readabilityScoreElement?.value ?? "";
+		return getMetaValue( metaKeyContentScore, AnalysisFields.readabilityScoreElement, "" );
 	}
 
 	/**
@@ -143,9 +354,7 @@ export default class AnalysisFields {
 	 * @returns {void}
 	 */
 	static set inclusiveLanguageScore( value ) {
-		if ( AnalysisFields.inclusiveLanguageScoreElement ) {
-			AnalysisFields.inclusiveLanguageScoreElement.value = value;
-		}
+		setScoreMeta( metaKeyInclusiveLanguageScore, AnalysisFields.inclusiveLanguageScoreElement, value );
 	}
 
 	/**
@@ -154,6 +363,122 @@ export default class AnalysisFields {
 	 * @returns {string} The inclusive language (overall) score.
 	 */
 	static get inclusiveLanguageScore() {
-		return AnalysisFields.inclusiveLanguageScoreElement?.value ?? "";
+		return getMetaValue( metaKeyInclusiveLanguageScore, AnalysisFields.inclusiveLanguageScoreElement, "" );
+	}
+
+	/**
+	 * Setter for the SEO title score.
+	 *
+	 * @param {string} value The SEO title score.
+	 *
+	 * @returns {void}
+	 */
+	static set seoTitleScore( value ) {
+		setScoreMeta( metaKeySeoTitleScore, AnalysisFields.seoTitleScoreElement, value );
+	}
+
+	/**
+	 * Getter for the SEO title score.
+	 *
+	 * @returns {string} The SEO title score.
+	 */
+	static get seoTitleScore() {
+		return getMetaValue( metaKeySeoTitleScore, AnalysisFields.seoTitleScoreElement, "" );
+	}
+
+	/**
+	 * Setter for the meta description score.
+	 *
+	 * @param {string} value The meta description score.
+	 *
+	 * @returns {void}
+	 */
+	static set metaDescriptionScore( value ) {
+		setScoreMeta( metaKeyMetaDescriptionScore, AnalysisFields.metaDescriptionScoreElement, value );
+	}
+
+	/**
+	 * Getter for the meta description score.
+	 *
+	 * @returns {string} The meta description score.
+	 */
+	static get metaDescriptionScore() {
+		return getMetaValue( metaKeyMetaDescriptionScore, AnalysisFields.metaDescriptionScoreElement, "" );
 	}
 }
+
+// Always register — the buffer is only populated when isRestMetaActive() is true
+// (inside setScoreMeta), so the filter is a safe no-op in classic-editor mode.
+addFilter( "editor.preSavePost", "yoast/analysis-scores", ( edits, options ) => {
+	if ( pendingScoreWrites.size === 0 || options?.isAutosave ) {
+		return edits;
+	}
+	const scores = Object.fromEntries( pendingScoreWrites );
+	pendingScoreWrites.clear();
+	return { ...edits, meta: { ...( edits.meta ?? {} ), ...scores } };
+} );
+
+/**
+ * Returns whether a meta key is managed by the preSavePost filters (scores, reading time,
+ * primary terms) and should be synced back after save.
+ *
+ * @param {string} key The meta key.
+ * @returns {boolean} True when the key is managed.
+ */
+function isManagedKey( key ) {
+	return SCORE_KEYS.has( key ) || key.startsWith( "_yoast_wpseo_primary_" );
+}
+
+/**
+ * Builds the map of managed keys whose edit value differs from the saved value.
+ *
+ * @param {Object} savedMeta The saved post meta.
+ * @param {Object} editMeta  The current edited post meta.
+ * @returns {Object} Keys and their saved values that need syncing.
+ */
+function buildSyncMap( savedMeta, editMeta ) {
+	const result = {};
+	for ( const [ key, savedValue ] of Object.entries( savedMeta ) ) {
+		if ( isManagedKey( key ) && editMeta[ key ] !== String( savedValue ) ) {
+			result[ key ] = String( savedValue );
+		}
+	}
+	return result;
+}
+
+/**
+ * Syncs score and primary-term meta from the saved post state back into the edit record
+ * (undoIgnore) after a manual save completes.
+ *
+ * When a user edits any Yoast field, WordPress bakes the entire merged meta object (all
+ * 30+ keys) into the edit record, including score keys at their stale load-time values.
+ * Without this sync, those stale values re-dirty the post immediately after save and
+ * overwrite the scores on the next save.
+ *
+ * @returns {void}
+ */
+function syncDerivedMetaAfterSave() {
+	const editor = select( "core/editor" );
+	const savedMeta = editor.getCurrentPost()?.meta ?? {};
+	const editMeta = editor.getEditedPostAttribute( "meta" ) ?? {};
+	const toSync = buildSyncMap( savedMeta, editMeta );
+	if ( Object.keys( toSync ).length > 0 ) {
+		writeMetaWithoutUndo( toSync );
+	}
+}
+
+let wasSaving = false;
+let wasAutosaving = false;
+subscribe( () => {
+	if ( ! isRestMetaActive() ) {
+		return;
+	}
+	const editor = select( "core/editor" );
+	const isSaving = editor.isSavingPost();
+	const isAutosaving = Boolean( editor.isAutosavingPost?.() );
+	if ( wasSaving && ! isSaving && ! wasAutosaving ) {
+		syncDerivedMetaAfterSave();
+	}
+	wasSaving = isSaving;
+	wasAutosaving = isAutosaving;
+}, "core/editor" );

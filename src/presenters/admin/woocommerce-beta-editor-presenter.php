@@ -53,8 +53,8 @@ class Woocommerce_Beta_Editor_Presenter extends Abstract_Presenter {
 				\esc_html__( 'The %1$s interface is currently unavailable in the beta WooCommerce product editor. To resolve any issues, please disable the beta editor. %2$sLearn how to disable the beta WooCommerce product editor.%3$s', 'wordpress-seo' ),
 				'Yoast SEO',
 				'<a href="' . \esc_url( $this->short_link_helper->get( 'https://yoa.st/learn-how-disable-beta-woocommerce-product-editor' ) ) . '" target="_blank">',
-				'</a>'
-			)
+				'</a>',
+			),
 		);
 	}
 }
