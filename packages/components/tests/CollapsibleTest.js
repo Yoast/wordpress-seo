@@ -1,5 +1,6 @@
-import React, { act } from "react";
-import renderer from "react-test-renderer";
+import React from "react";
+import { render, fireEvent } from "@testing-library/react";
+import { noop } from "lodash";
 import { Collapsible, CollapsibleStateless } from "../src/Collapsible";
 
 describe( "Collapsible", () => {
@@ -13,83 +14,59 @@ describe( "Collapsible", () => {
 	);
 
 	it( "matches the snapshot by default", () => {
-		let component;
-		act( () => {
-			component = renderer.create(
-				<Collapsible title="Lorem ipsum dolor sit amet">
-					{ content }
-				</Collapsible>
-			);
-		} );
+		const { container, asFragment } = render(
+			<Collapsible title="Lorem ipsum dolor sit amet">
+				{ content }
+			</Collapsible>
+		);
 
-		const tree = component.toJSON();
-		expect( tree ).toMatchSnapshot();
+		expect( container.firstChild ).toMatchSnapshot();
 
 		// After toggling it should be the opposite.
-		act( () => {
-			component.getInstance().toggleCollapse();
-		} );
-		expect( component.toJSON() ).toMatchSnapshot();
+		fireEvent.click( container.querySelector( "button" ) );
+		expect( asFragment().firstChild ).toMatchSnapshot();
 	} );
 
 	it( "matches the snapshot by default when the collapsible has an ID", () => {
-		let component;
-		act( () => {
-			component = renderer.create(
-				<Collapsible title="Lorem ipsum dolor sit amet" id={ "yoast-collapsible" }>
-					{ content }
-				</Collapsible>
-			);
-		} );
+		const { container, asFragment } = render(
+			<Collapsible title="Lorem ipsum dolor sit amet" id={ "yoast-collapsible" }>
+				{ content }
+			</Collapsible>
+		);
 
-		const tree = component.toJSON();
-		expect( tree ).toMatchSnapshot();
+		expect( container.firstChild ).toMatchSnapshot();
 
 		// After toggling it should be the opposite.
-		act( () => {
-			component.getInstance().toggleCollapse();
-		} );
-		expect( component.toJSON() ).toMatchSnapshot();
+		fireEvent.click( container.querySelector( "button" ) );
+		expect( asFragment().firstChild ).toMatchSnapshot();
 	} );
 
 	it( "matches the snapshot when it is open", () => {
-		let component;
-		act( () => {
-			component = renderer.create(
-				<Collapsible title="Lorem ipsum dolor sit amet" initialIsOpen={ true }>
-					{ content }
-				</Collapsible>
-			);
-		} );
+		const { container, asFragment } = render(
+			<Collapsible title="Lorem ipsum dolor sit amet" initialIsOpen={ true }>
+				{ content }
+			</Collapsible>
+		);
 
-		const tree = component.toJSON();
-		expect( tree ).toMatchSnapshot();
+		expect( container.firstChild ).toMatchSnapshot();
 
 		// After toggling it should be the opposite.
-		act( () => {
-			component.getInstance().toggleCollapse();
-		} );
-		expect( component.toJSON() ).toMatchSnapshot();
+		fireEvent.click( container.querySelector( "button" ) );
+		expect( asFragment().firstChild ).toMatchSnapshot();
 	} );
 
 	it( "matches the snapshot when it is closed", () => {
-		let component;
-		act( () => {
-			component = renderer.create(
-				<Collapsible title="Lorem ipsum dolor sit amet" initialIsOpen={ false }>
-					{ content }
-				</Collapsible>
-			);
-		} );
+		const { container, asFragment } = render(
+			<Collapsible title="Lorem ipsum dolor sit amet" initialIsOpen={ false }>
+				{ content }
+			</Collapsible>
+		);
 
-		const tree = component.toJSON();
-		expect( tree ).toMatchSnapshot();
+		expect( container.firstChild ).toMatchSnapshot();
 
 		// After toggling it should be the opposite.
-		act( () => {
-			component.getInstance().toggleCollapse();
-		} );
-		expect( component.toJSON() ).toMatchSnapshot();
+		fireEvent.click( container.querySelector( "button" ) );
+		expect( asFragment().firstChild ).toMatchSnapshot();
 	} );
 } );
 
@@ -104,17 +81,13 @@ describe( "CollapsibleStateless", () => {
 	);
 
 	it( "matches the snapshot by default", () => {
-		let component;
-		act( () => {
-			component = renderer.create(
-				<CollapsibleStateless title="Lorem ipsum dolor sit amet" isOpen={ true } onToggle={ () => {} }>
-					{ content }
-				</CollapsibleStateless>
-			);
-		} );
+		const { container } = render(
+			<CollapsibleStateless title="Lorem ipsum dolor sit amet" isOpen={ true } onToggle={ noop }>
+				{ content }
+			</CollapsibleStateless>
+		);
 
-		const tree = component.toJSON();
-		expect( tree ).toMatchSnapshot();
+		expect( container.firstChild ).toMatchSnapshot();
 	} );
 
 	it( "matches the snapshot when it is opened and closed", () => {
@@ -124,44 +97,39 @@ describe( "CollapsibleStateless", () => {
 		 *
 		 * @returns {void}
 		 */
-		const onToggle = () => {
+		const onToggle = jest.fn( () => {
 			isOpen = ! isOpen;
-		};
-		let component;
-		act( () => {
-			component = renderer.create(
-				<CollapsibleStateless title="Lorem ipsum dolor sit amet" isOpen={ isOpen } onToggle={ onToggle }>
-					{ content }
-				</CollapsibleStateless>
-			);
 		} );
+		const renderCollapsible = () => (
+			<CollapsibleStateless title="Lorem ipsum dolor sit amet" isOpen={ isOpen } onToggle={ onToggle }>
+				{ content }
+			</CollapsibleStateless>
+		);
+		const { container, asFragment, rerender } = render( renderCollapsible() );
 
-		const tree = component.toJSON();
-		expect( tree ).toMatchSnapshot();
+		expect( container.firstChild ).toMatchSnapshot();
 
 		// After toggling it should be the opposite.
-		onToggle();
-		expect( component.toJSON() ).toMatchSnapshot();
+		fireEvent.click( container.querySelector( "button" ) );
+		expect( onToggle ).toHaveBeenCalledTimes( 1 );
+		rerender( renderCollapsible() );
+		expect( asFragment().firstChild ).toMatchSnapshot();
 	} );
 
 	it( "matches the snapshot with prefix seo icon and screen reader text", () => {
-		let component;
-		act( () => {
-			component = renderer.create(
-				<CollapsibleStateless
-					title="Lorem ipsum dolor sit amet"
-					titleScreenReaderText="bad SEO score"
-					prefixIcon={ { icon: "circle", color: "red" } }
-					prefixIconCollapsed={ { icon: "circle", color: "red" } }
-					isOpen={ true }
-					onToggle={ () => {} }
-				>
-					{ content }
-				</CollapsibleStateless>
-			);
-		} );
+		const { container } = render(
+			<CollapsibleStateless
+				title="Lorem ipsum dolor sit amet"
+				titleScreenReaderText="bad SEO score"
+				prefixIcon={ { icon: "circle", color: "red" } }
+				prefixIconCollapsed={ { icon: "circle", color: "red" } }
+				isOpen={ true }
+				onToggle={ noop }
+			>
+				{ content }
+			</CollapsibleStateless>
+		);
 
-		const tree = component.toJSON();
-		expect( tree ).toMatchSnapshot();
+		expect( container.firstChild ).toMatchSnapshot();
 	} );
 } );

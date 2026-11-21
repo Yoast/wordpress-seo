@@ -3,6 +3,7 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\Tests\Unit\Abilities\Infrastructure;
 
+use Brain\Monkey;
 use Mockery;
 use Yoast\WP\SEO\Abilities\Infrastructure\Term_SEO_Field_Map;
 use Yoast\WP\SEO\Surfaces\Meta_Surface;
@@ -41,6 +42,9 @@ final class Term_SEO_Field_Map_Test extends TestCase {
 	protected function set_up() {
 		parent::set_up();
 
+		// The inputs are real booleans, which WordPress returns as is.
+		Monkey\Functions\when( 'rest_sanitize_boolean' )->alias( 'boolval' );
+
 		$this->meta_surface = Mockery::mock( Meta_Surface::class );
 		$this->instance     = new Term_SEO_Field_Map( $this->meta_surface );
 	}
@@ -53,6 +57,7 @@ final class Term_SEO_Field_Map_Test extends TestCase {
 	 * @covers ::to_seo_array
 	 * @covers \Yoast\WP\SEO\Abilities\Infrastructure\Abstract_SEO_Field_Map::get_shared_seo_fields
 	 * @covers \Yoast\WP\SEO\Abilities\Infrastructure\Abstract_SEO_Field_Map::rendered
+	 * @covers \Yoast\WP\SEO\Abilities\Infrastructure\Abstract_SEO_Field_Map::rendered_noindex
 	 *
 	 * @return void
 	 */
@@ -69,6 +74,10 @@ final class Term_SEO_Field_Map_Test extends TestCase {
 					'open_graph_description' => 'Rendered OG description',
 					'twitter_title'          => 'Rendered Twitter title',
 					'twitter_description'    => '',
+					'robots'                 => [
+						'index'  => 'noindex',
+						'follow' => 'follow',
+					],
 				],
 			),
 		);
@@ -88,6 +97,7 @@ final class Term_SEO_Field_Map_Test extends TestCase {
 				'canonical_rendered'              => 'https://example.com/category/news/',
 				'is_cornerstone'                  => false,
 				'noindex'                         => true,
+				'noindex_rendered'                => true,
 				'open_graph_title'                => 'OG title',
 				'open_graph_title_rendered'       => 'Rendered OG title',
 				'open_graph_description'          => 'OG description',
@@ -111,6 +121,7 @@ final class Term_SEO_Field_Map_Test extends TestCase {
 	 * @covers ::to_seo_array
 	 * @covers \Yoast\WP\SEO\Abilities\Infrastructure\Abstract_SEO_Field_Map::get_shared_seo_fields
 	 * @covers \Yoast\WP\SEO\Abilities\Infrastructure\Abstract_SEO_Field_Map::rendered
+	 * @covers \Yoast\WP\SEO\Abilities\Infrastructure\Abstract_SEO_Field_Map::rendered_noindex
 	 *
 	 * @return void
 	 */
@@ -123,6 +134,7 @@ final class Term_SEO_Field_Map_Test extends TestCase {
 
 		$this->assertNull( $result['seo_title_rendered'] );
 		$this->assertNull( $result['canonical_rendered'] );
+		$this->assertNull( $result['noindex_rendered'] );
 		$this->assertSame( 'My SEO title', $result['seo_title'] );
 	}
 

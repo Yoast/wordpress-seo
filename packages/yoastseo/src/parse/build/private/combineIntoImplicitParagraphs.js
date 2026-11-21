@@ -1,7 +1,7 @@
-import isPhrasingContent from "./isPhrasingContent";
-import { Paragraph } from "../../structure";
+import isPhrasingContent from "./isPhrasingContent.js";
+import { Paragraph } from "../../structure/index.js";
 import { isEmpty } from "lodash";
-import SourceCodeLocation from "../../structure/SourceCodeLocation";
+import SourceCodeLocation from "../../structure/SourceCodeLocation.js";
 
 /**
  * Checks whether a node is inter-element whitespace.

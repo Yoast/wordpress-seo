@@ -50,57 +50,55 @@ exports[`the ArticleList matches the snapshot 1`] = `
 }
 
 <div
-  className="c0 articlelist-feed"
+  class="c0 articlelist-feed"
 >
   <h3
-    className="c1 articlelist-feed__header"
+    class="c1 articlelist-feed__header"
   >
     Feed title
   </h3>
   <ul
-    className="c2 articlelist-feed__posts"
+    class="c2 articlelist-feed__posts"
     role="list"
   >
     <li
-      className="c3 articlelist-feed__post"
+      class="c3 articlelist-feed__post"
     >
       <a
-        className="c4 articlelist-feed__post-link"
+        class="c4 articlelist-feed__post-link"
         href="https://www.yoast.com/1"
-        rel={null}
         target="_blank"
       >
         Wordpress SEO
         <span
-          className="c5"
+          class="c5"
         >
           (Opens in a new browser tab)
         </span>
       </a>
       <p
-        className="articlelist-feed__post-description"
+        class="articlelist-feed__post-description"
       >
         Some arbitrary description any blog post could have
       </p>
     </li>
     <li
-      className="c3 articlelist-feed__post"
+      class="c3 articlelist-feed__post"
     >
       <a
-        className="c4 articlelist-feed__post-link"
+        class="c4 articlelist-feed__post-link"
         href="https://www.yoast.com/2"
-        rel={null}
         target="_blank"
       >
         Wordpress SEO
         <span
-          className="c5"
+          class="c5"
         >
           (Opens in a new browser tab)
         </span>
       </a>
       <p
-        className="articlelist-feed__post-description"
+        class="articlelist-feed__post-description"
       >
         Some arbitrary description any blog post could have
       </p>

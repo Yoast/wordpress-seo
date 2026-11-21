@@ -60,7 +60,10 @@ trait Term_SEO_Data_Schema_Trait {
 			'type'       => 'object',
 			'properties' => [
 				'term_id'                         => [ 'type' => 'integer' ],
-				'term_name'                       => $nullable_string,
+				'term_name'                       => [
+					'type'        => [ 'string', 'null' ],
+					'description' => 'The breadcrumb title of the term when a custom one is set, otherwise the term name.',
+				],
 				'permalink'                       => $nullable_string,
 				'taxonomy'                        => [ 'type' => 'string' ],
 				'seo_title'                       => $raw( 'SEO title' ),
@@ -90,7 +93,11 @@ trait Term_SEO_Data_Schema_Trait {
 				],
 				'noindex'                         => [
 					'type'        => [ 'boolean', 'null' ],
-					'description' => 'Whether search engines are told not to index this term archive. true means noindex (the archive is excluded from search results); false means the archive is forced to be indexed; null means no setting is stored and the taxonomy default applies.',
+					'description' => 'Whether search engines are told not to index this term archive. true means noindex (the archive is excluded from search results); false means the archive is forced to be indexed; null means no setting is stored and the taxonomy default applies. The rendered companion field carries whether the archive is actually noindexed.',
+				],
+				'noindex_rendered'                => [
+					'type'        => [ 'boolean', 'null' ],
+					'description' => 'Whether search engines are actually told not to index this term archive, as output on the front end.',
 				],
 			],
 		];

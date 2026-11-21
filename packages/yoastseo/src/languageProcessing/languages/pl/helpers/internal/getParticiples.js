@@ -2,7 +2,7 @@ import { includes } from "lodash";
 import { languageProcessing } from "yoastseo";
 const { getWords } = languageProcessing;
 
-import participles from "../../config/internal/participles";
+import participles from "../../config/internal/participles.js";
 
 /**
  * Creates an array of participles for the participles found in a clause.

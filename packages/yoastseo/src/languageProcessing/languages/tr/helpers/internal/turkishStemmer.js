@@ -1,4 +1,3 @@
-/* eslint-disable max-statements, require-jsdoc, complexity, camelcase, prefer-const, no-labels, no-constant-condition, no-lone-blocks, max-depth, no-return-assign, max-len, no-bitwise, no-unused-vars */
 /*
  * Snowball JavaScript Library v0.5
  * http://snowball.tartarus.org/

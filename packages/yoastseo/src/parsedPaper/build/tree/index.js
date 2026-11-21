@@ -1,4 +1,4 @@
-import TreeBuilder from "./TreeBuilder";
+import TreeBuilder from "./TreeBuilder.js";
 
 /**
  * This module contains the main logic to transform a formatted text (for now only HTML is supported)

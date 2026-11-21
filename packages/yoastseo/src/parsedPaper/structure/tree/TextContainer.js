@@ -1,5 +1,5 @@
 import { isEmpty } from "lodash";
-import { parseTextIntoSentences } from "../../build/linguisticParsing/parseText";
+import { parseTextIntoSentences } from "../../build/linguisticParsing/parseText.js";
 
 /**
  * Represents a text (with optional formatting element(s)) within a document that can be read by a reader.

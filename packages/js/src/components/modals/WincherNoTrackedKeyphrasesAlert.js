@@ -1,11 +1,11 @@
 import { __, sprintf } from "@wordpress/i18n";
 import { Alert } from "@yoast/components";
-import PropTypes from "prop-types";
 
 /**
  * Creates the content for the Wincher currently tracking alert in the Track SEO Performance modal.
  *
- * @param {string} [className=""] Optional className for the alert.
+ * @param {Object} props Component props.
+ * @param {string} [props.className=""] Optional className for the alert.
  *
  * @returns {JSX.Element} The Wincher currently tracking alert.
  */
@@ -24,10 +24,6 @@ const WincherNoTrackedKeyphrasesAlert = ( { className = "" } ) => {
 			}
 		</Alert>
 	);
-};
-
-WincherNoTrackedKeyphrasesAlert.propTypes = {
-	className: PropTypes.string,
 };
 
 export default WincherNoTrackedKeyphrasesAlert;

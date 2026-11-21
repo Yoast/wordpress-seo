@@ -337,7 +337,7 @@ final class Post_Identifier_Resolver_Test extends TestCase {
 		$this->indexable_repository
 			->expects( 'find_posts_by_title_keywords' )
 			->once()
-			->with( 'guide', 1 )
+			->with( 'guide', 1, Indexable_Repository::DEFAULT_TITLE_KEYWORD_PAGE_SIZE, null )
 			->andReturn( $matches );
 
 		$this->assertSame( $matches, $this->instance->resolve_many( [ 'title' => 'guide' ] ) );
@@ -357,7 +357,7 @@ final class Post_Identifier_Resolver_Test extends TestCase {
 		$this->indexable_repository
 			->expects( 'find_posts_by_title_keywords' )
 			->once()
-			->with( 'guide', 3 )
+			->with( 'guide', 3, Indexable_Repository::DEFAULT_TITLE_KEYWORD_PAGE_SIZE, null )
 			->andReturn( $matches );
 
 		$this->assertSame(
@@ -384,7 +384,7 @@ final class Post_Identifier_Resolver_Test extends TestCase {
 		$this->indexable_repository
 			->expects( 'find_posts_by_title_keywords' )
 			->once()
-			->with( 'nothing', 1 )
+			->with( 'nothing', 1, Indexable_Repository::DEFAULT_TITLE_KEYWORD_PAGE_SIZE, null )
 			->andReturn( [] );
 
 		$this->assertInstanceOf( WP_Error::class, $this->instance->resolve_many( [ 'title' => 'nothing' ] ) );
@@ -405,7 +405,7 @@ final class Post_Identifier_Resolver_Test extends TestCase {
 		$this->indexable_repository
 			->expects( 'find_posts_by_title_keywords' )
 			->once()
-			->with( 'guide', 2 )
+			->with( 'guide', 2, Indexable_Repository::DEFAULT_TITLE_KEYWORD_PAGE_SIZE, null )
 			->andReturn( [] );
 
 		$this->assertSame(
@@ -432,7 +432,7 @@ final class Post_Identifier_Resolver_Test extends TestCase {
 		$this->indexable_repository
 			->expects( 'find_posts_by_title_keywords' )
 			->once()
-			->with( 'guide', 1 )
+			->with( 'guide', 1, Indexable_Repository::DEFAULT_TITLE_KEYWORD_PAGE_SIZE, null )
 			->andReturn( [ Mockery::mock( Indexable::class ), Mockery::mock() ] );
 
 		$this->assertInstanceOf( WP_Error::class, $this->instance->resolve_many( [ 'title' => 'guide' ] ) );

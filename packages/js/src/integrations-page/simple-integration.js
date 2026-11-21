@@ -7,19 +7,35 @@ import { Fragment } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { Badge, Button, Link } from "@yoast/ui-library";
 import { get } from "lodash";
-import { PropTypes } from "prop-types";
 import { getIsFreeIntegrationOrPremiumAvailable } from "./helper";
 import { Card } from "./tailwind-components/card";
 
 /**
+ * @typedef {Object} Integration
+ * @property {string} [name] The integration name.
+ * @property {import("react").ReactNode} [claim] The integration claim, shown as the card heading.
+ * @property {string} [learnMoreLink] The URL of the "Learn more" link.
+ * @property {string} [logoLink] The URL the logo links to.
+ * @property {string} [slug] The integration slug.
+ * @property {string} [description] The integration description.
+ * @property {Array} [usps] The unique selling points of the integration.
+ * @property {Function} logo The logo component.
+ * @property {boolean} [isPremium] Whether the integration requires Yoast SEO Premium.
+ * @property {boolean} [isNew] Whether to show the "New" badge.
+ * @property {boolean} [isMultisiteAvailable] Whether the integration is available on multisites.
+ * @property {string} [upsellLink] The URL of the upsell button.
+ */
+
+/**
  * Represents an integration.
  *
- * @param {Object} integration The integration.
- * @param {boolean} [isActive=true] The integration state.
- * @param {boolean} [isSchemaPartner=false] Whether the card is a Yoast Schema API partner.
- * @param {boolean} [showSchemaFrameworkAlertInBody=false] Whether a Schema API partner shows the Schema Framework alert in the card's
+ * @param {Object} props Component props.
+ * @param {Integration} props.integration The integration.
+ * @param {boolean} [props.isActive=true] The integration state.
+ * @param {boolean} [props.isSchemaPartner=false] Whether the card is a Yoast Schema API partner.
+ * @param {boolean} [props.showSchemaFrameworkAlertInBody=false] Whether a Schema API partner shows the Schema Framework alert in the card's
  *   body, alongside its children, instead of in the footer, in place of its children.
- * @param {React.ReactNode} [children=null] The child components.
+ * @param {React.ReactNode} [props.children=null] The child components.
  *
  * @returns {JSX.Element} A card representing an integration.
  */
@@ -163,26 +179,4 @@ export const SimpleIntegration = ( {
 			</Card.Footer>
 		</Card>
 	);
-};
-
-SimpleIntegration.propTypes = {
-	integration: PropTypes.shape( {
-		name: PropTypes.string,
-		claim: PropTypes.node,
-		learnMoreLink: PropTypes.string,
-		logoLink: PropTypes.string,
-		slug: PropTypes.string,
-		description: PropTypes.string,
-		usps: PropTypes.array,
-		logo: PropTypes.func.isRequired,
-		isNew: PropTypes.bool,
-		upsellLink: PropTypes.string,
-	} ).isRequired,
-	isActive: PropTypes.bool,
-	isSchemaPartner: PropTypes.bool,
-	showSchemaFrameworkAlertInBody: PropTypes.bool,
-	children: PropTypes.oneOfType( [
-		PropTypes.node,
-		PropTypes.arrayOf( PropTypes.node ),
-	] ),
 };

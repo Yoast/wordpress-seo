@@ -1,5 +1,5 @@
-import React, { act } from "react";
-import renderer from "react-test-renderer";
+import React from "react";
+import { render } from "@testing-library/react";
 
 import SiteSEOReport from "../src/SiteSEOReport";
 
@@ -22,9 +22,8 @@ describe( "The SiteSEOReport testing suite", () => {
 		},
 	];
 
-	let component;
-	act( () => {
-		component = renderer.create(
+	it( "The SiteSEOReport should match the snapshot", function() {
+		const { container } = render(
 			<SiteSEOReport
 				className="test_SiteSEOReport"
 				seoAssessmentText="Test assessment"
@@ -32,10 +31,7 @@ describe( "The SiteSEOReport testing suite", () => {
 				barHeight={ "10" }
 			/>
 		);
-	} );
 
-	const tree = component.toJSON();
-	it( "The SiteSEOReport should match the snapshot", function() {
-		expect( tree ).toMatchSnapshot();
+		expect( container.firstChild ).toMatchSnapshot();
 	} );
 } );

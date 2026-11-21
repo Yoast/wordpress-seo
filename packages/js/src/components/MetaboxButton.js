@@ -1,11 +1,10 @@
 import classNames from "classnames";
-import PropTypes from "prop-types";
 
 /**
  * Text for in the MetaboxButton.
  *
- * @param {string} [className=""] Extra classes.
- * @param {...Object} [props] Extra props.
+ * @param {Object} props Component props. Additional props are passed to the span element.
+ * @param {string} [props.className=""] Extra classes.
  *
  * @returns {JSX.Element} The element.
  */
@@ -20,17 +19,14 @@ const MetaboxButtonText = ( { className = "", ...props } ) => (
 	/>
 );
 MetaboxButtonText.displayName = "MetaboxButton.Text";
-MetaboxButtonText.propTypes = {
-	className: PropTypes.string,
-};
 
 /**
  * Lookalike for a simple (un-collapsible) version of the @yoast/components Collapsible in Tailwind style.
  *
  * Expects a `yst-root` parent and the Tailwind stylesheet loaded in.
  *
- * @param {string} [className=""] Extra classes.
- * @param {...Object} [props] Extra props.
+ * @param {Object} props Component props. Additional props are passed to the button element.
+ * @param {string} [props.className=""] Extra classes.
  *
  * @returns {JSX.Element} The element.
  */
@@ -46,8 +42,5 @@ export const MetaboxButton = ( { className = "", ...props } ) => (
 		{ ...props }
 	/>
 );
-MetaboxButton.propTypes = {
-	className: PropTypes.string,
-};
 
 MetaboxButton.Text = MetaboxButtonText;

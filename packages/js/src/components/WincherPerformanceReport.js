@@ -3,7 +3,6 @@ import { Fragment } from "@wordpress/element";
 import { isEmpty, map } from "lodash";
 import { __, sprintf } from "@wordpress/i18n";
 import styled from "styled-components";
-import PropTypes from "prop-types";
 
 /* Yoast dependencies */
 import { makeOutboundLink } from "@yoast/helpers";
@@ -72,15 +71,16 @@ const viewLinkUrl = ( { websiteId, id } ) => {
  * Checks if the request has failed or not.
  *
  * @param {Object} data The response data object.
- * @returns {Boolean} Whether the request has failed or not.
+ * @returns {boolean} Whether the request has failed or not.
  */
 const checkFailedRequest = ( data ) => data && [ 401, 403, 404 ].includes( data.status );
 
 /**
  * Creates the Connect to Wincher button.
  *
- * @param {boolean} isLoggedIn Whether the user is logged in.
- * @param {function} onConnectAction The function to call when the user wants to connect.
+ * @param {Object} props Component props.
+ * @param {boolean} props.isLoggedIn Whether the user is logged in.
+ * @param {Function} props.onConnectAction The function to call when the user wants to connect.
  *
  * @returns {JSX.Element} The connect button or reconnect alert, or null if the user is logged in.
  */
@@ -100,16 +100,12 @@ const ConnectToWincher = ( { isLoggedIn, onConnectAction } ) => {
 	</ConnectToWincherWrapper>;
 };
 
-ConnectToWincher.propTypes = {
-	isLoggedIn: PropTypes.bool.isRequired,
-	onConnectAction: PropTypes.func.isRequired,
-};
-
 /**
  * Creates a new cell to be displayed in the table row.
  *
- * @param {boolean} isBlurred Whether to blur the cell.
- * @param {React.ReactNode} children The content of the cell.
+ * @param {Object} props Component props.
+ * @param {boolean} props.isBlurred Whether to blur the cell.
+ * @param {import("react").ReactNode} props.children The content of the cell.
  *
  * @returns {JSX.Element} The cell.
  */
@@ -128,21 +124,13 @@ const Cell = ( { isBlurred, children } ) => {
 	);
 };
 
-Cell.propTypes = {
-	isBlurred: PropTypes.bool.isRequired,
-	children: PropTypes.oneOfType( [
-		PropTypes.string,
-		PropTypes.number,
-		PropTypes.object,
-	] ).isRequired,
-};
-
 /**
  * Creates a new row to be displayed in the table.
  *
- * @param {Object} keyphrase The keyphrase data to be used in the row.
- * @param {string} websiteId The website ID to link to.
- * @param {boolean} isBlurred Whether to blur the row.
+ * @param {Object} props Component props.
+ * @param {Object} props.keyphrase The keyphrase data to be used in the row.
+ * @param {string} props.websiteId The website ID to link to.
+ * @param {boolean} props.isBlurred Whether to blur the row.
  *
  * @returns {JSX.Element} The row.
  */
@@ -167,12 +155,6 @@ const Row = ( { keyphrase, websiteId, isBlurred } ) => {
 	);
 };
 
-Row.propTypes = {
-	keyphrase: PropTypes.object.isRequired,
-	websiteId: PropTypes.string.isRequired,
-	isBlurred: PropTypes.bool.isRequired,
-};
-
 /**
  * Displays error alert if a network error happened when connecting to Wincher.
  *
@@ -194,7 +176,8 @@ const WincherNetworkErrorAlert = () => {
 /**
  * Displays info alert when a wincher connect action is successfully made.
  *
- * @param {Object} data The Wincher performance data.
+ * @param {Object} props Component props.
+ * @param {Object} props.data The Wincher performance data.
  *
  * @returns {JSX.Element} The info alert.
  */
@@ -233,18 +216,15 @@ const WincherConnectSuccessAlert = ( { data } ) => {
 	);
 };
 
-WincherConnectSuccessAlert.propTypes = {
-	data: PropTypes.object.isRequired,
-};
-
 /**
  * Gets a connection alert based on the passed props and the data status.
  *
- * @param {Object} data The Wincher performance data.
- * @param {function} onConnectAction The function to call when the user wants to connect.
- * @param {boolean} isConnectSuccess Whether the connection was successful.
- * @param {boolean} isNetworkError Whether there was a network error.
- * @param {boolean} isFailedRequest Whether the request failed.
+ * @param {Object} props Component props.
+ * @param {Object} props.data The Wincher performance data.
+ * @param {Function} props.onConnectAction The function to call when the user wants to connect.
+ * @param {boolean} props.isConnectSuccess Whether the connection was successful.
+ * @param {boolean} props.isNetworkError Whether there was a network error.
+ * @param {boolean} props.isFailedRequest Whether the request failed.
  *
  * @returns {JSX.Element} The connection alert, or null if no alert is needed.
  */
@@ -267,21 +247,14 @@ const GetConnectionAlert = ( { data, onConnectAction, isConnectSuccess, isNetwor
 	return null;
 };
 
-GetConnectionAlert.propTypes = {
-	data: PropTypes.object.isRequired,
-	onConnectAction: PropTypes.func.isRequired,
-	isConnectSuccess: PropTypes.bool.isRequired,
-	isNetworkError: PropTypes.bool.isRequired,
-	isFailedRequest: PropTypes.bool.isRequired,
-};
-
 /**
  * Gets the proper user message based on the current login state and presence of data.
  *
- * @param {Object} data The Wincher performance data.
- * @param {function} onConnectAction The function to call when the user wants to connect.
- * @param {boolean} isConnectSuccess Whether the connection was successful.
- * @param {boolean} isNetworkError Whether there was a network error.
+ * @param {Object} props Component props.
+ * @param {Object} props.data The Wincher performance data.
+ * @param {Function} props.onConnectAction The function to call when the user wants to connect.
+ * @param {boolean} props.isConnectSuccess Whether the connection was successful.
+ * @param {boolean} props.isNetworkError Whether there was a network error.
  *
  * @returns {JSX.Element} The user message.
  */
@@ -305,17 +278,11 @@ const GetUserMessage = ( { data, onConnectAction, isNetworkError, isConnectSucce
 	return null;
 };
 
-GetUserMessage.propTypes = {
-	data: PropTypes.object.isRequired,
-	onConnectAction: PropTypes.func.isRequired,
-	isConnectSuccess: PropTypes.bool.isRequired,
-	isNetworkError: PropTypes.bool.isRequired,
-};
-
 /**
  * TableFootnote component.
  *
  * @param {Object} props The props.
+ * @param {boolean} props.isLoggedIn Whether the user is logged in to Wincher.
  *
  * @returns {wp.Element} The footnote.
  */
@@ -352,15 +319,12 @@ const TableExplanation = ( { isLoggedIn } ) => {
 	</p>;
 };
 
-TableExplanation.propTypes = {
-	isLoggedIn: PropTypes.bool.isRequired,
-};
-
 /**
  * The Wincher SEO performance table.
  *
- * @param {boolean} isBlurred Whether the table should be blurred.
- * @param {React.ReactNode} children The content of the table.
+ * @param {Object} props Component props.
+ * @param {boolean} props.isBlurred Whether the table should be blurred.
+ * @param {React.ReactNode} props.children The content of the table.
  *
  * @returns {JSX.Element} The react component.
  */
@@ -372,11 +336,6 @@ const WincherSEOPerformanceTable = ( { isBlurred, children } ) => {
 	}
 
 	return <table className="yoast yoast-table">{ children }</table>;
-};
-
-WincherSEOPerformanceTable.propTypes = {
-	isBlurred: PropTypes.bool.isRequired,
-	children: PropTypes.node.isRequired,
 };
 
 /**
@@ -391,13 +350,14 @@ const checkHasResults = ( data ) => data && ! isEmpty( data ) && ! isEmpty( data
 /**
  * The Dashboard Wincher SEO Performance component.
  *
- * @param {string} [className="wincher-seo-performance"] The class name.
- * @param {Object} data The Wincher performance data.
- * @param {string} websiteId The website ID.
- * @param {boolean} isLoggedIn Whether the user is logged in.
- * @param {boolean} isConnectSuccess Whether the connection was successful.
- * @param {boolean} isNetworkError Whether there was a network error.
- * @param {function} onConnectAction Callback to connect.
+ * @param {Object} props Component props.
+ * @param {string} [props.className="wincher-seo-performance"] The class name.
+ * @param {Object} props.data The Wincher performance data.
+ * @param {string} props.websiteId The website ID.
+ * @param {boolean} props.isLoggedIn Whether the user is logged in.
+ * @param {boolean} props.isConnectSuccess Whether the connection was successful.
+ * @param {boolean} props.isNetworkError Whether there was a network error.
+ * @param {Function} props.onConnectAction Callback to connect.
  *
  * @returns {JSX.Element} The react component.
  */
@@ -483,16 +443,6 @@ const WincherPerformanceReport = ( {
 
 		</WicnherSEOPerformanceContainer>
 	);
-};
-
-WincherPerformanceReport.propTypes = {
-	className: PropTypes.string,
-	data: PropTypes.object.isRequired,
-	websiteId: PropTypes.string.isRequired,
-	isLoggedIn: PropTypes.bool.isRequired,
-	isConnectSuccess: PropTypes.bool.isRequired,
-	isNetworkError: PropTypes.bool.isRequired,
-	onConnectAction: PropTypes.func.isRequired,
 };
 
 export default WincherPerformanceReport;

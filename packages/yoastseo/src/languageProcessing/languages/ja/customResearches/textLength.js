@@ -1,4 +1,4 @@
-import countCharacters from "../helpers/countCharacters";
+import countCharacters from "../helpers/countCharacters.js";
 
 /**
  * A result of the character count calculation.

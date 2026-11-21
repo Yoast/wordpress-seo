@@ -20,7 +20,7 @@ import InternalLinksAssessment from "../../assessments/seo/InternalLinksAssessme
 import PageTitleWidthAssessment from "../../assessments/seo/PageTitleWidthAssessment.js";
 import SlugKeywordAssessment from "../../assessments/seo/UrlKeywordAssessment.js";
 import SingleH1Assessment from "../../assessments/seo/SingleH1Assessment.js";
-import { createAnchorOpeningTag } from "../../../helpers";
+import { createAnchorOpeningTag } from "../../../helpers/index.js";
 
 /**
  * The StorePostsAndPagesSEOAssessor class is used for the SEO analysis for store posts and pages.

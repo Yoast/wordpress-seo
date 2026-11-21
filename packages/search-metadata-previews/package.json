@@ -35,7 +35,7 @@
     "prop-types": "^15.6.0",
     "react-transition-group": "^4.4.5",
     "styled-components": "^5.3.6",
-    "yoastseo": "^3.6.0"
+    "yoastseo": "^3.7.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.17.10",
@@ -47,7 +47,7 @@
     "@testing-library/react-hooks": "^8.0.1",
     "@wordpress/components": "^28.8.12",
     "@yoast/browserslist-config": "^1.2.5",
-    "@yoast/eslint-config": "^8.3.0",
+    "@yoast/eslint-config": "^8.4.0",
     "babel-plugin-styled-components": "^2.0.6",
     "browserslist": "^4.7.3",
     "eslint": "^9.16.0",
@@ -60,7 +60,7 @@
     "@draft-js-plugins/mention": "^5.0.0",
     "@heroicons/react": "^1.0.6",
     "@wordpress/components": ">=28.8.12",
-    "@yoast/ui-library": "^4.6.0",
+    "@yoast/ui-library": "^4.7.0",
     "draft-js": "^0.11.7",
     "react": "^18.3.1 || ^19.0.0",
     "react-dom": "^18.3.1 || ^19.0.0"

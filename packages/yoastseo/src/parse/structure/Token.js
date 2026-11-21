@@ -1,4 +1,4 @@
-import { normalizeSingle } from "../../languageProcessing";
+import { normalizeSingle } from "../../languageProcessing/index.js";
 
 /**
  * @typedef {import("./SourceCodeLocation").SourceCodeRange} SourceCodeRange

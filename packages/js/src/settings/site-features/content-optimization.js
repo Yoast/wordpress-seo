@@ -14,6 +14,7 @@ export const contentOptimizationFeatures = {
 		description: __( "The SEO analysis offers suggestions to improve the findability of your text and makes sure that your content meets best practices.", "wordpress-seo" ),
 		learnMoreUrl: "https://yoa.st/2ak",
 		learnMoreLinkId: "link-seo-analysis",
+		/* translators: Hidden accessibility text. */
 		learnMoreLinkAriaLabel: __( "SEO analysis", "wordpress-seo" ),
 	},
 	contentAnalysis: {
@@ -25,6 +26,7 @@ export const contentOptimizationFeatures = {
 		description: __( "The readability analysis offers suggestions to improve the structure and style of your text.", "wordpress-seo" ),
 		learnMoreUrl: "https://yoa.st/2ao",
 		learnMoreLinkId: "link-readability-analysis",
+		/* translators: Hidden accessibility text. */
 		learnMoreLinkAriaLabel: __( "Readability analysis", "wordpress-seo" ),
 	},
 	inclusiveLanguageAnalysis: {
@@ -36,6 +38,7 @@ export const contentOptimizationFeatures = {
 		description: __( "The inclusive language analysis offers suggestions to write more inclusive copy, so more people will be able to relate to your content.", "wordpress-seo" ),
 		learnMoreUrl: "https://yoa.st/inclusive-language-feature-learn-more",
 		learnMoreLinkId: "link-inclusive-language-analysis",
+		/* translators: Hidden accessibility text. */
 		learnMoreLinkAriaLabel: __( "Inclusive language analysis", "wordpress-seo" ),
 	},
 	insights: {
@@ -47,6 +50,7 @@ export const contentOptimizationFeatures = {
 		description: __( "Get more insights into what you are writing. What words do you use most often? How much time does it take to read your text? Is your text easy to read?", "wordpress-seo" ),
 		learnMoreUrl: "https://yoa.st/4ew",
 		learnMoreLinkId: "link-insights",
+		/* translators: Hidden accessibility text. */
 		learnMoreLinkAriaLabel: __( "Insights", "wordpress-seo" ),
 	},
 };

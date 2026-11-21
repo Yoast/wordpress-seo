@@ -1,6 +1,6 @@
 import { isArray, isNumber, isUndefined } from "lodash";
 
-import Mark from "./Mark";
+import Mark from "./Mark.js";
 
 /**
  * @typedef {Object} SerializedAssessmentResult

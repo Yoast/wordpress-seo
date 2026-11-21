@@ -27,18 +27,17 @@ exports[`a test for TextFormalityUpsell component renders the component in Eleme
      will help you assess the formality level of your text.
   </p>
   <a
-    className="yoast-button yoast-button-upsell"
+    class="yoast-button yoast-button-upsell"
     href="https://yoa.st/formality-upsell-elementor"
-    rel={null}
     target="_blank"
   >
     Unlock with Premium
     <span
       aria-hidden="true"
-      className="yoast-button-upsell__caret"
+      class="yoast-button-upsell__caret"
     />
     <span
-      className="c0"
+      class="c0"
     >
       (Opens in a new browser tab)
     </span>
@@ -73,18 +72,17 @@ exports[`a test for TextFormalityUpsell component renders the component in metab
      will help you assess the formality level of your text.
   </p>
   <a
-    className="yoast-button yoast-button-upsell"
+    class="yoast-button yoast-button-upsell"
     href="https://yoa.st/formality-upsell-metabox"
-    rel={null}
     target="_blank"
   >
     Unlock with Premium
     <span
       aria-hidden="true"
-      className="yoast-button-upsell__caret"
+      class="yoast-button-upsell__caret"
     />
     <span
-      className="c0"
+      class="c0"
     >
       (Opens in a new browser tab)
     </span>
@@ -119,18 +117,17 @@ exports[`a test for TextFormalityUpsell component renders the component in sideb
      will help you assess the formality level of your text.
   </p>
   <a
-    className="yoast-button yoast-button-upsell"
+    class="yoast-button yoast-button-upsell"
     href="https://yoa.st/formality-upsell-sidebar"
-    rel={null}
     target="_blank"
   >
     Unlock with Premium
     <span
       aria-hidden="true"
-      className="yoast-button-upsell__caret"
+      class="yoast-button-upsell__caret"
     />
     <span
-      className="c0"
+      class="c0"
     >
       (Opens in a new browser tab)
     </span>

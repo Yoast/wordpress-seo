@@ -1,5 +1,5 @@
 /** @module researches/keywordCountInSlug */
-import parseSlug from "../helpers/url/parseSlug";
+import parseSlug from "../helpers/url/parseSlug.js";
 import { findTopicFormsInString } from "../helpers/match/findKeywordFormsInString.js";
 import { cloneDeep } from "lodash";
 

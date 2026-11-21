@@ -1,17 +1,17 @@
-import { SCORES } from "./scores";
-import { includesConsecutiveWords } from "../helpers/includesConsecutiveWords";
-import { isNotFollowedByException } from "../helpers/isFollowedByException";
+import { SCORES } from "./scores.js";
+import { includesConsecutiveWords } from "../helpers/includesConsecutiveWords.js";
+import { isNotFollowedByException } from "../helpers/isFollowedByException.js";
 import {
 	redHarmful,
 	orangeUnlessSomeoneWants,
 	avoidHarmful,
 	beCarefulHarmful,
 	orangeUnlessAnimalsObjects,
-} from "./feedbackStrings/generalFeedbackStrings";
+} from "./feedbackStrings/generalFeedbackStrings.js";
 import {
 	orangeUnlessCultureOfOrigin, orangeUnlessCultureUsesTerm,
-} from "./feedbackStrings/cultureAssessmentStrings";
-import { notFollowed } from "../helpers/createRuleDescriptions";
+} from "./feedbackStrings/cultureAssessmentStrings.js";
+import { notFollowed } from "../helpers/createRuleDescriptions.js";
 
 const cultureAssessments = [
 	{

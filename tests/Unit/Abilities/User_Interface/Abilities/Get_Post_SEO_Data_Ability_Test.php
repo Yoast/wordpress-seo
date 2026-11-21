@@ -8,7 +8,11 @@ use Yoast\WP\SEO\Abilities\Application\Post_SEO_Data_Collector;
 use Yoast\WP\SEO\Abilities\Infrastructure\Post_SEO_Field_Map;
 use Yoast\WP\SEO\Abilities\User_Interface\Abilities\Get_Post_SEO_Data_Ability;
 use Yoast\WP\SEO\Conditionals\Should_Index_Indexables_Conditional;
+use Yoast\WP\SEO\Conditionals\Woo_SEO_Inactive_Conditional;
 use Yoast\WP\SEO\Helpers\Capability_Helper;
+use Yoast\WP\SEO\Helpers\Schema\Graph_Helper;
+use Yoast\WP\SEO\Helpers\Woocommerce_Helper;
+use Yoast\WP\SEO\Schema\Application\Configuration\Schema_Configuration;
 use Yoast\WP\SEO\Surfaces\Meta_Surface;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
@@ -137,7 +141,7 @@ final class Get_Post_SEO_Data_Ability_Test extends TestCase {
 		$this->assertSame(
 			[
 				'label'               => 'Get Post SEO Data',
-				'description'         => 'Get the SEO data for a post. Identify the post by post_id, by permalink (URL), or by title keywords; the title may be a comma-separated list and returns the SEO data for every post matching any of the values, paginated most recently modified first (use the page parameter to reach older matches). At least one identifier is required. Only posts the current user is allowed to edit are returned.',
+				'description'         => 'Get the SEO data for a post of any post type. Identify the post by post_id, by permalink (URL), or by title keywords; the title may be a comma-separated list and returns the SEO data for every post matching any of the values, paginated most recently modified first (use the page parameter to reach older matches). At least one identifier is required. Only posts the current user is allowed to edit are returned.',
 				'category'            => 'yoast-seo',
 				'input_schema'        => [
 					'type'                 => 'object',
@@ -150,11 +154,11 @@ final class Get_Post_SEO_Data_Ability_Test extends TestCase {
 						],
 						'permalink' => [
 							'type'        => 'string',
-							'description' => 'The permalink (URL) of the post to retrieve.',
+							'description' => 'The full permalink (URL) of the post to retrieve, exactly as the site outputs it, including the protocol (http or https) and any trailing slash. Relative URLs are not supported.',
 						],
 						'title'     => [
 							'type'        => 'string',
-							'description' => 'Keywords to search for in post titles. Provide a comma-separated list to search for several titles at once; each value is matched as a whole phrase against the post title, and a post matching any value is returned. At most 10 phrases are used per request; any beyond the first 10 are ignored. Results are paginated to 10 entities per page; see the page parameter.',
+							'description' => 'Keywords to search for in post titles. Every post type is searched. Provide a comma-separated list to search for several titles at once; each value is matched as a whole phrase against the breadcrumb title of the post when a custom one is set, otherwise the post title, and a post matching any value is returned. At most 10 phrases are used per request; any beyond the first 10 are ignored. Results are paginated to 10 entities per page; see the page parameter.',
 						],
 						'page'      => [
 							'type'        => 'integer',
@@ -205,7 +209,7 @@ final class Get_Post_SEO_Data_Ability_Test extends TestCase {
 
 		$meta_surface = Mockery::mock( Meta_Surface::class );
 		$meta_surface->expects( 'for_indexable' )->andReturnFalse();
-		$field_map = new Post_SEO_Field_Map( $meta_surface );
+		$field_map = new Post_SEO_Field_Map( $meta_surface, Mockery::mock( Graph_Helper::class ), Mockery::mock( Woo_SEO_Inactive_Conditional::class ), Mockery::mock( Woocommerce_Helper::class ), Mockery::mock( Schema_Configuration::class ) );
 
 		$schema_properties = \array_keys( $output_schema['properties'] );
 		$output_fields     = \array_keys( $field_map->to_seo_array( Mockery::mock( Indexable_Mock::class ) ) );

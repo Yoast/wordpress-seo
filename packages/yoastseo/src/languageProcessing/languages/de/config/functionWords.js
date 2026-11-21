@@ -1,7 +1,7 @@
 import passiveVoiceAuxiliaries, { infinitiveAuxiliaries as passiveAuxiliariesInfinitive } from "./internal/passiveVoiceAuxiliaries.js";
 const filteredPassiveAuxiliaries = passiveVoiceAuxiliaries.filteredAuxiliaries;
 import { singleWords as transitionWords } from "./transitionWords.js";
-import transformWordsWithHyphens from "../../../helpers/transform/transformWordsWithHyphens";
+import transformWordsWithHyphens from "../../../helpers/transform/transformWordsWithHyphens.js";
 
 /**
  * Returns an object with exceptions for the prominent words researcher

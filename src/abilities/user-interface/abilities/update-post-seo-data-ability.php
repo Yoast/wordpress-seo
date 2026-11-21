@@ -69,7 +69,7 @@ class Update_Post_SEO_Data_Ability extends Abstract_Post_SEO_Data_Ability {
 	public function get_args(): array {
 		return [
 			'label'               => \__( 'Update Post SEO Data', 'wordpress-seo' ),
-			'description'         => \__( 'Update the SEO data for a single post. Identify the post by post_id or by permalink (URL). Only the fields you provide are changed; a provided empty value clears that field. Only posts the current user is allowed to edit can be updated.', 'wordpress-seo' ),
+			'description'         => \__( 'Update the SEO data for a single post of any post type. Identify the post by post_id or by permalink (URL). Only the fields you provide are changed; a provided empty value clears that field. Only posts the current user is allowed to edit can be updated.', 'wordpress-seo' ),
 			'category'            => Ability_Categories_Integration::CATEGORY_SLUG,
 			'input_schema'        => $this->get_update_post_seo_data_input_schema(),
 			'output_schema'       => $this->ai_generate_upsell->add_to_schema( $this->get_post_seo_data_output_schema() ),
@@ -119,7 +119,7 @@ class Update_Post_SEO_Data_Ability extends Abstract_Post_SEO_Data_Ability {
 				],
 				'permalink'              => [
 					'type'        => 'string',
-					'description' => \__( 'The permalink (URL) of the post to update.', 'wordpress-seo' ),
+					'description' => \__( 'The full permalink (URL) of the post to update, exactly as the site outputs it, including the protocol (http or https) and any trailing slash. Relative URLs are not supported.', 'wordpress-seo' ),
 				],
 				'seo_title'              => $this->ai_generate_field_schema( \__( 'SEO title', 'wordpress-seo' ) ),
 				'meta_description'       => $this->ai_generate_field_schema( \__( 'meta description', 'wordpress-seo' ) ),

@@ -1,6 +1,6 @@
-import AnalysisWebWorker from "./AnalysisWebWorker";
-import AnalysisWorkerWrapper from "./AnalysisWorkerWrapper";
-import createWorker from "./createWorker";
+import AnalysisWebWorker from "./AnalysisWebWorker.js";
+import AnalysisWorkerWrapper from "./AnalysisWorkerWrapper.js";
+import createWorker from "./createWorker.js";
 
 export {
 	AnalysisWebWorker,

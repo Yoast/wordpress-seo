@@ -1,12 +1,13 @@
 import { useCallback, useRef, useState } from "@wordpress/element";
 import { Modal as PureModal } from "@yoast/ui-library";
-import PropTypes from "prop-types";
 
 /**
  * Modal containing information about new features added in the current release.
  *
- * @params {JSX.node} children The children.
- * @params {string} maxWidth The max-width class for the modal panel.
+ * @param {Object} props Component props.
+ * @param {import("react").ReactNode} props.children The children.
+ * @param {string} [props.maxWidth="yst-max-w-lg"] The max-width class for the modal panel.
+ *
  * @returns {JSX.Element} The modal.
  */
 export const Modal = ( { children, maxWidth = "yst-max-w-lg" } ) => {
@@ -28,8 +29,4 @@ export const Modal = ( { children, maxWidth = "yst-max-w-lg" } ) => {
 			</PureModal.Panel>
 		</PureModal>
 	);
-};
-Modal.propTypes = {
-	children: PropTypes.node.isRequired,
-	maxWidth: PropTypes.string,
 };

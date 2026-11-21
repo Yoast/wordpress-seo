@@ -10,10 +10,14 @@ use Yoast\WP\SEO\Abilities\Infrastructure\Post_SEO_Field_Map;
 use Yoast\WP\SEO\Abilities\User_Interface\Abilities\Update_Post_SEO_Data_Ability;
 use Yoast\WP\SEO\Abilities\User_Interface\AI_Generate_Upsell;
 use Yoast\WP\SEO\Conditionals\Should_Index_Indexables_Conditional;
+use Yoast\WP\SEO\Conditionals\Woo_SEO_Inactive_Conditional;
 use Yoast\WP\SEO\Config\Schema_Types;
 use Yoast\WP\SEO\Helpers\Capability_Helper;
 use Yoast\WP\SEO\Helpers\Indexable_To_Postmeta_Helper;
 use Yoast\WP\SEO\Helpers\Meta_Helper;
+use Yoast\WP\SEO\Helpers\Schema\Graph_Helper;
+use Yoast\WP\SEO\Helpers\Woocommerce_Helper;
+use Yoast\WP\SEO\Schema\Application\Configuration\Schema_Configuration;
 use Yoast\WP\SEO\Surfaces\Meta_Surface;
 use Yoast\WP\SEO\Tests\Unit\Doubles\Models\Indexable_Mock;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
@@ -71,6 +75,9 @@ final class Update_Post_SEO_Data_Ability_Test extends TestCase {
 	 */
 	protected function set_up() {
 		parent::set_up();
+
+		// The inputs are real booleans, which WordPress returns as is.
+		Monkey\Functions\when( 'rest_sanitize_boolean' )->alias( 'boolval' );
 
 		$this->stubTranslationFunctions();
 
@@ -166,7 +173,7 @@ final class Update_Post_SEO_Data_Ability_Test extends TestCase {
 		$this->assertSame(
 			[
 				'label'               => 'Update Post SEO Data',
-				'description'         => 'Update the SEO data for a single post. Identify the post by post_id or by permalink (URL). Only the fields you provide are changed; a provided empty value clears that field. Only posts the current user is allowed to edit can be updated.',
+				'description'         => 'Update the SEO data for a single post of any post type. Identify the post by post_id or by permalink (URL). Only the fields you provide are changed; a provided empty value clears that field. Only posts the current user is allowed to edit can be updated.',
 				'category'            => 'yoast-seo',
 				'input_schema'        => $this->get_expected_update_input_schema(),
 				'output_schema'       => $output_schema,
@@ -246,7 +253,7 @@ final class Update_Post_SEO_Data_Ability_Test extends TestCase {
 			],
 		);
 
-		$field_map            = new Post_SEO_Field_Map( Mockery::mock( Meta_Surface::class ) );
+		$field_map            = new Post_SEO_Field_Map( Mockery::mock( Meta_Surface::class ), Mockery::mock( Graph_Helper::class ), Mockery::mock( Woo_SEO_Inactive_Conditional::class ), Mockery::mock( Woocommerce_Helper::class ), Mockery::mock( Schema_Configuration::class ) );
 		$indexable            = Mockery::mock( Indexable_Mock::class );
 		$indexable->object_id = 42;
 
@@ -311,7 +318,7 @@ final class Update_Post_SEO_Data_Ability_Test extends TestCase {
 				],
 				'permalink'              => [
 					'type'        => 'string',
-					'description' => 'The permalink (URL) of the post to update.',
+					'description' => 'The full permalink (URL) of the post to update, exactly as the site outputs it, including the protocol (http or https) and any trailing slash. Relative URLs are not supported.',
 				],
 				'seo_title'              => $templated( 'SEO title' ),
 				'meta_description'       => $templated( 'meta description' ),

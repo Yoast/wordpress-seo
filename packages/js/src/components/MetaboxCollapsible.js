@@ -2,7 +2,6 @@ import { useMemo, useRef } from "@wordpress/element";
 import { Collapsible, StyledIconsButton, StyledTitle } from "@yoast/components";
 import { getDirectionalStyle } from "@yoast/helpers";
 import { colors, rgba } from "@yoast/style-guide";
-import PropTypes from "prop-types";
 import styled from "styled-components";
 
 const StyledMetaboxCollapsible = styled( Collapsible )`
@@ -124,9 +123,13 @@ const StyledHeaderRow = styled.h2`
  * @param {Object} props The props
  * @param {boolean} [props.initialIsOpen=false] Whether the collapsible should be open by default
  * @param {?string} [props.id=null] The id of the collapsible
- * @param {Object} [props.headingProps] The typography of the heading, as the Collapsible defines it
  * @param {?React.ComponentType} [props.HeaderHelpLink=null] Renders a help link after the title, before the
  *        suffix icon. A component rather than an element, because the heading composes it itself.
+ * @param {Object} [props.headingProps] The typography of the heading, as the Collapsible defines it
+ * @param {number} [props.headingProps.level] The heading level.
+ * @param {string} [props.headingProps.fontSize] The font size of the heading.
+ * @param {string} [props.headingProps.fontWeight] The font weight of the heading.
+ * @param {string} [props.headingProps.color] The color of the heading.
  *
  * @returns {React.Component} A MetaboxCollapsible component
  */
@@ -183,18 +186,6 @@ const MetaboxCollapsible = ( {
 		{ ...( Heading ? { Heading } : {} ) }
 		{ ...rest }
 	/>;
-};
-
-MetaboxCollapsible.propTypes = {
-	initialIsOpen: PropTypes.bool,
-	id: PropTypes.string,
-	HeaderHelpLink: PropTypes.elementType,
-	headingProps: PropTypes.shape( {
-		level: PropTypes.number,
-		fontSize: PropTypes.string,
-		fontWeight: PropTypes.string,
-		color: PropTypes.string,
-	} ),
 };
 
 export default MetaboxCollapsible;

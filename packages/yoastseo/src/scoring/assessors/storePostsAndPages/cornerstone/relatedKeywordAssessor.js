@@ -1,4 +1,4 @@
-import StorePostsAndPagesRelatedKeywordAssessor from "../relatedKeywordAssessor";
+import StorePostsAndPagesRelatedKeywordAssessor from "../relatedKeywordAssessor.js";
 
 /**
  * The StorePostsAndPagesCornerstoneRelatedKeywordAssessor class is used for the related keyword analysis for cornerstone posts and pages.

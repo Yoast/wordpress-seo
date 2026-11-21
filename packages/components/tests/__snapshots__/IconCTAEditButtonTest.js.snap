@@ -39,18 +39,16 @@ exports[`the IconCTAEditButton matches the snapshot 1`] = `
 
 <button
   aria-label="jump to an edit field"
-  className="c0 class name"
+  class="c0 class name"
   id="edit button"
-  onClick={[Function]}
   type="button"
 >
   <svg
-    aria-hidden={true}
-    className="c1 yoast-svg-icon yoast-svg-icon-edit"
+    aria-hidden="true"
+    class="c1 yoast-svg-icon yoast-svg-icon-edit"
     fill="#555"
     focusable="false"
     role="img"
-    size="18px"
     viewBox="0 0 1792 1792"
     xmlns="http://www.w3.org/2000/svg"
   >

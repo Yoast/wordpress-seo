@@ -1,5 +1,5 @@
-import React, { act } from "react";
-import renderer from "react-test-renderer";
+import React from "react";
+import { render } from "@testing-library/react";
 
 import ArticleList from "../src/ArticleList";
 
@@ -21,15 +21,11 @@ test( "the ArticleList matches the snapshot", () => {
 		],
 	};
 
-	let component;
-	act( () => {
-		component = renderer.create(
-			<ArticleList
-				feed={ feed }
-			/>
-		);
-	} );
+	const { container } = render(
+		<ArticleList
+			feed={ feed }
+		/>
+	);
 
-	const tree = component.toJSON();
-	expect( tree ).toMatchSnapshot();
+	expect( container.firstChild ).toMatchSnapshot();
 } );

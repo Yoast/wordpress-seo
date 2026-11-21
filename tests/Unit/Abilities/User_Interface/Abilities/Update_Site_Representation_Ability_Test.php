@@ -94,7 +94,7 @@ final class Update_Site_Representation_Ability_Test extends TestCase {
 	/**
 	 * Tests that the ability is always available.
 	 *
-	 * @covers ::is_available
+	 * @covers \Yoast\WP\SEO\Abilities\User_Interface\Abilities\Abstract_Site_Representation_Ability::is_available
 	 *
 	 * @return void
 	 */
@@ -106,7 +106,8 @@ final class Update_Site_Representation_Ability_Test extends TestCase {
 	 * Tests that can_manage_seo checks the management capability and returns its result.
 	 *
 	 * @covers ::__construct
-	 * @covers ::can_manage_seo
+	 * @covers \Yoast\WP\SEO\Abilities\User_Interface\Abilities\Abstract_Site_Representation_Ability::__construct
+	 * @covers \Yoast\WP\SEO\Abilities\User_Interface\Abilities\Abstract_Site_Representation_Ability::can_manage_seo
 	 *
 	 * @dataProvider provide_boolean_outcomes
 	 *
@@ -149,12 +150,13 @@ final class Update_Site_Representation_Ability_Test extends TestCase {
 	 * which also describes the warning.
 	 *
 	 * @covers ::get_args
-	 * @covers ::to_output_schema
+	 * @covers \Yoast\WP\SEO\Abilities\User_Interface\Abilities\Abstract_Site_Representation_Ability::get_settings_output_schema
+	 * @covers \Yoast\WP\SEO\Abilities\User_Interface\Abilities\Abstract_Site_Representation_Ability::to_output_schema
 	 *
 	 * @return void
 	 */
 	public function test_get_args() {
-		$this->field_map->expects( 'get_fields' )->once()->andReturn(
+		$this->field_map->expects( 'get_fields' )->twice()->andReturn(
 			[
 				'company_or_person' => [
 					'type'        => 'string',
@@ -172,7 +174,7 @@ final class Update_Site_Representation_Ability_Test extends TestCase {
 		$this->assertSame(
 			[
 				'label'               => 'Update Site Representation',
-				'description'         => 'Update Yoast SEO\'s site representation settings, which tell search engines whether the site represents an organization or a person, and provide its name, logo, social profiles and, depending on the active add-ons, other details for the site\'s organization schema. Only the settings you provide are changed; a provided empty value (an empty string, 0 or an empty array) clears that setting, and a provided list replaces the current one. These settings are public facts about who owns the site: only use values the user provided or that come from the site itself, never guessed or found elsewhere, and confirm them with the user before saving.',
+				'description'         => 'Update Yoast SEO\'s site representation settings, which tell search engines whether the site represents an organization or a person, and provide its name, logo, social profiles and, depending on the active add-ons, other details for the site\'s organization schema. Only the settings you provide are changed; a provided empty value (an empty string, 0 or an empty array) clears that setting, and a provided list replaces the current one. Unless you can list users, the site can only be set to represent a user with published posts. These settings are public facts about who owns the site: only use values the user provided or that come from the site itself, never guessed or found elsewhere, and confirm them with the user before saving.',
 				'category'            => 'yoast-seo',
 				'input_schema'        => [
 					'type'                 => 'object',

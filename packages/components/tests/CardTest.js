@@ -1,30 +1,22 @@
-import React, { act } from "react";
-import renderer from "react-test-renderer";
+import React from "react";
+import { render } from "@testing-library/react";
 import Card, { FullHeightCard } from "../src/Card";
 import CourseDetails from "../src/CourseDetails";
 
 test( "The empty Card component matches the snapshot", () => {
-	let component;
-	act( () => {
-		component = renderer.create(
-			<Card />
-		);
-	} );
+	const { container } = render(
+		<Card />
+	);
 
-	const tree = component.toJSON();
-	expect( tree ).toMatchSnapshot();
+	expect( container.firstChild ).toMatchSnapshot();
 } );
 
 test( "The FullHeightCard is rendered including some props", () => {
-	let component;
-	act( () => {
-		component = renderer.create(
-			<FullHeightCard className={ "CourseCard_Empty" } id={ "Test01" } />
-		);
-	} );
+	const { container } = render(
+		<FullHeightCard className={ "CourseCard_Empty" } id={ "Test01" } />
+	);
 
-	const tree = component.toJSON();
-	expect( tree ).toMatchSnapshot();
+	expect( container.firstChild ).toMatchSnapshot();
 } );
 
 test( "The FullHeightCard is rendered including the CardBanner and CardDetails components", () => {
@@ -49,26 +41,22 @@ test( "The FullHeightCard is rendered including the CardBanner and CardDetails c
 		link: course.courseUrl,
 	};
 
-	let component;
-	act( () => {
-		component = renderer.create(
-			<FullHeightCard
-				className={ "CourseCard" }
-				id={ "Test02" }
-				header={ header }
-				banner={ course.banner }
-			>
-				<CourseDetails
-					title={ course.title }
-					description={ course.description }
-					courseUrl={ course.courseUrl }
-					ctaButtonData={ course.ctaButtonData }
-					readMoreLinkText={ course.readMoreLinkText }
-				/>
-			</FullHeightCard>
-		);
-	} );
+	const { container } = render(
+		<FullHeightCard
+			className={ "CourseCard" }
+			id={ "Test02" }
+			header={ header }
+			banner={ course.banner }
+		>
+			<CourseDetails
+				title={ course.title }
+				description={ course.description }
+				courseUrl={ course.courseUrl }
+				ctaButtonData={ course.ctaButtonData }
+				readMoreLinkText={ course.readMoreLinkText }
+			/>
+		</FullHeightCard>
+	);
 
-	const tree = component.toJSON();
-	expect( tree ).toMatchSnapshot();
+	expect( container.firstChild ).toMatchSnapshot();
 } );

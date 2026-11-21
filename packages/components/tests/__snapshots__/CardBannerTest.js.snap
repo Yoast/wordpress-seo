@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`The CardBanner with specific props matches the snapshot 1`] = `
-Array [
+<DocumentFragment>
   .c0 {
   position: absolute;
   top: 8px;
@@ -15,10 +15,10 @@ Array [
 }
 
 <span
-    className="c0"
+    class="c0"
   >
     Free Trial Available.
-  </span>,
+  </span>
   .c0 {
   position: absolute;
   top: 40px;
@@ -28,13 +28,13 @@ Array [
 }
 
 <span
-    className="c0"
-  />,
-]
+    class="c0"
+  />
+</DocumentFragment>
 `;
 
 exports[`The empty CardBanner matches the snapshot 1`] = `
-Array [
+<DocumentFragment>
   .c0 {
   position: absolute;
   top: 8px;
@@ -48,8 +48,8 @@ Array [
 }
 
 <span
-    className="c0"
-  />,
+    class="c0"
+  />
   .c0 {
   position: absolute;
   top: 40px;
@@ -59,7 +59,7 @@ Array [
 }
 
 <span
-    className="c0"
-  />,
-]
+    class="c0"
+  />
+</DocumentFragment>
 `;

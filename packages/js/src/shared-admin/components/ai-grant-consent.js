@@ -1,6 +1,5 @@
 import { useDispatch, useSelect } from "@wordpress/data";
 import { useCallback, useMemo } from "@wordpress/element";
-import PropTypes from "prop-types";
 import { AiConsent } from "./ai-consent";
 
 const DEFAULT_LINKS = {
@@ -12,10 +11,14 @@ const DEFAULT_LINKS = {
 /**
  * Connected wrapper for AiConsent that reads link/consent data from WordPress data stores.
  *
- * @param {string}   storeName        The store providing consent endpoint and dispatch.
- * @param {Function} onConsentGranted Callback to signal actions after consent was granted.
- * @param {string}   linkStoreName    The store providing selectLink/selectImageLink.
- * @param {Object}   [links]          Override tracking URLs (termsOfService, privacyPolicy, learnMore).
+ * @param {Object} props Component props.
+ * @param {string} props.storeName The store providing consent endpoint and dispatch.
+ * @param {Function} props.onConsentGranted Callback to signal actions after consent was granted.
+ * @param {string} props.linkStoreName The store providing selectLink/selectImageLink.
+ * @param {Object} [props.links={}] Override tracking URLs (termsOfService, privacyPolicy, learnMore).
+ * @param {string} [props.links.termsOfService] The terms of service link.
+ * @param {string} [props.links.privacyPolicy] The privacy policy link.
+ * @param {string} [props.links.learnMore] The learn more link.
  *
  * @returns {JSX.Element} The element.
  */
@@ -57,14 +60,4 @@ export const AiGrantConsent = ( { storeName, onConsentGranted, linkStoreName, li
 			linkStoreName={ linkStoreName }
 		/>
 	);
-};
-AiGrantConsent.propTypes = {
-	storeName: PropTypes.string.isRequired,
-	onConsentGranted: PropTypes.func.isRequired,
-	linkStoreName: PropTypes.string.isRequired,
-	links: PropTypes.shape( {
-		termsOfService: PropTypes.string,
-		privacyPolicy: PropTypes.string,
-		learnMore: PropTypes.string,
-	} ),
 };

@@ -1,8 +1,8 @@
 import { memoize, uniq } from "lodash";
 
-import getWords from "../word/getWords";
-import { normalizeSingle } from "../sanitize/quotes";
-import ProminentWord from "../../values/ProminentWord";
+import getWords from "../word/getWords.js";
+import { normalizeSingle } from "../sanitize/quotes.js";
+import ProminentWord from "../../values/ProminentWord.js";
 
 const specialCharacters = /[1234567890‘’“”"'.…?!:;,¿¡«»&*@#±^%$|~=+§`[\](){}⟨⟩<>/\\–\-\u2014\u00d7\s]/g;
 

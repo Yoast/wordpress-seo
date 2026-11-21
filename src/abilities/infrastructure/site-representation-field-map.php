@@ -6,10 +6,10 @@ namespace Yoast\WP\SEO\Abilities\Infrastructure;
 use Yoast\WP\SEO\Conditionals\Local_SEO_Active_Conditional;
 
 /**
- * Describes the site representation settings that the abilities can write, keyed by option name.
+ * Describes the site representation settings that the abilities can read and write, keyed by option name.
  *
- * The map is the single source of truth for both the ability schemas and the updater, so a field
- * added through the filter is exposed, validated and written without further changes.
+ * The map is the single source of truth for the ability schemas, the collector and the updater, so a field
+ * added through the filter is exposed, read, validated and written without further changes.
  */
 class Site_Representation_Field_Map extends Abstract_Field_Map {
 
@@ -53,7 +53,7 @@ class Site_Representation_Field_Map extends Abstract_Field_Map {
 	protected function get_filtered_fields( array $default_fields ) {
 		/**
 		 * Filter: 'wpseo_site_representation_ability_fields' - Allows adding site representation settings that
-		 * the site representation abilities can write.
+		 * the site representation abilities can read and write.
 		 *
 		 * Each field is keyed by its option name and maps to the JSON schema of its value. The option has to be
 		 * a Yoast SEO option, as the value is saved through the options helper, so it is sanitized like it is
@@ -105,7 +105,7 @@ class Site_Representation_Field_Map extends Abstract_Field_Map {
 			'company_or_person_user_id' => [
 				'type'              => 'integer',
 				'minimum'           => 0,
-				'description'       => \__( 'The ID of the user the site represents, whose profile information is used in search results. The person\'s name is taken from the display name of this user. Unless you can list users, only users with published posts can be set. 0 when no user is set. Only used when company_or_person is "person".', 'wordpress-seo' ),
+				'description'       => \__( 'The ID of the user the site represents, whose profile information is used in search results. The person\'s name is taken from the display name of this user. 0 when no user is set. Only used when company_or_person is "person".', 'wordpress-seo' ),
 				'validate_callback' => [ $this->field_validators, 'validate_user_id' ],
 			],
 			'person_logo_id'            => [

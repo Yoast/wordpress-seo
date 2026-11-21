@@ -1,10 +1,10 @@
 /** @module researches/imageAltTags */
 
-import imageAltAttribute from "../helpers/image/getAltAttribute";
-import { findTopicFormsInString } from "../helpers/match/findKeywordFormsInString";
+import imageAltAttribute from "../helpers/image/getAltAttribute.js";
+import { findTopicFormsInString } from "../helpers/match/findKeywordFormsInString.js";
 import { isEmpty } from "lodash";
-import getImagesInScope from "../helpers/image/getImagesInScope";
-import getImageIdentifier from "../helpers/image/getImageIdentifier";
+import getImagesInScope from "../helpers/image/getImagesInScope.js";
+import getImageIdentifier from "../helpers/image/getImageIdentifier.js";
 
 /**
  * Matches the alt-tags in the images found in the text.

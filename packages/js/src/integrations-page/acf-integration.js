@@ -4,8 +4,9 @@ import XIcon from "@heroicons/react/solid/XIcon";
 import { Fragment } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { Button } from "@yoast/ui-library";
-import { PropTypes } from "prop-types";
 import { SimpleIntegration } from "./simple-integration";
+
+/** @typedef {import("./simple-integration").Integration} Integration */
 
 /**
  * Represents the ACF logo.
@@ -36,12 +37,13 @@ const AcfLogo = ( props ) => {
 /**
  * Represents an integration.
  *
- * @param {Object} integration The integration.
- * @param {boolean} [isActive=true] The integration state.
- * @param {boolean} [isInstalled=true] The integration state.
- * @param {boolean} isPrerequisiteActive Whether the plugin to which we want to integrate is active.
- * @param {string} installationLink The URL to install ACF Content Analysis for Yoast SEO.
- * @param {string} activationLink The URL to activate ACF Content Analysis for Yoast SEO.
+ * @param {Object} props Component props.
+ * @param {Integration} props.integration The integration.
+ * @param {boolean} [props.isActive=true] The integration state.
+ * @param {boolean} [props.isInstalled=true] The integration state.
+ * @param {boolean} props.isPrerequisiteActive Whether the plugin to which we want to integrate is active.
+ * @param {string} props.installationLink The URL to install ACF Content Analysis for Yoast SEO.
+ * @param {string} props.activationLink The URL to activate ACF Content Analysis for Yoast SEO.
  *
  * @returns {JSX.Element} A card representing an integration.
  */
@@ -118,20 +120,3 @@ export const AcfIntegration = ( {
 	);
 };
 /* eslint-enable complexity */
-
-AcfIntegration.propTypes = {
-	integration: PropTypes.shape( {
-		name: PropTypes.string,
-		claim: PropTypes.node,
-		slug: PropTypes.string,
-		description: PropTypes.string,
-		usps: PropTypes.array,
-		logo: PropTypes.func,
-		isNew: PropTypes.bool,
-	} ).isRequired,
-	isActive: PropTypes.bool,
-	isInstalled: PropTypes.bool,
-	isPrerequisiteActive: PropTypes.bool.isRequired,
-	installationLink: PropTypes.string.isRequired,
-	activationLink: PropTypes.string.isRequired,
-};

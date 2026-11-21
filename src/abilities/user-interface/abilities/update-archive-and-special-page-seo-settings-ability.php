@@ -83,7 +83,7 @@ class Update_Archive_And_Special_Page_SEO_Settings_Ability extends Abstract_Arch
 			'label'               => \__( 'Update SEO Settings for Archives and Special Pages', 'wordpress-seo' ),
 			'description'         => \sprintf(
 				/* translators: %s: the name of an ability. */
-				\__( 'Update the SEO settings of the homepage when it shows the latest posts, an archive or a special page. Category, tag and other taxonomy archives are not included; use the %s ability for their individual terms. Only the settings you provide are changed. Only use snippet variables that apply to the pages you update, as the ones that do not are silently removed when the page is rendered.', 'wordpress-seo' ),
+				\__( 'Update the SEO settings of the homepage when it shows the latest posts, an archive or a special page. Category, tag and other taxonomy archives are not included; use the %s ability for their individual terms. Only the settings you provide are changed. Snippet variables that do not apply to a page are replaced with nothing on it, so only use the ones that apply. Shared settings apply to many different pages at once, like every author\'s archive, so their text must hold for all of those pages; use snippet variables for the parts that differ.', 'wordpress-seo' ),
 				'yoast-seo/update-term-seo-data',
 			),
 			'category'            => Ability_Categories_Integration::CATEGORY_SLUG,

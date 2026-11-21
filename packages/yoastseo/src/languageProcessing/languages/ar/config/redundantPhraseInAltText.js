@@ -1,4 +1,4 @@
-import { letter, wordEnd } from "../../../helpers/regex/wordBoundaries";
+import { letter, wordEnd } from "../../../helpers/regex/wordBoundaries.js";
 
 /*
  * The Arabic redundant openings come in four grammatical shapes, kept as word lists and small patterns so the

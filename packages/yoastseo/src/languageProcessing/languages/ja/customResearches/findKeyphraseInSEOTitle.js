@@ -1,11 +1,11 @@
 import { isEmpty } from "lodash";
-import { findWordFormsInString } from "../../../helpers/match/findKeywordFormsInString";
-import wordMatch from "../../../helpers/match/matchTextWithArray";
-import processExactMatchRequest from "../../../helpers/match/processExactMatchRequest";
-import getContentWords from "../helpers/getContentWords";
-import japaneseWordMatchHelper from "../helpers/matchTextWithWord";
-import functionWords from "../config/functionWords";
-import getWords from "../helpers/getWords";
+import { findWordFormsInString } from "../../../helpers/match/findKeywordFormsInString.js";
+import wordMatch from "../../../helpers/match/matchTextWithArray.js";
+import processExactMatchRequest from "../../../helpers/match/processExactMatchRequest.js";
+import getContentWords from "../helpers/getContentWords.js";
+import japaneseWordMatchHelper from "../helpers/matchTextWithWord.js";
+import functionWords from "../config/functionWords.js";
+import getWords from "../helpers/getWords.js";
 
 /**
  * Checks the position of the keyphrase in the SEO title.

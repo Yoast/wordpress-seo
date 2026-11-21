@@ -7,7 +7,7 @@ import firstWordExceptions from "../../../../src/languageProcessing/languages/nl
 import stopWords from "../../../../src/languageProcessing/languages/nl/config/stopWords";
 import transitionWords from "../../../../src/languageProcessing/languages/nl/config/transitionWords";
 import twoPartTransitionWords from "../../../../src/languageProcessing/languages/nl/config/twoPartTransitionWords";
-import syllables from "../../../../src/languageProcessing/languages/nl/config/syllables.json";
+import syllables from "../../../../src/languageProcessing/languages/nl/config/syllables.js";
 
 describe( "a test for the Dutch Researcher", function() {
 	const researcher = new Researcher( new Paper( "" ) );

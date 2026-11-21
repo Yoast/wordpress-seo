@@ -1,4 +1,4 @@
-import { all as functionWords } from "../config/functionWords";
+import { all as functionWords } from "../config/functionWords.js";
 
 /**
  * Checks if a word is a function word.

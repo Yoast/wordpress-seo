@@ -1,31 +1,27 @@
-import React, { act } from "react";
-import renderer from "react-test-renderer";
+import React from "react";
+import { fireEvent, render, screen } from "@testing-library/react";
 
 import { Select } from "../src/select/Select";
 
 describe( "Select", () => {
 	it( "should render a select", () => {
 		const mockChange = jest.fn();
-		let component;
-		act( () => {
-			component = renderer.create(
-				<Select
-					label="Nice label"
-					options={ [ { name: "hi", value: "hi" }, { name: "ho", value: "ho" } ] }
-					id="my-awesome-multiselect"
-					name="my-selection"
-					selected="hi"
-					onChange={ mockChange }
-				/>
-			);
-		} );
-		const json = component.toJSON();
-		const tree = component.toTree();
-		const select = tree.rendered.rendered.rendered[ 1 ];
+		const { container } = render(
+			<Select
+				label="Nice label"
+				options={ [ { name: "hi", value: "hi" }, { name: "ho", value: "ho" } ] }
+				id="my-awesome-multiselect"
+				name="my-selection"
+				selected="ho"
+				onChange={ mockChange }
+			/>
+		);
+		const select = screen.getByLabelText( "Nice label" );
 
-		expect( json ).toMatchSnapshot();
-		expect( select.props.value ).toBe( "hi" );
-		select.props.onBlur( { target: { value: "hi" } } );
+		expect( container.firstChild ).toMatchSnapshot();
+		expect( select.value ).toBe( "ho" );
+		fireEvent.blur( select );
 		expect( mockChange ).toHaveBeenCalledTimes( 1 );
+		expect( mockChange ).toHaveBeenCalledWith( "ho" );
 	} );
 } );

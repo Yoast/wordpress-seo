@@ -1,7 +1,7 @@
 import StoreBlogSEOAssessor from "../seoAssessor.js";
 import MetaDescriptionLengthAssessment from "../../../assessments/seo/MetaDescriptionLengthAssessment.js";
 import SlugKeywordAssessment from "../../../assessments/seo/UrlKeywordAssessment.js";
-import { createAnchorOpeningTag } from "../../../../helpers";
+import { createAnchorOpeningTag } from "../../../../helpers/index.js";
 
 /**
  * The StoreBlogCornerstoneSEOAssessor class is used for the SEO analysis for cornerstone store blogs.

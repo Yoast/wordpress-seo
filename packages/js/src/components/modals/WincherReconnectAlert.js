@@ -1,5 +1,4 @@
 import { __, sprintf } from "@wordpress/i18n";
-import PropTypes from "prop-types";
 
 /* Yoast dependencies */
 import { Alert } from "@yoast/components";
@@ -8,8 +7,9 @@ import { safeCreateInterpolateElement } from "../../helpers/i18n";
 /**
  * Creates the content for the Wincher reconnect alert.
  *
- * @param {function}  onReconnect Callback to trigger reconnect.
- * @param {string} [className=""] Optional className for the alert.
+ * @param {Object} props Component props.
+ * @param {Function} props.onReconnect Callback to trigger reconnect.
+ * @param {string} [props.className=""] Optional className for the alert.
  *
  * @returns {JSX.Element} The Wincher reconnect alert.
  */
@@ -47,11 +47,6 @@ const WincherReconnectAlert = ( { onReconnect, className = "" } ) => {
 			}
 		</Alert>
 	);
-};
-
-WincherReconnectAlert.propTypes = {
-	onReconnect: PropTypes.func.isRequired,
-	className: PropTypes.string,
 };
 
 export default WincherReconnectAlert;

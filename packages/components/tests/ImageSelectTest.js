@@ -1,5 +1,5 @@
-import React, { act } from "react";
-import renderer from "react-test-renderer";
+import React from "react";
+import { render } from "@testing-library/react";
 
 import ImageSelect from "../src/image-select/ImageSelect";
 
@@ -29,20 +29,16 @@ describe( "ImageSelect", () => {
 		];
 
 		imageSelects.forEach( imageSelect => {
-			let component;
-			act( () => {
-				component = renderer.create(
-					<ImageSelect
-						label={ imageSelect.label }
-						imageAltText={ "" }
-						hasPreview={ imageSelect.hasPreview }
-						imageUrl={ imageSelect.imageUrl }
-					/>
-				);
-			} );
-			const tree = component.toJSON();
+			const { container } = render(
+				<ImageSelect
+					label={ imageSelect.label }
+					imageAltText={ "" }
+					hasPreview={ imageSelect.hasPreview }
+					imageUrl={ imageSelect.imageUrl }
+				/>
+			);
 
-			expect( tree ).toMatchSnapshot();
+			expect( container.firstChild ).toMatchSnapshot();
 		} );
 	} );
 } );

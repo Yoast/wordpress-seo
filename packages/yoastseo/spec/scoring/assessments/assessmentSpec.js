@@ -10,7 +10,7 @@ describe( "A test for the isApplicable and getResult methods", () => {
 		const mockAssessment = new Assessment();
 
 		expect( mockAssessment.isApplicable( mockPaper, mockResearcher ) ).toBeTruthy();
-		expect( () => mockAssessment.getResult( mockPaper, mockResearcher ) ).toThrowError();
+		expect( () => mockAssessment.getResult( mockPaper, mockResearcher ) ).toThrow();
 	} );
 } );
 describe( "test hasEnoughContentForAssessment", () => {

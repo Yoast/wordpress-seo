@@ -127,7 +127,6 @@ final class Premium_SEO_Pack_Test extends TestCase {
 
 		$seo_title       = \get_post_meta( $post_id, WPSEO_Meta::$meta_prefix . 'title', true );
 		$seo_desc        = \get_post_meta( $post_id, WPSEO_Meta::$meta_prefix . 'metadesc', true );
-		$robots_noindex  = \get_post_meta( $post_id, WPSEO_Meta::$meta_prefix . 'meta-robots-noindex', true );
 		$robots_nofollow = \get_post_meta( $post_id, WPSEO_Meta::$meta_prefix . 'meta-robots-nofollow', true );
 		$opengraph_image = \get_post_meta( $post_id, WPSEO_Meta::$meta_prefix . 'opengraph-image', true );
 		$opengraph_title = \get_post_meta( $post_id, WPSEO_Meta::$meta_prefix . 'opengraph-title', true );
@@ -135,7 +134,8 @@ final class Premium_SEO_Pack_Test extends TestCase {
 
 		$this->assertEquals( 'Test title', $seo_title );
 		$this->assertEquals( 'Test description', $seo_desc );
-		$this->assertEquals( '', $robots_noindex );
+		// '0' (not noindex) is the field default and must not be stored as a DB row.
+		$this->assertFalse( \metadata_exists( 'post', $post_id, WPSEO_Meta::$meta_prefix . 'meta-robots-noindex' ) );
 		$this->assertEquals( 1, $robots_nofollow );
 		$this->assertEquals( 'http://local.wordpress.test/wp-content/uploads/2018/01/actionable-seo.png', $opengraph_image );
 		$this->assertEquals( 'OpenGraph AIOSEO title', $opengraph_title );

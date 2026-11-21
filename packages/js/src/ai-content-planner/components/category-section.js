@@ -49,7 +49,10 @@ export const CategorySection = ( { category, isEnabled = false, onToggle = noop,
 					checked={ isEnabled }
 					onChange={ onToggle }
 					disabled={ isLoading }
-					screenReaderLabel={ __( "Suggest category", "wordpress-seo" ) }
+					screenReaderLabel={
+						/* translators: Hidden accessibility text. */
+						__( "Suggest category", "wordpress-seo" )
+					}
 				/>
 			</div>
 			<p className="yst-text-sm yst-text-slate-600">

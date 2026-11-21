@@ -3,7 +3,7 @@ import yoastConfig from "@yoast/eslint-config";
 
 /** @type {import('eslint').Linter.Config[]} */
 export default [
-	{ ignores: [ "js/dist", "packages", "apps", "artifact", "vendor", "vendor_prefixed", ".yarn" ] },
+	{ ignores: [ "js/dist", "packages", "apps", "artifact", "vendor", "vendor_prefixed", ".yarn", ".claude" ] },
 	...yoastConfig,
 	{
 		languageOptions: {

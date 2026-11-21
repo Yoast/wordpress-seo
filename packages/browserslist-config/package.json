@@ -25,7 +25,7 @@
     "url": "https://github.com/yoast/wordpress-seo/issues"
   },
   "devDependencies": {
-    "@yoast/eslint-config": "^8.1.0",
+    "@yoast/eslint-config": "^8.4.0",
     "browserslist": "^4.7.3",
     "eslint": "^9.16.0",
     "globals": "^15.13.0",

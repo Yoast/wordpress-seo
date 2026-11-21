@@ -45,15 +45,14 @@ exports[`the AnalysisResult component matches the snapshot 1`] = `
 }
 
 <li
-  className="c0"
+  class="c0"
 >
   <svg
-    aria-hidden={true}
-    className="c1 yoast-svg-icon yoast-svg-icon-circle c2"
+    aria-hidden="true"
+    class="c1 yoast-svg-icon yoast-svg-icon-circle c2"
     fill="blue"
     focusable="false"
     role="img"
-    size="13px"
     viewBox="0 0 1792 1792"
     xmlns="http://www.w3.org/2000/svg"
   >
@@ -62,66 +61,54 @@ exports[`the AnalysisResult component matches the snapshot 1`] = `
     />
   </svg>
   <p
-    className="c3"
+    class="c3"
   >
-    <span
-      dangerouslySetInnerHTML={
-        Object {
-          "__html": "You're doing great!",
-        }
-      }
-    />
+    <span>
+      You're doing great!
+    </span>
   </p>
   <div
-    className="c4"
+    class="c4"
   >
     <div
-      className="yst-root"
+      class="yst-root"
     >
       <div
-        className="yst-tooltip-container yst-relative yst-inline-flex"
-        onKeyDown={[Function]}
+        class="yst-tooltip-container yst-relative yst-inline-flex"
       >
         <span
-          className="yst-inline-flex"
-          onPointerEnter={[Function]}
-          onPointerLeave={[Function]}
+          class="yst-inline-flex"
         >
           <button
             aria-label="SEOResult"
-            aria-pressed={true}
-            className="yst-button yst-button--primary yst-button--small yst-px-2 yst-rounded-md yst-shadow-none yst-border-0 focus:yst-z-10"
-            disabled={false}
+            aria-pressed="true"
+            class="yst-button yst-button--primary yst-button--small yst-px-2 yst-rounded-md yst-shadow-none yst-border-0 focus:yst-z-10"
             id="Result button"
-            onBlur={[Function]}
-            onClick={[Function]}
-            onFocus={[Function]}
-            onKeyDown={[Function]}
             type="button"
           >
             <svg
               aria-hidden="true"
-              className="yst-w-4 yst-h-4"
+              class="yst-w-4 yst-h-4"
               fill="none"
               stroke="currentColor"
-              strokeWidth={2}
+              stroke-width="2"
               viewBox="0 0 24 24"
               xmlns="http://www.w3.org/2000/svg"
             >
               <path
                 d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                strokeLinecap="round"
-                strokeLinejoin="round"
+                stroke-linecap="round"
+                stroke-linejoin="round"
               />
               <path
                 d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
-                strokeLinecap="round"
-                strokeLinejoin="round"
+                stroke-linecap="round"
+                stroke-linejoin="round"
               />
             </svg>
           </button>
           <div
-            className="yst-tooltip yst-tooltip--left yst-hidden"
+            class="yst-tooltip yst-tooltip--left yst-hidden"
             role="tooltip"
             variant="dark"
           >
@@ -179,15 +166,14 @@ exports[`the AnalysisResult component with a activated premium matches the snaps
 }
 
 <li
-  className="c0"
+  class="c0"
 >
   <svg
-    aria-hidden={true}
-    className="c1 yoast-svg-icon yoast-svg-icon-circle c2"
+    aria-hidden="true"
+    class="c1 yoast-svg-icon yoast-svg-icon-circle c2"
     fill="blue"
     focusable="false"
     role="img"
-    size="13px"
     viewBox="0 0 1792 1792"
     xmlns="http://www.w3.org/2000/svg"
   >
@@ -196,65 +182,53 @@ exports[`the AnalysisResult component with a activated premium matches the snaps
     />
   </svg>
   <p
-    className="c3"
+    class="c3"
   >
     <span
-      className="yoast-badge yoast-beta-badge"
+      class="yoast-badge yoast-beta-badge"
     >
       Beta
     </span>
-    <span
-      dangerouslySetInnerHTML={
-        Object {
-          "__html": "This is beta!",
-        }
-      }
-    />
+    <span>
+      This is beta!
+    </span>
   </p>
   <div
-    className="c4"
+    class="c4"
   >
     <div
-      className="yst-root"
+      class="yst-root"
     >
       <div
-        className="yst-tooltip-container yst-relative yst-inline-flex"
-        onKeyDown={[Function]}
+        class="yst-tooltip-container yst-relative yst-inline-flex"
       >
         <span
-          className="yst-inline-flex"
-          onPointerEnter={[Function]}
-          onPointerLeave={[Function]}
+          class="yst-inline-flex"
         >
           <button
             aria-label="SEOResultEdit"
-            className="yst-button yst-button--secondary yst-button--small yst-px-2 yst-rounded-md yst-shadow-none yst-border-0"
-            disabled={false}
+            class="yst-button yst-button--secondary yst-button--small yst-px-2 yst-rounded-md yst-shadow-none yst-border-0"
             id="Result button edit"
-            onBlur={[Function]}
-            onClick={[Function]}
-            onFocus={[Function]}
-            onKeyDown={[Function]}
             type="button"
           >
             <svg
               aria-hidden="true"
-              className="yst-w-4 yst-h-4"
+              class="yst-w-4 yst-h-4"
               fill="none"
               stroke="currentColor"
-              strokeWidth={2}
+              stroke-width="2"
               viewBox="0 0 24 24"
               xmlns="http://www.w3.org/2000/svg"
             >
               <path
                 d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
-                strokeLinecap="round"
-                strokeLinejoin="round"
+                stroke-linecap="round"
+                stroke-linejoin="round"
               />
             </svg>
           </button>
           <div
-            className="yst-tooltip yst-tooltip--left yst-hidden"
+            class="yst-tooltip yst-tooltip--left yst-hidden"
             role="tooltip"
             variant="dark"
           >
@@ -312,15 +286,14 @@ exports[`the AnalysisResult component with a beta badge label matches the snapsh
 }
 
 <li
-  className="c0"
+  class="c0"
 >
   <svg
-    aria-hidden={true}
-    className="c1 yoast-svg-icon yoast-svg-icon-circle c2"
+    aria-hidden="true"
+    class="c1 yoast-svg-icon yoast-svg-icon-circle c2"
     fill="blue"
     focusable="false"
     role="img"
-    size="13px"
     viewBox="0 0 1792 1792"
     xmlns="http://www.w3.org/2000/svg"
   >
@@ -329,23 +302,19 @@ exports[`the AnalysisResult component with a beta badge label matches the snapsh
     />
   </svg>
   <p
-    className="c3"
+    class="c3"
   >
     <span
-      className="yoast-badge yoast-beta-badge"
+      class="yoast-badge yoast-beta-badge"
     >
       Beta
     </span>
-    <span
-      dangerouslySetInnerHTML={
-        Object {
-          "__html": "This is beta!",
-        }
-      }
-    />
+    <span>
+      This is beta!
+    </span>
   </p>
   <div
-    className="c4"
+    class="c4"
   />
 </li>
 `;
@@ -395,15 +364,14 @@ exports[`the AnalysisResult component with disabled buttons matches the snapshot
 }
 
 <li
-  className="c0"
+  class="c0"
 >
   <svg
-    aria-hidden={true}
-    className="c1 yoast-svg-icon yoast-svg-icon-circle c2"
+    aria-hidden="true"
+    class="c1 yoast-svg-icon yoast-svg-icon-circle c2"
     fill="blue"
     focusable="false"
     role="img"
-    size="13px"
     viewBox="0 0 1792 1792"
     xmlns="http://www.w3.org/2000/svg"
   >
@@ -412,66 +380,55 @@ exports[`the AnalysisResult component with disabled buttons matches the snapshot
     />
   </svg>
   <p
-    className="c3"
+    class="c3"
   >
-    <span
-      dangerouslySetInnerHTML={
-        Object {
-          "__html": "You're doing great!",
-        }
-      }
-    />
+    <span>
+      You're doing great!
+    </span>
   </p>
   <div
-    className="c4"
+    class="c4"
   >
     <div
-      className="yst-root"
+      class="yst-root"
     >
       <div
-        className="yst-tooltip-container yst-relative yst-inline-flex"
-        onKeyDown={[Function]}
+        class="yst-tooltip-container yst-relative yst-inline-flex"
       >
         <span
-          className="yst-inline-flex"
-          onPointerEnter={[Function]}
-          onPointerLeave={[Function]}
+          class="yst-inline-flex"
         >
           <button
             aria-label="SEOResult"
-            aria-pressed={true}
-            className="yst-button yst-button--primary yst-button--small yst-button--disabled yst-px-2 yst-rounded-md yst-shadow-none yst-border-0 focus:yst-z-10"
-            disabled={true}
+            aria-pressed="true"
+            class="yst-button yst-button--primary yst-button--small yst-button--disabled yst-px-2 yst-rounded-md yst-shadow-none yst-border-0 focus:yst-z-10"
+            disabled=""
             id="Result button"
-            onBlur={[Function]}
-            onClick={[Function]}
-            onFocus={[Function]}
-            onKeyDown={[Function]}
             type="button"
           >
             <svg
               aria-hidden="true"
-              className="yst-w-4 yst-h-4"
+              class="yst-w-4 yst-h-4"
               fill="none"
               stroke="currentColor"
-              strokeWidth={2}
+              stroke-width="2"
               viewBox="0 0 24 24"
               xmlns="http://www.w3.org/2000/svg"
             >
               <path
                 d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                strokeLinecap="round"
-                strokeLinejoin="round"
+                stroke-linecap="round"
+                stroke-linejoin="round"
               />
               <path
                 d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
-                strokeLinecap="round"
-                strokeLinejoin="round"
+                stroke-linecap="round"
+                stroke-linejoin="round"
               />
             </svg>
           </button>
           <div
-            className="yst-tooltip yst-tooltip--left yst-hidden"
+            class="yst-tooltip yst-tooltip--left yst-hidden"
             role="tooltip"
             variant="dark"
           >
@@ -529,15 +486,14 @@ exports[`the AnalysisResult component with hidden buttons matches the snapshot 1
 }
 
 <li
-  className="c0"
+  class="c0"
 >
   <svg
-    aria-hidden={true}
-    className="c1 yoast-svg-icon yoast-svg-icon-circle c2"
+    aria-hidden="true"
+    class="c1 yoast-svg-icon yoast-svg-icon-circle c2"
     fill="blue"
     focusable="false"
     role="img"
-    size="13px"
     viewBox="0 0 1792 1792"
     xmlns="http://www.w3.org/2000/svg"
   >
@@ -546,18 +502,14 @@ exports[`the AnalysisResult component with hidden buttons matches the snapshot 1
     />
   </svg>
   <p
-    className="c3"
+    class="c3"
   >
-    <span
-      dangerouslySetInnerHTML={
-        Object {
-          "__html": "You're doing great!",
-        }
-      }
-    />
+    <span>
+      You're doing great!
+    </span>
   </p>
   <div
-    className="c4"
+    class="c4"
   />
 </li>
 `;
@@ -607,15 +559,14 @@ exports[`the AnalysisResult component with html in the text matches the snapshot
 }
 
 <li
-  className="c0"
+  class="c0"
 >
   <svg
-    aria-hidden={true}
-    className="c1 yoast-svg-icon yoast-svg-icon-circle c2"
+    aria-hidden="true"
+    class="c1 yoast-svg-icon yoast-svg-icon-circle c2"
     fill="blue"
     focusable="false"
     role="img"
-    size="13px"
     viewBox="0 0 1792 1792"
     xmlns="http://www.w3.org/2000/svg"
   >
@@ -624,66 +575,57 @@ exports[`the AnalysisResult component with html in the text matches the snapshot
     />
   </svg>
   <p
-    className="c3"
+    class="c3"
   >
-    <span
-      dangerouslySetInnerHTML={
-        Object {
-          "__html": "You're doing <b>great!</b>",
-        }
-      }
-    />
+    <span>
+      You're doing 
+      <b>
+        great!
+      </b>
+    </span>
   </p>
   <div
-    className="c4"
+    class="c4"
   >
     <div
-      className="yst-root"
+      class="yst-root"
     >
       <div
-        className="yst-tooltip-container yst-relative yst-inline-flex"
-        onKeyDown={[Function]}
+        class="yst-tooltip-container yst-relative yst-inline-flex"
       >
         <span
-          className="yst-inline-flex"
-          onPointerEnter={[Function]}
-          onPointerLeave={[Function]}
+          class="yst-inline-flex"
         >
           <button
             aria-label="SEOResult"
-            aria-pressed={true}
-            className="yst-button yst-button--primary yst-button--small yst-px-2 yst-rounded-md yst-shadow-none yst-border-0 focus:yst-z-10"
-            disabled={false}
+            aria-pressed="true"
+            class="yst-button yst-button--primary yst-button--small yst-px-2 yst-rounded-md yst-shadow-none yst-border-0 focus:yst-z-10"
             id="Result button"
-            onBlur={[Function]}
-            onClick={[Function]}
-            onFocus={[Function]}
-            onKeyDown={[Function]}
             type="button"
           >
             <svg
               aria-hidden="true"
-              className="yst-w-4 yst-h-4"
+              class="yst-w-4 yst-h-4"
               fill="none"
               stroke="currentColor"
-              strokeWidth={2}
+              stroke-width="2"
               viewBox="0 0 24 24"
               xmlns="http://www.w3.org/2000/svg"
             >
               <path
                 d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                strokeLinecap="round"
-                strokeLinejoin="round"
+                stroke-linecap="round"
+                stroke-linejoin="round"
               />
               <path
                 d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
-                strokeLinecap="round"
-                strokeLinejoin="round"
+                stroke-linecap="round"
+                stroke-linejoin="round"
               />
             </svg>
           </button>
           <div
-            className="yst-tooltip yst-tooltip--left yst-hidden"
+            class="yst-tooltip yst-tooltip--left yst-hidden"
             role="tooltip"
             variant="dark"
           >
@@ -741,15 +683,14 @@ exports[`the AnalysisResult component with suppressed text matches the snapshot 
 }
 
 <li
-  className="c0"
+  class="c0"
 >
   <svg
-    aria-hidden={true}
-    className="c1 yoast-svg-icon yoast-svg-icon-circle c2"
+    aria-hidden="true"
+    class="c1 yoast-svg-icon yoast-svg-icon-circle c2"
     fill="blue"
     focusable="false"
     role="img"
-    size="13px"
     viewBox="0 0 1792 1792"
     xmlns="http://www.w3.org/2000/svg"
   >
@@ -758,18 +699,14 @@ exports[`the AnalysisResult component with suppressed text matches the snapshot 
     />
   </svg>
   <p
-    className="c3"
+    class="c3"
   >
-    <span
-      dangerouslySetInnerHTML={
-        Object {
-          "__html": "You're doing great!",
-        }
-      }
-    />
+    <span>
+      You're doing great!
+    </span>
   </p>
   <div
-    className="c4"
+    class="c4"
   />
 </li>
 `;

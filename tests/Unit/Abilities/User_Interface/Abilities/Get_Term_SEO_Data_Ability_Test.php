@@ -160,7 +160,7 @@ final class Get_Term_SEO_Data_Ability_Test extends TestCase {
 						],
 						'permalink' => [
 							'type'        => 'string',
-							'description' => 'The permalink (URL) of the term archive to retrieve.',
+							'description' => 'The full permalink (URL) of the term archive to retrieve, exactly as the site outputs it, including the protocol (http or https) and any trailing slash. Relative URLs are not supported.',
 						],
 					],
 				],

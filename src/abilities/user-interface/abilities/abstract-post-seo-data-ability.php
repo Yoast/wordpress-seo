@@ -62,9 +62,14 @@ abstract class Abstract_Post_SEO_Data_Ability extends Abstract_SEO_Data_Ability 
 			'type'       => 'object',
 			'properties' => [
 				'post_id'                         => [ 'type' => 'integer' ],
-				'post_title'                      => $nullable_string,
+				'post_title'                      => ( $nullable_string + [
+					'description' => \__( 'The breadcrumb title of the post when a custom one is set, otherwise the post title.', 'wordpress-seo' ),
+				] ),
 				'permalink'                       => $nullable_string,
-				'post_type'                       => [ 'type' => 'string' ],
+				'post_type'                       => [
+					'type'        => 'string',
+					'description' => \__( 'The post type of the post. Use it to tell apart posts that share a title.', 'wordpress-seo' ),
+				],
 				'post_status'                     => $nullable_string,
 				'seo_title'                       => $raw( \__( 'SEO title', 'wordpress-seo' ) ),
 				'seo_title_rendered'              => $rendered( \__( 'SEO title', 'wordpress-seo' ) ),
@@ -82,7 +87,11 @@ abstract class Abstract_Post_SEO_Data_Ability extends Abstract_SEO_Data_Ability 
 				'is_cornerstone'                  => [ 'type' => 'boolean' ],
 				'noindex'                         => [
 					'type'        => [ 'boolean', 'null' ],
-					'description' => \__( 'Whether search engines are told not to index this post. true means noindex (the post is excluded from search results); false means the post is forced to be indexed; null means no setting is stored and the post-type default applies.', 'wordpress-seo' ),
+					'description' => \__( 'Whether search engines are told not to index this post. true means noindex (the post is excluded from search results); false means the post is forced to be indexed; null means no setting is stored and the post-type default applies. The rendered companion field carries whether the post is actually noindexed.', 'wordpress-seo' ),
+				],
+				'noindex_rendered'                => [
+					'type'        => [ 'boolean', 'null' ],
+					'description' => \__( 'Whether search engines are actually told not to index this post, as output on the front end.', 'wordpress-seo' ),
 				],
 				'nofollow'                        => [ 'type' => 'boolean' ],
 				'noimageindex'                    => [ 'type' => 'boolean' ],
@@ -98,11 +107,21 @@ abstract class Abstract_Post_SEO_Data_Ability extends Abstract_SEO_Data_Ability 
 				'twitter_description_rendered'    => $rendered( \__( 'X description', 'wordpress-seo' ) ),
 				'schema_page_type'                => [
 					'type'        => [ 'string', 'null' ],
-					'description' => \__( 'The Schema.org page type stored for the post. Null means no override is set and the default for the post type applies.', 'wordpress-seo' ),
+					'description' => \__( 'The Schema.org page type stored for the post. Null means no override is set and the default for the post type applies. The rendered companion field carries the page types actually output.', 'wordpress-seo' ),
+				],
+				'schema_page_type_rendered'       => [
+					'type'        => [ 'array', 'null' ],
+					'items'       => [ 'type' => 'string' ],
+					'description' => \__( 'The Schema.org page types output on the front end for the post. Empty when no WebPage is output for the post.', 'wordpress-seo' ),
 				],
 				'schema_article_type'             => [
 					'type'        => [ 'string', 'null' ],
-					'description' => \__( 'The Schema.org article type stored for the post. Null means no override is set and the default for the post type applies.', 'wordpress-seo' ),
+					'description' => \__( 'The Schema.org article type stored for the post. Null means no override is set and the default for the post type applies. The rendered companion field carries the article types actually output.', 'wordpress-seo' ),
+				],
+				'schema_article_type_rendered'    => [
+					'type'        => [ 'array', 'null' ],
+					'items'       => [ 'type' => 'string' ],
+					'description' => \__( 'The Schema.org article types output on the front end for the post. Empty when no Article is output for the post.', 'wordpress-seo' ),
 				],
 				'seo_score'                       => $score( \__( 'SEO analysis', 'wordpress-seo' ) ),
 				'readability_score'               => $score( \__( 'readability analysis', 'wordpress-seo' ) ),

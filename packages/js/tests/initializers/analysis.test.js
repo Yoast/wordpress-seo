@@ -13,6 +13,7 @@ jest.mock( "@wordpress/data", () => ( {
 } ) );
 
 jest.mock( "@wordpress/hooks", () => ( {
+	addFilter: jest.fn(),
 	applyFilters: ( hook, value ) => value,
 	doAction: jest.fn(),
 } ) );

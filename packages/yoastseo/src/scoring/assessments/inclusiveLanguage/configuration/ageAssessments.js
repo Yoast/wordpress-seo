@@ -1,11 +1,11 @@
-import { redHarmful, orangeUnlessSomeoneWants } from "./feedbackStrings/generalFeedbackStrings";
-import { specificAgeGroup } from "./feedbackStrings/ageAssessmentStrings";
-import { isNotPrecededByException } from "../helpers/isPrecededByException";
-import { isNotFollowedByException } from "../helpers/isFollowedByException";
-import { includesConsecutiveWords } from "../helpers/includesConsecutiveWords";
-import { SCORES } from "./scores";
-import notInclusiveWhenStandalone from "../helpers/notInclusiveWhenStandalone";
-import { nonInclusiveWhenStandalone, notPrecededAndNotFollowed } from "../helpers/createRuleDescriptions";
+import { redHarmful, orangeUnlessSomeoneWants } from "./feedbackStrings/generalFeedbackStrings.js";
+import { specificAgeGroup } from "./feedbackStrings/ageAssessmentStrings.js";
+import { isNotPrecededByException } from "../helpers/isPrecededByException.js";
+import { isNotFollowedByException } from "../helpers/isFollowedByException.js";
+import { includesConsecutiveWords } from "../helpers/includesConsecutiveWords.js";
+import { SCORES } from "./scores.js";
+import notInclusiveWhenStandalone from "../helpers/notInclusiveWhenStandalone.js";
+import { nonInclusiveWhenStandalone, notPrecededAndNotFollowed } from "../helpers/createRuleDescriptions.js";
 
 const ageAssessments = [
 	{

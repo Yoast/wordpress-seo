@@ -3,9 +3,9 @@ import { languageProcessing } from "yoastseo";
 const { directPrecedenceException, values } = languageProcessing;
 const { Clause } = values;
 
-import { cannotDirectlyPrecedePassiveParticiple } from "../config/functionWords";
-import nonParticiples from "../config/internal/nonParticiples";
-import getParticiples from "../helpers/internal/getParticiples";
+import { cannotDirectlyPrecedePassiveParticiple } from "../config/functionWords.js";
+import nonParticiples from "../config/internal/nonParticiples.js";
+import getParticiples from "../helpers/internal/getParticiples.js";
 
 /**
  * Creates a Clause object for the Dutch language.

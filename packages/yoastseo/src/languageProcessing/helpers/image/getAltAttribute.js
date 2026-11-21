@@ -1,6 +1,6 @@
 import stripSpaces from "../sanitize/stripSpaces.js";
-import { Node } from "../../../parse/structure";
-import { hashedHtmlEntities } from "../../../helpers/htmlEntities";
+import { Node } from "../../../parse/structure/index.js";
+import { hashedHtmlEntities } from "../../../helpers/htmlEntities.js";
 
 // The HTML entities that the tree builder protects as "#nbsp;", "#quot;" and so on (see `build`).
 const HASHED_HTML_ENTITY = new RegExp( [ ...hashedHtmlEntities.keys() ].join( "|" ), "gi" );

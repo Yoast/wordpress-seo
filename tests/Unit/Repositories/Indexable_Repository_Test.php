@@ -461,6 +461,47 @@ final class Indexable_Repository_Test extends TestCase {
 	}
 
 	/**
+	 * Tests that a null post type searches every post type by skipping the sub-type filter.
+	 *
+	 * @covers ::find_posts_by_title_keywords
+	 *
+	 * @return void
+	 */
+	public function test_find_posts_by_title_keywords_any_post_type() {
+		$indexable  = Mockery::mock( Indexable_Mock::class );
+		$orm_object = Mockery::mock( ORM::class );
+
+		$this->instance
+			->expects( 'query' )
+			->once()
+			->andReturn( $orm_object );
+
+		$orm_object->expects( 'where' )->with( 'object_type', 'post' )->once()->andReturnSelf();
+		$orm_object->expects( 'where' )->with( 'object_sub_type', Mockery::any() )->never();
+
+		$this->wpdb->expects( 'esc_like' )->with( 'about' )->once()->andReturn( 'about' );
+
+		$orm_object
+			->expects( 'where_raw' )
+			->with( '( breadcrumb_title LIKE %s )', [ '%about%' ] )
+			->once()
+			->andReturnSelf();
+
+		$orm_object->expects( 'order_by_desc' )->with( 'object_last_modified' )->once()->andReturnSelf();
+		$orm_object->expects( 'order_by_desc' )->with( 'id' )->once()->andReturnSelf();
+		$orm_object->expects( 'limit' )->with( Indexable_Repository::DEFAULT_TITLE_KEYWORD_PAGE_SIZE )->once()->andReturnSelf();
+		$orm_object->expects( 'offset' )->with( 0 )->once()->andReturnSelf();
+		$orm_object->expects( 'find_many' )->once()->andReturn( [ $indexable ] );
+
+		$this->mock_version_check( $indexable );
+
+		$this->assertSame(
+			[ $indexable ],
+			$this->instance->find_posts_by_title_keywords( 'about', 1, Indexable_Repository::DEFAULT_TITLE_KEYWORD_PAGE_SIZE, null ),
+		);
+	}
+
+	/**
 	 * Tests that a single value is matched as one whole phrase, keeping its internal spaces, with no OR.
 	 *
 	 * @covers ::find_posts_by_title_keywords

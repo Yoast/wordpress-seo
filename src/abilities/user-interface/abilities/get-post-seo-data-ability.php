@@ -7,6 +7,7 @@ use Yoast\WP\SEO\Abilities\Application\Post_SEO_Data_Collector;
 use Yoast\WP\SEO\Abilities\User_Interface\Ability_Categories_Integration;
 use Yoast\WP\SEO\Conditionals\Should_Index_Indexables_Conditional;
 use Yoast\WP\SEO\Helpers\Capability_Helper;
+use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
 /**
  * The ability that returns the SEO data of one or more posts.
@@ -56,7 +57,7 @@ class Get_Post_SEO_Data_Ability extends Abstract_Post_SEO_Data_Ability {
 	public function get_args(): array {
 		return [
 			'label'               => \__( 'Get Post SEO Data', 'wordpress-seo' ),
-			'description'         => \__( 'Get the SEO data for a post. Identify the post by post_id, by permalink (URL), or by title keywords; the title may be a comma-separated list and returns the SEO data for every post matching any of the values, paginated most recently modified first (use the page parameter to reach older matches). At least one identifier is required. Only posts the current user is allowed to edit are returned.', 'wordpress-seo' ),
+			'description'         => \__( 'Get the SEO data for a post of any post type. Identify the post by post_id, by permalink (URL), or by title keywords; the title may be a comma-separated list and returns the SEO data for every post matching any of the values, paginated most recently modified first (use the page parameter to reach older matches). At least one identifier is required. Only posts the current user is allowed to edit are returned.', 'wordpress-seo' ),
 			'category'            => Ability_Categories_Integration::CATEGORY_SLUG,
 			'input_schema'        => $this->get_post_identifier_input_schema(),
 			'output_schema'       => [
@@ -96,11 +97,16 @@ class Get_Post_SEO_Data_Ability extends Abstract_Post_SEO_Data_Ability {
 				],
 				'permalink' => [
 					'type'        => 'string',
-					'description' => \__( 'The permalink (URL) of the post to retrieve.', 'wordpress-seo' ),
+					'description' => \__( 'The full permalink (URL) of the post to retrieve, exactly as the site outputs it, including the protocol (http or https) and any trailing slash. Relative URLs are not supported.', 'wordpress-seo' ),
 				],
 				'title'     => [
 					'type'        => 'string',
-					'description' => \__( 'Keywords to search for in post titles. Provide a comma-separated list to search for several titles at once; each value is matched as a whole phrase against the post title, and a post matching any value is returned. At most 10 phrases are used per request; any beyond the first 10 are ignored. Results are paginated to 10 entities per page; see the page parameter.', 'wordpress-seo' ),
+					'description' => \sprintf(
+						/* translators: 1: the maximum number of phrases used per request, 2: the number of results per page. */
+						\__( 'Keywords to search for in post titles. Every post type is searched. Provide a comma-separated list to search for several titles at once; each value is matched as a whole phrase against the breadcrumb title of the post when a custom one is set, otherwise the post title, and a post matching any value is returned. At most %1$d phrases are used per request; any beyond the first %1$d are ignored. Results are paginated to %2$d entities per page; see the page parameter.', 'wordpress-seo' ),
+						Indexable_Repository::MAX_TITLE_KEYWORD_PHRASES,
+						Indexable_Repository::DEFAULT_TITLE_KEYWORD_PAGE_SIZE,
+					),
 				],
 				'page'      => [
 					'type'        => 'integer',

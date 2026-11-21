@@ -4,9 +4,9 @@ import wordMatch from "../helpers/match/matchTextWithWord.js";
 import { findTopicFormsInString } from "../helpers/match/findKeywordFormsInString.js";
 import { stemPrefixedFunctionWords } from "../helpers/morphology/stemPrefixedFunctionWords.js";
 
-import processExactMatchRequest from "../helpers/match/processExactMatchRequest";
-import getWords from "../helpers/word/getWords";
-import { WORD_BOUNDARY_WITH_HYPHEN } from "../../config/wordBoundariesWithoutPunctuation";
+import processExactMatchRequest from "../helpers/match/processExactMatchRequest.js";
+import getWords from "../helpers/word/getWords.js";
+import { WORD_BOUNDARY_WITH_HYPHEN } from "../../config/wordBoundariesWithoutPunctuation.js";
 
 let functionWords = [];
 

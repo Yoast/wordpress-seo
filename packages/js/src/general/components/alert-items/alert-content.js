@@ -1,4 +1,3 @@
-import PropTypes from "prop-types";
 import {
 	PingOtherAdminsAlertItem,
 	DefaultAlertItem,
@@ -7,10 +6,12 @@ import {
 /**
  * The appropriate alert content component based on the alert ID.
  *
- * @param {string} id Alert ID.
- * @param {boolean} dismissed Whether the alert is dismissed.
- * @param {string} message Alert message.
- * @param {string} resolveNonce Nonce to resolve the alert.
+ * @param {Object} props Component props.
+ * @param {string} props.id Alert ID.
+ * @param {boolean} props.dismissed Whether the alert is dismissed.
+ * @param {string} props.message Alert message.
+ * @param {string} props.resolveNonce Nonce to resolve the alert.
+ *
  * @returns {JSX.Element} The AlertContent component.
  */
 export const AlertContent = ( { id, dismissed, message, resolveNonce } ) => {
@@ -28,11 +29,4 @@ export const AlertContent = ( { id, dismissed, message, resolveNonce } ) => {
 				message={ message }
 			/>;
 	}
-};
-
-AlertContent.propTypes = {
-	id: PropTypes.string.isRequired,
-	dismissed: PropTypes.bool.isRequired,
-	message: PropTypes.string.isRequired,
-	resolveNonce: PropTypes.string.isRequired,
 };

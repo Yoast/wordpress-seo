@@ -1,6 +1,5 @@
 /* eslint-disable complexity */
 import { Modal as WpModal } from "@wordpress/components";
-import PropTypes from "prop-types";
 
 /**
  * Default className for our Modal.
@@ -12,13 +11,13 @@ export const defaultModalClassName = "yoast yoast-gutenberg-modal";
  *
  * Accepts all props that the Gutenberg modal accepts.
  *
- * @param {React.ReactNode} [title="Yoast SEO"] The modal title. A node allows a help link next to it; pair that with
+ * @param {Object} props Component props. Additional props are passed to the Gutenberg modal.
+ * @param {React.ReactNode} [props.title="Yoast SEO"] The modal title. A node allows a help link next to it; pair that with
  *                                            `contentLabel` so the accessible name stays the title text alone.
- * @param {string} [className=defaultModalClassName] The modal className.
- * @param {boolean} [showYoastIcon=true] Whether to show the Yoast icon.
- * @param {React.ReactNode} [children=null] The modal content.
- * @param {string} [additionalClassName=""] Additional className for the modal.
- * @param {...Object} [props] Additional props passed to the Gutenberg modal.
+ * @param {string} [props.className=defaultModalClassName] The modal className.
+ * @param {boolean} [props.showYoastIcon=true] Whether to show the Yoast icon.
+ * @param {React.ReactNode} [props.children=null] The modal content.
+ * @param {string} [props.additionalClassName=""] Additional className for the modal.
  *
  * @returns {JSX.Element} The modal.
  */
@@ -42,14 +41,6 @@ const Modal = ( {
 			{ children }
 		</WpModal>
 	);
-};
-
-Modal.propTypes = {
-	title: PropTypes.node,
-	className: PropTypes.string,
-	showYoastIcon: PropTypes.bool,
-	children: PropTypes.oneOfType( [ PropTypes.node, PropTypes.arrayOf( PropTypes.node ) ] ),
-	additionalClassName: PropTypes.string,
 };
 
 export default Modal;

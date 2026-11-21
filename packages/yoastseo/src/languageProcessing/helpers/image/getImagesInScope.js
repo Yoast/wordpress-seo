@@ -1,4 +1,4 @@
-import getImagesInTree from "./getImagesInTree";
+import getImagesInTree from "./getImagesInTree.js";
 
 /**
  * @typedef {import("../../../contract/providedImages").ProvidedImage} ProvidedImage

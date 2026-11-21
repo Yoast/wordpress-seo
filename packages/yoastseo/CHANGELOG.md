@@ -3,6 +3,52 @@
 All notable changes to this project will be documented in this file. Releases without a changelog entry contain only minor changes that are irrelevant for users of this library.
 We will follow [Semantic Versioning](http://semver.org/) from version 3.0.0 and onwards.
 
+## 3.7.0 (2026-11-18)
+
+### Enhancements:
+
+* Adds the `AltTextLengthAssessment` and the `altTextLength` research. [#23619](https://github.com/Yoast/wordpress-seo/pull/23619)
+* Adds `flaggedItems` to `AssessmentResult` and to the result contract, so an assessment can name the content items it flags. [#23619](https://github.com/Yoast/wordpress-seo/pull/23619)
+* Adds the `DuplicateAltTextAssessment` and the `duplicateAltText` research. [#23659](https://github.com/Yoast/wordpress-seo/pull/23659)
+* Adds the `KeyphraseStuffingInAltTextAssessment` and the `altTextKeyphraseCount` research. [#23699](https://github.com/Yoast/wordpress-seo/pull/23699)
+* Adds the `NonDescriptiveAltTextAssessment` and the `nonDescriptiveAltText` research. [#23721](https://github.com/Yoast/wordpress-seo/pull/23721)
+* Adds the `RedundantPhraseInAltTextAssessment` and the `redundantPhraseInAltText` research, with phrase configs for 21 languages. [#23714](https://github.com/Yoast/wordpress-seo/pull/23714)
+* Adds the images without alt text to the `flaggedItems` of the Image alt attributes assessment result. [#23729](https://github.com/Yoast/wordpress-seo/pull/23729)
+* Adds support for providing a custom set of images to the image-related assessments via the new `providedImages` Paper attribute. [#23555](https://github.com/Yoast/wordpress-seo/pull/23555)
+* Adds an optional `callbacks.getResultTexts` to the Images assessment, so a platform can supply its own feedback strings. [#23597](https://github.com/Yoast/wordpress-seo/pull/23597)
+* Removes the `KeyphraseInImagesAssessment` from all assessors and deprecates the class. [#23689](https://github.com/Yoast/wordpress-seo/pull/23689)
+* Converts the _keyphrase in subheadings_ assessment to use the HTML parser and adds highlighting for it. [#22974](https://github.com/Yoast/wordpress-seo/pull/22974)
+* Adds a public `ensureTree( paper, researcher )` helper that builds the HTML tree on a paper when it is missing. [#23322](https://github.com/Yoast/wordpress-seo/pull/23322)
+* Adds a serializable `PaperDTO` input contract and `toPaper` boundary, exposed via the `yoastseo/contract` entry point, for validating and mapping analysis input. [#23336](https://github.com/Yoast/wordpress-seo/pull/23336)
+* Adds a serializable `ResultDto` output contract and a `toResultDto` boundary, exposed via the `yoastseo/contract` entry, for mapping an `AssessmentResult` to a stable consumer-facing shape. [#23346](https://github.com/Yoast/wordpress-seo/pull/23346)
+* Adds a `runAssessment` helper that runs a single assessment correctly without instantiating an assessor. [#23411](https://github.com/Yoast/wordpress-seo/pull/23411)
+* Decouples the e-commerce Product identifiers and SKU assessments from the WooCommerce-specific product-type enum. [#23359](https://github.com/Yoast/wordpress-seo/pull/23359)
+* Improves the performance of the content analysis by reusing previously built HTML trees across assessor runs, related-keyphrase passes and research calls instead of rebuilding the tree for each. [#23258](https://github.com/Yoast/wordpress-seo/pull/23258)
+* Changes `Assessor.assess()` to skip the HTML tree build when the paper already carries a tree; callers that pass a paper with a pre-set tree are now responsible for ensuring it matches the paper's current content. [#23258](https://github.com/Yoast/wordpress-seo/pull/23258)
+* Adds more Elementor elements that are excluded from the analysis in `alwaysFilterElements.js`. [#23344](https://github.com/Yoast/wordpress-seo/pull/23344)
+
+### Bugfixes:
+
+* Fixes a bug where SEO assessor and Taxonomy assessor didn't filter out empty assessment results. [#23466](https://github.com/Yoast/wordpress-seo/pull/23466)
+* Fixes a bug where position-based marks would not get the client ID of their block when the block markup had no line break after the opening block comment. [#23779](https://github.com/Yoast/wordpress-seo/pull/23779)
+* Fixes a bug where position-based marks would get the client ID of a parent block instead of their own block when blocks were nested more than one level deep. [#23779](https://github.com/Yoast/wordpress-seo/pull/23779)
+* Fixes a bug where loading the Turkish stemmer from `build/` with `require()` failed in Node.js versions without `require(esm)` support. [#23777](https://github.com/Yoast/wordpress-seo/pull/23777)
+
+### Other:
+
+* Deprecates `AssessmentResult.hasAIFixes()` and `hasBetaBadge()` in favour of the neutral `isOptimizable()` and `isBeta()` getters. [#23346](https://github.com/Yoast/wordpress-seo/pull/23346)
+* Adds a `getResearcher( language )` factory at a new `yoastseo/researcher` entry point for resolving per-language Researchers outside WordPress. [#23325](https://github.com/Yoast/wordpress-seo/pull/23325)
+* Uses full import paths and no JSON imports in the source, to prepare for an ESM build. [#23777](https://github.com/Yoast/wordpress-seo/pull/23777)
+* Removes the `vendor` folder from the package because the Turkish stemmer is now part of `build/`. [#23777](https://github.com/Yoast/wordpress-seo/pull/23777)
+* Upgrades `zod` to 4.6.7. [#23824](https://github.com/Yoast/wordpress-seo/pull/23824)
+* Fixes a spelling mistake in the `yoastseo` package README. [#23066](https://github.com/Yoast/wordpress-seo/pull/23066)
+
+### Non user facing:
+
+* Relocates package documentations to the dedicated `docs/` directory. [#23346](https://github.com/Yoast/wordpress-seo/pull/23346)
+* Updates the _single title_ assessment documentation. [#22936](https://github.com/Yoast/wordpress-seo/pull/22936)
+* Fixes the encoding of the `spec/languageProcessing/languages/hu/helpers/internal/stemmerCoverage/sampleVocabulary.json` test file to use UTF-8. [#20373](https://github.com/Yoast/wordpress-seo/pull/20373)
+
 ## 3.6.0 (2026-02-12)
 
 Enhancements:

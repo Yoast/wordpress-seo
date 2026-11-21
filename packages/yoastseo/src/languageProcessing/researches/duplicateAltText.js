@@ -1,6 +1,6 @@
-import getAltAttribute from "../helpers/image/getAltAttribute";
-import getImageIdentifier from "../helpers/image/getImageIdentifier";
-import getImagesInScope from "../helpers/image/getImagesInScope";
+import getAltAttribute from "../helpers/image/getAltAttribute.js";
+import getImageIdentifier from "../helpers/image/getImageIdentifier.js";
+import getImagesInScope from "../helpers/image/getImagesInScope.js";
 
 /**
  * @typedef {import("../../values/").Paper } Paper

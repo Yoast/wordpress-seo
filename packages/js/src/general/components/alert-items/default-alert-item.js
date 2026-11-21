@@ -1,11 +1,12 @@
 import classNames from "classnames";
-import PropTypes from "prop-types";
 
 /**
  * Default alert item component.
  *
- * @param {boolean} dismissed Whether the alert is dismissed.
- * @param {string} message Alert message.
+ * @param {Object} props Component props.
+ * @param {boolean} props.dismissed Whether the alert is dismissed.
+ * @param {string} props.message Alert message.
+ *
  * @returns {JSX.Element} The DefaultAlertItem component.
  */
 export const DefaultAlertItem = ( { dismissed, message } ) => {
@@ -17,9 +18,4 @@ export const DefaultAlertItem = ( { dismissed, message } ) => {
 			dangerouslySetInnerHTML={ { __html: message } }
 		/>
 	);
-};
-
-DefaultAlertItem.propTypes = {
-	dismissed: PropTypes.bool.isRequired,
-	message: PropTypes.string.isRequired,
 };

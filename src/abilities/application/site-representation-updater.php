@@ -58,23 +58,33 @@ class Site_Representation_Updater extends Abstract_Fields_Updater {
 	private $social_profiles_helper;
 
 	/**
+	 * The site representation collector.
+	 *
+	 * @var Site_Representation_Collector
+	 */
+	private $collector;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param Options_Helper                $options_helper         The options helper.
 	 * @param Site_Representation_Field_Map $field_map              The site representation field map.
 	 * @param Image_Helper                  $image_helper           The image helper.
 	 * @param Social_Profiles_Helper        $social_profiles_helper The social profiles helper.
+	 * @param Site_Representation_Collector $collector              The site representation collector.
 	 */
 	public function __construct(
 		Options_Helper $options_helper,
 		Site_Representation_Field_Map $field_map,
 		Image_Helper $image_helper,
-		Social_Profiles_Helper $social_profiles_helper
+		Social_Profiles_Helper $social_profiles_helper,
+		Site_Representation_Collector $collector
 	) {
 		$this->options_helper         = $options_helper;
 		$this->field_map              = $field_map;
 		$this->image_helper           = $image_helper;
 		$this->social_profiles_helper = $social_profiles_helper;
+		$this->collector              = $collector;
 	}
 
 	// phpcs:disable SlevomatCodingStandard.TypeHints.DisallowMixedTypeHint.DisallowedMixedTypeHint -- The fields added through the filter can hold any option value.
@@ -90,10 +100,9 @@ class Site_Representation_Updater extends Abstract_Fields_Updater {
 	 * @return array<string, mixed> The new site representation settings, plus a warning when some could not be changed.
 	 */
 	public function update( array $input ): array {
-		$fields  = $this->field_map->get_fields();
-		$warning = $this->update_fields( $fields, $this->field_map->get_validators(), $input )['warning'];
+		$warning = $this->update_fields( $this->field_map->get_fields(), $this->field_map->get_validators(), $input )['warning'];
 
-		$result = $this->get_settings( $fields );
+		$result = $this->collector->get();
 
 		if ( $warning !== null ) {
 			$result['warning'] = $warning;
@@ -113,7 +122,7 @@ class Site_Representation_Updater extends Abstract_Fields_Updater {
 	 * @param mixed                $value      The value to save.
 	 * @param array<string, mixed> $context    Unused, as the settings are site-wide.
 	 *
-	 * @return bool Whether the field was saved.
+	 * @return bool Whether the field was saved as provided.
 	 */
 	protected function save_field( string $field_name, $value, array $context ): bool { // phpcs:ignore VariableAnalysis.CodeAnalysis.VariableAnalysis.UnusedVariable -- Required by the parent class; the settings are site-wide.
 		if ( \array_key_exists( $field_name, $this->social_profiles_helper->get_organization_social_profile_fields() ) ) {
@@ -126,6 +135,18 @@ class Site_Representation_Updater extends Abstract_Fields_Updater {
 		}
 
 		return $this->options_helper->set( $field_name, $value ) === true;
+	}
+
+	/**
+	 * Returns the stored value of a single field.
+	 *
+	 * @param string               $field_name The option name of the field.
+	 * @param array<string, mixed> $context    Unused, as the settings are site-wide.
+	 *
+	 * @return mixed The stored value.
+	 */
+	protected function get_field_value( string $field_name, array $context ) { // phpcs:ignore VariableAnalysis.CodeAnalysis.VariableAnalysis.UnusedVariable -- Required by the parent class; the settings are site-wide.
+		return $this->options_helper->get( $field_name );
 	}
 
 	/**
@@ -151,23 +172,6 @@ class Site_Representation_Updater extends Abstract_Fields_Updater {
 		$this->options_helper->set( $logo . '_meta', false );
 
 		return true;
-	}
-
-	/**
-	 * Returns the current value of each field, cast to the type its schema declares.
-	 *
-	 * @param array<string, array<string, mixed>> $fields The JSON schema of each field, keyed by option name.
-	 *
-	 * @return array<string, mixed> The current value of each field.
-	 */
-	private function get_settings( array $fields ): array {
-		$settings = [];
-
-		foreach ( $fields as $field_name => $schema ) {
-			$settings[ $field_name ] = $this->cast_to_schema_type( $this->options_helper->get( $field_name ), $schema );
-		}
-
-		return $settings;
 	}
 
 	// phpcs:enable SlevomatCodingStandard.TypeHints.DisallowMixedTypeHint.DisallowedMixedTypeHint

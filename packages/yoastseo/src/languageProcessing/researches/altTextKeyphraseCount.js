@@ -1,13 +1,13 @@
 import { isEmpty, uniq } from "lodash";
 
-import getImagesInScope from "../helpers/image/getImagesInScope";
-import getAltAttribute from "../helpers/image/getAltAttribute";
-import getImageIdentifier from "../helpers/image/getImageIdentifier";
-import matchWords from "../helpers/match/matchTextWithArray";
-import matchTextWithTransliteration from "../helpers/match/matchTextWithTransliteration";
-import processExactMatchRequest from "../helpers/match/processExactMatchRequest";
-import getSentences from "../helpers/sentence/getSentences";
-import splitIntoTokens from "../helpers/word/splitIntoTokens";
+import getImagesInScope from "../helpers/image/getImagesInScope.js";
+import getAltAttribute from "../helpers/image/getAltAttribute.js";
+import getImageIdentifier from "../helpers/image/getImageIdentifier.js";
+import matchWords from "../helpers/match/matchTextWithArray.js";
+import matchTextWithTransliteration from "../helpers/match/matchTextWithTransliteration.js";
+import processExactMatchRequest from "../helpers/match/processExactMatchRequest.js";
+import getSentences from "../helpers/sentence/getSentences.js";
+import splitIntoTokens from "../helpers/word/splitIntoTokens.js";
 
 /**
  * @typedef {import("../AbstractResearcher").default } Researcher

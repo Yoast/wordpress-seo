@@ -123,16 +123,126 @@ final class Sitemaps_Test extends TestCase {
 	}
 
 	/**
+	 * Tests that requesting the main stylesheet by its name outputs the CSS file.
+	 *
+	 * @covers WPSEO_Sitemaps::css_output
+	 *
+	 * @return void
+	 */
+	public function test_css_output_main() {
+		self::$class_instance->css_output( 'main' );
+
+		$this->expectOutputRegex( '/^@namespace url\(http:\/\/www\.sitemaps\.org\/schemas\/sitemap\/0\.9\);/' );
+	}
+
+	/**
+	 * Tests that requesting a registered stylesheet outputs what its building function outputs.
+	 *
+	 * @covers WPSEO_Sitemaps::register_css
+	 * @covers WPSEO_Sitemaps::redirect
+	 * @covers WPSEO_Sitemaps::css_output
+	 *
+	 * @return void
+	 */
+	public function test_css_output_registered_stylesheet() {
+		self::$class_instance->reset();
+
+		$building_function = static function () {
+			echo 'urlset { display: block; }';
+		};
+
+		self::$class_instance->register_css( 'custom', $building_function );
+
+		\set_query_var( 'yoast-sitemap-css', 'custom' );
+
+		self::$class_instance->redirect( $GLOBALS['wp_the_query'] );
+
+		unset( $GLOBALS['wp_the_query']->query_vars['yoast-sitemap-css'] );
+		\remove_action( 'wpseo_css_custom', $building_function );
+
+		$this->expectOutputString( 'urlset { display: block; }' );
+	}
+
+	/**
+	 * Tests that requesting a stylesheet that is not registered outputs nothing.
+	 *
+	 * @covers WPSEO_Sitemaps::css_output
+	 *
+	 * @return void
+	 */
+	public function test_css_output_unregistered_stylesheet_outputs_nothing() {
+		self::$class_instance->css_output( 'unregistered' );
+
+		$this->expectOutputString( '' );
+	}
+
+	/**
+	 * Tests that registering a stylesheet with a rewrite adds a rewrite rule for it.
+	 *
+	 * @covers WPSEO_Sitemaps::register_css
+	 *
+	 * @return void
+	 */
+	public function test_register_css_with_rewrite() {
+		$building_function = '__return_null';
+
+		self::$class_instance->register_css( 'custom', $building_function, '^custom-name-sitemap\.css$' );
+
+		$rule = $GLOBALS['wp_rewrite']->extra_rules_top['^custom-name-sitemap\.css$'];
+
+		\remove_action( 'wpseo_css_custom', $building_function );
+		unset( $GLOBALS['wp_rewrite']->extra_rules_top['^custom-name-sitemap\.css$'] );
+
+		$this->assertSame( 'index.php?yoast-sitemap-css=custom', $rule );
+	}
+
+	/**
 	 * Tests that the main sitemap no longer ships an XSL stylesheet.
 	 *
-	 * @covers WPSEO_Sitemaps::xsl_output
+	 * @covers WPSEO_Sitemaps::redirect
+	 * @covers WPSEO_Sitemaps::output_xsl
 	 *
 	 * @return void
 	 */
 	public function test_xsl_output_main_outputs_nothing() {
-		self::$class_instance->xsl_output( 'main' );
+		self::$class_instance->reset();
+
+		\set_query_var( 'yoast-sitemap-xsl', 'main' );
+
+		self::$class_instance->redirect( $GLOBALS['wp_the_query'] );
+
+		unset( $GLOBALS['wp_the_query']->query_vars['yoast-sitemap-xsl'] );
 
 		$this->expectOutputString( '' );
+	}
+
+	/**
+	 * Tests that an XSL stylesheet hooked into the deprecated action is still output.
+	 *
+	 * @covers WPSEO_Sitemaps::redirect
+	 * @covers WPSEO_Sitemaps::output_xsl
+	 *
+	 * @return void
+	 */
+	public function test_xsl_output_runs_deprecated_action() {
+		self::$class_instance->reset();
+
+		$this->setExpectedDeprecated( 'wpseo_xsl_custom' );
+
+		$building_function = static function () {
+			echo '<xsl:stylesheet></xsl:stylesheet>';
+		};
+
+		\add_action( 'wpseo_xsl_custom', $building_function );
+
+		\set_query_var( 'yoast-sitemap-xsl', 'custom' );
+
+		self::$class_instance->redirect( $GLOBALS['wp_the_query'] );
+
+		unset( $GLOBALS['wp_the_query']->query_vars['yoast-sitemap-xsl'] );
+		\remove_action( 'wpseo_xsl_custom', $building_function );
+
+		$this->expectOutputString( '<xsl:stylesheet></xsl:stylesheet>' );
 	}
 
 	/**

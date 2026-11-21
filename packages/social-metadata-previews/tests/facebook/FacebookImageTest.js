@@ -1,6 +1,6 @@
 /* External dependencies */
-import React, { act } from "react";
-import renderer from "react-test-renderer";
+import React from "react";
+import { act, render } from "@testing-library/react";
 
 /* Internal dependencies */
 import FacebookImage from "../../src/facebook/FacebookImage";
@@ -23,7 +23,7 @@ describe( "FacebookImage Component", () => {
 		} ) );
 
 		await act( async() => {
-			renderer.create(
+			render(
 				<FacebookImage src={ imageUrl } />
 			);
 		} );
