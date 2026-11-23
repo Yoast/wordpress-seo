@@ -180,7 +180,7 @@ final class Set_X_Card_Status_Ability_Test extends TestCase {
 		$this->assertSame(
 			[
 				'enabled' => true,
-				'warning' => 'The X card data feature is enabled, but code on the site, like a filter, turns the X card meta tags off, so the tags are not output until that code is removed.',
+				'warning' => 'The X card data setting is turned on, but code on the site, like a filter, turns the X card meta tags off, so the tags are not output until that code is removed.',
 			],
 			$this->instance->execute( [ 'enabled' => true ] ),
 		);
@@ -251,11 +251,11 @@ final class Set_X_Card_Status_Ability_Test extends TestCase {
 					'properties' => [
 						'enabled' => [
 							'type'        => 'boolean',
-							'description' => 'Whether Yoast SEO\'s X card data feature is enabled.',
+							'description' => 'Whether Yoast SEO\'s X card data feature is turned on in its setting.',
 						],
 						'warning' => [
 							'type'        => 'string',
-							'description' => 'Only present when the feature is enabled but code on the site turns the X card meta tags off. Meant to be relayed to the user.',
+							'description' => 'Only present when the setting is turned on but code on the site turns the X card meta tags off. Meant to be relayed to the user.',
 						],
 					],
 				],

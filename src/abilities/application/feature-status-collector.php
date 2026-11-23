@@ -7,7 +7,8 @@ use Yoast\WP\SEO\Abilities\Infrastructure\Features\Feature_Repository;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 
 /**
- * Application service that collects whether each feature that agents can enable or disable is enabled.
+ * Application service that collects whether each feature is enabled, including the features that agents cannot enable
+ * or disable on the site.
  */
 class Feature_Status_Collector {
 

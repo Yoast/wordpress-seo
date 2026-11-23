@@ -3,7 +3,8 @@
 namespace Yoast\WP\SEO\Abilities\Domain;
 
 /**
- * Describes a feature that agents can enable or disable, like the XML sitemap.
+ * Describes a feature that agents can read the status of and, when it is available on the site, enable or disable,
+ * like the XML sitemap.
  */
 interface Feature_Interface {
 

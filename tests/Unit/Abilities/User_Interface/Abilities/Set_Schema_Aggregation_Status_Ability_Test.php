@@ -167,7 +167,7 @@ final class Set_Schema_Aggregation_Status_Ability_Test extends TestCase {
 					'properties' => [
 						'enabled' => [
 							'type'        => 'boolean',
-							'description' => 'Whether Yoast SEO\'s Schema aggregation endpoint feature is enabled.',
+							'description' => 'Whether Yoast SEO\'s Schema aggregation endpoint feature is turned on in its setting.',
 						],
 					],
 				],

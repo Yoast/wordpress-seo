@@ -58,7 +58,7 @@ class Set_X_Card_Status_Ability extends Abstract_Set_Option_Status_Ability {
 		}
 
 		if ( $this->x_card_feature->is_disabled_programmatically() ) {
-			$result['warning'] = \__( 'The X card data feature is enabled, but code on the site, like a filter, turns the X card meta tags off, so the tags are not output until that code is removed.', 'wordpress-seo' );
+			$result['warning'] = \__( 'The X card data setting is turned on, but code on the site, like a filter, turns the X card meta tags off, so the tags are not output until that code is removed.', 'wordpress-seo' );
 		}
 
 		return $result;
@@ -111,7 +111,7 @@ class Set_X_Card_Status_Ability extends Abstract_Set_Option_Status_Ability {
 		return [
 			'warning' => [
 				'type'        => 'string',
-				'description' => \__( 'Only present when the feature is enabled but code on the site turns the X card meta tags off. Meant to be relayed to the user.', 'wordpress-seo' ),
+				'description' => \__( 'Only present when the setting is turned on but code on the site turns the X card meta tags off. Meant to be relayed to the user.', 'wordpress-seo' ),
 			],
 		];
 	}

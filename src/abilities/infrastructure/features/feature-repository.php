@@ -6,7 +6,7 @@ namespace Yoast\WP\SEO\Abilities\Infrastructure\Features;
 use Yoast\WP\SEO\Abilities\Domain\Feature_Interface;
 
 /**
- * Provides the features that agents can enable or disable.
+ * Provides the features that agents can read the status of, including those they cannot enable or disable on the site.
  */
 class Feature_Repository {
 

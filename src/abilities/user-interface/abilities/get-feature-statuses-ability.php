@@ -11,7 +11,8 @@ use Yoast\WP\SEO\Abilities\User_Interface\Ability_Categories_Integration;
 use Yoast\WP\SEO\Helpers\Capability_Helper;
 
 /**
- * The ability that gets whether each feature that agents can enable or disable is enabled.
+ * The ability that gets whether each feature is enabled, including the features that agents cannot enable or disable
+ * on the site.
  */
 class Get_Feature_Statuses_Ability implements Ability_Interface {
 
@@ -106,7 +107,7 @@ class Get_Feature_Statuses_Ability implements Ability_Interface {
 				'type'        => 'boolean',
 				'description' => \sprintf(
 					/* translators: %1$s expands to Yoast SEO, %2$s: the name of the feature. */
-					\__( 'Whether %1$s\'s %2$s feature is enabled.', 'wordpress-seo' ),
+					\__( 'Whether %1$s\'s %2$s feature is enabled and in effect on the site.', 'wordpress-seo' ),
 					'Yoast SEO',
 					$feature->get_name(),
 				),
@@ -117,7 +118,7 @@ class Get_Feature_Statuses_Ability implements Ability_Interface {
 			'label'               => \__( 'Get Feature Statuses', 'wordpress-seo' ),
 			'description'         => \sprintf(
 				/* translators: %s expands to Yoast SEO. */
-				\__( 'Get whether %s features like the XML sitemap and Open Graph data are enabled. A feature that cannot be turned on or off on this site is listed too: for example, llms.txt on multisite, or XML sitemaps when a network admin has disallowed them for the sites of the network. A feature counts as disabled when code on the site, like a filter, turns it off, even if its setting is on.', 'wordpress-seo' ),
+				\__( 'Check whether %s features like the XML sitemap and Open Graph data are enabled. A feature that cannot be turned on or off on this site is listed too: for example, llms.txt on multisite, or XML sitemaps when a network admin has disallowed them for the sites of the network. A feature counts as disabled when code on the site, like a filter, turns it off, even if its setting is on. Turning such a feature on with its set ability saves the setting and returns a warning.', 'wordpress-seo' ),
 				'Yoast SEO',
 			),
 			'category'            => Ability_Categories_Integration::CATEGORY_SLUG,

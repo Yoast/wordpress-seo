@@ -184,7 +184,7 @@ final class Set_Xml_Sitemap_Status_Ability_Test extends TestCase {
 					'properties' => [
 						'enabled' => [
 							'type'        => 'boolean',
-							'description' => 'Whether Yoast SEO\'s XML sitemap feature is enabled.',
+							'description' => 'Whether Yoast SEO\'s XML sitemap feature is turned on in its setting.',
 						],
 					],
 				],

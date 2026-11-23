@@ -180,7 +180,7 @@ final class Set_Schema_Framework_Status_Ability_Test extends TestCase {
 		$this->assertSame(
 			[
 				'enabled' => true,
-				'warning' => 'The Schema Framework feature is enabled, but code on the site, like a filter, turns the structured data graph off, so the graph is not output until that code is removed.',
+				'warning' => 'The Schema Framework setting is turned on, but code on the site, like a filter, turns the structured data graph off, so the graph is not output until that code is removed.',
 			],
 			$this->instance->execute( [ 'enabled' => true ] ),
 		);
@@ -251,11 +251,11 @@ final class Set_Schema_Framework_Status_Ability_Test extends TestCase {
 					'properties' => [
 						'enabled' => [
 							'type'        => 'boolean',
-							'description' => 'Whether Yoast SEO\'s Schema Framework feature is enabled.',
+							'description' => 'Whether Yoast SEO\'s Schema Framework feature is turned on in its setting.',
 						],
 						'warning' => [
 							'type'        => 'string',
-							'description' => 'Only present when the feature is enabled but code on the site turns the structured data graph off. Meant to be relayed to the user.',
+							'description' => 'Only present when the setting is turned on but code on the site turns the structured data graph off. Meant to be relayed to the user.',
 						],
 					],
 				],

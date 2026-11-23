@@ -37,8 +37,10 @@ class Set_Xml_Sitemap_Status_Ability extends Abstract_Set_Option_Status_Ability 
 	}
 
 	/**
-	 * Returns whether the ability is available: when a network admin forbids the XML sitemap, the option validation
-	 * silently forces the feature back off on save, so the ability is not offered instead of failing on every call.
+	 * Returns whether the ability is available.
+	 *
+	 * When a network admin forbids the XML sitemap, the option validation silently forces the feature back off on save,
+	 * so the ability is not offered instead of failing on every call.
 	 *
 	 * @return bool Whether the ability is available.
 	 */

@@ -58,7 +58,7 @@ class Set_Schema_Framework_Status_Ability extends Abstract_Set_Option_Status_Abi
 		}
 
 		if ( $this->schema_framework_feature->is_disabled_programmatically() ) {
-			$result['warning'] = \__( 'The Schema Framework feature is enabled, but code on the site, like a filter, turns the structured data graph off, so the graph is not output until that code is removed.', 'wordpress-seo' );
+			$result['warning'] = \__( 'The Schema Framework setting is turned on, but code on the site, like a filter, turns the structured data graph off, so the graph is not output until that code is removed.', 'wordpress-seo' );
 		}
 
 		return $result;
@@ -111,7 +111,7 @@ class Set_Schema_Framework_Status_Ability extends Abstract_Set_Option_Status_Abi
 		return [
 			'warning' => [
 				'type'        => 'string',
-				'description' => \__( 'Only present when the feature is enabled but code on the site turns the structured data graph off. Meant to be relayed to the user.', 'wordpress-seo' ),
+				'description' => \__( 'Only present when the setting is turned on but code on the site turns the structured data graph off. Meant to be relayed to the user.', 'wordpress-seo' ),
 			],
 		];
 	}

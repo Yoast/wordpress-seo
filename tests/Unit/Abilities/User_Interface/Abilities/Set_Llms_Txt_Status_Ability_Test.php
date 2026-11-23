@@ -224,7 +224,7 @@ final class Set_Llms_Txt_Status_Ability_Test extends TestCase {
 					'properties' => [
 						'enabled' => [
 							'type'        => 'boolean',
-							'description' => 'Whether Yoast SEO\'s llms.txt feature is enabled.',
+							'description' => 'Whether Yoast SEO\'s llms.txt feature is turned on in its setting.',
 						],
 						'warning' => [
 							'type'        => 'string',

@@ -179,7 +179,7 @@ final class Get_Feature_Statuses_Ability_Test extends TestCase {
 		$this->assertEquals(
 			[
 				'label'               => 'Get Feature Statuses',
-				'description'         => 'Get whether Yoast SEO features like the XML sitemap and Open Graph data are enabled. A feature that cannot be turned on or off on this site is listed too: for example, llms.txt on multisite, or XML sitemaps when a network admin has disallowed them for the sites of the network. A feature counts as disabled when code on the site, like a filter, turns it off, even if its setting is on.',
+				'description'         => 'Check whether Yoast SEO features like the XML sitemap and Open Graph data are enabled. A feature that cannot be turned on or off on this site is listed too: for example, llms.txt on multisite, or XML sitemaps when a network admin has disallowed them for the sites of the network. A feature counts as disabled when code on the site, like a filter, turns it off, even if its setting is on. Turning such a feature on with its set ability saves the setting and returns a warning.',
 				'category'            => 'yoast-seo',
 				'input_schema'        => [
 					'type'                 => 'object',
@@ -191,11 +191,11 @@ final class Get_Feature_Statuses_Ability_Test extends TestCase {
 					'properties' => [
 						'open_graph' => [
 							'type'        => 'boolean',
-							'description' => 'Whether Yoast SEO\'s Open Graph data feature is enabled.',
+							'description' => 'Whether Yoast SEO\'s Open Graph data feature is enabled and in effect on the site.',
 						],
 						'llms_txt'   => [
 							'type'        => 'boolean',
-							'description' => 'Whether Yoast SEO\'s llms.txt feature is enabled.',
+							'description' => 'Whether Yoast SEO\'s llms.txt feature is enabled and in effect on the site.',
 						],
 					],
 				],
