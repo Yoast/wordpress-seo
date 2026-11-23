@@ -16,16 +16,17 @@ if ( typeof window === "undefined" ) {
 	globalScope = window;
 }
 
-globalScope.yoast = globalScope.yoast || {};
-globalScope.yoast.shortlinker = globalScope.yoast.shortlinker || null;
-
 /**
  * Retrieves the Shortlinker instance.
+ *
+ * The instance lives on the global object, so every copy of this module shares it. It is created on first use,
+ * not when the module loads, so the module has no side effects and bundlers may leave it out when it is unused.
  *
  * @returns {Shortlinker} The Shortlinker.
  */
 function getShortlinker() {
-	if ( globalScope.yoast.shortlinker === null ) {
+	globalScope.yoast = globalScope.yoast || {};
+	if ( ! globalScope.yoast.shortlinker ) {
 		globalScope.yoast.shortlinker = new Shortlinker();
 	}
 	return globalScope.yoast.shortlinker;
