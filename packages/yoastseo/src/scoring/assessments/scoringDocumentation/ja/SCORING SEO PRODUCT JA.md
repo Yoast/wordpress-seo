@@ -10,6 +10,7 @@ This file describes the Japanese scoring criteria for SEO assessments on product
 - [Keyphrase in subheadings](SCORING%20SEO%20JA.md#2-keyphrase-in-subheadings)
 - [Keyphrase distribution](SCORING%20SEO%20JA.md#3-keyphrase-distribution-only-in-premium) (only in combination with Premium in WordPress, or in Shopify)
 - [Meta description length](SCORING%20SEO%20JA.md#2-meta-description-length)
+- [Keyphrase length](SCORING%20SEO%20JA.md#3-keyphrase-length)
 
 ### Assessments with the same scoring criteria as with the SEO assessor for posts and pages
 - [Keyphrase in introduction](../SCORING%20SEO.md#1-keyphrase-in-introduction)
@@ -31,31 +32,6 @@ This file describes the Japanese scoring criteria for SEO assessments on product
 - [SKU](../SCORING%20SEO%20PRODUCT.md#3-sku)
 
 ## Assessments with a language-specific criteria different from the SEO assessor for posts and pages
-### Keyphrase-based SEO assessments scoring criteria
-### 1) Keyphrase length
-
-**What it does**: Checks whether the number of (content) words in the keyphrase is within the recommended limit. For languages with function word support only content words are considered. For languages without function word support all words are considered.
-Additionally, Dutch, German and Swedish trigger an orange/red bullet with shorter keyphrases than other languages since keyphrases tend to be shorter in those languages (due to compound words being written as single words).
-
-**Uses synonyms**: no
-
-**When it applies**: Always.
-
-**Name in code**: KeyphraseLengthAssessment
-
-**Title URL**: [https://yoa.st/33i](https://yoast.com/why-keyphrase-length-matters/#utm_source=yoast-seo&utm_medium=software&utm_term=keyphrase-length-name&utm_content=content-analysis) (link placement is in bold in the feedback strings)
-
-**Call to action URL**: [https://yoa.st/33j](https://yoast.com/why-keyphrase-length-matters/#utm_source=yoast-seo&utm_medium=software&utm_term=keyphrase-length-name&utm_content=content-analysis) (link placement is in bold in the feedback strings)
-
-| Traffic light   	 | Score	 | Criterion                                             | Feedback                                                                                                                                                           |
-|-------------------|--------|-------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Red   	           | -999	  | No focus keyword set		                                | **Keyphrase length**: No focus keyphrase was set for this page. **Set a focus keyphrase in order to calculate your SEO score**.                                    |
-| Red   	           | 3		    | Keyphrase length > 18 characters	                     | **Keyphrase length**: The keyphrase contains X (content) characters. That's way more than the recommended maximum of X (content) characters. **Make it shorter!**  |
-| Red   	           | 3		    | Keyphrase length 1-4 characters	                      | **Keyphrase length**: The keyphrase contains X (content) character(s). That's way less than the recommended minimum of X (content) characters. **Make it longer!** |
-| Orange   	        | 6	     | Keyphrase length between 13 and 18 characters	        | **Keyphrase length**: The keyphrase contains X (content) characters. That's more than the recommended maximum of X (content) characters. **Make it shorter!** |
-| Orange   	        | 6	     | Keyphrase length between 5 and 7 characters		         | **Keyphrase length**: The keyphrase contains X (content) characters. That's less than the recommended minimum of X (content) characters. **Make it longer!** |
-| Green   	         | 9	     | Keyphrase length between 8 and 12 characters		 | **Keyphrase length**: Good job!                                                                                                                                    |
-
 ### Other SEO assessments scoring criteria
 
 ### 1) Text length
