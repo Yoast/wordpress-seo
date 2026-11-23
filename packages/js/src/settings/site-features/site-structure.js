@@ -13,6 +13,7 @@ export const siteStructureFeatures = {
 		description: __( "Mark and filter your cornerstone content to make sure your most important articles get the attention they deserve. To help you write excellent copy, we’ll assess your text more strictly.", "wordpress-seo" ),
 		learnMoreUrl: "https://yoa.st/dashboard-help-cornerstone",
 		learnMoreLinkId: "link-cornerstone-content",
+		/* translators: Hidden accessibility text. */
 		learnMoreLinkAriaLabel: __( "Cornerstone content", "wordpress-seo" ),
 	},
 	textLinkCounter: {
@@ -24,6 +25,7 @@ export const siteStructureFeatures = {
 		description: __( "Count the number of internal links from and to your posts to improve your site structure.", "wordpress-seo" ),
 		learnMoreUrl: "https://yoa.st/2aj",
 		learnMoreLinkId: "link-text-link-counter",
+		/* translators: Hidden accessibility text. */
 		learnMoreLinkAriaLabel: __( "Text link counter", "wordpress-seo" ),
 	},
 	internalLinkingSuggestions: {
@@ -35,6 +37,7 @@ export const siteStructureFeatures = {
 		description: __( "No need to figure out what to link to. You get linking suggestions for relevant posts and pages to make your website easier to navigate.", "wordpress-seo" ),
 		learnMoreUrl: "https://yoa.st/4ev",
 		learnMoreLinkId: "link-link-suggestions",
+		/* translators: Hidden accessibility text. */
 		learnMoreLinkAriaLabel: __( "Link suggestions", "wordpress-seo" ),
 		isPremiumFeature: true,
 		isPremiumLink: "https://yoa.st/get-link-suggestions",

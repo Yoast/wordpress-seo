@@ -621,7 +621,10 @@ export const MyyoastIntegration = () => {
 						description={ feedback.message }
 						onDismiss={ dismissFeedback }
 						autoDismiss={ feedback.variant === "success" ? 5000 : null }
-						dismissScreenReaderLabel={ __( "Dismiss", "wordpress-seo" ) }
+						dismissScreenReaderLabel={
+							/* translators: Hidden accessibility text. */
+							__( "Dismiss", "wordpress-seo" )
+						}
 					/>
 				) }
 			</Notifications>

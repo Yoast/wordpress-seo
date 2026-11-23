@@ -57,7 +57,11 @@ trait Author_SEO_Data_Schema_Trait {
 				'meta_description_rendered' => $rendered( 'meta description' ),
 				'noindex'                   => [
 					'type'        => 'boolean',
-					'description' => 'Whether search engines are told not to index this author archive. true means noindex (the archive is excluded from search results). When the site settings set all author archives to noindex, that setting applies regardless of this one.',
+					'description' => 'Whether search engines are told not to index this author archive. true means noindex (the archive is excluded from search results). When the site settings set all author archives to noindex, that setting applies regardless of this one. The rendered companion field carries whether the archive is actually noindexed.',
+				],
+				'noindex_rendered'          => [
+					'type'        => [ 'boolean', 'null' ],
+					'description' => 'Whether search engines are actually told not to index this author archive, as output on the front end.',
 				],
 			],
 		];

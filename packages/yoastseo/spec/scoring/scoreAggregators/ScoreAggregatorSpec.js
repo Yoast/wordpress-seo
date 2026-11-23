@@ -14,7 +14,7 @@ describe( "ScoreAggregator", () => {
 				new AssessmentResult(),
 			];
 			aggregator.aggregate( results );
-			expect( console.warn ).toBeCalled();
+			expect( console.warn ).toHaveBeenCalled();
 		} );
 	} );
 } );

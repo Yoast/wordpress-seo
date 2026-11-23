@@ -2,17 +2,17 @@
 import { __, sprintf } from "@wordpress/i18n";
 import { addQueryArgs } from "@wordpress/url";
 import { useRootContext } from "@yoast/externals/contexts";
-import PropTypes from "prop-types";
 import { safeCreateInterpolateElement } from "../../helpers/i18n";
 import { UpsellModal } from "./UpsellModal";
 
 /**
  * Creates the content for a PremiumSEOAnalysisModal modal.
  *
- * @param {boolean} isOpen     Whether the modal is open.
- * @param {Function} closeModal Function to close the modal.
- * @param {string} id          The id of the modal.
- * @param {string} upsellLink  The upsell link to use.
+ * @param {Object} props Component props.
+ * @param {boolean} props.isOpen Whether the modal is open.
+ * @param {Function} props.closeModal Function to close the modal.
+ * @param {string} props.id The id of the modal.
+ * @param {string} props.upsellLink The upsell link to use.
  *
  * @returns {wp.Element} The PremiumSEOAnalysisModal component.
  */
@@ -57,13 +57,6 @@ export const PremiumSEOAnalysisModal = ( { isOpen, closeModal, id, upsellLink } 
 			ctbId="f6a84663-465f-4cb5-8ba5-f7a6d72224b2"
 		/>
 	);
-};
-
-PremiumSEOAnalysisModal.propTypes = {
-	isOpen: PropTypes.bool.isRequired,
-	closeModal: PropTypes.func.isRequired,
-	id: PropTypes.string.isRequired,
-	upsellLink: PropTypes.string.isRequired,
 };
 
 export default PremiumSEOAnalysisModal;

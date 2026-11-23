@@ -54,7 +54,7 @@ jobs:
   # For packages in this job, the full test suite is always run.
   #########################################################################################
   yarn-test-full:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
 
     strategy:
       # As these packages are all unique, don't stop the workflow when the test run of one package fails.
@@ -101,7 +101,7 @@ jobs:
           npm --version
           node --version
           yarn --version
-          yarn grunt --version
+          grunt --version
           yarn run jest --version
 
       - name: Build all packages
@@ -135,7 +135,7 @@ jobs:
   # Packages should (only) be moved to this job if the full test run is exceedingly slow.
   #########################################################################################
   yarn-test-onlyChanged:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
 
     strategy:
       # As these packages are all unique, don't stop the workflow when the test run of one package fails.
@@ -200,7 +200,7 @@ jobs:
           npm --version
           node --version
           yarn --version
-          yarn grunt --version
+          grunt --version
           yarn run jest --version
 
       - name: Build all packages

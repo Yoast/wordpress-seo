@@ -1,11 +1,11 @@
 import { __ } from "@wordpress/i18n";
 import { Link } from "@yoast/ui-library";
-import PropTypes from "prop-types";
 
 /**
- * @param {string} href The href.
- * @param {React.ReactNode} [children=null] The content.
- * @param {Object} [props] Extra props.
+ * @param {Object} props Component props. Additional props are passed to the Link.
+ * @param {string} props.href The href.
+ * @param {React.ReactNode} [props.children=null] The content.
+ *
  * @returns {JSX.Element} The element.
  */
 export const OutboundLink = ( { href, children = null, ...props } ) => (
@@ -19,7 +19,3 @@ export const OutboundLink = ( { href, children = null, ...props } ) => (
 		</span>
 	</Link>
 );
-OutboundLink.propTypes = {
-	href: PropTypes.string.isRequired,
-	children: PropTypes.node,
-};

@@ -1,9 +1,11 @@
 import { __, sprintf } from "@wordpress/i18n";
-import PropTypes from "prop-types";
 import LockOpenIcon from "@heroicons/react/outline/LockOpenIcon";
 import { Button, Root } from "@yoast/ui-library";
 
 /**
+ * @param {Object} props Component props.
+ * @param {string} props.link The URL of the upsell button.
+ * @param {string} props.text The upsell text.
  *
  * @returns {React.Component} The react component for woocommerce upsell ads.
  */
@@ -28,11 +30,6 @@ const WooCommerceUpsell = ( { link, text } ) => {
 			</Button>
 		</Root>
 	);
-};
-
-WooCommerceUpsell.propTypes = {
-	link: PropTypes.string.isRequired,
-	text: PropTypes.string.isRequired,
 };
 
 export default WooCommerceUpsell;

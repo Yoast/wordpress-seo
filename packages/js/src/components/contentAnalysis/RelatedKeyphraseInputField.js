@@ -1,5 +1,4 @@
 import { Root, TextField } from "@yoast/ui-library";
-import PropTypes from "prop-types";
 
 /**
  * Renders the related keyphrase input field.
@@ -9,8 +8,8 @@ import PropTypes from "prop-types";
  * @param {Object} props The component props.
  * @param {string} props.id The id of the input.
  * @param {string} props.label The label of the input.
- * @param {JSX.node} [props.description=""] The description of the input.
  * @param {Function} props.onChange The change handler. Receives the raw change event.
+ * @param {import("react").ReactNode} [props.description=""] The description of the input.
  *
  * @returns {JSX.Element} The related keyphrase input field.
  */
@@ -26,12 +25,5 @@ const RelatedKeyphraseInputField = ( { id, label, description = "", onChange, ..
 		/>
 	</Root>
 );
-
-RelatedKeyphraseInputField.propTypes = {
-	id: PropTypes.string.isRequired,
-	label: PropTypes.string.isRequired,
-	onChange: PropTypes.func.isRequired,
-	description: PropTypes.node,
-};
 
 export default RelatedKeyphraseInputField;

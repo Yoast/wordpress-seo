@@ -4,7 +4,6 @@ import { useDispatch, useSelect } from "@wordpress/data";
 import { useCallback, useState } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { useToggleState } from "@yoast/ui-library";
-import PropTypes from "prop-types";
 
 import { ContentBlocksUpsell } from "../modals/ContentBlocksUpsell";
 
@@ -15,6 +14,7 @@ import { ContentBlocksUpsell } from "../modals/ContentBlocksUpsell";
  * @param {boolean} props.showUpsellBadge Whether to show the upsell badge.
  * @param {string} props.blockName The name of the block to insert.
  * @param {string} props.location The location where the button is rendered, either 'metabox' or 'sidebar'.
+ *
  * @returns {JSX.Element} The AddBlockButton component.
  */
 export const AddBlockButton = ( { showUpsellBadge, blockName, location } ) => {
@@ -107,9 +107,11 @@ export const AddBlockButton = ( { showUpsellBadge, blockName, location } ) => {
 	const buttonClass = `yoast-add-block-button${isClicked ? " yoast-add-block-button--clicked" : ""}${showTooltip && ! isClicked ? " yoast-tooltip yoast-tooltip-w" : ""}`;
 	const plusIconClass = `yoast-add-block-button__icon${isClicked ? " yoast-add-block-button__icon--clicked" : ""}`;
 
-	const ariaLabel = showTooltip
-		? __( "Add block to content.", "wordpress-seo" )
-		: __( "Add block", "wordpress-seo" );
+	/* translators: Hidden accessibility text. */
+	const tooltipAriaLabel = __( "Add block to content.", "wordpress-seo" );
+	/* translators: Hidden accessibility text. */
+	const noTooltipAriaLabel = __( "Add block", "wordpress-seo" );
+	const ariaLabel = showTooltip ? tooltipAriaLabel : noTooltipAriaLabel;
 
 	return (
 		<>
@@ -131,10 +133,4 @@ export const AddBlockButton = ( { showUpsellBadge, blockName, location } ) => {
 			</button>
 		</>
 	);
-};
-
-AddBlockButton.propTypes = {
-	showUpsellBadge: PropTypes.bool.isRequired,
-	blockName: PropTypes.string.isRequired,
-	location: PropTypes.string.isRequired,
 };

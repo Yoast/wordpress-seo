@@ -1,5 +1,5 @@
-import { createHigherOrderComponent, pure } from "@wordpress/compose";
-import { createElement, useContext } from "@wordpress/element";
+import { createHigherOrderComponent } from "@wordpress/compose";
+import { createElement, memo, useContext } from "@wordpress/element";
 import { LocationContext } from "@yoast/externals/contexts";
 
 /**
@@ -9,7 +9,7 @@ import { LocationContext } from "@yoast/externals/contexts";
  */
 export default function withLocation() {
 	return createHigherOrderComponent( function( WrappedComponent ) {
-		return pure( function( ownProps ) {
+		return memo( function( ownProps ) {
 			const location = useContext( LocationContext );
 
 			return createElement( WrappedComponent, {

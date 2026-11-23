@@ -2,7 +2,6 @@
 import { useSelect, dispatch } from "@wordpress/data";
 import { __ } from "@wordpress/i18n";
 import { addQueryArgs } from "@wordpress/url";
-import PropTypes from "prop-types";
 import { Button, Badge, useSvgAria } from "@yoast/ui-library";
 import XIcon from "@heroicons/react/solid/XIcon";
 import ArrowNarrowRightIcon from "@heroicons/react/solid/ArrowNarrowRightIcon";
@@ -14,8 +13,10 @@ import classNames from "classnames";
 /**
  * The BlackFridayPromotion component.
  *
- * @param {string} store The store to use. Defaults to {@code yoast-seo/editor}
- * @param {string} location Where the notice will be shown. Defaults to {@code sidebar}
+ * @param {Object} props Component props.
+ * @param {string} [props.store="yoast-seo/editor"] The store to use. Defaults to {@code yoast-seo/editor}
+ * @param {("sidebar"|"metabox")} [props.location="sidebar"] Where the notice will be shown. Defaults to {@code sidebar}
+ * @param {boolean} [props.inEditorIntro] Whether the promotion is rendered in the editor intro. Not used by this component.
  *
  * @returns {JSX.Element} The BlackFridayPromotion component.
  */
@@ -96,10 +97,4 @@ export const BlackFridayPromotion = ( {
 			</div>
 		</div>
 	);
-};
-
-BlackFridayPromotion.propTypes = {
-	store: PropTypes.string,
-	location: PropTypes.oneOf( [ "sidebar", "metabox" ] ),
-	inEditorIntro: PropTypes.bool,
 };

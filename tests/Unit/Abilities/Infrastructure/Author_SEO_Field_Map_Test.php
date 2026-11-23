@@ -67,6 +67,7 @@ final class Author_SEO_Field_Map_Test extends TestCase {
 	 * @covers ::__construct
 	 * @covers ::to_seo_array
 	 * @covers \Yoast\WP\SEO\Abilities\Infrastructure\Abstract_SEO_Field_Map::rendered
+	 * @covers \Yoast\WP\SEO\Abilities\Infrastructure\Abstract_SEO_Field_Map::rendered_noindex
 	 *
 	 * @return void
 	 */
@@ -78,6 +79,10 @@ final class Author_SEO_Field_Map_Test extends TestCase {
 				[
 					'title'            => 'Rendered SEO title',
 					'meta_description' => '',
+					'robots'           => [
+						'index'  => 'noindex',
+						'follow' => 'follow',
+					],
 				],
 			),
 		);
@@ -93,9 +98,41 @@ final class Author_SEO_Field_Map_Test extends TestCase {
 				// An empty presented value is normalised to null.
 				'meta_description_rendered' => null,
 				'noindex'                   => true,
+				'noindex_rendered'          => true,
 			],
 			$this->instance->to_seo_array( $indexable ),
 		);
+	}
+
+	/**
+	 * Tests that noindex_rendered reports the site-wide "noindex all author archives" setting,
+	 * even when the author has no noindex setting of their own.
+	 *
+	 * @covers ::to_seo_array
+	 * @covers \Yoast\WP\SEO\Abilities\Infrastructure\Abstract_SEO_Field_Map::rendered_noindex
+	 *
+	 * @return void
+	 */
+	public function test_to_seo_array_noindex_rendered_from_site_wide_setting() {
+		$indexable                    = $this->make_indexable();
+		$indexable->is_robots_noindex = false;
+
+		$this->meta_surface->expects( 'for_indexable' )->once()->with( $indexable, 'Author_Archive' )->andReturn(
+			new Meta_Double(
+				[
+					// The presentation applies the site-wide setting to the robots value.
+					'robots' => [
+						'index'  => 'noindex',
+						'follow' => 'follow',
+					],
+				],
+			),
+		);
+
+		$result = $this->instance->to_seo_array( $indexable );
+
+		$this->assertFalse( $result['noindex'] );
+		$this->assertTrue( $result['noindex_rendered'] );
 	}
 
 	/**
@@ -116,6 +153,7 @@ final class Author_SEO_Field_Map_Test extends TestCase {
 
 		$this->assertNull( $result['user_name'] );
 		$this->assertNull( $result['seo_title_rendered'] );
+		$this->assertNull( $result['noindex_rendered'] );
 	}
 
 	/**

@@ -1,7 +1,6 @@
 import { Fragment, useCallback, useState } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { SvgIcon } from "@yoast/components";
-import PropTypes from "prop-types";
 import styled from "styled-components";
 import Modal, { defaultModalClassName } from "./Modal";
 
@@ -29,11 +28,20 @@ const defaultLabels = {
 /**
  * The SeoAnalysisModal.
  *
- * @param {string} [openButtonIcon=""] The icon name for the open button.
- * @param {Object} labels The labels for the modal and buttons.
- * @param {Object} [classes={}] The classes for the modal and buttons.
- * @param {string} [className=defaultModalClassName] The className for the modal.
- * @param {React.ReactNode} children The modal content.
+ * @param {Object} props Component props.
+ * @param {string} [props.openButtonIcon=""] The icon name for the open button.
+ * @param {Object} props.labels The labels for the modal and buttons.
+ * @param {string} [props.labels.open] The open button text.
+ * @param {string} props.labels.modalAriaLabel The aria-label of the modal.
+ * @param {string} [props.labels.heading] The modal heading.
+ * @param {string} [props.labels.closeIconButton] The label of the close icon button.
+ * @param {string} [props.labels.closeButton] The close button text.
+ * @param {Object} [props.classes={}] The classes for the modal and buttons.
+ * @param {string} [props.classes.openButton] The class name of the open button.
+ * @param {string} [props.classes.closeIconButton] The class name of the close icon button.
+ * @param {string} [props.classes.closeButton] The class name of the close button.
+ * @param {string} [props.className=defaultModalClassName] The className for the modal.
+ * @param {React.ReactNode} props.children The modal content.
  *
  * @returns {JSX.Element} The element.
  */
@@ -72,24 +80,6 @@ const SeoAnalysisModal = ( {
 			}
 		</Fragment>
 	);
-};
-
-SeoAnalysisModal.propTypes = {
-	openButtonIcon: PropTypes.string,
-	labels: PropTypes.shape( {
-		open: PropTypes.string,
-		modalAriaLabel: PropTypes.string.isRequired,
-		heading: PropTypes.string,
-		closeIconButton: PropTypes.string,
-		closeButton: PropTypes.string,
-	} ).isRequired,
-	classes: PropTypes.shape( {
-		openButton: PropTypes.string,
-		closeIconButton: PropTypes.string,
-		closeButton: PropTypes.string,
-	} ),
-	className: PropTypes.string,
-	children: PropTypes.any.isRequired,
 };
 
 export default SeoAnalysisModal;

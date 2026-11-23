@@ -71,6 +71,18 @@ final class Woocommerce_Helper_Test extends TestCase {
 	}
 
 	/**
+	 * Tests the checkout page id when WooCommerce isn't activated.
+	 *
+	 * @covers ::get_checkout_page_id
+	 *
+	 * @return void
+	 */
+	public function test_get_checkout_page_id_not_applicable() {
+		// Runs before any test mocks `wc_get_page_id`, as a mocked function stays defined for the rest of the run.
+		$this->assertSame( -1, $this->instance->get_checkout_page_id() );
+	}
+
+	/**
 	 * Tests retrieval of the shop page id.
 	 *
 	 * @covers ::get_shop_page_id
@@ -82,6 +94,22 @@ final class Woocommerce_Helper_Test extends TestCase {
 			->andReturn( 1 );
 
 		$this->assertSame( 1, $this->instance->get_shop_page_id() );
+	}
+
+	/**
+	 * Tests retrieval of the checkout page id.
+	 *
+	 * @covers ::get_checkout_page_id
+	 *
+	 * @return void
+	 */
+	public function test_get_checkout_page_id() {
+		Monkey\Functions\expect( 'wc_get_page_id' )
+			->once()
+			->with( 'checkout' )
+			->andReturn( 7 );
+
+		$this->assertSame( 7, $this->instance->get_checkout_page_id() );
 	}
 
 	/**

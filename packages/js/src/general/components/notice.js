@@ -2,17 +2,17 @@ import { useDispatch } from "@wordpress/data";
 import { useCallback } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import classNames from "classnames";
-import PropTypes from "prop-types";
 import { STORE_NAME } from "../constants";
 
 /**
  * Renders the notice component.
  *
- * @param {string} title The notice title.
- * @param {string} id The id of the notice.
- * @param {boolean} isDismissable Whether the notice is dismissable.
- * @param {string} children The content of the notice.
- * @param {string} [className=""] The class name to add to the notice.
+ * @param {Object} props Component props.
+ * @param {string} props.title The notice title.
+ * @param {string} props.id The id of the notice.
+ * @param {boolean} props.isDismissable Whether the notice is dismissable.
+ * @param {string} props.children The content of the notice.
+ * @param {string} [props.className=""] The class name to add to the notice.
  *
  * @returns {JSX.Element} The Notice.
  */
@@ -48,11 +48,3 @@ export function Notice( { title, id, isDismissable, children, className = "" } )
 		</div>
 	);
 }
-
-Notice.propTypes = {
-	title: PropTypes.string.isRequired,
-	id: PropTypes.string.isRequired,
-	isDismissable: PropTypes.bool.isRequired,
-	children: PropTypes.string.isRequired,
-	className: PropTypes.string,
-};

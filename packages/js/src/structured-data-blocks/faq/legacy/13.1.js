@@ -1,5 +1,4 @@
 /* External dependencies */
-import PropTypes from "prop-types";
 
 import { RichText } from "@wordpress/block-editor";
 
@@ -17,7 +16,7 @@ import appendSpace from "../../../components/higherorder/appendSpace";
  * Returns the component of the given question and answer to be rendered in a WordPress post
  * (e.g. not in the editor).
  *
- * @param {object} question The question and its answer.
+ * @param {Object} question The question and its answer.
  *
  * @returns {Component} The component to be rendered.
  */
@@ -46,7 +45,8 @@ function LegacyQuestion( question ) {
  * Returns the component to be used to render
  * the FAQ block on Wordpress (e.g. not in the editor).
  *
- * @param {object} props The props with attributes of the FAQ block.
+ * @param {Object} props The props with attributes of the FAQ block.
+ * @param {Object} props.attributes The block attributes.
  *
  * @returns {Component} The component representing a FAQ block.
  */
@@ -67,7 +67,3 @@ export default function LegacyFaq( props ) {
 		</div>
 	);
 }
-
-LegacyFaq.propTypes = {
-	attributes: PropTypes.object.isRequired,
-};

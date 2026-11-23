@@ -3,7 +3,6 @@
 
 /* External dependencies */
 import styled from "styled-components";
-import PropTypes from "prop-types";
 import { __, sprintf } from "@wordpress/i18n";
 import { useEffect, useState } from "@wordpress/element";
 import { SvgIcon } from "@yoast/components";
@@ -91,10 +90,11 @@ const useUpgradeCampaign = () => {
 /**
  * Displays the wincher upgrade callout title.
  *
- * @param {number} limit The account keywords limit.
- * @param {number} usage The account tracked keywords.
- * @param {boolean} [isTitleShortened] Whether the title is shortened.
- * @param {boolean} [isFreeAccount] Whether the account is free.
+ * @param {Object} props Component props.
+ * @param {number} props.limit The account keywords limit.
+ * @param {number} props.usage The account tracked keywords.
+ * @param {boolean} [props.isTitleShortened=false] Whether the title is shortened.
+ * @param {boolean} [props.isFreeAccount=false] Whether the account is free.
  *
  * @returns {JSX.Element} The Wincher upgrade callout title.
  */
@@ -152,20 +152,14 @@ const WincherUpgradeCalloutTitle = ( {
 	);
 };
 
-WincherUpgradeCalloutTitle.propTypes = {
-	limit: PropTypes.number.isRequired,
-	usage: PropTypes.number.isRequired,
-	isTitleShortened: PropTypes.bool,
-	isFreeAccount: PropTypes.bool,
-};
-
 const WincherAccountUpgradeLink = makeOutboundLink();
 
 /**
  * Displays the wincher upgrade callout description.
  *
- * @param {number} [discount] The upgrade discount value.
- * @param {number} [months] The upgrade discount duration.
+ * @param {Object} props Component props.
+ * @param {number} [props.discount=undefined] The upgrade discount value.
+ * @param {number} [props.months=undefined] The upgrade discount duration.
  *
  * @returns {JSX.Element} The Wincher upgrade callout description.
  */
@@ -208,17 +202,13 @@ const WincherUpgradeCalloutDescription = ( { discount = undefined, months = unde
 	</DescriptionContainer>;
 };
 
-WincherUpgradeCalloutDescription.propTypes = {
-	discount: PropTypes.number,
-	months: PropTypes.number,
-};
-
 /**
  * Displays a wincher upgrade callout.
  *
- * @param {?function}  [onClose=null] The close callback.
- * @param {boolean} [isTitleShortened=false] Whether the title is shortened.
- * @param {?Object} [trackingInfo=null] The tracking info object.
+ * @param {Object} props Component props.
+ * @param {?Function} [props.onClose=null] The close callback.
+ * @param {boolean} [props.isTitleShortened=false] Whether the title is shortened.
+ * @param {?Object} [props.trackingInfo=null] The tracking info object.
  *
  * @returns {JSX.Element} The Wincher upgrade callout.
  */
@@ -258,12 +248,6 @@ const WincherUpgradeCallout = ( { onClose = null, isTitleShortened = false, trac
 			<WincherUpgradeCalloutDescription discount={ upgradeCampaign?.discount } months={ upgradeCampaign?.months } />
 		</CalloutContainer>
 	);
-};
-
-WincherUpgradeCallout.propTypes = {
-	onClose: PropTypes.func,
-	isTitleShortened: PropTypes.bool,
-	trackingInfo: PropTypes.object,
 };
 
 export default WincherUpgradeCallout;

@@ -28,7 +28,7 @@ describe( "Worker Request", () => {
 		const expected = new Result( {}, data );
 
 		request.resolve();
-		expect( resolve ).toBeCalledWith( expected );
+		expect( resolve ).toHaveBeenCalledWith( expected );
 	} );
 
 	it( "resolves the request with a result that contains the payload", () => {
@@ -38,7 +38,7 @@ describe( "Worker Request", () => {
 		const expected = new Result( payload, data );
 
 		request.resolve( payload );
-		expect( resolve ).toBeCalledWith( expected );
+		expect( resolve ).toHaveBeenCalledWith( expected );
 	} );
 
 	it( "rejects the request with a result", () => {
@@ -47,7 +47,7 @@ describe( "Worker Request", () => {
 		const expected = new Result( {}, data );
 
 		request.reject();
-		expect( reject ).toBeCalledWith( expected );
+		expect( reject ).toHaveBeenCalledWith( expected );
 	} );
 
 	it( "rejects the request with a result than contains the payload", () => {
@@ -57,6 +57,6 @@ describe( "Worker Request", () => {
 		const expected = new Result( payload, data );
 
 		request.reject( payload );
-		expect( reject ).toBeCalledWith( expected );
+		expect( reject ).toHaveBeenCalledWith( expected );
 	} );
 } );

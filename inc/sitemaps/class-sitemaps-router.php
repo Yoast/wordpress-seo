@@ -39,7 +39,7 @@ class WPSEO_Sitemaps_Router {
 		$dynamic_rewrites->add_rule( 'sitemap_index\.xml$', 'index.php?sitemap=1', 'top' );
 		$dynamic_rewrites->add_rule( '([^/]+?)-sitemap([0-9]+)?\.xml$', 'index.php?sitemap=$matches[1]&sitemap_n=$matches[2]', 'top' );
 		$dynamic_rewrites->add_rule( '([a-z]+)?-?sitemap\.xsl$', 'index.php?yoast-sitemap-xsl=$matches[1]', 'top' );
-		$dynamic_rewrites->add_rule( 'main-sitemap\.css$', 'index.php?yoast-sitemap-css=1', 'top' );
+		$dynamic_rewrites->add_rule( '([a-z]+)-sitemap\.css$', 'index.php?yoast-sitemap-css=$matches[1]', 'top' );
 	}
 
 	/**

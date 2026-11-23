@@ -1,7 +1,6 @@
 /* External dependencies */
 import { Fill } from "@wordpress/components";
 import { Fragment } from "@wordpress/element";
-import PropTypes from "prop-types";
 import { __ } from "@wordpress/i18n";
 import { get } from "lodash";
 import { useSelect } from "@wordpress/data";
@@ -30,9 +29,8 @@ import { EditorIntro, EditorIntroText } from "../EditorIntro";
 /**
  * Creates the SidebarFill component.
  *
- * @param {Object} settings The feature toggles.
- * @param {Object} store    The Redux store.
- * @param {Object} theme    The theme to use.
+ * @param {Object} props Component props.
+ * @param {Object} props.settings The feature toggles.
  *
  * @returns {wp.Element} The Sidebar component.
  *
@@ -139,7 +137,4 @@ export default function SidebarFill( { settings } ) {
 	);
 }
 
-SidebarFill.propTypes = {
-	settings: PropTypes.object.isRequired,
-};
 /* eslint-enable complexity */

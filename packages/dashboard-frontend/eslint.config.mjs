@@ -4,7 +4,7 @@ import globals from "globals";
 
 /** @type {import("eslint").Linter.Config[]} */
 export default [
-	{ ignores: [ "build" ] },
+	{ ignores: [ "build", "coverage" ] },
 	...yoastConfig,
 	...reactConfig,
 	{

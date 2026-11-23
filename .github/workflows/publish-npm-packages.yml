@@ -61,8 +61,8 @@ jobs:
             BODY="$PR_BODY"
           fi
 
-          # Extracts lines of the form "- @yoast/package-name: version" from the PR body, up to ## Context.
-          PACKAGES=$(echo "$BODY" | awk '/^## Context/{exit} 1' | grep -oP '^- \K@yoast/[a-z0-9-]+' | tr '\n' ' ')
+          # Extracts lines of the form "- package-name: version" (scoped or unscoped) from the PR body, up to ## Context.
+          PACKAGES=$(echo "$BODY" | awk '/^## Context/{exit} 1' | grep -oP '^- \K(@yoast/)?[a-z0-9][a-z0-9._-]*(?=: *[0-9])' | tr '\n' ' ')
           if [ -z "${PACKAGES// /}" ]; then
             echo "::error::No packages found in PR body before '## Context'."
             exit 1
@@ -82,14 +82,13 @@ jobs:
           fi
           read -ra PACKAGES <<< "$PACKAGE_LIST"
           for PACKAGE in "${PACKAGES[@]}"; do
-            PKG_DIR="packages/${PACKAGE#@yoast/}"
+            # Find the workspace folder by the package.json name, since folder names do not always match (e.g. yoastseo, @yoast/wordpress-seo).
+            PKG_DIR=$(node -e 'const fs = require("fs"); const dir = fs.readdirSync("packages").find(d => { try { return JSON.parse(fs.readFileSync("packages/" + d + "/package.json", "utf8")).name === process.argv[1]; } catch { return false; } }); if (!dir) { process.exit(1); } console.log("packages/" + dir);' "$PACKAGE") || {
+              echo "::error::No folder under packages/ has a package.json named $PACKAGE"
+              exit 1
+            }
 
             echo "::group::Publishing $PACKAGE"
-
-            if [ ! -d "$PKG_DIR" ]; then
-              echo "::error::Directory $PKG_DIR not found for package $PACKAGE"
-              exit 1
-            fi
 
             pushd "$PKG_DIR"
 

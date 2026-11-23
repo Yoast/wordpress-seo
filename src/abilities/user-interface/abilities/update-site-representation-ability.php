@@ -4,7 +4,6 @@
 namespace Yoast\WP\SEO\Abilities\User_Interface\Abilities;
 
 use Yoast\WP\SEO\Abilities\Application\Site_Representation_Updater;
-use Yoast\WP\SEO\Abilities\Domain\Ability_Interface;
 use Yoast\WP\SEO\Abilities\Infrastructure\Site_Representation_Field_Map;
 use Yoast\WP\SEO\Abilities\User_Interface\Ability_Categories_Integration;
 use Yoast\WP\SEO\Helpers\Capability_Helper;
@@ -13,21 +12,7 @@ use Yoast\WP\SEO\Helpers\Capability_Helper;
  * The ability that updates the site representation settings: whether the site represents an
  * organization or a person, along with their name, logo and social profiles.
  */
-class Update_Site_Representation_Ability implements Ability_Interface {
-
-	/**
-	 * The capability helper.
-	 *
-	 * @var Capability_Helper
-	 */
-	private $capability_helper;
-
-	/**
-	 * The site representation field map.
-	 *
-	 * @var Site_Representation_Field_Map
-	 */
-	private $field_map;
+class Update_Site_Representation_Ability extends Abstract_Site_Representation_Ability {
 
 	/**
 	 * The site representation updater.
@@ -48,8 +33,8 @@ class Update_Site_Representation_Ability implements Ability_Interface {
 		Site_Representation_Field_Map $field_map,
 		Site_Representation_Updater $site_representation_updater
 	) {
-		$this->capability_helper           = $capability_helper;
-		$this->field_map                   = $field_map;
+		parent::__construct( $capability_helper, $field_map );
+
 		$this->site_representation_updater = $site_representation_updater;
 	}
 
@@ -60,27 +45,6 @@ class Update_Site_Representation_Ability implements Ability_Interface {
 	 */
 	public function get_name(): string {
 		return Ability_Categories_Integration::CATEGORY_SLUG . '/update-site-representation';
-	}
-
-	/**
-	 * Returns whether the ability is available.
-	 *
-	 * @return bool Whether the ability is available.
-	 */
-	public function is_available(): bool {
-		return true;
-	}
-
-	/**
-	 * Checks whether the current user can manage Yoast SEO.
-	 *
-	 * Gates the ability behind the same capability that gates the settings page where the site
-	 * representation is set.
-	 *
-	 * @return bool Whether the current user can manage Yoast SEO.
-	 */
-	public function can_manage_seo(): bool {
-		return $this->capability_helper->current_user_can( 'wpseo_manage_options' );
 	}
 
 	// phpcs:disable SlevomatCodingStandard.TypeHints.DisallowMixedTypeHint.DisallowedMixedTypeHint -- The JSON schema arrays and the option values are heterogeneous by nature.
@@ -102,13 +66,11 @@ class Update_Site_Representation_Ability implements Ability_Interface {
 	 * @return array<string, mixed> The ability registration arguments.
 	 */
 	public function get_args(): array {
-		$fields = $this->field_map->get_fields();
-
 		return [
 			'label'               => \__( 'Update Site Representation', 'wordpress-seo' ),
 			'description'         => \sprintf(
 				/* translators: %s expands to Yoast SEO. */
-				\__( 'Update %s\'s site representation settings, which tell search engines whether the site represents an organization or a person, and provide its name, logo, social profiles and, depending on the active add-ons, other details for the site\'s organization schema. Only the settings you provide are changed; a provided empty value (an empty string, 0 or an empty array) clears that setting, and a provided list replaces the current one. These settings are public facts about who owns the site: only use values the user provided or that come from the site itself, never guessed or found elsewhere, and confirm them with the user before saving.', 'wordpress-seo' ),
+				\__( 'Update %s\'s site representation settings, which tell search engines whether the site represents an organization or a person, and provide its name, logo, social profiles and, depending on the active add-ons, other details for the site\'s organization schema. Only the settings you provide are changed; a provided empty value (an empty string, 0 or an empty array) clears that setting, and a provided list replaces the current one. Unless you can list users, the site can only be set to represent a user with published posts. These settings are public facts about who owns the site: only use values the user provided or that come from the site itself, never guessed or found elsewhere, and confirm them with the user before saving.', 'wordpress-seo' ),
 				'Yoast SEO',
 			),
 			'category'            => Ability_Categories_Integration::CATEGORY_SLUG,
@@ -116,12 +78,12 @@ class Update_Site_Representation_Ability implements Ability_Interface {
 				'type'                 => 'object',
 				'additionalProperties' => false,
 				'minProperties'        => 1,
-				'properties'           => $fields,
+				'properties'           => $this->field_map->get_fields(),
 			],
 			'output_schema'       => [
 				'type'       => 'object',
 				'properties' => \array_merge(
-					\array_map( [ $this, 'to_output_schema' ], $fields ),
+					$this->get_settings_output_schema(),
 					[
 						'warning' => [
 							'type'        => 'string',
@@ -145,18 +107,6 @@ class Update_Site_Representation_Ability implements Ability_Interface {
 				],
 			],
 		];
-	}
-
-	/**
-	 * Reduces a field's input schema to its output schema: the input constraints (like the minimum of
-	 * an ID) would only make the output validation fail on values that were saved before.
-	 *
-	 * @param array<string, mixed> $schema The input schema of the field.
-	 *
-	 * @return array<string, mixed> The output schema of the field.
-	 */
-	private function to_output_schema( array $schema ): array {
-		return \array_intersect_key( $schema, \array_flip( [ 'type', 'description' ] ) );
 	}
 
 	// phpcs:enable SlevomatCodingStandard.TypeHints.DisallowMixedTypeHint.DisallowedMixedTypeHint

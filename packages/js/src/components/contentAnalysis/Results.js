@@ -16,6 +16,13 @@ import { PremiumSEOAnalysisModal } from "../modals/PremiumSEOAnalysisModal";
  * Mark button with optional upsell badge and tooltip.
  *
  * @param {Object} props The component props.
+ * @param {string} props.ariaLabel The button aria-label.
+ * @param {string} props.id The button id.
+ * @param {string} [props.className=""] The button class name.
+ * @param {string} [props.status="enabled"] Status of the button. Supports: "enabled", "disabled", "hidden".
+ * @param {Function} props.onClick Onclick handler.
+ * @param {boolean} props.isPressed Whether the button is in a pressed state.
+ * @param {boolean} [props.shouldUpsellHighlighting=false] Whether to show the highlighting upsell badge and tooltip.
  *
  * @returns {JSX.Element} The mark button.
  */
@@ -42,16 +49,6 @@ const MarkButtonWithUpsell = ( {
 			</Badge>
 		}
 	</MarkButton>;
-};
-
-MarkButtonWithUpsell.propTypes = {
-	ariaLabel: PropTypes.string.isRequired,
-	id: PropTypes.string.isRequired,
-	className: PropTypes.string,
-	status: PropTypes.string,
-	onClick: PropTypes.func.isRequired,
-	isPressed: PropTypes.bool.isRequired,
-	shouldUpsellHighlighting: PropTypes.bool,
 };
 
 /**
@@ -93,7 +90,7 @@ class Results extends Component {
 	 *
 	 * If the results are null, we assume the analysis is still being performed.
 	 *
-	 * @param {object} prevProps The previous props.
+	 * @param {Object} prevProps The previous props.
 	 *
 	 * @returns {void}
 	 */
@@ -112,7 +109,7 @@ class Results extends Component {
 	 * @param {string} id 			The button id.
 	 * @param {string} className 	The button class name.
 	 * @param {string} status 		Status of the buttons. Supports: "enabled", "disabled", "hidden".
-	 * @param {function} onClick 	Onclick handler.
+	 * @param {Function} onClick 	Onclick handler.
 	 * @param {boolean} isPressed 	Whether the button is in a pressed state.
 	 *
 	 * @returns {JSX.Element} A new mark button.
@@ -318,7 +315,7 @@ class Results extends Component {
 	 * Renders the modal for the highlighting upsell.
 	 *
 	 * @param {boolean} isOpen Whether the modal should be opened.
-	 * @param {function} closeModal A callback function invoked when the modal is closed.
+	 * @param {Function} closeModal A callback function invoked when the modal is closed.
 	 * @returns {boolean|wp.Element} The modal for the highlighting upsell element, or false if the modal is closed.
 	 */
 	renderHighlightingUpsell( isOpen, closeModal ) {

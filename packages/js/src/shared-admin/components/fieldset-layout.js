@@ -1,5 +1,4 @@
 import { Title } from "@yoast/ui-library";
-import PropTypes from "prop-types";
 
 const classNameMap = {
 	variant: {
@@ -22,11 +21,13 @@ const classNameMap = {
 };
 
 /**
- * @param {string} [id] The ID.
- * @param {React.ReactNode} children The children nodes.
- * @param {React.ReactNode} title The title.
- * @param {React.ReactNode} [description] The description.
- * @param {string} variant The variant that determines the grid breakpoints.
+ * @param {Object} props Component props.
+ * @param {string} [props.id=undefined] The ID.
+ * @param {React.ReactNode} props.children The children nodes.
+ * @param {React.ReactNode} props.title The title.
+ * @param {React.ReactNode} [props.description=null] The description.
+ * @param {("lg"|"xl"|"2xl")} [props.variant="2xl"] The variant that determines the grid breakpoints.
+ *
  * @returns {JSX.Element} The FieldsetLayout element.
  */
 export const FieldsetLayout = ( {
@@ -58,12 +59,4 @@ export const FieldsetLayout = ( {
 			</fieldset>
 		</section>
 	);
-};
-
-FieldsetLayout.propTypes = {
-	id: PropTypes.string,
-	children: PropTypes.node.isRequired,
-	title: PropTypes.node.isRequired,
-	description: PropTypes.node,
-	variant: PropTypes.oneOf( Object.keys( classNameMap.variant ) ),
 };

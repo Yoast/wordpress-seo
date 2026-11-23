@@ -3,10 +3,11 @@ import { useMemo } from "@wordpress/element";
 import { safeCreateInterpolateElement } from "../../helpers/i18n";
 import { __, sprintf } from "@wordpress/i18n";
 import { Link, Paper, Title } from "@yoast/ui-library";
-import PropTypes from "prop-types";
 
 /**
- * @param {string} link The link.
+ * @param {Object} props Component props.
+ * @param {string} props.link The link.
+ *
  * @returns {JSX.Element} The element.
  */
 export const AcademyUpsellCard = ( { link } ) => {
@@ -46,8 +47,4 @@ export const AcademyUpsellCard = ( { link } ) => {
 			</Link>
 		</Paper>
 	);
-};
-
-AcademyUpsellCard.propTypes = {
-	link: PropTypes.string.isRequired,
 };
