@@ -15,8 +15,6 @@ namespace Yoast\WP\SEO\Abilities\Application;
  */
 abstract class Abstract_Fields_Updater {
 
-	use Schema_Type_Cast_Trait;
-
 	// phpcs:disable SlevomatCodingStandard.TypeHints.DisallowMixedTypeHint.DisallowedMixedTypeHint -- The fields added through filters can hold any value.
 
 	/**
