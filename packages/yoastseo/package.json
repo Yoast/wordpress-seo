@@ -41,7 +41,7 @@
     "export:inclusive-language": "jest exportInclusiveLanguage",
     "test": "jest",
     "lint": "eslint . --max-warnings 16",
-    "watch": "yarn clean && yarn build:languages && (yarn watch:js & yarn watch:esm)",
+    "watch": "yarn clean && yarn build:languages && (trap 'kill 0' INT TERM; yarn watch:js & yarn watch:esm; wait)",
     "watch:js": "yarn build:js --watch",
     "watch:esm": "yarn build:esm --watch",
     "watch:types": "tsc --watch"
