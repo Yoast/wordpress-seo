@@ -58,8 +58,9 @@ Resolving a language Researcher (the language codes are listed under [Supported 
 ```js
 // ESM (bundlers). For plain Node ESM, see Module formats below.
 import getResearcher from "yoastseo/researcher";
-// CommonJS: the factory is the default export.
-const getResearcher = require( "yoastseo/researcher" ).default;
+// CommonJS (Node): returns the factory. It is also available as `.default`.
+// In a bundler, `require()` gets the ESM build, which only has `.default`: use `import` or `.default` there.
+const getResearcher = require( "yoastseo/researcher" );
 
 const DutchResearcher = getResearcher( "nl" ); // Returns the class, not an instance.
 const researcher = new DutchResearcher();
@@ -94,12 +95,12 @@ Bundlers (webpack, Rollup, Vite) pick `esm/` automatically, which lets them leav
 Until version 4.0, plain Node ESM cannot import the folder entry points (`yoastseo/researcher`, `yoastseo/contract`, `yoastseo/languages/<lang>`): Node fails with `ERR_UNSUPPORTED_DIR_IMPORT`. Bundlers are not affected. In plain Node ESM, use these paths instead:
 
 ```js
+import getResearcher from "yoastseo/researcher/index.js";
 import { toPaper } from "yoastseo/contract/index.js";
 
-// For the Researcher entries, load the CommonJS entry with createRequire. The factory and the class are the default export.
+// For a single language, load the CommonJS entry with createRequire. The class is the default export.
 import { createRequire } from "node:module";
 const require = createRequire( import.meta.url );
-const getResearcher = require( "yoastseo/researcher" ).default;
 const DutchResearcher = require( "yoastseo/languages/nl" ).default;
 ```
 

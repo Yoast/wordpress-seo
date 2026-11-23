@@ -1,7 +1,8 @@
 /*
- * Public entry point for the per-language Researcher factory: `require( "yoastseo/researcher" ).default`.
- * The factory is the default export, so `require()` gets the same shape from this file and from the ESM
- * build that bundlers pick through the `module` field.
+ * Public entry point for the per-language Researcher factory: `require( "yoastseo/researcher" )`.
+ *
+ * `require()` returns the factory itself, as in 3.7.0. The factory is also on `.default`, the shape of the ESM
+ * build that bundlers pick through the `module` field, so `.default` works in every environment.
  *
  * It is deliberately shipped as its own entry, separate from the package root (`build/index.js`). The
  * split is a conscious optimisation for consumers that load `yoastseo` as a bundler "external" — i.e. the
@@ -12,4 +13,7 @@
  * imports the root. Keeping it here lets consumers reach the factory via a stable path without
  * deep-requiring `build/...`, and load only the languages they need.
  */
-module.exports = require( "../build/languageProcessing/getResearcher" );
+const getResearcher = require( "../build/languageProcessing/getResearcher" ).default;
+
+module.exports = getResearcher;
+module.exports.default = getResearcher;
