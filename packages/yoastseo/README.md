@@ -52,6 +52,8 @@ The package exposes four supported public entry points:
 > **Why separate entry points?** The split is intentional. Each language `Researcher` transitively pulls in that language's data — function words, stemmers, transition words, and so on. Re-exporting the factory from the package root would bundle *every* language (~2.4 MB) into whatever bundle imports the root. That especially hurts consumers that load `yoastseo` as a bundler **external** — where the package root is provided once as a shared global (or shared chunk) rather than bundled into each consumer. (Yoast SEO for WordPress does this, exposing the root as the `window.yoast.analysis` global, but any webpack/Rollup setup can configure `yoastseo` as an external the same way.) Keeping `getResearcher` on its own entry keeps that shared root lean and lets consumers load only the languages they need. The `yoastseo/contract` entry follows the same principle: it isolates the contract's runtime dependency (`zod`) so only consumers that import the contract pay for it, keeping the shared root free of it.
 >
 > Deep imports such as `yoastseo/build/...` and `yoastseo/src/...` reach internal modules. They are not part of the supported surface, and they **stop working in version 4.0**, which adds an `exports` map. Use the entry points above instead.
+>
+> In a bundler, do not mix a deep `yoastseo/build/...` import with the root import: the root comes from `esm/` and the deep path from `build/`, so the shared code is bundled twice, and `instanceof` checks (for example `Paper.parse`) fail between the two copies.
 
 Resolving a language Researcher by its code (see the [Readability analysis](#readability-analysis) table; for any other code, `getResearcher` returns the language-agnostic Researcher):
 
