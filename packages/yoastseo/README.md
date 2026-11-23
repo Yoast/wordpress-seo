@@ -47,13 +47,13 @@ The package exposes four supported public entry points:
 | `yoastseo`            | The core analysis library: `Paper`, the assessors, the web-worker API (`AnalysisWebWorker`, `AnalysisWorkerWrapper`), `AbstractResearcher`, `helpers`, and related building blocks.    | Orchestrating analysis.                                                                                                         |
 | `yoastseo/researcher` | A `getResearcher( language )` factory that returns the language-specific `Researcher` **class** (falling back to the default, language-agnostic Researcher for unsupported languages). | Resolving a per-language Researcher (Node, custom bundlers, web workers).                                                       |
 | `yoastseo/contract`   | The serializable input/output contract: `toPaper`/`paperDtoSchema` and `toResultDto`/`resultDtoSchema`, for validating and mapping analysis input and output.                           | Exchanging documented, serializable shapes with the engine from non-WordPress consumers. See [`CONTRACT.md`](docs/CONTRACT.md). |
-| `yoastseo/languages/<lang>` | One language-specific `Researcher` **class** as the default export, for example `yoastseo/languages/nl`. `<lang>` is a language code from [Supported languages](#supported-languages), or `_default` for the language-agnostic Researcher. | Loading a single language, for example one bundle per language.                                                                  |
+| `yoastseo/languages/<lang>` | One language-specific `Researcher` **class** as the default export, for example `yoastseo/languages/nl`. `<lang>` is a language code from the [Readability analysis](#readability-analysis) table, or `_default` for the language-agnostic Researcher. The package's `languages/` folder has one entry for each code. | Loading a single language, for example one bundle per language.                                                                  |
 
 > **Why separate entry points?** The split is intentional. Each language `Researcher` transitively pulls in that language's data — function words, stemmers, transition words, and so on. Re-exporting the factory from the package root would bundle *every* language (~2.4 MB) into whatever bundle imports the root. That especially hurts consumers that load `yoastseo` as a bundler **external** — where the package root is provided once as a shared global (or shared chunk) rather than bundled into each consumer. (Yoast SEO for WordPress does this, exposing the root as the `window.yoast.analysis` global, but any webpack/Rollup setup can configure `yoastseo` as an external the same way.) Keeping `getResearcher` on its own entry keeps that shared root lean and lets consumers load only the languages they need. The `yoastseo/contract` entry follows the same principle: it isolates the contract's runtime dependency (`zod`) so only consumers that import the contract pay for it, keeping the shared root free of it.
 >
 > Deep imports such as `yoastseo/build/...` and `yoastseo/src/...` reach internal modules. They are not part of the supported surface, and they **stop working in version 4.0**, which adds an `exports` map. Use the entry points above instead.
 
-Resolving a language Researcher (the language codes are listed under [Supported languages](#supported-languages); see the `getResearcher` factory for the full set):
+Resolving a language Researcher by its code (see the [Readability analysis](#readability-analysis) table; for any other code, `getResearcher` returns the language-agnostic Researcher):
 
 ```js
 // ESM (bundlers). For plain Node ESM, see Module formats below.
@@ -210,30 +210,30 @@ Hebrew, Farsi, Turkish, Norwegian, Czech, Slovak, Greek, Japanese
 
 ### Readability analysis
 
-| Language   	| Transition words 	| Flesch reading ease 	| Passive voice 	| Sentence beginnings 	| Sentence length<sup>1</sup> 	|
-|------------	|------------------	|---------------------	|---------------	|---------------------	|-----------------------------	|
-| English    	| ✅                	| ✅                   	| ✅             	| ✅                   	| ✅                           	|
-| German     	| ✅                	| ✅                   	| ✅             	| ✅                   	| ✅                           	|
-| Dutch      	| ✅                	| ✅                   	| ✅             	| ✅                   	| ✅                           	|
-| French     	| ✅                	| ✅                   	| ✅             	| ✅                   	| ✅                           	|
-| Spanish    	| ✅                	| ✅                   	| ✅             	| ✅                   	| ✅                           	|
-| Italian    	| ✅                	| ✅                   	| ✅             	| ✅                   	| ✅                           	|
-| Portuguese 	| ✅                	| ✅                   	| ✅             	| ✅                   	| ✅                           	|
-| Russian    	| ✅                	| ✅                   	| ✅             	| ✅                   	| ✅                           	|
-| Catalan    	| ✅                	| ❌<sup>3</sup>         | ❌<sup>3</sup>    | ❌<sup>3</sup>        | ✅                 |
-| Polish     	| ✅                	| ❌<sup>2</sup>       	| ✅             	| ✅                   	| ✅                           	|
-| Swedish    	| ✅                	| ❌<sup>2</sup>       	| ✅             	| ✅                   	| ✅                           	|
-| Hungarian  	| ✅                	| ❌<sup>2</sup>        |  ✅          	    | ✅           	        | ✅             	            |
-| Indonesian 	| ✅                	| ❌<sup>2</sup>       	| ✅             	| ✅                   	| ✅                           	|
-| Arabic    	| ✅                	| ❌<sup>2</sup>        | ✅             	| ✅                   	| ✅                           	|
-| Hebrew        | ✅                    | ❌<sup>2</sup>        | ✅                | ✅                     | ✅                            |
-| Farsi    	    | ✅                    | ❌<sup>2</sup>        | ✅              	| ✅                    | ✅                             |
-| Turkish     	| ✅                	| ❌<sup>2</sup>       	| ✅             	| ✅                   	| ✅                           	|
-| Norwegian     | ✅                	| ❌<sup>2</sup>        | ✅                 | ✅                   	| ✅                           	|
-| Czech     	| ✅                	| ❌<sup>2</sup>       	| ✅             	| ✅                   	| ✅                           	|
-| Slovak     	| ✅                	| ❌<sup>2</sup>       	| ✅             	| ✅                   	| ✅                           	|
-| Greek     	| ✅                	| ❌<sup>2</sup>       	| ✅             	| ✅                   	| ✅                           	|
-| Japanese     	| ✅                	| ❌<sup>2</sup>       	| ❌<sup>4</sup>    | ✅                    | ✅                            |
+| Language   	| Code | Transition words 	| Flesch reading ease 	| Passive voice 	| Sentence beginnings 	| Sentence length<sup>1</sup> 	|
+|------------	|------|------------------	|---------------------	|---------------	|---------------------	|-----------------------------	|
+| English    	| `en` | ✅                	| ✅                   	| ✅             	| ✅                   	| ✅                           	|
+| German     	| `de` | ✅                	| ✅                   	| ✅             	| ✅                   	| ✅                           	|
+| Dutch      	| `nl` | ✅                	| ✅                   	| ✅             	| ✅                   	| ✅                           	|
+| French     	| `fr` | ✅                	| ✅                   	| ✅             	| ✅                   	| ✅                           	|
+| Spanish    	| `es` | ✅                	| ✅                   	| ✅             	| ✅                   	| ✅                           	|
+| Italian    	| `it` | ✅                	| ✅                   	| ✅             	| ✅                   	| ✅                           	|
+| Portuguese 	| `pt` | ✅                	| ✅                   	| ✅             	| ✅                   	| ✅                           	|
+| Russian    	| `ru` | ✅                	| ✅                   	| ✅             	| ✅                   	| ✅                           	|
+| Catalan    	| `ca` | ✅                	| ❌<sup>3</sup>         | ❌<sup>3</sup>    | ❌<sup>3</sup>        | ✅                 |
+| Polish     	| `pl` | ✅                	| ❌<sup>2</sup>       	| ✅             	| ✅                   	| ✅                           	|
+| Swedish    	| `sv` | ✅                	| ❌<sup>2</sup>       	| ✅             	| ✅                   	| ✅                           	|
+| Hungarian  	| `hu` | ✅                	| ❌<sup>2</sup>        |  ✅          	    | ✅           	        | ✅             	            |
+| Indonesian 	| `id` | ✅                	| ❌<sup>2</sup>       	| ✅             	| ✅                   	| ✅                           	|
+| Arabic    	| `ar` | ✅                	| ❌<sup>2</sup>        | ✅             	| ✅                   	| ✅                           	|
+| Hebrew        | `he` | ✅                    | ❌<sup>2</sup>        | ✅                | ✅                     | ✅                            |
+| Farsi    	    | `fa` | ✅                    | ❌<sup>2</sup>        | ✅              	| ✅                    | ✅                             |
+| Turkish     	| `tr` | ✅                	| ❌<sup>2</sup>       	| ✅             	| ✅                   	| ✅                           	|
+| Norwegian     | `nb` | ✅                	| ❌<sup>2</sup>        | ✅                 | ✅                   	| ✅                           	|
+| Czech     	| `cs` | ✅                	| ❌<sup>2</sup>       	| ✅             	| ✅                   	| ✅                           	|
+| Slovak     	| `sk` | ✅                	| ❌<sup>2</sup>       	| ✅             	| ✅                   	| ✅                           	|
+| Greek     	| `el` | ✅                	| ❌<sup>2</sup>       	| ✅             	| ✅                   	| ✅                           	|
+| Japanese     	| `ja` | ✅                	| ❌<sup>2</sup>       	| ❌<sup>4</sup>    | ✅                    | ✅                            |
 
 <sup>1</sup> This means the default upper limit of 20 words has been verified for this language, or the upper limit has been changed.
 
