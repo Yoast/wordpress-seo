@@ -5,7 +5,6 @@ import classNames from "classnames";
 import EyeIcon from "@heroicons/react/outline/EyeIcon";
 import PencilIcon from "@heroicons/react/outline/PencilIcon";
 import { noop } from "lodash";
-import PropTypes from "prop-types";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 
@@ -129,12 +128,13 @@ const useHoverFocusTooltip = () => {
 /**
  * Inner mark button that accesses the TooltipContainer context.
  *
- * @param {string} ariaLabel 	The button aria-label.
- * @param {string} id 			The button id.
- * @param {string} className 	The button class name.
- * @param {string} status 		Status of the buttons. Supports: "enabled", "disabled", "hidden".
- * @param {function} onClick 	Onclick handler.
- * @param {boolean} isPressed 	Whether the button is in a pressed state.
+ * @param {Object} props Component props.
+ * @param {string} props.ariaLabel The button aria-label.
+ * @param {string} props.id The button id.
+ * @param {string} [props.className=""] The button class name.
+ * @param {string} [props.status="enabled"] Status of the buttons. Supports: "enabled", "disabled", "hidden".
+ * @param {Function} props.onClick Onclick handler.
+ * @param {boolean} props.isPressed Whether the button is in a pressed state.
  *
  * @returns {JSX.Element} The inner mark button with tooltip context.
  */
@@ -161,20 +161,17 @@ const MarkButtonInner = ( { ariaLabel, id, className = "", status = "enabled", o
 	</span>;
 };
 
-MarkButtonInner.propTypes = {
-	ariaLabel: PropTypes.string.isRequired,
-	id: PropTypes.string.isRequired,
-	className: PropTypes.string,
-	status: PropTypes.string,
-	onClick: PropTypes.func.isRequired,
-	isPressed: PropTypes.bool.isRequired,
-};
-
 /**
  * The default mark button component.
  *
  * @param {Object} props The mark button props.
- * @param {JSX.node} [props.children] Extra content rendered next to the button, e.g. an upsell badge.
+ * @param {string} props.ariaLabel The button aria-label.
+ * @param {string} props.id The button id.
+ * @param {string} [props.className=""] The button class name.
+ * @param {string} [props.status="enabled"] Status of the buttons. Supports: "enabled", "disabled", "hidden".
+ * @param {Function} props.onClick Onclick handler.
+ * @param {boolean} props.isPressed Whether the button is in a pressed state.
+ * @param {import("react").ReactNode} [props.children=null] Extra content rendered next to the button, e.g. an upsell badge.
  *
  * @returns {JSX.Element} A new mark button.
  */
@@ -187,23 +184,14 @@ export const MarkButton = ( { className = "", status = "enabled", children = nul
 	</Root>;
 };
 
-MarkButton.propTypes = {
-	ariaLabel: PropTypes.string.isRequired,
-	id: PropTypes.string.isRequired,
-	className: PropTypes.string,
-	status: PropTypes.string,
-	onClick: PropTypes.func.isRequired,
-	isPressed: PropTypes.bool.isRequired,
-	children: PropTypes.node,
-};
-
 /**
  * Inner edit button that accesses the TooltipContainer context.
  *
- * @param {string} ariaLabel 	The button aria-label.
- * @param {string} id 			The button id.
- * @param {string} className 	The button class name.
- * @param {function} onClick 	Onclick handler.
+ * @param {Object} props Component props.
+ * @param {string} props.ariaLabel The button aria-label.
+ * @param {string} props.id The button id.
+ * @param {string} [props.className=""] The button class name.
+ * @param {Function} props.onClick Onclick handler.
  *
  * @returns {JSX.Element} The inner edit button with tooltip context.
  */
@@ -228,13 +216,6 @@ const EditButtonInner = ( { ariaLabel, id, className = "", onClick } ) => {
 	</span>;
 };
 
-EditButtonInner.propTypes = {
-	ariaLabel: PropTypes.string.isRequired,
-	id: PropTypes.string.isRequired,
-	className: PropTypes.string,
-	onClick: PropTypes.func.isRequired,
-};
-
 /**
  * The default mark button factory wrapping the MarkButton component.
  *
@@ -249,31 +230,32 @@ const createMarkButton = ( props ) => {
 /**
  * Returns an AnalysisResult component.
  *
- * @param {string} text The text to be displayed in the result.
- * @param {boolean} [suppressedText=false] Whether the text should be suppressed.
- * @param {string} bulletColor The color of the bullet icon.
- * @param {boolean} hasMarksButton Whether the result has a marks button.
- * @param {boolean} [hasEditButton=false] Whether the result has an edit button.
- * @param {boolean} [hasAIFixes=false] Whether the result has AI fixes.
- * @param {string} buttonIdMarks The id of the marks button.
- * @param {string} [buttonIdEdit=""] The id of the edit button.
- * @param {boolean} pressed Whether the marks button is pressed.
- * @param {string} ariaLabelMarks The aria-label for the marks button.
- * @param {string} [ariaLabelEdit=""] The aria-label for the edit button.
- * @param {Function} onButtonClickMarks The function to call when the marks button is clicked.
- * @param {Function} [onButtonClickEdit=noop] The function to call when the edit button is clicked.
- * @param {string} [marksButtonStatus="enabled"] The status of the marks button.
- * @param {string} [marksButtonClassName=""] The class name for the marks button.
- * @param {Function} [markButtonFactory=null] Injectable factory to create mark button.
- * @param {string} [editButtonClassName=""] The class name for the edit button.
- * @param {boolean} [hasBetaBadgeLabel=false] Whether the result has a beta badge label.
- * @param {boolean} [isPremium=false] Whether the user has a premium subscription.
- * @param {Function} [onResultChange=noop] The function to call when the result changes.
- * @param {string} [id=""] The id of the result.
- * @param {Function|array} [marker=noop] The function or array to mark the result.
- * @param {boolean} [shouldUpsellHighlighting=false] Whether to show the upsell for highlighting.
- * @param {Function} [renderHighlightingUpsell=noop] The function to render the highlighting upsell.
- * @param {Function} [renderAIOptimizeButton=noop] The function to render the AI optimize button.
+ * @param {Object} props Component props.
+ * @param {string} props.text The text to be displayed in the result.
+ * @param {boolean} [props.suppressedText=false] Whether the text should be suppressed.
+ * @param {string} props.bulletColor The color of the bullet icon.
+ * @param {boolean} props.hasMarksButton Whether the result has a marks button.
+ * @param {boolean} [props.hasEditButton=false] Whether the result has an edit button.
+ * @param {boolean} [props.hasAIFixes=false] Whether the result has AI fixes.
+ * @param {string} props.buttonIdMarks The id of the marks button.
+ * @param {string} [props.buttonIdEdit=""] The id of the edit button.
+ * @param {boolean} props.pressed Whether the marks button is pressed.
+ * @param {string} props.ariaLabelMarks The aria-label for the marks button.
+ * @param {string} [props.ariaLabelEdit=""] The aria-label for the edit button.
+ * @param {Function} props.onButtonClickMarks The function to call when the marks button is clicked.
+ * @param {Function} [props.onButtonClickEdit=noop] The function to call when the edit button is clicked.
+ * @param {string} [props.marksButtonStatus="enabled"] The status of the marks button.
+ * @param {string} [props.marksButtonClassName=""] The class name for the marks button.
+ * @param {Function} [props.markButtonFactory=null] Injectable factory to create mark button.
+ * @param {string} [props.editButtonClassName=""] The class name for the edit button.
+ * @param {boolean} [props.hasBetaBadgeLabel=false] Whether the result has a beta badge label.
+ * @param {boolean} [props.isPremium=false] Whether the user has a premium subscription.
+ * @param {Function} [props.onResultChange=noop] The function to call when the result changes.
+ * @param {string} [props.id=""] The id of the result.
+ * @param {(Function|Array)} [props.marker=noop] The function or array to mark the result.
+ * @param {boolean} [props.shouldUpsellHighlighting=false] Whether to show the upsell for highlighting.
+ * @param {Function} [props.renderHighlightingUpsell=noop] The function to render the highlighting upsell.
+ * @param {Function} [props.renderAIOptimizeButton=noop] The function to render the AI optimize button.
  *
  * @returns {ReactElement} The rendered AnalysisResult component.
  */
@@ -366,37 +348,6 @@ const AnalysisResult = ( {
 			</ResultButtonsContainer>
 		</AnalysisResultBase>
 	);
-};
-
-AnalysisResult.propTypes = {
-	text: PropTypes.string.isRequired,
-	suppressedText: PropTypes.bool,
-	bulletColor: PropTypes.string.isRequired,
-	hasMarksButton: PropTypes.bool.isRequired,
-	hasEditButton: PropTypes.bool,
-	hasAIFixes: PropTypes.bool,
-	buttonIdMarks: PropTypes.string.isRequired,
-	buttonIdEdit: PropTypes.string,
-	pressed: PropTypes.bool.isRequired,
-	ariaLabelMarks: PropTypes.string.isRequired,
-	ariaLabelEdit: PropTypes.string,
-	onButtonClickMarks: PropTypes.func.isRequired,
-	onButtonClickEdit: PropTypes.func,
-	marksButtonStatus: PropTypes.string,
-	marksButtonClassName: PropTypes.string,
-	markButtonFactory: PropTypes.func,
-	editButtonClassName: PropTypes.string,
-	hasBetaBadgeLabel: PropTypes.bool,
-	isPremium: PropTypes.bool,
-	onResultChange: PropTypes.func,
-	id: PropTypes.string,
-	marker: PropTypes.oneOfType( [
-		PropTypes.func,
-		PropTypes.array,
-	] ),
-	shouldUpsellHighlighting: PropTypes.bool,
-	renderHighlightingUpsell: PropTypes.func,
-	renderAIOptimizeButton: PropTypes.func,
 };
 
 export default AnalysisResult;

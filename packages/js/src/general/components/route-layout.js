@@ -1,13 +1,14 @@
 import { __, sprintf } from "@wordpress/i18n";
 import { Title } from "@yoast/ui-library";
-import PropTypes from "prop-types";
 import { LiveAnnouncer, LiveMessage } from "react-aria-live";
 import { Helmet } from "react-helmet";
 
 /**
- * @param {JSX.node} children The children.
- * @param {string} title The title.
- * @param {React.ReactNode} [description=null] The description.
+ * @param {Object} props Component props.
+ * @param {import("react").ReactNode} props.children The children.
+ * @param {string} props.title The title.
+ * @param {React.ReactNode} [props.description=null] The description.
+ *
  * @returns {JSX.Element} The route layout component.
  */
 export const RouteLayout = ( {
@@ -36,10 +37,4 @@ export const RouteLayout = ( {
 			{ children }
 		</LiveAnnouncer>
 	);
-};
-
-RouteLayout.propTypes = {
-	children: PropTypes.node.isRequired,
-	title: PropTypes.string.isRequired,
-	description: PropTypes.node,
 };

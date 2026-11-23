@@ -1,6 +1,5 @@
 import { __ } from "@wordpress/i18n";
 import { useSelect } from "@wordpress/data";
-import PropTypes from "prop-types";
 import { isFeatureEnabled } from "@yoast/feature-flag";
 import MetaboxCollapsible from "../../components/MetaboxCollapsible";
 import EstimatedReadingTime from "./estimated-reading-time";
@@ -12,7 +11,9 @@ import TextFormality from "./text-formality";
 /**
  * Insights collapsible component.
  *
- * @param {string} [location="metabox"] The location of this modal.
+ * @param {Object} props Component props.
+ * @param {string} [props.location="metabox"] The location of this modal.
+ *
  * @returns {React.ReactNode} The element.
  */
 const InsightsCollapsible = ( { location = "metabox" } ) => {
@@ -38,10 +39,6 @@ const InsightsCollapsible = ( { location = "metabox" } ) => {
 			</div>
 		</MetaboxCollapsible>
 	);
-};
-
-InsightsCollapsible.propTypes = {
-	location: PropTypes.string,
 };
 
 export default InsightsCollapsible;

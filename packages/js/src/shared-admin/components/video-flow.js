@@ -3,16 +3,24 @@ import { useCallback, useState } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { Button, Spinner } from "@yoast/ui-library";
 import classNames from "classnames";
-import PropTypes from "prop-types";
 import { Helmet } from "react-helmet";
 import { ASYNC_ACTION_STATUS, VIDEO_FLOW } from "../constants";
 
 /**
  * Video with permission and thumbnail.
- * @param {string} videoId The video to show.
- * @param {Object} thumbnail The thumbnail: img props.
- * @param {Object} wistiaEmbedPermission The value, status and set for the Wistia embed permission.
- * @param {string} [className=""] Additional class names.
+ *
+ * @param {Object} props Component props.
+ * @param {string} props.videoId The video to show.
+ * @param {Object} props.thumbnail The thumbnail: img props.
+ * @param {string} props.thumbnail.src The thumbnail image URL.
+ * @param {string} [props.thumbnail.width] The thumbnail width.
+ * @param {string} [props.thumbnail.height] The thumbnail height.
+ * @param {Object} props.wistiaEmbedPermission The value, status and set for the Wistia embed permission.
+ * @param {boolean} props.wistiaEmbedPermission.value Whether the Wistia embed permission is granted.
+ * @param {string} props.wistiaEmbedPermission.status The async status of storing the permission.
+ * @param {Function} props.wistiaEmbedPermission.set Stores the Wistia embed permission.
+ * @param {string} [props.className=""] Additional class names.
+ *
  * @returns {JSX.Element} The element.
  */
 export const VideoFlow = ( { videoId, thumbnail, wistiaEmbedPermission, className = "" } ) => {
@@ -101,18 +109,4 @@ export const VideoFlow = ( { videoId, thumbnail, wistiaEmbedPermission, classNam
 			</div>
 		</>
 	);
-};
-VideoFlow.propTypes = {
-	videoId: PropTypes.string.isRequired,
-	thumbnail: PropTypes.shape( {
-		src: PropTypes.string.isRequired,
-		width: PropTypes.string,
-		height: PropTypes.string,
-	} ).isRequired,
-	wistiaEmbedPermission: PropTypes.shape( {
-		value: PropTypes.bool.isRequired,
-		status: PropTypes.string.isRequired,
-		set: PropTypes.func.isRequired,
-	} ).isRequired,
-	hasPadding: PropTypes.bool,
 };

@@ -1,5 +1,4 @@
 /* eslint-disable complexity */
-import PropTypes from "prop-types";
 import { __ } from "@wordpress/i18n";
 import { useCallback, useRef, useLayoutEffect } from "@wordpress/element";
 import { doAction } from "@wordpress/hooks";
@@ -35,8 +34,9 @@ const getEditorMode = () => {
 /**
  * The AI Optimize button component.
  *
- * @param {string} id The assessment ID which AI Optimize should be applied to.
- * @param {boolean} [isPremium=false] Whether the Premium add-on is active.
+ * @param {Object} props Component props.
+ * @param {string} props.id The assessment ID which AI Optimize should be applied to.
+ * @param {boolean} [props.isPremium=false] Whether the Premium add-on is active.
  *
  * @returns {JSX.Element} The AI Optimize button.
  */
@@ -70,7 +70,7 @@ const AIOptimizeButton = ( { id, isPremium = false } ) => {
 	const isButtonPressed = activeAIButtonId === aiOptimizeId;
 
 	// Determines if the button is enabled and what tooltip to show.
-	const { isEnabled, ariaLabel } = useSelect( ( select ) => {
+	const { isEnabled, tooltipLabel } = useSelect( ( select ) => {
 		// When Premium is not active (upsell), always show the generic tooltip
 		if ( shouldShowUpsell ) {
 			// Gutenberg editor
@@ -79,20 +79,20 @@ const AIOptimizeButton = ( { id, isPremium = false } ) => {
 				const allVisual = editorMode === "visual" && blocks.every( block => select( "core/block-editor" ).getBlockMode( block.clientId ) === "visual" );
 				return {
 					isEnabled: allVisual,
-					ariaLabel: allVisual ? defaultLabel : htmlLabel,
+					tooltipLabel: allVisual ? defaultLabel : htmlLabel,
 				};
 			}
 			// Classic editor
 			return {
 				isEnabled: editorMode === "visual",
-				ariaLabel: editorMode === "visual" ? defaultLabel : htmlLabel,
+				tooltipLabel: editorMode === "visual" ? defaultLabel : htmlLabel,
 			};
 		}
 		// Editor mode
 		if ( editorMode !== "visual" ) {
 			return {
 				isEnabled: false,
-				ariaLabel: htmlLabel,
+				tooltipLabel: htmlLabel,
 			};
 		}
 
@@ -103,7 +103,7 @@ const AIOptimizeButton = ( { id, isPremium = false } ) => {
 			if ( ! allVisual ) {
 				return {
 					isEnabled: false,
-					ariaLabel: htmlLabel,
+					tooltipLabel: htmlLabel,
 				};
 			}
 		}
@@ -122,7 +122,7 @@ const AIOptimizeButton = ( { id, isPremium = false } ) => {
 			if ( ! hasValidKeyphrase || ! hasContent ) {
 				return {
 					isEnabled: false,
-					ariaLabel: __( "Please add both a keyphrase and some text to your content.", "wordpress-seo" ),
+					tooltipLabel: __( "Please add both a keyphrase and some text to your content.", "wordpress-seo" ),
 				};
 			}
 		}
@@ -132,7 +132,7 @@ const AIOptimizeButton = ( { id, isPremium = false } ) => {
 		if ( Object.keys( disabledAIButtons ).includes( aiOptimizeId ) ) {
 			return {
 				isEnabled: false,
-				ariaLabel: disabledAIButtons[ aiOptimizeId ],
+				tooltipLabel: disabledAIButtons[ aiOptimizeId ],
 			};
 		}
 
@@ -141,14 +141,14 @@ const AIOptimizeButton = ( { id, isPremium = false } ) => {
 		if ( currentActiveAIButton && currentActiveAIButton !== aiOptimizeId ) {
 			return {
 				isEnabled: false,
-				ariaLabel: __( "Please apply or discard the current AI suggestion.", "wordpress-seo" ),
+				tooltipLabel: __( "Please apply or discard the current AI suggestion.", "wordpress-seo" ),
 			};
 		}
 
 		// Fallback for when all conditions above pass and the button is enabled.
 		return {
 			isEnabled: true,
-			ariaLabel: defaultLabel,
+			tooltipLabel: defaultLabel,
 		};
 	}, [ isButtonPressed, activeAIButtonId, editorMode, id, keyphrase ] );
 
@@ -226,14 +226,14 @@ const AIOptimizeButton = ( { id, isPremium = false } ) => {
 					onPointerLeave={ hideTooltip }
 					variant={ isButtonPressed ? "ai-primary" : "ai-secondary" }
 					size="small"
-					aria-label={ ariaLabel }
+					aria-label={ tooltipLabel }
 					className="yst-px-2"
 				>
 					{ shouldShowUpsell && <LockClosedIcon className="yst-fixes-button__lock-icon yst-text-amber-900" /> }
 				</Button>
 				{ isTooltipOpen && ! isButtonPressed && (
 					<Tooltip position={ isEnabled ? "left" : "top-left" } className="yst-max-w-[13.5rem] yst-text-center yst-py-1.5">
-						{ ariaLabel }
+						{ tooltipLabel }
 					</Tooltip>
 				) }
 			</div>
@@ -246,10 +246,4 @@ const AIOptimizeButton = ( { id, isPremium = false } ) => {
 	);
 };
 
-AIOptimizeButton.propTypes = {
-	id: PropTypes.string.isRequired,
-	isPremium: PropTypes.bool,
-};
-
 export default AIOptimizeButton;
-

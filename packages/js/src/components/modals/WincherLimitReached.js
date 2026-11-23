@@ -1,7 +1,6 @@
 /* global wpseoAdminGlobalL10n */
 import { __, sprintf } from "@wordpress/i18n";
 import { Alert } from "@yoast/components";
-import PropTypes from "prop-types";
 import { safeCreateInterpolateElement } from "../../helpers/i18n";
 import { makeOutboundLink } from "@yoast/helpers";
 
@@ -10,7 +9,8 @@ const UpdateWincherPlanLink = makeOutboundLink();
 /**
  * Creates the content for the Wincher limit exceeded modal.
  *
- * @param {number} [limit=10] The allowed keyphrase limit.
+ * @param {Object} props Component props.
+ * @param {number} [props.limit=10] The allowed keyphrase limit.
  *
  * @returns {JSX.Element} The Wincher limit exceeded modal content.
  */
@@ -42,10 +42,6 @@ const WincherLimitReached = ( { limit = 10 } ) => {
 			}
 		</Alert>
 	);
-};
-
-WincherLimitReached.propTypes = {
-	limit: PropTypes.number,
 };
 
 export default WincherLimitReached;

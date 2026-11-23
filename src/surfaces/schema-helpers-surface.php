@@ -12,6 +12,7 @@ use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
  * Surface for the indexables.
  *
  * @property Schema\Article_Helper $article
+ * @property Schema\Graph_Helper $graph
  * @property Schema\HTML_Helper $html
  * @property Schema\ID_Helper $id
  * @property Schema\Image_Helper $image

@@ -6,19 +6,21 @@ import { Slot } from "@wordpress/components";
 import { useCallback, useState } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { Badge, Button, Link, ToggleField } from "@yoast/ui-library";
-import { PropTypes } from "prop-types";
 import { getIsCardActive, getIsFreeIntegrationOrPremiumAvailable, getIsMultisiteAvailable } from "./helper";
 import { Card } from "./tailwind-components/card";
+
+/** @typedef {import("./simple-integration").Integration} Integration */
 
 /**
  * An integration which can be toggled on and off.
  *
- * @param {Object} integration The integration.
- * @param {boolean} initialActivationState True if the integration has been activated by the user.
- * @param {boolean} isNetworkControlEnabled True if the integration is network-enabled.
- * @param {boolean} isMultisiteAvailable  True if the integration is available on multisites.
- * @param {string} toggleLabel The toggle label.
- * @param {function} beforeToggle Check function to call before toggling the integration.
+ * @param {Object} props Component props.
+ * @param {Integration} props.integration The integration.
+ * @param {boolean} props.initialActivationState True if the integration has been activated by the user.
+ * @param {boolean} props.isNetworkControlEnabled True if the integration is network-enabled.
+ * @param {boolean} props.isMultisiteAvailable True if the integration is available on multisites.
+ * @param {string} props.toggleLabel The toggle label.
+ * @param {Function} props.beforeToggle Check function to call before toggling the integration.
  *
  * @returns {JSX.Element} A card representing an integration which can be toggled active by the user.
  */
@@ -35,7 +37,7 @@ export const ToggleableIntegration = ( {
 	/**
 	 * The toggle management.
 	 *
-	 * @returns {Boolean} The footer.
+	 * @returns {boolean} The footer.
 	 */
 	const toggleActive = useCallback(
 		async() => {
@@ -156,26 +158,4 @@ export const ToggleableIntegration = ( {
 			</Card.Footer>
 		</Card>
 	);
-};
-
-ToggleableIntegration.propTypes = {
-	integration: PropTypes.shape( {
-		name: PropTypes.string,
-		claim: PropTypes.node,
-		learnMoreLink: PropTypes.string,
-		logoLink: PropTypes.string,
-		slug: PropTypes.string,
-		description: PropTypes.string,
-		usps: PropTypes.array,
-		logo: PropTypes.func,
-		isPremium: PropTypes.bool,
-		isNew: PropTypes.bool,
-		isMultisiteAvailable: PropTypes.bool,
-		upsellLink: PropTypes.string,
-	} ).isRequired,
-	initialActivationState: PropTypes.bool.isRequired,
-	isNetworkControlEnabled: PropTypes.bool.isRequired,
-	isMultisiteAvailable: PropTypes.bool.isRequired,
-	toggleLabel: PropTypes.string.isRequired,
-	beforeToggle: PropTypes.func.isRequired,
 };

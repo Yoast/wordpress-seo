@@ -3,15 +3,15 @@ import { Fragment } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { FieldGroup, NewButton } from "@yoast/components";
 import { noop } from "lodash";
-import PropTypes from "prop-types";
 import WincherSEOPerformanceModal from "../containers/WincherSEOPerformanceModal";
 import WincherExplanation from "./modals/WincherExplanation";
 
 /**
  * Renders the WincherPostPublish Yoast integration.
  *
- * @param {Function} [trackAll=noop] Callback to track all keyphrases.
- * @param {boolean} [hasTrackedKeyphrases=false] Whether there are tracked keyphrases.
+ * @param {Object} props Component props.
+ * @param {Function} [props.trackAll=noop] Callback to track all keyphrases.
+ * @param {boolean} [props.hasTrackedKeyphrases=false] Whether there are tracked keyphrases.
  *
  * @returns {JSX.Element} The WincherPostPublish panel.
  */
@@ -50,8 +50,3 @@ export default function WincherPostPublish( { trackAll = noop, hasTrackedKeyphra
 		</Fragment>
 	);
 }
-
-WincherPostPublish.propTypes = {
-	trackAll: PropTypes.func,
-	hasTrackedKeyphrases: PropTypes.bool,
-};

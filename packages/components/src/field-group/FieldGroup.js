@@ -13,16 +13,17 @@ const DEFAULT_CHILDREN = [];
 /**
  * FieldGroup component that can be used to wrap our form elements in.
  *
- * @param {string} htmlFor          ID to which HTML element the label belongs.
- * @param {string} label            Text displayed as label.
- * @param {string} linkTo           Location to which the icon links.
- * @param {string} linkText         Screen-reader text that is added to the link.
- * @param {string} description      Optional: A description where the input element is used for.
- * @param {array}  children         Children that are rendered in the FieldGroup.
- * @param {string} wrapperClassName Optional: A classname for the FieldGroup's outer div. Default is "yoast-field-group".
- * @param {string} titleClassName   Optional: A classname for the FieldGroup's title div. Default is "yoast-field-group__title".
- * @param {bool}   hasNewBadge      Optional: Whether the FieldGroup has a 'New' Badge.
- * @param {bool}   hasPremiumBadge  Optional: Whether the FieldGroup has a 'Premium' Badge.
+ * @param {Object} props Component props.
+ * @param {string} [props.label=""] Text displayed as label.
+ * @param {string} [props.description=""] Optional: A description where the input element is used for.
+ * @param {import("react").ReactNode} [props.children] Children that are rendered in the FieldGroup.
+ * @param {string} [props.wrapperClassName="yoast-field-group"] Optional: A classname for the FieldGroup's outer div.
+ * @param {string} [props.titleClassName="yoast-field-group__title"] Optional: A classname for the FieldGroup's title div.
+ * @param {string} [props.htmlFor=""] ID to which HTML element the label belongs.
+ * @param {string} [props.linkTo=""] Location to which the icon links.
+ * @param {string} [props.linkText=""] Screen-reader text that is added to the link.
+ * @param {boolean} [props.hasNewBadge] Optional: Whether the FieldGroup has a 'New' Badge.
+ * @param {boolean} [props.hasPremiumBadge] Optional: Whether the FieldGroup has a 'Premium' Badge.
  *
  * @returns {React.Component} A div with a label, icon and optional description that renders all children.
  */
@@ -83,7 +84,5 @@ export const FieldGroupDefaultProps = {
 	htmlFor: "",
 	...helpIconDefaultProps,
 };
-
-FieldGroup.propTypes = FieldGroupProps;
 
 export default FieldGroup;

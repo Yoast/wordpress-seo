@@ -15,17 +15,18 @@ final class Meta_Double extends Meta {
 	/**
 	 * The canned rendered values, keyed by property name.
 	 *
-	 * @var array<string, string>
+	 * @var array<string, string|array<string, string>|null>
 	 */
 	private $rendered_values;
 
 	/**
 	 * Constructor.
 	 *
-	 * @param array<string, string> $values The canned rendered values, keyed by Meta property name.
+	 * @param array<string, string|array<string, string>|null> $values The canned rendered values, keyed by Meta property name.
 	 */
 	public function __construct( array $values ) {
-		$this->rendered_values = $values;
+		// The real robots value is always an array, which consumers rely on.
+		$this->rendered_values = ( $values + [ 'robots' => [] ] );
 	}
 
 	/**
@@ -33,7 +34,7 @@ final class Meta_Double extends Meta {
 	 *
 	 * @param string $name The property name.
 	 *
-	 * @return string|null The canned value, or null when not set.
+	 * @return string|array<string, string>|null The canned value, or null when not set.
 	 */
 	public function __get( $name ) {
 		return ( $this->rendered_values[ $name ] ?? null );

@@ -29,9 +29,11 @@ const ModeSwitcher = ( { onChange, active, id, disabled = false } ) => {
 	}, [ onChange, active ] );
 
 	const label = __( "Google preview", "wordpress-seo" );
-	const screenReaderLabel = active === MODE_DESKTOP
-		? __( "Switch to mobile preview. Currently showing desktop preview.", "wordpress-seo" )
-		: __( "Switch to desktop preview. Currently showing mobile preview.", "wordpress-seo" );
+	/* translators: Hidden accessibility text, shown to screen reader users only. */
+	const switchToMobileScreenReaderLabel = __( "Switch to mobile preview. Currently showing desktop preview.", "wordpress-seo" );
+	/* translators: Hidden accessibility text, shown to screen reader users only. */
+	const switchToDesktopScreenReaderLabel = __( "Switch to desktop preview. Currently showing mobile preview.", "wordpress-seo" );
+	const screenReaderLabel = active === MODE_DESKTOP ? switchToMobileScreenReaderLabel : switchToDesktopScreenReaderLabel;
 	return (
 		<Root>
 			<div className="yst-flex yst-justify-between yst-mb-4">

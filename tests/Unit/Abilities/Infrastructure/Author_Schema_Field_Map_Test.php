@@ -76,12 +76,11 @@ final class Author_Schema_Field_Map_Test extends TestCase {
 	 * @covers ::resolve_extra_keys
 	 * @covers ::get_repositories
 	 * @covers ::get_default_fields
-	 * @covers ::get_pronouns_description
 	 *
 	 * @return void
 	 */
 	public function test_get_fields_defaults() {
-		$this->author_pronouns->expects( 'is_setting_enabled' )->once()->andReturnTrue();
+		$this->author_pronouns->expects( 'is_setting_enabled' )->never();
 
 		$fields = $this->instance->get_fields();
 
@@ -104,7 +103,7 @@ final class Author_Schema_Field_Map_Test extends TestCase {
 		$this->assertSame(
 			[
 				'type'        => 'string',
-				'description' => 'The pronouns of the user, like "she/her", "he/him" or "they/them". Only users who can edit other users can change them.',
+				'description' => 'The pronouns of the user, like "she/her", "he/him" or "they/them".',
 			],
 			$fields['wpseo_pronouns'],
 		);
@@ -123,21 +122,33 @@ final class Author_Schema_Field_Map_Test extends TestCase {
 	}
 
 	/**
-	 * Tests that the pronouns description tells agents when the pronouns cannot be changed.
+	 * Data provider for test_get_pronouns_update_rule.
 	 *
-	 * @covers ::get_filtered_fields
-	 * @covers ::resolve_extra_keys
-	 * @covers ::get_pronouns_description
+	 * @return array<string, array<bool|string>> Whether author archives are enabled, and the expected rule.
+	 */
+	public static function data_get_pronouns_update_rule(): array {
+		return [
+			'author archives enabled'  => [ true, 'Only users who can edit other users can change the pronouns.' ],
+			'author archives disabled' => [ false, 'Author archives are disabled on this site, so the pronouns cannot be changed.' ],
+		];
+	}
+
+	/**
+	 * Tests that the pronouns update rule tells agents when the pronouns cannot be changed.
+	 *
+	 * @covers ::get_pronouns_update_rule
+	 *
+	 * @dataProvider data_get_pronouns_update_rule
+	 *
+	 * @param bool   $is_enabled Whether author archives are enabled.
+	 * @param string $expected   The expected rule.
 	 *
 	 * @return void
 	 */
-	public function test_get_fields_with_author_archives_disabled() {
-		$this->author_pronouns->expects( 'is_setting_enabled' )->once()->andReturnFalse();
+	public function test_get_pronouns_update_rule( bool $is_enabled, string $expected ) {
+		$this->author_pronouns->expects( 'is_setting_enabled' )->once()->andReturn( $is_enabled );
 
-		$this->assertSame(
-			'The pronouns of the user, like "she/her", "he/him" or "they/them". Author archives are disabled on this site, so the pronouns cannot be changed.',
-			$this->instance->get_fields()['wpseo_pronouns']['description'],
-		);
+		$this->assertSame( $expected, $this->instance->get_pronouns_update_rule() );
 	}
 
 	/**
@@ -150,8 +161,6 @@ final class Author_Schema_Field_Map_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_get_fields_filtered() {
-		$this->author_pronouns->expects( 'is_setting_enabled' )->once()->andReturnTrue();
-
 		$mastodon = [
 			'type'        => 'string',
 			'description' => 'The URL of the user\'s Mastodon profile.',
@@ -186,8 +195,6 @@ final class Author_Schema_Field_Map_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_get_validators() {
-		$this->author_pronouns->expects( 'is_setting_enabled' )->once()->andReturnTrue();
-
 		$validate_job_title = static function () {
 			return null;
 		};
@@ -241,8 +248,6 @@ final class Author_Schema_Field_Map_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_get_repositories() {
-		$this->author_pronouns->expects( 'is_setting_enabled' )->once()->andReturnTrue();
-
 		$repository = Mockery::mock( Author_Schema_Field_Repository_Interface::class );
 
 		$validate_works_for = static function () {
@@ -315,8 +320,6 @@ final class Author_Schema_Field_Map_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_get_fields_filtered_invalid() {
-		$this->author_pronouns->expects( 'is_setting_enabled' )->once()->andReturnTrue();
-
 		Monkey\Filters\expectApplied( 'wpseo_author_schema_ability_fields' )
 			->once()
 			->andReturn( 'invalid' );

@@ -5,7 +5,6 @@ import { __, sprintf } from "@wordpress/i18n";
 import { applyFormat, create, getActiveFormat, getTextContent, insert, isCollapsed, remove, slice, useAnchor } from "@wordpress/rich-text";
 import { prependHTTP } from "@wordpress/url";
 import { noop, uniqueId } from "lodash";
-import PropTypes from "prop-types";
 import HelpLink from "../components/HelpLink";
 import { safeCreateInterpolateElement } from "../helpers/i18n";
 import CSSClassesSetting from "./css-classes-setting";
@@ -16,14 +15,15 @@ import { createLinkFormat, isValidHref } from "./utils";
  * Component to render the inline link UI.
  * This component is rendered when adding or editing a link.
  *
- * @param {boolean} [isActive=false] Whether a link is active.
- * @param {Object} [activeAttributes={}] The attributes of the active link.
- * @param {boolean} [addingLink=false] Whether a link is being added or edited.
- * @param {Object} [value={}] The current value of the rich text.
- * @param {function}  [onChange=noop] The rich text change handler.
- * @param {function}  speak The speak function.
- * @param {function}  stopAddingLink The stop adding link handler.
- * @param {Object} [contentRef={}] The ref containing the current content element.
+ * @param {Object} props Component props.
+ * @param {boolean} [props.isActive=false] Whether a link is active.
+ * @param {Object} [props.activeAttributes={}] The attributes of the active link.
+ * @param {boolean} [props.addingLink=false] Whether a link is being added or edited.
+ * @param {Object} [props.value={}] The current value of the rich text.
+ * @param {Function} [props.onChange=noop] The rich text change handler.
+ * @param {Function} props.speak The speak function.
+ * @param {Function} props.stopAddingLink The stop adding link handler.
+ * @param {Object} [props.contentRef={}] The ref containing the current content element.
  *
  * @returns {React.ReactNode} The inline link UI.
  */
@@ -137,7 +137,7 @@ function InlineLinkUI( {
 	/**
 	 * LinkControl calls `onChange` immediately upon the toggling a setting.
 	 *
-	 * @param {object} nextValue The next link URL.
+	 * @param {Object} nextValue The next link URL.
 	 *
 	 * @returns {boolean} Whether the link rel should be sponsored.
 	 */
@@ -206,7 +206,7 @@ function InlineLinkUI( {
 
 	/**
 	 * Gets the new text for the link.
-	 * @param {object} nextValue The next link URL.
+	 * @param {Object} nextValue The next link URL.
 	 * @param {string} newUrl The new link URL.
 	 * @returns {string} The new text for the link.
 	 */
@@ -433,16 +433,5 @@ function InlineLinkUI( {
 		</Popover>
 	);
 }
-
-InlineLinkUI.propTypes = {
-	isActive: PropTypes.bool,
-	activeAttributes: PropTypes.object,
-	addingLink: PropTypes.bool,
-	value: PropTypes.object,
-	onChange: PropTypes.func,
-	speak: PropTypes.func.isRequired,
-	stopAddingLink: PropTypes.func.isRequired,
-	contentRef: PropTypes.object,
-};
 
 export default withSpokenMessages( InlineLinkUI );

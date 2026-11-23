@@ -1,5 +1,4 @@
 import React, { Fragment } from "react";
-import PropTypes from "prop-types";
 import styled from "styled-components";
 import { __, _n, sprintf } from "@wordpress/i18n";
 import { round, capitalize } from "lodash";
@@ -15,6 +14,11 @@ const ProductData = styled.span`
  * Renders ProductData component.
  *
  * @param {Object} props The props.
+ * @param {Object} props.shoppingData The shopping data to render.
+ * @param {number} [props.shoppingData.rating] The rating of the product.
+ * @param {number} [props.shoppingData.reviewCount] The number of reviews.
+ * @param {string} [props.shoppingData.availability] The availability of the product.
+ * @param {string} [props.shoppingData.price] The price of the product, as HTML.
  *
  * @returns {React.Component} The StarRating Component.
  */
@@ -51,12 +55,3 @@ function ProductDataDesktop( props ) {
 }
 
 export default ProductDataDesktop;
-
-ProductDataDesktop.propTypes = {
-	shoppingData: PropTypes.shape( {
-		rating: PropTypes.number,
-		reviewCount: PropTypes.number,
-		availability: PropTypes.string,
-		price: PropTypes.string,
-	} ).isRequired,
-};

@@ -30,6 +30,19 @@ class Woocommerce_Helper {
 	}
 
 	/**
+	 * Returns the id of the set WooCommerce checkout page.
+	 *
+	 * @return int The ID of the set page.
+	 */
+	public function get_checkout_page_id() {
+		if ( ! \function_exists( 'wc_get_page_id' ) ) {
+			return -1;
+		}
+
+		return \wc_get_page_id( 'checkout' );
+	}
+
+	/**
 	 * Checks if the current page is a WooCommerce shop page.
 	 *
 	 * @return bool True when the page is a shop page.

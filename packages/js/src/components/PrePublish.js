@@ -1,4 +1,3 @@
-import PropTypes from "prop-types";
 import { Fragment } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { LocationProvider } from "@yoast/externals/contexts";
@@ -8,6 +7,13 @@ import DefaultSeoDataAlert from "./DefaultSeoDataAlert";
 
 /**
  * Renders the analysis checklist.
+ *
+ * @param {Object} props Component props.
+ * @param {Object[]} props.checklist The analysis checks to render in the checklist.
+ * @param {string} props.checklist[].label The label of the check.
+ * @param {("good"|"ok"|"bad"|"loading")} props.checklist[].score The score of the check.
+ * @param {Function} props.onClick Callback for the "Improve your post" button.
+ * @param {Object} props.isSeoDataDefault Whether SEO titles and meta descriptions are default.
  *
  * @returns {wp.Element} The PrePublish panel.
  */
@@ -34,9 +40,3 @@ export default function PrePublish( {
 		</LocationProvider>
 	</Fragment>;
 }
-
-PrePublish.propTypes = {
-	checklist: PropTypes.array.isRequired,
-	onClick: PropTypes.func.isRequired,
-	isSeoDataDefault: PropTypes.object.isRequired,
-};

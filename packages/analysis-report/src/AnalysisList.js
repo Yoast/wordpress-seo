@@ -1,7 +1,6 @@
 import { __ } from "@wordpress/i18n";
 import { colors } from "@yoast/style-guide";
 import noop from "lodash/noop";
-import PropTypes from "prop-types";
 import React from "react";
 import styled from "styled-components";
 import AnalysisResult from "./AnalysisResult";
@@ -40,19 +39,20 @@ export function renderRatingToColor( rating ) {
 /**
  * Renders a list of results based on the array of results.
  *
- * @param {MappedResult[]} results The results from YoastSEO.js.
- * @param {string} [marksButtonActivatedResult] The currently activated result.
- * @param {string} [marksButtonStatus] The overall status of the mark buttons.
- * @param {string} [marksButtonClassName] A class name to set on the mark buttons.
- * @param {string} [editButtonClassName] A class name to set on the edit buttons.
- * @param {?Function} [markButtonFactory] Injectable factory to create custom mark buttons.
- * @param {Function} [onMarksButtonClick] Function that is called when the user clicks one of the mark buttons.
- * @param {Function} [onEditButtonClick] Function that is called when the user clicks one of the edit buttons.
- * @param {boolean} [isPremium] Whether the Premium plugin is active or not.
- * @param {Function} [onResultChange] Function that is called when the user changes the result.
- * @param {boolean} [shouldUpsellHighlighting] Whether the highlighting upsell should be shown.
- * @param {Function} [renderHighlightingUpsell] Function to render the highlighting upsell.
- * @param {Function} [renderAIOptimizeButton] Function to render the AI optimize button.
+ * @param {Object} props Component props.
+ * @param {MappedResult[]} props.results The results from YoastSEO.js.
+ * @param {string} [props.marksButtonActivatedResult=""] The currently activated result.
+ * @param {string} [props.marksButtonStatus="enabled"] The overall status of the mark buttons.
+ * @param {string} [props.marksButtonClassName=""] A class name to set on the mark buttons.
+ * @param {string} [props.editButtonClassName=""] A class name to set on the edit buttons.
+ * @param {?Function} [props.markButtonFactory=null] Injectable factory to create custom mark buttons.
+ * @param {Function} [props.onMarksButtonClick=noop] Function that is called when the user clicks one of the mark buttons.
+ * @param {Function} [props.onEditButtonClick=noop] Function that is called when the user clicks one of the edit buttons.
+ * @param {boolean} [props.isPremium=false] Whether the Premium plugin is active or not.
+ * @param {Function} [props.onResultChange=noop] Function that is called when the user changes the result.
+ * @param {boolean} [props.shouldUpsellHighlighting=false] Whether the highlighting upsell should be shown.
+ * @param {Function} [props.renderHighlightingUpsell=noop] Function to render the highlighting upsell.
+ * @param {Function} [props.renderAIOptimizeButton=noop] Function to render the AI optimize button.
  *
  * @returns {JSX.Element} The rendered list.
  */
@@ -122,19 +122,3 @@ export default function AnalysisList( {
 		} ) }
 	</AnalysisListBase>;
 }
-
-AnalysisList.propTypes = {
-	results: PropTypes.array.isRequired,
-	marksButtonActivatedResult: PropTypes.string,
-	marksButtonStatus: PropTypes.string,
-	marksButtonClassName: PropTypes.string,
-	editButtonClassName: PropTypes.string,
-	markButtonFactory: PropTypes.func,
-	onMarksButtonClick: PropTypes.func,
-	onEditButtonClick: PropTypes.func,
-	isPremium: PropTypes.bool,
-	onResultChange: PropTypes.func,
-	shouldUpsellHighlighting: PropTypes.bool,
-	renderHighlightingUpsell: PropTypes.func,
-	renderAIOptimizeButton: PropTypes.func,
-};

@@ -46,7 +46,11 @@ class SEO_Data_Output_Schema {
 					],
 					'noindex'            => [
 						'type'        => [ 'boolean', 'null' ],
-						'description' => \__( 'Whether search engines are told not to index this term archive. true means noindex (the archive is excluded from search results); false means the archive is forced to be indexed; null means no setting is stored and the taxonomy default applies.', 'wordpress-seo' ),
+						'description' => \__( 'Whether search engines are told not to index this term archive. true means noindex (the archive is excluded from search results); false means the archive is forced to be indexed; null means no setting is stored and the taxonomy default applies. The rendered companion field carries whether the archive is actually noindexed.', 'wordpress-seo' ),
+					],
+					'noindex_rendered'   => [
+						'type'        => [ 'boolean', 'null' ],
+						'description' => \__( 'Whether search engines are actually told not to index this term archive, as output on the front end.', 'wordpress-seo' ),
 					],
 				],
 			),
@@ -75,7 +79,11 @@ class SEO_Data_Output_Schema {
 				'meta_description_rendered' => $this->rendered( \__( 'meta description', 'wordpress-seo' ) ),
 				'noindex'                   => [
 					'type'        => 'boolean',
-					'description' => \__( 'Whether search engines are told not to index this author archive. true means noindex (the archive is excluded from search results). When the site settings set all author archives to noindex, that setting applies regardless of this one.', 'wordpress-seo' ),
+					'description' => \__( 'Whether search engines are told not to index this author archive. true means noindex (the archive is excluded from search results). When the site settings set all author archives to noindex, that setting applies regardless of this one. The rendered companion field carries whether the archive is actually noindexed.', 'wordpress-seo' ),
+				],
+				'noindex_rendered'          => [
+					'type'        => [ 'boolean', 'null' ],
+					'description' => \__( 'Whether search engines are actually told not to index this author archive, as output on the front end.', 'wordpress-seo' ),
 				],
 			],
 		];

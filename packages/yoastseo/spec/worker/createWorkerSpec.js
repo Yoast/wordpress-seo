@@ -55,7 +55,7 @@ describe( "The createWorker module", () => {
 	describe( "checks createBlobURL function", () => {
 		it( "creates a blob", async() => {
 			createBlobURL( "https://example.org/some/code.js" );
-			expect( global.URL.createObjectURL ).toBeCalledTimes( 1 );
+			expect( global.URL.createObjectURL ).toHaveBeenCalledTimes( 1 );
 
 			const argumentsOfLastCall = global.URL.createObjectURL.mock.calls[ 0 ];
 			const blob = argumentsOfLastCall[ 0 ];
@@ -75,7 +75,7 @@ describe( "The createWorker module", () => {
 			global.webkitURL = jest.fn();
 			global.webkitURL.createObjectURL = jest.fn();
 			createBlobURL( "https://example.org/some/code.js" );
-			expect( global.webkitURL.createObjectURL ).toBeCalledTimes( 1 );
+			expect( global.webkitURL.createObjectURL ).toHaveBeenCalledTimes( 1 );
 		} );
 
 		it( "falls back to the BlobBuilder when creating a Blob fails", async() => {
@@ -97,7 +97,7 @@ describe( "The createWorker module", () => {
 
 			createBlobURL( "https://example.org/some/code.js" );
 
-			expect( global.URL.createObjectURL ).toBeCalledTimes( 1 );
+			expect( global.URL.createObjectURL ).toHaveBeenCalledTimes( 1 );
 
 			const text = append.mock.calls[ 0 ][ 0 ];
 
@@ -159,7 +159,7 @@ describe( "The createWorker module", () => {
 			} );
 			expect( () => {
 				createWorker( "http://localhost/some/code.js" );
-			} ).toThrowError();
+			} ).toThrow();
 		} );
 	} );
 } );

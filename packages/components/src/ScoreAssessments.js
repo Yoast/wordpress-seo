@@ -45,7 +45,11 @@ const ScoreAssessmentScore = styled( ScoreAssessmentPart )`
 /**
  * The ScoreAssessmentItem component, with a bullet, text and score.
  *
- * @param {object} props The component's props.
+ * @param {Object} props The component's props.
+ * @param {string} props.className The class name of the item.
+ * @param {string} props.scoreColor The color of the bullet.
+ * @param {string} props.html The HTML text of the assessment.
+ * @param {number} [props.value] The score of the assessment.
  *
  * @returns {ReactElement} The ScoreAssessmentItem component.
  */
@@ -73,13 +77,6 @@ const ScoreAssessment = ( props ) => {
 	);
 };
 
-ScoreAssessment.propTypes = {
-	className: PropTypes.string.isRequired,
-	scoreColor: PropTypes.string.isRequired,
-	html: PropTypes.string.isRequired,
-	value: PropTypes.number,
-};
-
 const ScoreAssessmentList = styled.ul`
 	display: table;
 	box-sizing: border-box;
@@ -94,6 +91,11 @@ const ScoreAssessmentList = styled.ul`
  * The score assessments component, for displaying the results of a number of assessments.
  *
  * @param {Object} props The component's props.
+ * @param {string} [props.className="score-assessments"] The class name of the list.
+ * @param {Object[]} [props.items] The assessment items.
+ * @param {string} props.items[].color The color of the bullet.
+ * @param {string} props.items[].html The HTML text of the assessment.
+ * @param {number} [props.items[].value] The score of the assessment.
  *
  * @returns {ReactElement} The rendered component.
  */
@@ -114,17 +116,6 @@ const ScoreAssessments = ( { className = "score-assessments", ...props } ) => {
 			) }
 		</ScoreAssessmentList>
 	);
-};
-
-ScoreAssessments.propTypes = {
-	className: PropTypes.string,
-	items: PropTypes.arrayOf(
-		PropTypes.shape( {
-			color: PropTypes.string.isRequired,
-			html: PropTypes.string.isRequired,
-			value: PropTypes.number,
-		} )
-	),
 };
 
 export default ScoreAssessments;

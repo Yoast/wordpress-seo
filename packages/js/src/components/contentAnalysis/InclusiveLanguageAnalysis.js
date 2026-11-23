@@ -5,7 +5,6 @@ import { __, sprintf } from "@wordpress/i18n";
 import { Alert, SvgIcon } from "@yoast/components";
 import { LocationConsumer } from "@yoast/externals/contexts";
 import { isNil } from "lodash";
-import PropTypes from "prop-types";
 import styled from "styled-components";
 import getIndicatorForScore from "../../analysis/getIndicatorForScore";
 import isMultilingualPluginActive from "../../analysis/isMultilingualPluginActive";
@@ -46,10 +45,11 @@ const ScoreIcon = styled( SvgIcon )`
 /**
  * The inclusive language analysis component.
  *
- * @param {MappedResult[]} [results=[]] The assessment results.
- * @param {?number} [overallScore=null] The overall analysis score.
- * @param {"enabled"|"disabled"} marksButtonStatus The status of the mark buttons.
- * @param {boolean} [shouldUpsellHighlighting=false] Whether to upsell highlighting.
+ * @param {Object} props Component props.
+ * @param {MappedResult[]} [props.results=[]] The assessment results.
+ * @param {("enabled"|"disabled"|"hidden")} props.marksButtonStatus The status of the mark buttons.
+ * @param {?number} [props.overallScore=null] The overall analysis score.
+ * @param {boolean} [props.shouldUpsellHighlighting=false] Whether to upsell highlighting.
  *
  * @returns {JSX.Element} The inclusive language analysis component.
  */
@@ -228,13 +228,6 @@ const InclusiveLanguageAnalysis = ( {
 			} }
 		</LocationConsumer>
 	);
-};
-
-InclusiveLanguageAnalysis.propTypes = {
-	results: PropTypes.array,
-	marksButtonStatus: PropTypes.oneOf( [ "enabled", "disabled", "hidden" ] ).isRequired,
-	overallScore: PropTypes.number,
-	shouldUpsellHighlighting: PropTypes.bool,
 };
 
 export default withSelect( select => {

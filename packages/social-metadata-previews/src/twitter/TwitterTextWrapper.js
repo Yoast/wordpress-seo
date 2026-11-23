@@ -1,6 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-import PropTypes from "prop-types";
 
 const Wrapper = styled.div`
 	display: flex;
@@ -22,16 +21,13 @@ const Wrapper = styled.div`
 /**
  * Wrapper for all the text in the preview.
  *
- * @param {object} props The properties.
+ * @param {Object} props The properties.
+ * @param {Array} props.children The text elements to wrap.
  *
  * @returns {React.Element} An element that wraps all text elements.
  */
 const TwitterTextWrapper = ( props ) => <Wrapper>
 	{ props.children }
 </Wrapper>;
-
-TwitterTextWrapper.propTypes = {
-	children: PropTypes.array.isRequired,
-};
 
 export default TwitterTextWrapper;

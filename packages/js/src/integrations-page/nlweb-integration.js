@@ -2,8 +2,9 @@ import CheckIcon from "@heroicons/react/solid/CheckIcon";
 import { Fragment } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { Button } from "@yoast/ui-library";
-import { PropTypes } from "prop-types";
 import { SimpleIntegration } from "./simple-integration";
+
+/** @typedef {import("./simple-integration").Integration} Integration */
 
 /**
  * Represents the NLWeb integration.
@@ -11,8 +12,9 @@ import { SimpleIntegration } from "./simple-integration";
  * The integration has no toggle of its own: it is driven by the Schema aggregation endpoint
  * setting, so the card reports that setting's state and links to it rather than duplicating it.
  *
- * @param {Object} integration The integration.
- * @param {boolean} [isActive=true] The integration state.
+ * @param {Object} props Component props.
+ * @param {Integration} props.integration The integration.
+ * @param {boolean} [props.isActive=true] The integration state.
  *
  * @returns {JSX.Element} A card representing an integration.
  */
@@ -42,17 +44,4 @@ export const NlwebIntegration = ( { integration, isActive = true } ) => {
 			</Fragment> }
 		</SimpleIntegration>
 	);
-};
-
-NlwebIntegration.propTypes = {
-	integration: PropTypes.shape( {
-		name: PropTypes.string,
-		claim: PropTypes.node,
-		slug: PropTypes.string,
-		description: PropTypes.string,
-		usps: PropTypes.array,
-		logo: PropTypes.func,
-		isNew: PropTypes.bool,
-	} ).isRequired,
-	isActive: PropTypes.bool,
 };

@@ -1,5 +1,6 @@
 import { useCallback } from "@wordpress/element";
 import { useDispatch, select } from "@wordpress/data";
+import { metaKeyTitle, metaKeyMetaDesc, metaKeyFocusKw } from "../../shared-admin/constants";
 import { buildBlocksFromOutline } from "../helpers/build-blocks-from-outline";
 import { CONTENT_PLANNER_STORE } from "../constants";
 
@@ -48,12 +49,9 @@ export const useApplyOutline = ( { editedOutlineRef } ) => {
 			title: metaOutline.title,
 			blocks: buildBlocksFromOutline( structure ),
 			meta: {
-				// eslint-disable-next-line camelcase
-				_yoast_wpseo_title: metaOutline.title,
-				// eslint-disable-next-line camelcase
-				_yoast_wpseo_metadesc: metaOutline.metaDescription,
-				// eslint-disable-next-line camelcase
-				_yoast_wpseo_focuskw: metaOutline.focusKeyphrase,
+				[ metaKeyTitle ]: metaOutline.title,
+				[ metaKeyMetaDesc ]: metaOutline.metaDescription,
+				[ metaKeyFocusKw ]: metaOutline.focusKeyphrase,
 			},
 		};
 		if ( metaOutline.category?.id && metaOutline.category.id !== -1 ) {

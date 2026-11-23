@@ -8,6 +8,7 @@ use SeriouslySimplePodcasting\Integrations\Yoast\Schema\PodcastEpisode;
 use TEC\Events\Integrations\Plugins\WordPress_SEO\Events_Schema;
 use WP_Recipe_Maker;
 use WPSEO_Addon_Manager;
+use Yoast\WP\SEO\Conditionals\Schema_Disabled_Conditional;
 use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Helpers\Product_Helper;
 use Yoast\WP\SEO\Helpers\Woocommerce_Helper;
@@ -48,23 +49,33 @@ class Schema_Configuration {
 	private $options_helper;
 
 	/**
+	 * The conditional that is met when Schema output is turned off in the settings.
+	 *
+	 * @var Schema_Disabled_Conditional
+	 */
+	private $schema_disabled_conditional;
+
+	/**
 	 * Schema_Configuration constructor.
 	 *
-	 * @param Woocommerce_Helper  $woocommerce_helper The WooCommerce helper.
-	 * @param Product_Helper      $product_helper     The product helper.
-	 * @param WPSEO_Addon_Manager $addon_manager      The addon manager.
-	 * @param Options_Helper      $options_helper     The options helper.
+	 * @param Woocommerce_Helper          $woocommerce_helper          The WooCommerce helper.
+	 * @param Product_Helper              $product_helper              The product helper.
+	 * @param WPSEO_Addon_Manager         $addon_manager               The addon manager.
+	 * @param Options_Helper              $options_helper              The options helper.
+	 * @param Schema_Disabled_Conditional $schema_disabled_conditional The conditional that is met when Schema output is turned off in the settings.
 	 */
 	public function __construct(
 		Woocommerce_Helper $woocommerce_helper,
 		Product_Helper $product_helper,
 		WPSEO_Addon_Manager $addon_manager,
-		Options_Helper $options_helper
+		Options_Helper $options_helper,
+		Schema_Disabled_Conditional $schema_disabled_conditional
 	) {
-		$this->woocommerce_helper = $woocommerce_helper;
-		$this->product_helper     = $product_helper;
-		$this->addon_manager      = $addon_manager;
-		$this->options_helper     = $options_helper;
+		$this->woocommerce_helper          = $woocommerce_helper;
+		$this->product_helper              = $product_helper;
+		$this->addon_manager               = $addon_manager;
+		$this->options_helper              = $options_helper;
+		$this->schema_disabled_conditional = $schema_disabled_conditional;
 	}
 
 	/**
@@ -138,5 +149,16 @@ class Schema_Configuration {
 		$filtered_schema = \apply_filters( 'wpseo_json_ld_output', $deprecated_data, '' );
 
 		return ( $filtered_schema === [] || $filtered_schema === false );
+	}
+
+	/**
+	 * Checks if Schema output is turned off, either in the settings or by external code.
+	 *
+	 * The setting is checked on its own, as it only adds the `wpseo_json_ld_output` filter outside the admin.
+	 *
+	 * @return bool Whether Schema output is turned off.
+	 */
+	public function is_schema_output_disabled(): bool {
+		return $this->schema_disabled_conditional->is_met() || $this->is_schema_disabled_programmatically();
 	}
 }

@@ -1,10 +1,10 @@
 import React from "react";
-import PropTypes from "prop-types";
 
 /**
  * Function for the PremiumBadge component.
  *
- * @param {bool} inLabel Whether the PremiumBadge is displayed close to a Label.
+ * @param {Object} props Component props.
+ * @param {boolean} [props.inLabel=false] Whether the PremiumBadge is displayed close to a Label.
  *
  * @returns {React.Component} The PremiumBadge.
  */
@@ -14,9 +14,5 @@ const PremiumBadge = ( { inLabel = false } ) => (
 		Premium
 	</span>
 );
-
-PremiumBadge.propTypes = {
-	inLabel: PropTypes.bool,
-};
 
 export default PremiumBadge;

@@ -392,7 +392,8 @@ function highlightWords( locale, wordsToHighlight, text, cleanText ) {
 /**
  * Renders Google vertical dots.
  *
- * @param {string} fillColor The color to render the vertical dots in.
+ * @param {Object} props Component props.
+ * @param {string} props.screenMode The screen mode, which determines the color of the vertical dots.
  *
  * @returns {ReactComponent} The vertical dots.
  */
@@ -405,10 +406,6 @@ const VerticalDots = ( { screenMode } ) => {
 	>
 		<path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z" />
 	</svg>;
-};
-
-VerticalDots.propTypes = {
-	screenMode: PropTypes.string.isRequired,
 };
 
 /**
@@ -799,7 +796,7 @@ export default class SnippetPreview extends PureComponent {
 	/**
 	 * Renders the product / shopping data, in mobile or desktop view, based on the mode.
 	 *
-	 * @param {object} PartContainer the PartContainer component that needs to be rendered within the snippet preview container.
+	 * @param {Object} PartContainer the PartContainer component that needs to be rendered within the snippet preview container.
 	 *
 	 * @returns {ReactElement} The rendered description.
 	 */

@@ -97,8 +97,8 @@ export default function initAdmin( jQuery ) {
 			activeTabId = jQuery( ".wpseotab" ).attr( "id" );
 		}
 
-		jQuery( "#" + activeTabId ).addClass( "active" );
-		jQuery( "#" + activeTabId + "-tab" ).addClass( "nav-tab-active" ).trigger( "click" );
+		jQuery( document.getElementById( activeTabId ) ).addClass( "active" );
+		jQuery( document.getElementById( activeTabId + "-tab" ) ).addClass( "nav-tab-active" ).trigger( "click" );
 	}
 
 	/**

@@ -4,6 +4,7 @@
 namespace Yoast\WP\SEO\Tests\Unit\Abilities\Application;
 
 use Mockery;
+use Yoast\WP\SEO\Abilities\Application\Site_Representation_Collector;
 use Yoast\WP\SEO\Abilities\Application\Site_Representation_Updater;
 use Yoast\WP\SEO\Abilities\Infrastructure\Site_Representation_Field_Map;
 use Yoast\WP\SEO\Helpers\Image_Helper;
@@ -62,6 +63,13 @@ final class Site_Representation_Updater_Test extends TestCase {
 	private $social_profiles_helper;
 
 	/**
+	 * The site representation collector mock.
+	 *
+	 * @var Mockery\MockInterface|Site_Representation_Collector
+	 */
+	private $collector;
+
+	/**
 	 * The validators the field map returns.
 	 *
 	 * @var array<string, callable>
@@ -89,6 +97,7 @@ final class Site_Representation_Updater_Test extends TestCase {
 		$this->field_map              = Mockery::mock( Site_Representation_Field_Map::class );
 		$this->image_helper           = Mockery::mock( Image_Helper::class );
 		$this->social_profiles_helper = Mockery::mock( Social_Profiles_Helper::class );
+		$this->collector              = Mockery::mock( Site_Representation_Collector::class );
 
 		$this->field_map->allows( 'get_fields' )->andReturn( self::FIELDS );
 		$this->field_map->allows( 'get_validators' )->andReturnUsing(
@@ -109,6 +118,7 @@ final class Site_Representation_Updater_Test extends TestCase {
 			$this->field_map,
 			$this->image_helper,
 			$this->social_profiles_helper,
+			$this->collector,
 		);
 	}
 
@@ -127,13 +137,12 @@ final class Site_Representation_Updater_Test extends TestCase {
 
 	/**
 	 * Tests that update saves the provided settings only, saves the URL of the changed logo along with its ID,
-	 * clears its cached meta and returns all settings cast to their type.
+	 * clears its cached meta and returns all settings as the collector reads them after saving.
 	 *
 	 * @covers ::__construct
 	 * @covers ::update
 	 * @covers ::save_field
 	 * @covers ::save_logo
-	 * @covers ::get_settings
 	 *
 	 * @return void
 	 */
@@ -156,24 +165,17 @@ final class Site_Representation_Updater_Test extends TestCase {
 				'facebook_site'     => '',
 			],
 		);
-		$this->expect_settings_read(
-			[
-				'company_or_person'         => 'company',
-				'company_name'              => 'Yoast',
-				'company_logo_id'           => 12,
-				'company_or_person_user_id' => false,
-				'facebook_site'             => 'https://facebook.com/yoast',
-			],
-		);
+		$settings = [
+			'company_or_person'         => 'company',
+			'company_name'              => 'Yoast',
+			'company_logo_id'           => 12,
+			'company_or_person_user_id' => 0,
+			'facebook_site'             => 'https://facebook.com/yoast',
+		];
+		$this->collector->expects( 'get' )->once()->andReturn( $settings );
 
 		$this->assertSame(
-			[
-				'company_or_person'         => 'company',
-				'company_name'              => 'Yoast',
-				'company_logo_id'           => 12,
-				'company_or_person_user_id' => 0,
-				'facebook_site'             => 'https://facebook.com/yoast',
-			],
+			$settings,
 			$this->instance->update(
 				[
 					'company_or_person' => 'company',
@@ -203,6 +205,7 @@ final class Site_Representation_Updater_Test extends TestCase {
 
 		$this->options_helper->expects( 'set' )->never();
 		$this->options_helper->allows( 'get' )->andReturn( '' );
+		$this->collector->expects( 'get' )->once()->andReturn( [] );
 
 		$result = $this->instance->update(
 			[
@@ -236,6 +239,7 @@ final class Site_Representation_Updater_Test extends TestCase {
 		$this->options_helper->expects( 'set' )->once()->with( 'company_logo_meta', false )->andReturnTrue();
 
 		$this->options_helper->allows( 'get' )->andReturn( '' );
+		$this->collector->expects( 'get' )->once()->andReturn( [] );
 
 		$result = $this->instance->update(
 			[
@@ -266,6 +270,7 @@ final class Site_Representation_Updater_Test extends TestCase {
 
 		$this->expect_settings_read( [ 'company_name' => 'Acme B.V.' ] );
 		$this->options_helper->allows( 'get' )->andReturn( '' );
+		$this->collector->expects( 'get' )->once()->andReturn( [ 'company_name' => '' ] );
 
 		$result = $this->instance->update( [ 'company_name' => '   ' ] );
 
@@ -292,6 +297,7 @@ final class Site_Representation_Updater_Test extends TestCase {
 		$this->options_helper->expects( 'set' )->once()->with( 'company_logo_meta', false )->andReturnTrue();
 
 		$this->options_helper->allows( 'get' )->andReturn( 0 );
+		$this->collector->expects( 'get' )->once()->andReturn( [] );
 
 		$result = $this->instance->update( [ 'company_logo_id' => 0 ] );
 
@@ -310,6 +316,7 @@ final class Site_Representation_Updater_Test extends TestCase {
 
 		$this->options_helper->expects( 'set' )->never();
 		$this->options_helper->allows( 'get' )->andReturn( '' );
+		$this->collector->expects( 'get' )->once()->andReturn( [] );
 
 		$result = $this->instance->update( [ 'company_logo' => 'https://example.com/logo.png' ] );
 
@@ -333,6 +340,7 @@ final class Site_Representation_Updater_Test extends TestCase {
 		$this->options_helper->expects( 'set' )->never()->with( 'company_logo_meta', false );
 
 		$this->options_helper->allows( 'get' )->andReturn( 0 );
+		$this->collector->expects( 'get' )->once()->andReturn( [] );
 
 		$result = $this->instance->update( [ 'company_logo_id' => 12 ] );
 
@@ -358,6 +366,7 @@ final class Site_Representation_Updater_Test extends TestCase {
 		$this->options_helper->expects( 'set' )->once()->with( 'company_name', 'Yoast' )->andReturnTrue();
 
 		$this->options_helper->allows( 'get' )->andReturn( '' );
+		$this->collector->expects( 'get' )->once()->andReturn( [] );
 
 		$result = $this->instance->update(
 			[
@@ -393,6 +402,7 @@ final class Site_Representation_Updater_Test extends TestCase {
 		$this->social_profiles_helper->expects( 'set_organization_social_profiles' )->once()->with( [ 'facebook_site' => 'https://facebook.com/yoast' ] )->andReturn( [] );
 
 		$this->options_helper->allows( 'get' )->andReturn( '' );
+		$this->collector->expects( 'get' )->once()->andReturn( [] );
 
 		$result = $this->instance->update(
 			[
@@ -438,6 +448,7 @@ final class Site_Representation_Updater_Test extends TestCase {
 		$this->options_helper->expects( 'set' )->once()->with( 'company_name', 'Yoast' )->andReturnTrue();
 
 		$this->options_helper->allows( 'get' )->andReturn( '' );
+		$this->collector->expects( 'get' )->once()->andReturn( [] );
 
 		$result = $this->instance->update( [ 'company_name' => 'Yoast' ] );
 

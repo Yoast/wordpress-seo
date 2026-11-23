@@ -1,6 +1,5 @@
 import { useSelect } from "@wordpress/data";
 import { __ } from "@wordpress/i18n";
-import PropTypes from "prop-types";
 import { ReactComponent as OrphanedImageBubble } from "../../../../../images/mirrored_fit_bubble_woman_2_optim.svg";
 import { FINISHABLE_STEPS, WORKOUTS } from "../config";
 import WorkoutCard from "./WorkoutCard";
@@ -9,8 +8,8 @@ import WorkoutCard from "./WorkoutCard";
  * The CornerstoneWorkoutCard component.
  *
  * @param {Object} props The props object.
- * @param {React.ReactNode} [props.workout=null] The workout function.
- * @param {Array<JSX.Element>} [props.badges=[]] The badges to display in the card.
+ * @param {?import("react").ElementType} [props.workout=null] The workout component to render.
+ * @param {JSX.Element[]} [props.badges=[]] The badges to display in the card.
  * @param {?string} [props.upsellLink=null] The link to the upsell page for the workout.
  * @param {?string} [props.upsellText=null] The text for the upsell link.
  *
@@ -43,10 +42,3 @@ export default function OrphanedWorkoutCard( {
 		badges={ badges }
 	/>;
 }
-
-OrphanedWorkoutCard.propTypes = {
-	workout: PropTypes.elementType,
-	badges: PropTypes.arrayOf( PropTypes.element ),
-	upsellLink: PropTypes.string,
-	upsellText: PropTypes.string,
-};
