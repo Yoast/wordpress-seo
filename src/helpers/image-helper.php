@@ -366,8 +366,8 @@ class Image_Helper {
 	}
 
 	/**
-	 * Based on and image ID return array with the best variation of that image. If it's not saved to the DB,  save it
-	 * to an option.
+	 * Based on and image ID return array with the best variation of that image. If it's not saved to the DB, it is
+	 * determined for the current request.
 	 *
 	 * @param string $setting The setting name. Should be company or person.
 	 *
@@ -376,14 +376,9 @@ class Image_Helper {
 	public function get_attachment_meta_from_settings( $setting ) {
 		$image_meta = $this->options_helper->get( $setting . '_meta', false );
 		if ( ! $image_meta ) {
-			$image_id = $this->options_helper->get( $setting . '_id', false );
+			$image_id = $this->get_attachment_id_from_settings( $setting );
 			if ( $image_id ) {
-				// There is not an option to put a URL in an image field in the settings anymore, only to upload it through the media manager.
-				// This means an attachment always exists, so doing this is only needed once.
 				$image_meta = $this->get_best_attachment_variation( $image_id );
-				if ( $image_meta ) {
-					$this->options_helper->set( $setting . '_meta', $image_meta );
-				}
 			}
 		}
 

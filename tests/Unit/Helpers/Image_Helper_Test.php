@@ -621,4 +621,72 @@ final class Image_Helper_Test extends TestCase {
 			->with( 'attachment_seo_link_object_' . $url, $link, 'yoast-seo-attachment-link', \MINUTE_IN_SECONDS );
 		$this->assertEquals( 17, $this->actual_instance->get_attachment_by_url( 'a_dir/something' ) );
 	}
+
+	/**
+	 * Tests that the stored image meta is returned as it is.
+	 *
+	 * @covers ::get_attachment_meta_from_settings
+	 *
+	 * @return void
+	 */
+	public function test_get_attachment_meta_from_settings_returns_the_stored_meta() {
+		$image_meta = [
+			'id'  => 505,
+			'url' => 'https://example.org/wp-content/uploads/logo.png',
+		];
+
+		$this->options_helper->expects( 'get' )->once()->with( 'company_logo_meta', false )->andReturn( $image_meta );
+		$this->options_helper->expects( 'set' )->never();
+
+		$this->assertSame( $image_meta, $this->actual_instance->get_attachment_meta_from_settings( 'company_logo' ) );
+	}
+
+	/**
+	 * Tests that missing image meta is determined from the ID that is found for the image, without saving it.
+	 *
+	 * @covers ::get_attachment_meta_from_settings
+	 *
+	 * @return void
+	 */
+	public function test_get_attachment_meta_from_settings_determines_missing_meta_without_saving() {
+		$image_meta = [
+			'id'  => 505,
+			'url' => 'https://example.org/wp-content/uploads/logo.png',
+		];
+
+		$instance = Mockery::mock(
+			Image_Helper::class,
+			[ $this->indexable_repository, $this->indexable_seo_links_repository, $this->options_helper, $this->url_helper ],
+		)->makePartial();
+
+		$this->options_helper->expects( 'get' )->once()->with( 'company_logo_meta', false )->andReturn( false );
+		$this->options_helper->expects( 'set' )->never();
+
+		$instance->expects( 'get_attachment_id_from_settings' )->once()->with( 'company_logo' )->andReturn( 505 );
+		$instance->expects( 'get_best_attachment_variation' )->once()->with( 505 )->andReturn( $image_meta );
+
+		$this->assertSame( $image_meta, $instance->get_attachment_meta_from_settings( 'company_logo' ) );
+	}
+
+	/**
+	 * Tests that no image meta is returned when no ID is found for the image.
+	 *
+	 * @covers ::get_attachment_meta_from_settings
+	 *
+	 * @return void
+	 */
+	public function test_get_attachment_meta_from_settings_without_an_image() {
+		$instance = Mockery::mock(
+			Image_Helper::class,
+			[ $this->indexable_repository, $this->indexable_seo_links_repository, $this->options_helper, $this->url_helper ],
+		)->makePartial();
+
+		$this->options_helper->expects( 'get' )->once()->with( 'person_logo_meta', false )->andReturn( false );
+		$this->options_helper->expects( 'set' )->never();
+
+		$instance->expects( 'get_attachment_id_from_settings' )->once()->with( 'person_logo' )->andReturn( 0 );
+		$instance->expects( 'get_best_attachment_variation' )->never();
+
+		$this->assertFalse( $instance->get_attachment_meta_from_settings( 'person_logo' ) );
+	}
 }

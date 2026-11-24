@@ -11,6 +11,51 @@ use Yoast\WP\SEO\Tests\WP\TestCase;
 final class Image_Utils_Test extends TestCase {
 
 	/**
+	 * Removes the uploaded images.
+	 *
+	 * @return void
+	 */
+	public function tear_down() {
+		$this->remove_added_uploads();
+
+		parent::tear_down();
+	}
+
+	/**
+	 * Tests that the ID of a logo that only has a URL is found without saving the titles option.
+	 *
+	 * @covers \WPSEO_Image_Utils::get_attachment_id_from_settings
+	 *
+	 * @return void
+	 */
+	public function test_get_attachment_id_from_settings_does_not_save_the_option() {
+		$logo = self::factory()->attachment->create_upload_object( \dirname( __DIR__ ) . '/Assets/yoast.png' );
+
+		// Stores the logo with only its URL, without the filters that add the ID when the option is saved.
+		\remove_all_filters( 'pre_update_option_wpseo_titles' );
+
+		$titles                    = \get_option( 'wpseo_titles' );
+		$titles['company_logo']    = \wp_get_attachment_url( $logo );
+		$titles['company_logo_id'] = 0;
+
+		\update_option( 'wpseo_titles', $titles );
+
+		$saves = 0;
+		\add_filter(
+			'pre_update_option_wpseo_titles',
+			static function ( $value ) use ( &$saves ) {
+				++$saves;
+
+				return $value;
+			},
+		);
+
+		$this->assertSame( $logo, WPSEO_Image_Utils::get_attachment_id_from_settings( 'company_logo' ) );
+		$this->assertSame( 0, $saves );
+		$this->assertSame( 0, \get_option( 'wpseo_titles' )['company_logo_id'] );
+	}
+
+	/**
 	 * Tests getting the full image for an existing attachment.
 	 *
 	 * @covers \WPSEO_Image_Utils::get_image
