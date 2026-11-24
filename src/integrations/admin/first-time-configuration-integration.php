@@ -198,7 +198,7 @@ class First_Time_Configuration_Integration implements Integration_Interface {
 			'fallbackWebsiteName'        => $this->get_fallback_website_name( $this->get_website_name() ),
 			'companyLogo'                => $this->get_company_logo(),
 			'companyLogoFallback'        => $this->get_company_fallback_logo( $this->get_company_logo() ),
-			'companyLogoId'              => $this->get_person_logo_id(),
+			'companyLogoId'              => $this->get_company_logo_id(),
 			'finishedSteps'              => $finished_steps,
 			'personId'                   => (int) $person_id,
 			'personName'                 => $this->get_person_name(),
