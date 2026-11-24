@@ -4,6 +4,7 @@ import { noop } from "lodash";
 import { BulkEditorBody } from "./table-body";
 import { BulkEditorHeader } from "./table-header";
 import { getColumnCount } from "./table-helpers";
+import { BulkEditorTableToolbar } from "./table-toolbar";
 
 const getTableClassName = ( isLoading ) =>
 	// Aligns the title column (2nd cell) with the Select button, and round off the last body row's cells.
@@ -77,13 +78,19 @@ export const BulkEditorTable = ( {
 	};
 
 	return (
-		<>
+		<div className="yst-bulk-editor-table-wrapper yst-shadow yst-rounded-lg yst-ring-1 yst-ring-black yst-ring-opacity-5 yst-rounded-t-lg yst-overflow-hidden">
 			<div role="status" className="yst-sr-only">
 				{ isLoading ? (
 					/* translators: Hidden accessibility text. */
 					__( "Loading content…", "wordpress-seo" )
 				) : "" }
 			</div>
+			<BulkEditorTableToolbar
+				selectionToolbar={ selectionToolbar }
+				bulkActions={ bulkActions }
+				showBulkActions={ showBulkActions }
+				filters={ filters }
+			/>
 			<Table aria-label={ fieldSet.label } aria-busy={ isLoading } className={ getTableClassName( isLoading ) }>
 				<colgroup>
 					<col className="sm:yst-w-[38px]" />
@@ -116,6 +123,6 @@ export const BulkEditorTable = ( {
 				</Table.Body>
 				{ footer }
 			</Table>
-		</>
+		</div>
 	);
 };
