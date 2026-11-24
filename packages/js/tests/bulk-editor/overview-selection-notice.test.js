@@ -69,7 +69,7 @@ describe( "BulkEditorContent with a carried-over overview selection", () => {
 		expect( notice ).toBeInTheDocument();
 		// The notice renders inside the table's bulk-actions row (between the Select toolbar and the band),
 		// which the notice itself keeps expanded.
-		const bandRow = notice.closest( "tr" );
+		const bandRow = notice.closest( "[data-testid='bulk-actions-band']" );
 		expect( bandRow ).not.toBeNull();
 		expect( bandRow ).toHaveAttribute( "aria-hidden", "false" );
 
@@ -78,7 +78,7 @@ describe( "BulkEditorContent with a carried-over overview selection", () => {
 		expect( document.activeElement ).toBe( screen.getByRole( "button", { name: "Select" } ) );
 		expect( screen.queryByText( NOTICE_TEXT ) ).not.toBeInTheDocument();
 		// Nothing else occupies the band here (AI is disabled, no edits), so dismissing collapses the row.
-		container.querySelectorAll( "tr[aria-hidden]" ).forEach( ( row ) => {
+		container.querySelectorAll( "[data-testid='bulk-actions-band']" ).forEach( ( row ) => {
 			expect( row ).toHaveAttribute( "aria-hidden", "true" );
 		} );
 	} );

@@ -81,7 +81,7 @@ beforeEach( () => {
  * @returns {void}
  */
 const expectBandExpanded = ( container, isExpanded ) => {
-	const rows = Array.from( container.querySelectorAll( "tr[aria-hidden]" ) );
+	const rows = Array.from( container.querySelectorAll( "[data-testid='bulk-actions-band']" ) );
 	expect( rows ).not.toHaveLength( 0 );
 	rows.forEach( ( row ) => expect( row ).toHaveAttribute( "aria-hidden", String( ! isExpanded ) ) );
 };
