@@ -58,7 +58,8 @@ module.exports = function( { entry, output, combinedOutputFile, cssExtractFileNa
 						return [ "lodash", request.substring( 7 ) ];
 					}
 					if ( request.startsWith( "lodash-es/" ) ) {
-						return [ "lodash", request.substring( 10 ) ];
+						// The yoastseo ESM build imports `lodash-es/<x>.js`; the global is `lodash.<x>`.
+						return [ "lodash", request.substring( 10 ).replace( /\.js$/, "" ) ];
 					}
 					if ( request.startsWith( "@yoast/externals/" ) ) {
 						return [ "yoast", "externals", request.substring( 17 ) ];
