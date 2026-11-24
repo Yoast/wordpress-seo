@@ -160,15 +160,22 @@ class Site_Representation_Updater extends Abstract_Fields_Updater {
 	 * @return bool Whether the logo ID was saved.
 	 */
 	private function save_logo( string $field_name, int $attachment_id ): bool {
+		$logo = self::LOGOS[ $field_name ];
+
+		if ( $attachment_id === 0 ) {
+			// Clears the URL before the ID, so that a lookup of the logo by its URL cannot find the logo that is being cleared.
+			$this->options_helper->set( $logo, '' );
+		}
+
 		if ( $this->options_helper->set( $field_name, $attachment_id ) !== true ) {
 			return false;
 		}
 
-		$logo = self::LOGOS[ $field_name ];
-		$url  = ( $attachment_id === 0 ) ? '' : $this->image_helper->get_attachment_image_url( $attachment_id, 'full' );
+		if ( $attachment_id !== 0 ) {
+			$this->options_helper->set( $logo, $this->image_helper->get_attachment_image_url( $attachment_id, 'full' ) );
+		}
 
-		$this->options_helper->set( $logo, $url );
-		// Much like saving the logo from the settings/FTC, let's also clear its meta information so that it can lazily be generated when needed.
+		// Much like saving the logo from the settings/FTC, let's also clear its meta information, so that it is generated again in the same save.
 		$this->options_helper->set( $logo . '_meta', false );
 
 		return true;
