@@ -69,37 +69,17 @@ jobs:
           fi
           # Publish in dependency order (dependencies first), whatever order the PR body uses.
           read -ra UNSORTED <<< "$PACKAGES"
-          PACKAGES=$(node -e '
-            const fs = require("fs");
-            const wanted = process.argv.slice(1);
-            const deps = {};
-            for (const d of fs.readdirSync("packages")) {
-              try {
-                const p = JSON.parse(fs.readFileSync("packages/" + d + "/package.json", "utf8"));
-                deps[p.name] = Object.keys({ ...p.dependencies, ...p.peerDependencies });
-              } catch {}
-            }
-            const out = [], state = {};
-            const visit = (name, path) => {
-              if (state[name] === "done") return;
-              if (state[name] === "visiting") {
-                console.error("::error::Dependency cycle: " + [...path, name].join(" -> "));
-                process.exit(1);
-              }
-              state[name] = "visiting";
-              for (const dep of deps[name] || []) if (wanted.includes(dep)) visit(dep, [...path, name]);
-              state[name] = "done";
-              out.push(name);
-            };
-            wanted.forEach(name => visit(name, []));
-            console.log(out.join(" "));
-          ' "${UNSORTED[@]}")
+          PACKAGES=$(node .github/scripts/sort-npm-packages.js "${UNSORTED[@]}")
+          # The versions from the PR body, as "name=version" pairs, to check them against each package.json.
+          VERSIONS=$(echo "$BODY" | awk '/^## Context/{exit} 1' | grep -oP '^- \K(@yoast/)?[a-z0-9][a-z0-9._-]*: *[0-9][0-9A-Za-z.+-]*' | sed 's/: */=/' | tr '\n' ' ')
           echo "Packages to release: $PACKAGES"
           echo "list=$PACKAGES" >> "$GITHUB_OUTPUT"
+          echo "versions=$VERSIONS" >> "$GITHUB_OUTPUT"
 
       - name: Publish packages in order
         env:
           PACKAGE_LIST: ${{ steps.packages.outputs.list }}
+          VERSION_LIST: ${{ steps.packages.outputs.versions }}
           NODE_AUTH_TOKEN: ''
         run: |
           set -euo pipefail
@@ -107,6 +87,14 @@ jobs:
             echo "::error::PACKAGE_LIST is empty; nothing to publish."
             exit 1
           fi
+          # Publishes the current folder, unless this version is already on npm: a re-run after a failure halfway then publishes only the rest.
+          publish() {
+            if [ "$ALREADY_PUBLISHED" = "true" ]; then
+              echo "::notice::Skipping npm publish for $PACKAGE@$VERSION: this version is already on npm."
+            else
+              npm publish "$@"
+            fi
+          }
           read -ra PACKAGES <<< "$PACKAGE_LIST"
           for PACKAGE in "${PACKAGES[@]}"; do
             # Find the workspace folder by the package.json name, since folder names do not always match (e.g. yoastseo, @yoast/wordpress-seo).
@@ -114,6 +102,17 @@ jobs:
               echo "::error::No folder under packages/ has a package.json named $PACKAGE"
               exit 1
             }
+
+            VERSION=$(node -p "require('./$PKG_DIR/package.json').version")
+            EXPECTED=$(tr ' ' '\n' <<< "$VERSION_LIST" | awk -F= -v p="$PACKAGE" '$1 == p { print $2; exit }')
+            if [ "$EXPECTED" != "$VERSION" ]; then
+              echo "::error::The PR body lists $PACKAGE $EXPECTED, but $PKG_DIR/package.json has version $VERSION."
+              exit 1
+            fi
+            ALREADY_PUBLISHED=false
+            if [ "$(npm view "$PACKAGE@$VERSION" version 2>/dev/null || true)" = "$VERSION" ]; then
+              ALREADY_PUBLISHED=true
+            fi
 
             echo "::group::Publishing $PACKAGE"
 
@@ -125,22 +124,22 @@ jobs:
               npm run-script prepublishOnly
               if [ -d "dist" ]; then
                 pushd dist
-                npm publish --provenance --access public --ignore-scripts
+                publish --provenance --access public --ignore-scripts
                 popd
               else
-                npm publish --provenance --access public --ignore-scripts
+                publish --provenance --access public --ignore-scripts
               fi
 
             elif node -e "process.exit(require('./package.json').scripts?.build ? 0 : 1)" 2>/dev/null; then
               # Packages with a build step: build first, then publish.
               echo "Strategy: build"
               NODE_ENV=production npm run-script build
-              npm publish --provenance --access public
+              publish --provenance --access public
 
             else
               # No build step needed (e.g. config-only packages like tailwindcss-preset).
               echo "Strategy: direct publish"
-              npm publish --provenance --access public
+              publish --provenance --access public
             fi
 
             popd

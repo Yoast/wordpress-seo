@@ -43,37 +43,17 @@ jobs:
           fi
           # Publish in dependency order (dependencies first), whatever order the PR body uses.
           read -ra UNSORTED <<< "$PACKAGES"
-          PACKAGES=$(node -e '
-            const fs = require("fs");
-            const wanted = process.argv.slice(1);
-            const deps = {};
-            for (const d of fs.readdirSync("packages")) {
-              try {
-                const p = JSON.parse(fs.readFileSync("packages/" + d + "/package.json", "utf8"));
-                deps[p.name] = Object.keys({ ...p.dependencies, ...p.peerDependencies });
-              } catch {}
-            }
-            const out = [], state = {};
-            const visit = (name, path) => {
-              if (state[name] === "done") return;
-              if (state[name] === "visiting") {
-                console.error("::error::Dependency cycle: " + [...path, name].join(" -> "));
-                process.exit(1);
-              }
-              state[name] = "visiting";
-              for (const dep of deps[name] || []) if (wanted.includes(dep)) visit(dep, [...path, name]);
-              state[name] = "done";
-              out.push(name);
-            };
-            wanted.forEach(name => visit(name, []));
-            console.log(out.join(" "));
-          ' "${UNSORTED[@]}")
+          PACKAGES=$(node .github/scripts/sort-npm-packages.js "${UNSORTED[@]}")
+          # The versions from the PR body, as "name=version" pairs, to check them against each package.json.
+          VERSIONS=$(echo "$PR_BODY" | awk '/^## Context/{exit} 1' | grep -oP '^- \K(@yoast/)?[a-z0-9][a-z0-9._-]*: *[0-9][0-9A-Za-z.+-]*' | sed 's/: */=/' | tr '\n' ' ')
           echo "Packages to release: $PACKAGES"
           echo "list=$PACKAGES" >> "$GITHUB_OUTPUT"
+          echo "versions=$VERSIONS" >> "$GITHUB_OUTPUT"
 
       - name: Dry-run package (npm pack) in order
         env:
           PACKAGE_LIST: ${{ steps.packages.outputs.list }}
+          VERSION_LIST: ${{ steps.packages.outputs.versions }}
         run: |
           set -euo pipefail
           if [ -z "${PACKAGE_LIST// /}" ]; then
@@ -88,6 +68,16 @@ jobs:
               echo "::error::No folder under packages/ has a package.json named $PACKAGE"
               exit 1
             }
+
+            VERSION=$(node -p "require('./$PKG_DIR/package.json').version")
+            EXPECTED=$(tr ' ' '\n' <<< "$VERSION_LIST" | awk -F= -v p="$PACKAGE" '$1 == p { print $2; exit }')
+            if [ "$EXPECTED" != "$VERSION" ]; then
+              echo "::error::The PR body lists $PACKAGE $EXPECTED, but $PKG_DIR/package.json has version $VERSION."
+              exit 1
+            fi
+            if [ "$(npm view "$PACKAGE@$VERSION" version 2>/dev/null || true)" = "$VERSION" ]; then
+              echo "::warning::$PACKAGE@$VERSION is already on npm, so the real publish will skip it. Bump the version if this is a new release."
+            fi
 
             echo "::group::Packing $PACKAGE"
 
