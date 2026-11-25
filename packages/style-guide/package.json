@@ -24,7 +24,8 @@
     "watch:js": "yarn build:js --watch"
   },
   "dependencies": {
-    "@yoast/helpers": "^0.17.0-alpha.2"
+    "@yoast/helpers": "^0.17.0-alpha.2",
+    "styled-components": "^5.3.6"
   },
   "devDependencies": {
     "@babel/cli": "^7.17.10",
@@ -35,8 +36,7 @@
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-preset-react": "^6.24.1",
     "browserslist": "^4.7.3",
-    "json": "^11.0.0",
-    "styled-components": "^5.3.6"
+    "json": "^11.0.0"
   },
   "publishConfig": {
     "access": "public"
