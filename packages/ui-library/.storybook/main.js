@@ -9,16 +9,19 @@ function getAbsolutePath( value ) {
 	return dirname( require.resolve( join( value, "package.json" ) ) );
 }
 
+/** @type { import("@storybook/react-webpack5").StorybookConfig } */
 const config = {
 	stories: [
-		"../src/introduction.stories.mdx",
-		"../src/installation.stories.mdx",
-		"../src/contributing.stories.mdx",
-		"../src/changelog.stories.mdx",
-		"../src/**/*.stories.@(js|mdx)",
-		"../src/**/stories.@(js|mdx)",
+		"../src/introduction.mdx",
+		"../src/installation.mdx",
+		"../src/contributing.mdx",
+		"../src/changelog.mdx",
+		"../src/**/*.mdx",
+		"../src/**/*.stories.js",
+		"../src/**/stories.js",
 	],
 	addons: [
+		getAbsolutePath( "@storybook/addon-webpack5-compiler-swc" ),
 		getAbsolutePath( "@storybook/addon-links" ),
 		getAbsolutePath( "@storybook/addon-essentials" ),
 		getAbsolutePath( "@storybook/addon-a11y" ),
@@ -49,15 +52,9 @@ const config = {
 		disableTelemetry: true,
 		disableWhatsNewNotifications: true,
 	},
-	features: {
-		previewMdx2: true,
-	},
 	framework: {
 		name: getAbsolutePath( "@storybook/react-webpack5" ),
 		options: {},
-	},
-	docs: {
-		autodocs: true,
 	},
 };
 

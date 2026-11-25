@@ -2,13 +2,17 @@ import React, { useEffect } from "react";
 import Root from "../src/components/root";
 import "./style.css";
 
+/** @type { import("@storybook/react").Preview } */
 const preview = {
+	tags: [ "autodocs" ],
+	initialGlobals: {
+		dir: "ltr",
+	},
 	globalTypes: {
 		dir: {
 			key: "dir",
 			name: "Direction",
 			description: "Text direction. Can be either left to right or right to left",
-			defaultValue: "ltr",
 			toolbar: {
 				title: "Direction",
 				icon: "menu",

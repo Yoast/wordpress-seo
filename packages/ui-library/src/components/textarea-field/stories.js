@@ -60,10 +60,6 @@ export const Validation = {
 			) ) }
 		</div>
 	),
-	parameters: {
-		// Since upgrade to Storybook 7 this story renders empty. Disabling it for now.
-		storyshots: { disable: true },
-	},
 };
 
 export default {

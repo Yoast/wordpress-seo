@@ -1,0 +1,32 @@
+import { Canvas, Meta } from "@storybook/blocks";
+import * as FormsStories from "./forms.stories";
+
+<Meta of={ FormsStories } />
+
+# Forms
+
+A form is a group of related input controls that enables users to input data. Forms are built from multiple elements
+and can be adapted for various purposes, appearing within a paper or a modal.
+
+<Canvas of={ FormsStories.BasicForm } />
+
+## Form layouts
+
+### Spacing
+
+To prevent confusion, it's important to maintain appropriate spacing between form elements. We typically
+maintain a vertical spacing of 32px (`yst-space-y-8`) and a horizontal spacing of
+24px (`yst-gap-x-6`) between different input elements in a form. When placing a button next to a text input
+or select field, and it's related to that field, we typically maintain a horizontal spacing of 8 pixels (`yst-gap-x-2`).
+When placing two (or more) buttons next to each other, we typically maintain a horizontal spacing of 12px
+(`yst-gap-x-3`) between the buttons.
+
+<Canvas of={ FormsStories.AligningFields } />
+
+### Buttons
+
+When placing a button next to a form element like a text input, we typically choose the ‘Large’ variant and maintain a spacing
+of 8 pixels (`yst-gap-x-2`). The ‘Large’ button shares the same height (40px) as other form elements. This ensures
+uniformity in height, aligning seamlessly next to each other.
+
+<Canvas of={ FormsStories.AligningWithButtons } />
