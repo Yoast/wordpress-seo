@@ -100,11 +100,7 @@ abstract class Abstract_Author_SEO_Data_Ability extends Abstract_SEO_Data_Abilit
 			'label'               => $this->get_label(),
 			'description'         => $this->get_description(),
 			'category'            => Ability_Categories_Integration::CATEGORY_SLUG,
-			'input_schema'        => [
-				'type'                 => 'object',
-				'additionalProperties' => false,
-				'properties'           => $this->get_input_properties(),
-			],
+			'input_schema'        => $this->get_input_schema(),
 			'output_schema'       => $this->output_schema->get_author_output_schema(),
 			'permission_callback' => [ $this, 'can_edit_users_advanced_metadata' ],
 			'execute_callback'    => $this->get_execute_callback(),
@@ -115,6 +111,19 @@ abstract class Abstract_Author_SEO_Data_Ability extends Abstract_SEO_Data_Abilit
 					'public' => true,
 				],
 			],
+		];
+	}
+
+	/**
+	 * Returns the input schema of the ability.
+	 *
+	 * @return array<string, mixed> The input schema.
+	 */
+	protected function get_input_schema(): array {
+		return [
+			'type'                 => 'object',
+			'additionalProperties' => false,
+			'properties'           => $this->get_input_properties(),
 		];
 	}
 
