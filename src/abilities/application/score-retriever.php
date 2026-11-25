@@ -3,6 +3,7 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\Abilities\Application;
 
+use stdClass;
 use WPSEO_Rank;
 use Yoast\WP\SEO\Abilities\Domain\Score_Result;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
@@ -48,12 +49,12 @@ class Score_Retriever {
 	/**
 	 * Retrieves the SEO scores for the most recently modified posts.
 	 *
-	 * @param array<string, int> $input The input containing optional 'number_of_posts'.
+	 * @param array<string, int>|stdClass $input The input containing optional 'number_of_posts'; the schema default object when none was given.
 	 *
 	 * @return array<int, array<string, string|null>> The SEO score data for each post.
 	 */
-	public function get_seo_scores( array $input ): array {
-		$indexables = $this->get_recent_indexables( $this->get_number_of_posts( $input ) );
+	public function get_seo_scores( $input ): array {
+		$indexables = $this->get_recent_indexables( $this->get_number_of_posts( (array) $input ) );
 
 		return \array_map( [ $this, 'build_seo_score_for_indexable' ], $indexables );
 	}
@@ -61,12 +62,12 @@ class Score_Retriever {
 	/**
 	 * Retrieves the readability scores for the most recently modified posts.
 	 *
-	 * @param array<string, int> $input The input containing optional 'number_of_posts'.
+	 * @param array<string, int>|stdClass $input The input containing optional 'number_of_posts'; the schema default object when none was given.
 	 *
 	 * @return array<int, array<string, string>> The readability score data for each post.
 	 */
-	public function get_readability_scores( array $input ): array {
-		$indexables = $this->get_recent_indexables( $this->get_number_of_posts( $input ) );
+	public function get_readability_scores( $input ): array {
+		$indexables = $this->get_recent_indexables( $this->get_number_of_posts( (array) $input ) );
 
 		return \array_map( [ $this, 'build_readability_score_for_indexable' ], $indexables );
 	}
@@ -74,12 +75,12 @@ class Score_Retriever {
 	/**
 	 * Retrieves the inclusive language scores for the most recently modified posts.
 	 *
-	 * @param array<string, int> $input The input containing optional 'number_of_posts'.
+	 * @param array<string, int>|stdClass $input The input containing optional 'number_of_posts'; the schema default object when none was given.
 	 *
 	 * @return array<int, array<string, string>> The inclusive language score data for each post.
 	 */
-	public function get_inclusive_language_scores( array $input ): array {
-		$indexables = $this->get_recent_indexables( $this->get_number_of_posts( $input ) );
+	public function get_inclusive_language_scores( $input ): array {
+		$indexables = $this->get_recent_indexables( $this->get_number_of_posts( (array) $input ) );
 
 		return \array_map( [ $this, 'build_inclusive_language_score_for_indexable' ], $indexables );
 	}

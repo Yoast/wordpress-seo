@@ -3,6 +3,7 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\Abilities\Application;
 
+use stdClass;
 use WP_Error;
 use Yoast\WP\SEO\Abilities\Infrastructure\Indexable_Access_Checker;
 use Yoast\WP\SEO\Abilities\Infrastructure\Term_Identifier_Resolver;
@@ -56,12 +57,12 @@ class Term_SEO_Data_Collector {
 	/**
 	 * Retrieves the SEO data for the term matching the input.
 	 *
-	 * @param array<string, int|string|bool|null> $input The input containing a 'term_id' or 'permalink'.
+	 * @param array<string, int|string|bool|null>|stdClass $input The input containing a 'term_id' or 'permalink'; the schema default object when none was given.
 	 *
 	 * @return array<string, int|string|bool|null>|WP_Error The SEO data of the term, or an error.
 	 */
-	public function get_term_seo_data( array $input ) {
-		$indexable = $this->resolver->resolve_one( $input );
+	public function get_term_seo_data( $input ) {
+		$indexable = $this->resolver->resolve_one( (array) $input );
 
 		if ( $indexable instanceof WP_Error ) {
 			return $indexable;

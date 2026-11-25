@@ -3,6 +3,7 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\Abilities\Application;
 
+use stdClass;
 use WP_Error;
 use Yoast\WP\SEO\Abilities\Infrastructure\Post_Access_Checker;
 use Yoast\WP\SEO\Abilities\Infrastructure\Post_Identifier_Resolver;
@@ -58,12 +59,12 @@ class Post_SEO_Data_Collector {
 	/**
 	 * Retrieves the SEO data for the posts matching the input.
 	 *
-	 * @param array<string, int|string|bool|null> $input The input containing an optional 'post_id', 'permalink', or 'title'.
+	 * @param array<string, int|string|bool|null>|stdClass $input The input containing an optional 'post_id', 'permalink', or 'title'; the schema default object when none was given.
 	 *
 	 * @return array<int, array<string, int|string|bool|null>>|WP_Error The SEO data for each matching post, or an error.
 	 */
-	public function get_post_seo_data( array $input ) {
-		$indexables = $this->resolver->resolve_many( $input );
+	public function get_post_seo_data( $input ) {
+		$indexables = $this->resolver->resolve_many( (array) $input );
 
 		if ( $indexables instanceof WP_Error ) {
 			return $indexables;
