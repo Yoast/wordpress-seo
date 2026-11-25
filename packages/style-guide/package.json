@@ -23,12 +23,14 @@
     "watch": "yarn clean && yarn watch:js && yarn build:json",
     "watch:js": "yarn build:js --watch"
   },
+  "dependencies": {
+    "@yoast/helpers": "^0.17.0-alpha.2"
+  },
   "devDependencies": {
     "@babel/cli": "^7.17.10",
     "@babel/core": "^7.17.10",
     "@babel/preset-env": "^7.16.11",
     "@yoast/browserslist-config": "^1.2.5",
-    "@yoast/helpers": "^0.17.0-alpha.2",
     "babel-plugin-styled-components": "^2.0.6",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-preset-react": "^6.24.1",
