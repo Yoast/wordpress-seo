@@ -109,7 +109,8 @@ final class Get_SEO_Scores_Ability_Test extends Abstract_Score_Ability_Test {
 			'description' => 'The focus keyphrase for the post, or null if not set.',
 		];
 
-		$this->assertSame(
+		// The default input is a new object, so it can only be compared by value.
+		$this->assertEquals(
 			\array_merge(
 				[
 					'label'       => 'Get SEO Scores',

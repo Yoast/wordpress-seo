@@ -5,6 +5,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Abilities\User_Interface\Abilities;
 
 use Brain\Monkey;
 use Mockery;
+use stdClass;
 use Yoast\WP\SEO\Abilities\Application\Author_SEO_Data_Collector;
 use Yoast\WP\SEO\Abilities\User_Interface\Abilities\Get_Author_SEO_Data_Ability;
 use Yoast\WP\SEO\Abilities\User_Interface\SEO_Data_Output_Schema;
@@ -193,7 +194,8 @@ final class Get_Author_SEO_Data_Ability_Test extends TestCase {
 
 		$this->output_schema->expects( 'get_author_output_schema' )->once()->andReturn( $output_schema );
 
-		$this->assertSame(
+		// The default input is a new object, so it can only be compared by value.
+		$this->assertEquals(
 			[
 				'label'               => 'Get Author SEO Data',
 				'description'         => 'Get the SEO data for the author archive of a single user. Identify the user by user_id or by the permalink (URL) of their author archive. Only users who can edit other users can use this, and only on users they are allowed to edit.',
@@ -201,6 +203,7 @@ final class Get_Author_SEO_Data_Ability_Test extends TestCase {
 				'input_schema'        => [
 					'type'                 => 'object',
 					'additionalProperties' => false,
+					'default'              => new stdClass(),
 					'properties'           => [
 						'user_id'   => [
 							'type'        => 'integer',

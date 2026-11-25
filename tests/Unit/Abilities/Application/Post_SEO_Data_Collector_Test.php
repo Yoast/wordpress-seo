@@ -4,6 +4,7 @@
 namespace Yoast\WP\SEO\Tests\Unit\Abilities\Application;
 
 use Mockery;
+use stdClass;
 use WP_Error;
 use Yoast\WP\SEO\Abilities\Application\Post_SEO_Data_Collector;
 use Yoast\WP\SEO\Abilities\Infrastructure\Post_Access_Checker;
@@ -190,5 +191,22 @@ final class Post_SEO_Data_Collector_Test extends TestCase {
 			->andReturn( [] );
 
 		$this->assertSame( [], $this->instance->get_post_seo_data( [ 'title' => 'nope' ] ) );
+	}
+
+	/**
+	 * Tests that the schema default object, passed when the ability is called without input, reaches the resolver
+	 * as an empty array, so the resolver reports the missing identifier.
+	 *
+	 * @covers ::get_post_seo_data
+	 *
+	 * @return void
+	 */
+	public function test_get_post_seo_data_without_input() {
+		$error = Mockery::mock( WP_Error::class );
+
+		$this->resolver->expects( 'resolve_many' )->once()->with( [] )->andReturn( $error );
+		$this->post_access_checker->expects( 'filter_editable' )->never();
+
+		$this->assertSame( $error, $this->instance->get_post_seo_data( new stdClass() ) );
 	}
 }

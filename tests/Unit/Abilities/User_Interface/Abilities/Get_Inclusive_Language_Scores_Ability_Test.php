@@ -103,7 +103,8 @@ final class Get_Inclusive_Language_Scores_Ability_Test extends Abstract_Score_Ab
 	 * @return void
 	 */
 	public function test_get_args() {
-		$this->assertSame(
+		// The default input is a new object, so it can only be compared by value.
+		$this->assertEquals(
 			\array_merge(
 				[
 					'label'       => 'Get Inclusive Language Scores',

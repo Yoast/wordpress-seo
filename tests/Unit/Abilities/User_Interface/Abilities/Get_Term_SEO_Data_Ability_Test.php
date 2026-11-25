@@ -4,6 +4,7 @@
 namespace Yoast\WP\SEO\Tests\Unit\Abilities\User_Interface\Abilities;
 
 use Mockery;
+use stdClass;
 use Yoast\WP\SEO\Abilities\Application\Term_SEO_Data_Collector;
 use Yoast\WP\SEO\Abilities\User_Interface\Abilities\Get_Term_SEO_Data_Ability;
 use Yoast\WP\SEO\Abilities\User_Interface\SEO_Data_Output_Schema;
@@ -144,7 +145,8 @@ final class Get_Term_SEO_Data_Ability_Test extends TestCase {
 
 		$this->output_schema->expects( 'get_term_output_schema' )->once()->andReturn( $output_schema );
 
-		$this->assertSame(
+		// The default input is a new object, so it can only be compared by value.
+		$this->assertEquals(
 			[
 				'label'               => 'Get Term SEO Data',
 				'description'         => 'Get the SEO data for a single taxonomy term, such as a category or a tag. Identify the term by term_id or by permalink (URL). Only terms the current user is allowed to edit are returned.',
@@ -152,6 +154,7 @@ final class Get_Term_SEO_Data_Ability_Test extends TestCase {
 				'input_schema'        => [
 					'type'                 => 'object',
 					'additionalProperties' => false,
+					'default'              => new stdClass(),
 					'properties'           => [
 						'term_id'   => [
 							'type'        => 'integer',
