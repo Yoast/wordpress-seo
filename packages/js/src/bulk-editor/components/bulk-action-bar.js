@@ -231,7 +231,7 @@ const BulkActionsNotices = ( {
  * @returns {JSX.Element} The action band.
  */
 const BulkActionsBand = ( {
-	isActive, selectedIds, activeFieldSet, contentType, hasUnsavedEdits, editCount, onApplyAll, onDiscardAll, isApplyingAll,
+	isActive, selectedIds = [], activeFieldSet, contentType, hasUnsavedEdits, editCount, onApplyAll, onDiscardAll, isApplyingAll,
 } ) => (
 	<div className="yst-flex sm:yst-items-center yst-gap-3 yst-border-y yst-border-slate-200 yst-bg-slate-100 yst-px-4 yst-py-3 yst-flex-col sm:yst-flex-row">
 		<div className="yst-flex sm:yst-items-center yst-gap-3 yst-flex-col sm:yst-flex-row yst-grow [&>button]:yst-w-full sm:[&>button]:yst-w-auto" data-tour-id="generate-actions">
