@@ -21,8 +21,8 @@ export const ResourceCard = ( { imageSrc, title, description, linkHref, linkText
 				className="yst-w-full yst-transition yst-duration-200"
 				src={ imageSrc }
 				alt=""
-				width={ 500 }
-				height={ 250 }
+				width={ 400 }
+				height={ 203 }
 				loading="lazy"
 				decoding="async"
 			/>
