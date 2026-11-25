@@ -83,10 +83,12 @@ export const SelectionToolbar = ( { idSuffix = "", isAllSelected, isIndeterminat
  *
  * @param {Object} props             The props.
  * @param {string} props.contentType The active content type, used to pick the upsell variant.
+ * @param {number} props.selectedCount The number of selected items.
  *
  * @returns {JSX.Element} The AI generate buttons.
  */
-const FreeBulkActions = ( { contentType } ) => {
+// eslint-disable-next-line complexity
+const FreeBulkActions = ( { contentType, selectedCount } ) => {
 	const { isPremium, isPremiumVersionSupported, isAiEnabled } = useSelect( ( select ) => {
 		const store = select( STORE_NAME );
 		return {
@@ -103,6 +105,15 @@ const FreeBulkActions = ( { contentType } ) => {
 	}
 	return (
 		<>
+			{ selectedCount > 0 && ! isPremium && (
+				<span className="yst-font-medium yst-text-slate-800 sm:yst-hidden yst-block">
+					{ sprintf(
+						/* translators: %d expands to the number of selected items */
+						_n( "%d item selected", "%d items selected", selectedCount, "wordpress-seo" ),
+						selectedCount
+					) }
+				</span>
+			) }
 			<Button variant="ai-secondary" size="small" className="yst-bg-white" onClick={ openUpsell }>
 				{ __( "Generate SEO titles", "wordpress-seo" ) }
 			</Button>
@@ -224,7 +235,7 @@ const BulkActionsBand = ( {
 } ) => (
 	<div className="yst-flex sm:yst-items-center yst-gap-3 yst-border-y yst-border-slate-200 yst-bg-slate-100 yst-px-4 yst-py-3 yst-flex-col sm:yst-flex-row">
 		<div className="yst-flex sm:yst-items-center yst-gap-3 yst-flex-col sm:yst-flex-row yst-grow [&>button]:yst-w-full sm:[&>button]:yst-w-auto" data-tour-id="generate-actions">
-			<FreeBulkActions contentType={ contentType } />
+			<FreeBulkActions contentType={ contentType } selectedCount={ selectedIds.length } />
 			{ isActive && (
 				<Slot name={ BULK_ACTIONS_SLOT } fillProps={ { selectedIds, activeFieldSet, contentType, hasUnsavedEdits } } />
 			) }
