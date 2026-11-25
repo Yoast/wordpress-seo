@@ -3,11 +3,11 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\Abilities\User_Interface\Abilities;
 
-use stdClass;
 use Yoast\WP\SEO\Abilities\Application\Archive_And_Special_Page_SEO_Settings_Collector;
 use Yoast\WP\SEO\Abilities\Infrastructure\Global_Setting_Field_Map;
 use Yoast\WP\SEO\Abilities\Infrastructure\Global_Setting_Targets\Global_Setting_Target_Repository;
 use Yoast\WP\SEO\Abilities\User_Interface\Ability_Categories_Integration;
+use Yoast\WP\SEO\Abilities\User_Interface\Optional_Input_Schema_Trait;
 use Yoast\WP\SEO\Helpers\Capability_Helper;
 
 /**
@@ -16,6 +16,8 @@ use Yoast\WP\SEO\Helpers\Capability_Helper;
  * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
 class Get_Archive_And_Special_Page_SEO_Settings_Ability extends Abstract_Archive_And_Special_Page_SEO_Settings_Ability {
+
+	use Optional_Input_Schema_Trait;
 
 	/**
 	 * The archive and special page SEO settings collector.
@@ -78,14 +80,7 @@ class Get_Archive_And_Special_Page_SEO_Settings_Ability extends Abstract_Archive
 				'yoast-seo/get-post-seo-data',
 			),
 			'category'            => Ability_Categories_Integration::CATEGORY_SLUG,
-			// Core rejects any input for an ability without an input schema, and some callers always send `{}`. The
-			// default lets a call without input pass validation, and is an object so that it serializes to `{}` where
-			// the schema is output as is, like in the REST API.
-			'input_schema'        => [
-				'type'                 => 'object',
-				'additionalProperties' => false,
-				'default'              => new stdClass(),
-			],
+			'input_schema'        => $this->get_optional_input_schema(),
 			'output_schema'       => [
 				'type'  => 'array',
 				'items' => $this->get_target_output_schema(),

@@ -3,10 +3,10 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\Abilities\User_Interface\Abilities;
 
-use stdClass;
 use Yoast\WP\SEO\Abilities\Application\Site_Representation_Collector;
 use Yoast\WP\SEO\Abilities\Infrastructure\Site_Representation_Field_Map;
 use Yoast\WP\SEO\Abilities\User_Interface\Ability_Categories_Integration;
+use Yoast\WP\SEO\Abilities\User_Interface\Optional_Input_Schema_Trait;
 use Yoast\WP\SEO\Helpers\Capability_Helper;
 
 /**
@@ -14,6 +14,8 @@ use Yoast\WP\SEO\Helpers\Capability_Helper;
  * person, along with their name, logo and social profiles.
  */
 class Get_Site_Representation_Ability extends Abstract_Site_Representation_Ability {
+
+	use Optional_Input_Schema_Trait;
 
 	/**
 	 * The site representation collector.
@@ -73,14 +75,7 @@ class Get_Site_Representation_Ability extends Abstract_Site_Representation_Abili
 				'Yoast SEO',
 			),
 			'category'            => Ability_Categories_Integration::CATEGORY_SLUG,
-			// Core rejects any input for an ability without an input schema, and some callers always send `{}`. The
-			// default lets a call without input pass validation, and is an object so that it serializes to `{}` where
-			// the schema is output as is, like in the REST API.
-			'input_schema'        => [
-				'type'                 => 'object',
-				'additionalProperties' => false,
-				'default'              => new stdClass(),
-			],
+			'input_schema'        => $this->get_optional_input_schema(),
 			'output_schema'       => [
 				'type'       => 'object',
 				'properties' => $this->get_settings_output_schema(),

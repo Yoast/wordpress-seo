@@ -5,6 +5,7 @@ namespace Yoast\WP\SEO\Abilities\User_Interface\Abilities;
 
 use Yoast\WP\SEO\Abilities\Application\Term_SEO_Data_Collector;
 use Yoast\WP\SEO\Abilities\User_Interface\Ability_Categories_Integration;
+use Yoast\WP\SEO\Abilities\User_Interface\Optional_Input_Schema_Trait;
 use Yoast\WP\SEO\Abilities\User_Interface\SEO_Data_Output_Schema;
 use Yoast\WP\SEO\Conditionals\Should_Index_Indexables_Conditional;
 use Yoast\WP\SEO\Helpers\Capability_Helper;
@@ -13,6 +14,8 @@ use Yoast\WP\SEO\Helpers\Capability_Helper;
  * The ability that returns the SEO data of a single term.
  */
 class Get_Term_SEO_Data_Ability extends Abstract_SEO_Data_Ability {
+
+	use Optional_Input_Schema_Trait;
 
 	/**
 	 * The term SEO data collector.
@@ -93,10 +96,8 @@ class Get_Term_SEO_Data_Ability extends Abstract_SEO_Data_Ability {
 	 * @return array<string, mixed> The input schema.
 	 */
 	private function get_term_identifier_input_schema(): array {
-		return [
-			'type'                 => 'object',
-			'additionalProperties' => false,
-			'properties'           => [
+		return $this->get_optional_input_schema(
+			[
 				'term_id'   => [
 					'type'        => 'integer',
 					'description' => \__( 'The ID of the term to retrieve.', 'wordpress-seo' ),
@@ -107,7 +108,7 @@ class Get_Term_SEO_Data_Ability extends Abstract_SEO_Data_Ability {
 					'description' => \__( 'The full permalink (URL) of the term archive to retrieve, exactly as the site outputs it, including the protocol (http or https) and any trailing slash. Relative URLs are not supported.', 'wordpress-seo' ),
 				],
 			],
-		];
+		);
 	}
 
 	// phpcs:enable SlevomatCodingStandard.TypeHints.DisallowMixedTypeHint.DisallowedMixedTypeHint

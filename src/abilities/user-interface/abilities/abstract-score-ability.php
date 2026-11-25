@@ -6,6 +6,7 @@ namespace Yoast\WP\SEO\Abilities\User_Interface\Abilities;
 use Yoast\WP\SEO\Abilities\Application\Score_Retriever;
 use Yoast\WP\SEO\Abilities\Domain\Ability_Interface;
 use Yoast\WP\SEO\Abilities\User_Interface\Ability_Categories_Integration;
+use Yoast\WP\SEO\Abilities\User_Interface\Optional_Input_Schema_Trait;
 use Yoast\WP\SEO\Conditionals\Should_Index_Indexables_Conditional;
 use Yoast\WP\SEO\Editors\Application\Analysis_Features\Enabled_Analysis_Features_Repository;
 use Yoast\WP\SEO\Helpers\Capability_Helper;
@@ -14,6 +15,8 @@ use Yoast\WP\SEO\Helpers\Capability_Helper;
  * Base class for the abilities that return the analysis scores of the most recently modified posts.
  */
 abstract class Abstract_Score_Ability implements Ability_Interface {
+
+	use Optional_Input_Schema_Trait;
 
 	/**
 	 * The score retriever.
@@ -131,10 +134,8 @@ abstract class Abstract_Score_Ability implements Ability_Interface {
 			'label'               => $this->get_label(),
 			'description'         => $this->get_description(),
 			'category'            => Ability_Categories_Integration::CATEGORY_SLUG,
-			'input_schema'        => [
-				'type'                 => 'object',
-				'additionalProperties' => false,
-				'properties'           => [
+			'input_schema'        => $this->get_optional_input_schema(
+				[
 					'number_of_posts' => [
 						'type'        => 'integer',
 						'description' => \__( 'The number of recently modified posts to retrieve scores for. Defaults to 10.', 'wordpress-seo' ),
@@ -143,7 +144,7 @@ abstract class Abstract_Score_Ability implements Ability_Interface {
 						'default'     => 10,
 					],
 				],
-			],
+			),
 			'output_schema'       => $this->get_output_schema(),
 			'permission_callback' => [ $this, 'can_manage_seo' ],
 			'execute_callback'    => $this->get_execute_callback(),

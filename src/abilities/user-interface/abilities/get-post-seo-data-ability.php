@@ -5,6 +5,7 @@ namespace Yoast\WP\SEO\Abilities\User_Interface\Abilities;
 
 use Yoast\WP\SEO\Abilities\Application\Post_SEO_Data_Collector;
 use Yoast\WP\SEO\Abilities\User_Interface\Ability_Categories_Integration;
+use Yoast\WP\SEO\Abilities\User_Interface\Optional_Input_Schema_Trait;
 use Yoast\WP\SEO\Conditionals\Should_Index_Indexables_Conditional;
 use Yoast\WP\SEO\Helpers\Capability_Helper;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
@@ -13,6 +14,8 @@ use Yoast\WP\SEO\Repositories\Indexable_Repository;
  * The ability that returns the SEO data of one or more posts.
  */
 class Get_Post_SEO_Data_Ability extends Abstract_Post_SEO_Data_Ability {
+
+	use Optional_Input_Schema_Trait;
 
 	/**
 	 * The post SEO data collector.
@@ -86,10 +89,8 @@ class Get_Post_SEO_Data_Ability extends Abstract_Post_SEO_Data_Ability {
 	 * @return array<string, mixed> The input schema.
 	 */
 	private function get_post_identifier_input_schema(): array {
-		return [
-			'type'                 => 'object',
-			'additionalProperties' => false,
-			'properties'           => [
+		return $this->get_optional_input_schema(
+			[
 				'post_id'   => [
 					'type'        => 'integer',
 					'description' => \__( 'The ID of the post to retrieve.', 'wordpress-seo' ),
@@ -115,7 +116,7 @@ class Get_Post_SEO_Data_Ability extends Abstract_Post_SEO_Data_Ability {
 					'default'     => 1,
 				],
 			],
-		];
+		);
 	}
 
 	// phpcs:enable SlevomatCodingStandard.TypeHints.DisallowMixedTypeHint.DisallowedMixedTypeHint
