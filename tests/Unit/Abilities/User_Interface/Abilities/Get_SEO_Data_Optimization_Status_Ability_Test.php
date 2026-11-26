@@ -5,19 +5,19 @@ namespace Yoast\WP\SEO\Tests\Unit\Abilities\User_Interface\Abilities;
 
 use Mockery;
 use stdClass;
-use Yoast\WP\SEO\Abilities\Application\SEO_Optimization_Status_Collector;
-use Yoast\WP\SEO\Abilities\User_Interface\Abilities\Get_SEO_Optimization_Status_Ability;
+use Yoast\WP\SEO\Abilities\Application\SEO_Data_Optimization_Status_Collector;
+use Yoast\WP\SEO\Abilities\User_Interface\Abilities\Get_SEO_Data_Optimization_Status_Ability;
 use Yoast\WP\SEO\Helpers\Capability_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
- * Tests the Get_SEO_Optimization_Status_Ability class.
+ * Tests the Get_SEO_Data_Optimization_Status_Ability class.
  *
  * @group abilities
  *
- * @coversDefaultClass \Yoast\WP\SEO\Abilities\User_Interface\Abilities\Get_SEO_Optimization_Status_Ability
+ * @coversDefaultClass \Yoast\WP\SEO\Abilities\User_Interface\Abilities\Get_SEO_Data_Optimization_Status_Ability
  */
-final class Get_SEO_Optimization_Status_Ability_Test extends TestCase {
+final class Get_SEO_Data_Optimization_Status_Ability_Test extends TestCase {
 
 	/**
 	 * The capability helper mock.
@@ -27,16 +27,16 @@ final class Get_SEO_Optimization_Status_Ability_Test extends TestCase {
 	private $capability_helper;
 
 	/**
-	 * The SEO optimization status collector mock.
+	 * The SEO data optimization status collector mock.
 	 *
-	 * @var Mockery\MockInterface|SEO_Optimization_Status_Collector
+	 * @var Mockery\MockInterface|SEO_Data_Optimization_Status_Collector
 	 */
 	private $collector;
 
 	/**
 	 * The instance under test.
 	 *
-	 * @var Get_SEO_Optimization_Status_Ability
+	 * @var Get_SEO_Data_Optimization_Status_Ability
 	 */
 	private $instance;
 
@@ -51,9 +51,9 @@ final class Get_SEO_Optimization_Status_Ability_Test extends TestCase {
 		$this->stubTranslationFunctions();
 
 		$this->capability_helper = Mockery::mock( Capability_Helper::class );
-		$this->collector         = Mockery::mock( SEO_Optimization_Status_Collector::class );
+		$this->collector         = Mockery::mock( SEO_Data_Optimization_Status_Collector::class );
 
-		$this->instance = new Get_SEO_Optimization_Status_Ability( $this->capability_helper, $this->collector );
+		$this->instance = new Get_SEO_Data_Optimization_Status_Ability( $this->capability_helper, $this->collector );
 	}
 
 	/**
@@ -76,7 +76,7 @@ final class Get_SEO_Optimization_Status_Ability_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_get_name() {
-		$this->assertSame( 'yoast-seo/get-seo-optimization-status', $this->instance->get_name() );
+		$this->assertSame( 'yoast-seo/get-seo-data-optimization-status', $this->instance->get_name() );
 	}
 
 	/**
@@ -91,25 +91,25 @@ final class Get_SEO_Optimization_Status_Ability_Test extends TestCase {
 	}
 
 	/**
-	 * Tests that can_edit_advanced_metadata checks the advanced metadata capability and returns its result.
+	 * Tests that can_manage_seo checks the Yoast SEO management capability and returns its result.
 	 *
 	 * @covers ::__construct
-	 * @covers ::can_edit_advanced_metadata
+	 * @covers ::can_manage_seo
 	 *
 	 * @dataProvider provide_boolean_outcomes
 	 *
-	 * @param bool $can Whether the current user can edit advanced SEO metadata.
+	 * @param bool $can Whether the current user can manage Yoast SEO.
 	 *
 	 * @return void
 	 */
-	public function test_can_edit_advanced_metadata( bool $can ) {
+	public function test_can_manage_seo( bool $can ) {
 		$this->capability_helper
 			->expects( 'current_user_can' )
 			->once()
-			->with( 'wpseo_edit_advanced_metadata' )
+			->with( 'wpseo_manage_options' )
 			->andReturn( $can );
 
-		$this->assertSame( $can, $this->instance->can_edit_advanced_metadata() );
+		$this->assertSame( $can, $this->instance->can_manage_seo() );
 	}
 
 	/**
@@ -141,8 +141,8 @@ final class Get_SEO_Optimization_Status_Ability_Test extends TestCase {
 		// The default input is a new object, so it can only be compared by value.
 		$this->assertEquals(
 			[
-				'label'               => 'Get SEO Optimization Status',
-				'description'         => 'Get whether Yoast SEO stores the SEO data of the site in its indexables, and whether it has finished optimizing that SEO data. The abilities that get or update the SEO data of posts, terms and authors, and the abilities that get the scores, are only available when the indexables are enabled, and only find content whose SEO data has been optimized, so while the optimization has not finished, they can miss content that exists. Check this status when those abilities are missing or don\'t find content you expect. A user who can manage the SEO settings can start the optimization from the Tools page of the plugin.',
+				'label'               => 'Get SEO Data Optimization Status',
+				'description'         => 'Get whether Yoast SEO stores the SEO data of the site in its indexables, and whether it has finished optimizing that SEO data. The abilities that get or update the SEO data of posts, terms and authors, and the abilities that get the scores, are only available when the indexables are enabled, and only find content whose SEO data has been optimized, so while the SEO data optimization has not finished, they can miss content that exists. Check this status when those abilities are missing or don\'t find content you expect. A user who can manage the SEO settings can start the SEO data optimization from the Tools page of the plugin.',
 				'category'            => 'yoast-seo',
 				'input_schema'        => [
 					'type'                 => 'object',
@@ -162,7 +162,7 @@ final class Get_SEO_Optimization_Status_Ability_Test extends TestCase {
 						],
 					],
 				],
-				'permission_callback' => [ $this->instance, 'can_edit_advanced_metadata' ],
+				'permission_callback' => [ $this->instance, 'can_manage_seo' ],
 				'execute_callback'    => [ $this->instance, 'execute' ],
 				'meta'                => [
 					'show_in_rest' => true,

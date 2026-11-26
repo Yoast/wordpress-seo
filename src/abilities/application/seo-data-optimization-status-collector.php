@@ -14,10 +14,10 @@ use Yoast\WP\SEO\Helpers\Indexing_Helper;
  * Application service that collects whether the indexables of the site are enabled and whether the SEO data
  * optimization has built them.
  *
- * @internal Backs the SEO optimization status ability. Not meant to be used outside of Yoast SEO, so it can change
+ * @internal Backs the SEO data optimization status ability. Not meant to be used outside of Yoast SEO, so it can change
  *           at any time without notice.
  */
-class SEO_Optimization_Status_Collector {
+class SEO_Data_Optimization_Status_Collector {
 
 	/**
 	 * The should index indexables conditional.
@@ -71,7 +71,7 @@ class SEO_Optimization_Status_Collector {
 	/**
 	 * Returns whether the indexables are enabled and whether every indexable the abilities read from has been built.
 	 *
-	 * @return array<string, bool> The SEO optimization status.
+	 * @return array<string, bool> The SEO data optimization status.
 	 */
 	public function get(): array {
 		$indexables_enabled = $this->should_index_indexables_conditional->is_met();

@@ -4,7 +4,7 @@
 namespace Yoast\WP\SEO\Tests\Unit\Abilities\Application;
 
 use Mockery;
-use Yoast\WP\SEO\Abilities\Application\SEO_Optimization_Status_Collector;
+use Yoast\WP\SEO\Abilities\Application\SEO_Data_Optimization_Status_Collector;
 use Yoast\WP\SEO\Actions\Indexing\Indexable_General_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexing\Indexable_Post_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexing\Indexable_Post_Type_Archive_Indexation_Action;
@@ -14,13 +14,13 @@ use Yoast\WP\SEO\Helpers\Indexing_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
- * Tests the SEO_Optimization_Status_Collector class.
+ * Tests the SEO_Data_Optimization_Status_Collector class.
  *
  * @group abilities
  *
- * @coversDefaultClass \Yoast\WP\SEO\Abilities\Application\SEO_Optimization_Status_Collector
+ * @coversDefaultClass \Yoast\WP\SEO\Abilities\Application\SEO_Data_Optimization_Status_Collector
  */
-final class SEO_Optimization_Status_Collector_Test extends TestCase {
+final class SEO_Data_Optimization_Status_Collector_Test extends TestCase {
 
 	/**
 	 * The should index indexables conditional mock.
@@ -67,7 +67,7 @@ final class SEO_Optimization_Status_Collector_Test extends TestCase {
 	/**
 	 * The instance under test.
 	 *
-	 * @var SEO_Optimization_Status_Collector
+	 * @var SEO_Data_Optimization_Status_Collector
 	 */
 	private $instance;
 
@@ -86,7 +86,7 @@ final class SEO_Optimization_Status_Collector_Test extends TestCase {
 		$this->post_type_archive_indexation        = Mockery::mock( Indexable_Post_Type_Archive_Indexation_Action::class );
 		$this->general_indexation                  = Mockery::mock( Indexable_General_Indexation_Action::class );
 
-		$this->instance = new SEO_Optimization_Status_Collector(
+		$this->instance = new SEO_Data_Optimization_Status_Collector(
 			$this->should_index_indexables_conditional,
 			$this->indexing_helper,
 			$this->post_indexation,
