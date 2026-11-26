@@ -9,6 +9,7 @@ use WPSEO_Primary_Term;
 use Yoast\WP\SEO\Conditionals\No_Conditionals;
 use Yoast\WP\SEO\Helpers\Capability_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
+use Yoast\WP\SEO\Helpers\Post_Type_Helper;
 use Yoast\WP\SEO\Helpers\Primary_Term_Helper;
 use Yoast\WP\SEO\Helpers\Taxonomy_Helper;
 
@@ -56,18 +57,27 @@ class Post_Meta_Rest_Fields implements Initializer_Interface {
 	private $capability_helper;
 
 	/**
+	 * The post type helper.
+	 *
+	 * @var Post_Type_Helper
+	 */
+	private $post_type_helper;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param Primary_Term_Helper $primary_term_helper The primary term helper.
 	 * @param Taxonomy_Helper     $taxonomy_helper     The taxonomy helper.
 	 * @param Options_Helper      $options_helper      The options helper.
 	 * @param Capability_Helper   $capability_helper   The capability helper.
+	 * @param Post_Type_Helper    $post_type_helper    The post type helper.
 	 */
-	public function __construct( Primary_Term_Helper $primary_term_helper, Taxonomy_Helper $taxonomy_helper, Options_Helper $options_helper, Capability_Helper $capability_helper ) {
+	public function __construct( Primary_Term_Helper $primary_term_helper, Taxonomy_Helper $taxonomy_helper, Options_Helper $options_helper, Capability_Helper $capability_helper, Post_Type_Helper $post_type_helper ) {
 		$this->primary_term_helper = $primary_term_helper;
 		$this->taxonomy_helper     = $taxonomy_helper;
 		$this->options_helper      = $options_helper;
 		$this->capability_helper   = $capability_helper;
+		$this->post_type_helper    = $post_type_helper;
 	}
 
 	/**
@@ -80,8 +90,8 @@ class Post_Meta_Rest_Fields implements Initializer_Interface {
 	}
 
 	/**
-	 * Registers all Yoast meta fields per REST-enabled post type and adds the
-	 * unauthorized-read filter for each.
+	 * Registers all Yoast meta fields per accessible, REST-enabled post type and
+	 * adds the unauthorized-read filter for each.
 	 *
 	 * Also populates WPSEO_Meta::$fields_index and WPSEO_Meta::$defaults, which were
 	 * previously built inside the registration loop in WPSEO_Meta::init().
@@ -103,7 +113,12 @@ class Post_Meta_Rest_Fields implements Initializer_Interface {
 
 		$metabox_disabled_in_block_editor = \apply_filters( 'wpseo_disable_metabox_in_block_editor', false );
 
-		foreach ( \get_post_types( [ 'show_in_rest' => true ], 'names' ) as $post_type ) {
+		$post_types = \array_intersect(
+			\get_post_types( [ 'show_in_rest' => true ], 'names' ),
+			$this->post_type_helper->get_accessible_post_types(),
+		);
+
+		foreach ( $post_types as $post_type ) {
 			foreach ( WPSEO_Meta::$meta_fields as $subset => $field_group ) {
 				// primary_term is registered per-post-type by register_primary_term_meta() below.
 				// Skipping it here prevents fields added for one post type from bleeding into

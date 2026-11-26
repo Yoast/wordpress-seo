@@ -4,7 +4,7 @@ Donate link: https://yoa.st/1up
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
-Tested up to: 7.1
+Tested up to: 7.2
 Stable tag: 28.9
 Requires PHP: 7.4
 
@@ -336,6 +336,10 @@ Release date: 2026-12-01
 * Fixes a bug where the highlight buttons would not highlight anything in blocks nested inside other blocks, e.g. paragraphs in columns.
 * Fixes a bug where the Premium activation notice was hidden by unverified dismissal requests. Props to [@jdevalk](https://github.com/jdevalk).
 * Fixes a bug where values that were cleaned up before saving were reported as not saved by the Yoast Abilities that update settings.
+
+#### Other
+
+* Sets the _WordPress tested up to_ version to 7.2.
 
 = 28.9 =
 
