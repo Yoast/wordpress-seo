@@ -337,6 +337,10 @@ Release date: 2026-12-01
 * Fixes a bug where the Premium activation notice was hidden by unverified dismissal requests. Props to [@jdevalk](https://github.com/jdevalk).
 * Fixes a bug where values that were cleaned up before saving were reported as not saved by the Yoast Abilities that update settings.
 
+#### Other
+
+* Sets the _WordPress tested up to_ version to 7.2.
+
 = 28.9 =
 
 Release date: 2026-11-18
