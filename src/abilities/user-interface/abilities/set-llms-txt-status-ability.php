@@ -5,7 +5,7 @@ namespace Yoast\WP\SEO\Abilities\User_Interface\Abilities;
 
 use WP_Error;
 use Yoast\WP\SEO\Abilities\Application\Llms_Txt_Status_Updater;
-use Yoast\WP\SEO\Conditionals\Non_Multisite_Conditional;
+use Yoast\WP\SEO\Abilities\Infrastructure\Features\Llms_Txt_Feature;
 use Yoast\WP\SEO\Helpers\Capability_Helper;
 
 /**
@@ -16,11 +16,11 @@ use Yoast\WP\SEO\Helpers\Capability_Helper;
 class Set_Llms_Txt_Status_Ability extends Abstract_Set_Feature_Status_Ability {
 
 	/**
-	 * The non-multisite conditional.
+	 * The llms.txt feature.
 	 *
-	 * @var Non_Multisite_Conditional
+	 * @var Llms_Txt_Feature
 	 */
-	private $non_multisite_conditional;
+	private $llms_txt_feature;
 
 	/**
 	 * The llms.txt status updater.
@@ -32,19 +32,19 @@ class Set_Llms_Txt_Status_Ability extends Abstract_Set_Feature_Status_Ability {
 	/**
 	 * Constructor.
 	 *
-	 * @param Capability_Helper         $capability_helper         The capability helper.
-	 * @param Non_Multisite_Conditional $non_multisite_conditional The non-multisite conditional.
-	 * @param Llms_Txt_Status_Updater   $llms_txt_status_updater   The llms.txt status updater.
+	 * @param Capability_Helper       $capability_helper       The capability helper.
+	 * @param Llms_Txt_Feature        $llms_txt_feature        The llms.txt feature.
+	 * @param Llms_Txt_Status_Updater $llms_txt_status_updater The llms.txt status updater.
 	 */
 	public function __construct(
 		Capability_Helper $capability_helper,
-		Non_Multisite_Conditional $non_multisite_conditional,
+		Llms_Txt_Feature $llms_txt_feature,
 		Llms_Txt_Status_Updater $llms_txt_status_updater
 	) {
 		parent::__construct( $capability_helper );
 
-		$this->non_multisite_conditional = $non_multisite_conditional;
-		$this->llms_txt_status_updater   = $llms_txt_status_updater;
+		$this->llms_txt_feature        = $llms_txt_feature;
+		$this->llms_txt_status_updater = $llms_txt_status_updater;
 	}
 
 	/**
@@ -54,7 +54,7 @@ class Set_Llms_Txt_Status_Ability extends Abstract_Set_Feature_Status_Ability {
 	 * @return bool Whether the ability is available.
 	 */
 	public function is_available(): bool {
-		return $this->non_multisite_conditional->is_met();
+		return $this->llms_txt_feature->is_available();
 	}
 
 	/**
@@ -83,7 +83,7 @@ class Set_Llms_Txt_Status_Ability extends Abstract_Set_Feature_Status_Ability {
 	 * @return string The feature name.
 	 */
 	protected function get_feature_name(): string {
-		return 'llms.txt';
+		return Llms_Txt_Feature::NAME;
 	}
 
 	/**

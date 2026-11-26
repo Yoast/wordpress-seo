@@ -6,8 +6,8 @@ namespace Yoast\WP\SEO\Tests\Unit\Abilities\User_Interface\Abilities;
 use Mockery;
 use WP_Error;
 use Yoast\WP\SEO\Abilities\Application\Llms_Txt_Status_Updater;
+use Yoast\WP\SEO\Abilities\Infrastructure\Features\Llms_Txt_Feature;
 use Yoast\WP\SEO\Abilities\User_Interface\Abilities\Set_Llms_Txt_Status_Ability;
-use Yoast\WP\SEO\Conditionals\Non_Multisite_Conditional;
 use Yoast\WP\SEO\Helpers\Capability_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
@@ -28,11 +28,11 @@ final class Set_Llms_Txt_Status_Ability_Test extends TestCase {
 	private $capability_helper;
 
 	/**
-	 * The non-multisite conditional mock.
+	 * The llms.txt feature mock.
 	 *
-	 * @var Mockery\MockInterface|Non_Multisite_Conditional
+	 * @var Mockery\MockInterface|Llms_Txt_Feature
 	 */
-	private $non_multisite_conditional;
+	private $llms_txt_feature;
 
 	/**
 	 * The llms.txt status updater mock.
@@ -58,13 +58,13 @@ final class Set_Llms_Txt_Status_Ability_Test extends TestCase {
 
 		$this->stubTranslationFunctions();
 
-		$this->capability_helper         = Mockery::mock( Capability_Helper::class );
-		$this->non_multisite_conditional = Mockery::mock( Non_Multisite_Conditional::class );
-		$this->llms_txt_status_updater   = Mockery::mock( Llms_Txt_Status_Updater::class );
+		$this->capability_helper       = Mockery::mock( Capability_Helper::class );
+		$this->llms_txt_feature        = Mockery::mock( Llms_Txt_Feature::class );
+		$this->llms_txt_status_updater = Mockery::mock( Llms_Txt_Status_Updater::class );
 
 		$this->instance = new Set_Llms_Txt_Status_Ability(
 			$this->capability_helper,
-			$this->non_multisite_conditional,
+			$this->llms_txt_feature,
 			$this->llms_txt_status_updater,
 		);
 	}
@@ -94,21 +94,21 @@ final class Set_Llms_Txt_Status_Ability_Test extends TestCase {
 	}
 
 	/**
-	 * Tests that is_available follows the non-multisite conditional.
+	 * Tests that is_available follows whether the llms.txt feature can be changed on the site.
 	 *
 	 * @covers ::__construct
 	 * @covers ::is_available
 	 *
 	 * @dataProvider provide_boolean_outcomes
 	 *
-	 * @param bool $is_met Whether the site is not a multisite.
+	 * @param bool $available Whether the feature can be changed on the site.
 	 *
 	 * @return void
 	 */
-	public function test_is_available( bool $is_met ) {
-		$this->non_multisite_conditional->expects( 'is_met' )->once()->andReturn( $is_met );
+	public function test_is_available( bool $available ) {
+		$this->llms_txt_feature->expects( 'is_available' )->once()->andReturn( $available );
 
-		$this->assertSame( $is_met, $this->instance->is_available() );
+		$this->assertSame( $available, $this->instance->is_available() );
 	}
 
 	/**
@@ -224,7 +224,7 @@ final class Set_Llms_Txt_Status_Ability_Test extends TestCase {
 					'properties' => [
 						'enabled' => [
 							'type'        => 'boolean',
-							'description' => 'Whether Yoast SEO\'s llms.txt feature is enabled.',
+							'description' => 'Whether Yoast SEO\'s llms.txt feature is turned on in its setting.',
 						],
 						'warning' => [
 							'type'        => 'string',

@@ -148,7 +148,7 @@ abstract class Abstract_Set_Feature_Status_Ability implements Ability_Interface 
 							'type'        => 'boolean',
 							'description' => \sprintf(
 								/* translators: %1$s expands to Yoast SEO, %2$s: the name of the feature. */
-								\__( 'Whether %1$s\'s %2$s feature is enabled.', 'wordpress-seo' ),
+								\__( 'Whether %1$s\'s %2$s feature is turned on in its setting.', 'wordpress-seo' ),
 								'Yoast SEO',
 								$feature_name,
 							),

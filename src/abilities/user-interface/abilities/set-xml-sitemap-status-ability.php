@@ -4,8 +4,8 @@
 namespace Yoast\WP\SEO\Abilities\User_Interface\Abilities;
 
 use Yoast\WP\SEO\Abilities\Application\Feature_Status_Updater;
+use Yoast\WP\SEO\Abilities\Infrastructure\Features\Xml_Sitemap_Feature;
 use Yoast\WP\SEO\Helpers\Capability_Helper;
-use Yoast\WP\SEO\Helpers\Options_Helper;
 
 /**
  * The ability that enables or disables the XML sitemap feature.
@@ -13,41 +13,39 @@ use Yoast\WP\SEO\Helpers\Options_Helper;
 class Set_Xml_Sitemap_Status_Ability extends Abstract_Set_Option_Status_Ability {
 
 	/**
-	 * The options helper.
+	 * The XML sitemap feature.
 	 *
-	 * @var Options_Helper
+	 * @var Xml_Sitemap_Feature
 	 */
-	private $options_helper;
+	private $xml_sitemap_feature;
 
 	/**
 	 * Constructor.
 	 *
 	 * @param Capability_Helper      $capability_helper      The capability helper.
 	 * @param Feature_Status_Updater $feature_status_updater The feature status updater.
-	 * @param Options_Helper         $options_helper         The options helper.
+	 * @param Xml_Sitemap_Feature    $xml_sitemap_feature    The XML sitemap feature.
 	 */
 	public function __construct(
 		Capability_Helper $capability_helper,
 		Feature_Status_Updater $feature_status_updater,
-		Options_Helper $options_helper
+		Xml_Sitemap_Feature $xml_sitemap_feature
 	) {
 		parent::__construct( $capability_helper, $feature_status_updater );
 
-		$this->options_helper = $options_helper;
+		$this->xml_sitemap_feature = $xml_sitemap_feature;
 	}
 
 	/**
 	 * Returns whether the ability is available.
 	 *
-	 * A network admin can forbid the XML sitemap for the sites of a multisite network. When
-	 * that is the case, the option validation silently forces the feature back off on save,
-	 * so the ability is not offered instead of failing on every call. Outside of a multisite
-	 * the network option does not exist and the feature is always allowed.
+	 * When a network admin forbids the XML sitemap, the option validation silently forces the feature back off on save,
+	 * so the ability is not offered instead of failing on every call.
 	 *
 	 * @return bool Whether the ability is available.
 	 */
 	public function is_available(): bool {
-		return (bool) $this->options_helper->get( 'allow_enable_xml_sitemap', true );
+		return $this->xml_sitemap_feature->is_available();
 	}
 
 	/**
@@ -65,7 +63,7 @@ class Set_Xml_Sitemap_Status_Ability extends Abstract_Set_Option_Status_Ability 
 	 * @return string The option name.
 	 */
 	protected function get_option_name(): string {
-		return 'enable_xml_sitemap';
+		return Xml_Sitemap_Feature::OPTION_NAME;
 	}
 
 	/**
@@ -74,7 +72,7 @@ class Set_Xml_Sitemap_Status_Ability extends Abstract_Set_Option_Status_Ability 
 	 * @return string The feature name.
 	 */
 	protected function get_feature_name(): string {
-		return 'XML sitemap';
+		return Xml_Sitemap_Feature::NAME;
 	}
 
 	/**
