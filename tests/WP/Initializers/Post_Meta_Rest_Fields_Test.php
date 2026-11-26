@@ -114,6 +114,24 @@ final class Post_Meta_Rest_Fields_Test extends TestCase {
 	}
 
 	/**
+	 * Tests that register_post_meta does not register Yoast meta for non-public
+	 * post types such as wp_block (synced patterns), even though they are available
+	 * in the REST API.
+	 *
+	 * @covers ::register_post_meta
+	 *
+	 * @return void
+	 */
+	public function test_register_post_meta_does_not_register_for_non_public_post_types() {
+		$this->instance->register_post_meta();
+
+		$key        = WPSEO_Meta::$meta_prefix . 'title';
+		$registered = \get_registered_meta_keys( 'post', 'wp_block' );
+
+		$this->assertArrayNotHasKey( $key, $registered );
+	}
+
+	/**
 	 * Tests that register_post_meta populates WPSEO_Meta::$fields_index for all
 	 * registered fields. Calling it a second time is safe — the fields_index
 	 * update is idempotent.

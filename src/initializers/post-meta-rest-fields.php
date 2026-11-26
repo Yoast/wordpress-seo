@@ -80,11 +80,16 @@ class Post_Meta_Rest_Fields implements Initializer_Interface {
 	}
 
 	/**
-	 * Registers all Yoast meta fields per REST-enabled post type and adds the
+	 * Registers all Yoast meta fields per public REST-enabled post type and adds the
 	 * unauthorized-read filter for each.
 	 *
 	 * Also populates WPSEO_Meta::$fields_index and WPSEO_Meta::$defaults, which were
 	 * previously built inside the registration loop in WPSEO_Meta::init().
+	 *
+	 * Only public post types are included. Non-public internal WordPress post types
+	 * (e.g. wp_block, nav_menu_item, wp_navigation) are available in the REST API but
+	 * have no Yoast controls, so registering meta on them would pollute their REST
+	 * schema unnecessarily.
 	 *
 	 * @return void
 	 */
@@ -103,7 +108,13 @@ class Post_Meta_Rest_Fields implements Initializer_Interface {
 
 		$metabox_disabled_in_block_editor = \apply_filters( 'wpseo_disable_metabox_in_block_editor', false );
 
-		foreach ( \get_post_types( [ 'show_in_rest' => true ], 'names' ) as $post_type ) {
+		foreach ( \get_post_types(
+			[
+				'show_in_rest' => true,
+				'public'       => true,
+			],
+			'names',
+		) as $post_type ) {
 			foreach ( WPSEO_Meta::$meta_fields as $subset => $field_group ) {
 				// primary_term is registered per-post-type by register_primary_term_meta() below.
 				// Skipping it here prevents fields added for one post type from bleeding into
