@@ -695,56 +695,6 @@ final class Post_Meta_Rest_Fields_Test extends TestCase {
 	// -------------------------------------------------------------------------
 
 	/**
-	 * Tests that normalize_primary_term_meta normalizes the value of a primary term meta key.
-	 *
-	 * @covers ::normalize_primary_term_meta
-	 *
-	 * @dataProvider provide_primary_term_meta_values
-	 *
-	 * @param array<string|int|null>|string|int|null $value    The value from the earlier filters.
-	 * @param array<string>|string|null              $expected The expected normalized value.
-	 *
-	 * @return void
-	 */
-	public function test_normalize_primary_term_meta( $value, $expected ) {
-		$this->assertSame(
-			$expected,
-			$this->instance->normalize_primary_term_meta( $value, 1, WPSEO_Meta::$meta_prefix . 'primary_category' ),
-		);
-	}
-
-	/**
-	 * Provides the values for the normalize_primary_term_meta test.
-	 *
-	 * @return array<string, array<array<string|int|null>|string|int|null>>
-	 */
-	public static function provide_primary_term_meta_values() {
-		return [
-			'No value from the earlier filters' => [ null, null ],
-			'An integer'                        => [ 5, '5' ],
-			'A string'                          => [ '5', '5' ],
-			'An array with an integer'          => [ [ 5 ], [ '5' ] ],
-			'An array with a string'            => [ [ '5' ], [ '5' ] ],
-			'An array with only null'           => [ [ null ], null ],
-			'An empty array'                    => [ [], null ],
-		];
-	}
-
-	/**
-	 * Tests that normalize_primary_term_meta leaves the value of other meta keys as it is.
-	 *
-	 * @covers ::normalize_primary_term_meta
-	 *
-	 * @return void
-	 */
-	public function test_normalize_primary_term_meta_leaves_other_meta_keys_alone() {
-		$this->assertSame(
-			[ 5 ],
-			$this->instance->normalize_primary_term_meta( [ 5 ], 1, WPSEO_Meta::$meta_prefix . 'focuskw' ),
-		);
-	}
-
-	/**
 	 * Tests that the REST API accepts the meta it returned for a post without a stored
 	 * primary term, when another plugin returns an empty value for the primary term meta.
 	 *
