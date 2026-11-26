@@ -19,6 +19,13 @@ class Llms_Txt_Feature extends Abstract_Feature {
 	public const KEY = 'llms_txt';
 
 	/**
+	 * The name of the boolean option that enables the feature.
+	 *
+	 * @var string
+	 */
+	public const OPTION_NAME = Llms_Txt_Status_Updater::OPTION_NAME;
+
+	/**
 	 * The human-readable name of the feature.
 	 *
 	 * @var string
@@ -39,33 +46,6 @@ class Llms_Txt_Feature extends Abstract_Feature {
 	 */
 	public function __construct( Non_Multisite_Conditional $non_multisite_conditional ) {
 		$this->non_multisite_conditional = $non_multisite_conditional;
-	}
-
-	/**
-	 * Returns the key of the feature.
-	 *
-	 * @return string The key.
-	 */
-	public function get_key(): string {
-		return self::KEY;
-	}
-
-	/**
-	 * Returns the name of the boolean option that enables the feature.
-	 *
-	 * @return string The option name.
-	 */
-	public function get_option_name(): string {
-		return Llms_Txt_Status_Updater::OPTION_NAME;
-	}
-
-	/**
-	 * Returns the human-readable name of the feature.
-	 *
-	 * @return string The name.
-	 */
-	public function get_name(): string {
-		return self::NAME;
 	}
 
 	/**

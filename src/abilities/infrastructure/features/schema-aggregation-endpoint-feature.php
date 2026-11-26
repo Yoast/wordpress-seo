@@ -28,31 +28,4 @@ class Schema_Aggregation_Endpoint_Feature extends Abstract_Feature {
 	 * @var string
 	 */
 	public const NAME = 'Schema aggregation endpoint';
-
-	/**
-	 * Returns the key of the feature.
-	 *
-	 * @return string The key.
-	 */
-	public function get_key(): string {
-		return self::KEY;
-	}
-
-	/**
-	 * Returns the name of the boolean option that enables the feature.
-	 *
-	 * @return string The option name.
-	 */
-	public function get_option_name(): string {
-		return self::OPTION_NAME;
-	}
-
-	/**
-	 * Returns the human-readable name of the feature.
-	 *
-	 * @return string The name.
-	 */
-	public function get_name(): string {
-		return self::NAME;
-	}
 }
