@@ -274,6 +274,64 @@ final class Post_Meta_Rest_Fields_Test extends TestCase {
 		$this->assertTrue( $result );
 	}
 
+	/**
+	 * Tests that register_post_meta does not register the fields for a post type
+	 * that is available in the REST API but is not accessible.
+	 *
+	 * @covers ::register_post_meta
+	 *
+	 * @return void
+	 */
+	public function test_register_post_meta_skips_non_accessible_post_type() {
+		$this->instance->register_post_meta();
+		$key        = WPSEO_Meta::$meta_prefix . 'title';
+		$registered = \get_registered_meta_keys( 'post', 'wp_block' );
+
+		$this->assertArrayNotHasKey( $key, $registered );
+	}
+
+	/**
+	 * Tests that register_post_meta does not add the REST response filters for a
+	 * post type that is available in the REST API but is not accessible.
+	 *
+	 * @covers ::register_post_meta
+	 *
+	 * @return void
+	 */
+	public function test_register_post_meta_adds_no_rest_filters_for_non_accessible_post_type() {
+		$this->instance->register_post_meta();
+
+		$this->assertFalse( \has_filter( 'rest_prepare_wp_block', [ $this->instance, 'hide_meta_from_unauthorized_rest_response' ] ) );
+		$this->assertFalse( \has_filter( 'rest_prepare_wp_block', [ $this->instance, 'add_meta_defaults_to_rest_response' ] ) );
+	}
+
+	/**
+	 * Tests that register_post_meta does not add custom-fields support to a post
+	 * type that is not accessible when the metabox is disabled in the block editor.
+	 *
+	 * @covers ::register_post_meta
+	 *
+	 * @return void
+	 */
+	public function test_register_post_meta_adds_no_custom_fields_support_to_non_accessible_post_type() {
+		\register_post_type(
+			'yoast_internal',
+			[
+				'public'       => false,
+				'show_in_rest' => true,
+				'supports'     => [ 'title', 'editor' ],
+			],
+		);
+		\add_filter( 'wpseo_disable_metabox_in_block_editor', '__return_true' );
+
+		$this->instance->register_post_meta();
+
+		$this->assertFalse( \post_type_supports( 'yoast_internal', 'custom-fields' ) );
+
+		\remove_filter( 'wpseo_disable_metabox_in_block_editor', '__return_true' );
+		\unregister_post_type( 'yoast_internal' );
+	}
+
 	// -------------------------------------------------------------------------
 	// Primary term registration
 	// -------------------------------------------------------------------------
