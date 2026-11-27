@@ -691,8 +691,111 @@ final class Post_Meta_Rest_Fields_Test extends TestCase {
 	}
 
 	// -------------------------------------------------------------------------
+	// normalize_primary_term_meta
+	// -------------------------------------------------------------------------
+
+	/**
+	 * Tests that the REST API accepts the meta it returned for a post without a stored
+	 * primary term, when another plugin returns an empty value for the primary term meta.
+	 *
+	 * @covers ::register_rest_hooks
+	 * @covers ::normalize_primary_term_meta
+	 *
+	 * @return void
+	 */
+	public function test_rest_update_succeeds_when_another_plugin_returns_an_empty_primary_term() {
+		$key     = WPSEO_Meta::$meta_prefix . 'primary_category';
+		$post_id = $this->factory->post->create();
+		\wp_set_current_user( $this->factory->user->create( [ 'role' => 'administrator' ] ) );
+		\add_filter(
+			'get_post_metadata',
+			static function ( $value, $object_id, $meta_key, $single ) use ( $key ) {
+				if ( $meta_key !== $key ) {
+					return $value;
+				}
+
+				return ( $single ) ? null : [ null ];
+			},
+			10,
+			4,
+		);
+
+		$this->instance->register_post_meta();
+		$meta     = $this->get_meta_from_rest( $post_id );
+		$response = $this->send_meta_to_rest( $post_id, $meta );
+
+		$this->assertSame( '', $meta[ $key ] );
+		$this->assertSame( 200, $response->get_status() );
+	}
+
+	/**
+	 * Tests that the REST API accepts the meta it returned for a post with a stored
+	 * primary term, when another plugin returns the primary term meta as an integer.
+	 *
+	 * @covers ::register_rest_hooks
+	 * @covers ::normalize_primary_term_meta
+	 *
+	 * @return void
+	 */
+	public function test_rest_update_succeeds_when_another_plugin_returns_the_primary_term_as_integer() {
+		$key         = WPSEO_Meta::$meta_prefix . 'primary_category';
+		$category_id = $this->factory->category->create();
+		$post_id     = $this->factory->post->create( [ 'post_category' => [ $category_id ] ] );
+		\update_post_meta( $post_id, $key, (string) $category_id );
+		\wp_set_current_user( $this->factory->user->create( [ 'role' => 'administrator' ] ) );
+		$return_integer = static function ( $value, $object_id, $meta_key, $single ) use ( $key, $category_id ) {
+			if ( $meta_key !== $key ) {
+				return $value;
+			}
+
+			return ( $single ) ? $category_id : [ $category_id ];
+		};
+		\add_filter( 'get_post_metadata', $return_integer, 10, 4 );
+
+		$this->instance->register_post_meta();
+		$meta     = $this->get_meta_from_rest( $post_id );
+		$response = $this->send_meta_to_rest( $post_id, $meta );
+		\remove_filter( 'get_post_metadata', $return_integer, 10 );
+
+		$this->assertSame( (string) $category_id, $meta[ $key ] );
+		$this->assertSame( 200, $response->get_status() );
+		$this->assertSame( (string) $category_id, \get_post_meta( $post_id, $key, true ) );
+	}
+
+	// -------------------------------------------------------------------------
 	// Helpers
 	// -------------------------------------------------------------------------
+
+	/**
+	 * Gets the meta of a post from the REST API, the way the block editor loads it.
+	 *
+	 * @param int $post_id The post ID.
+	 *
+	 * @return array<string, string|null> The meta.
+	 */
+	private function get_meta_from_rest( int $post_id ): array {
+		\do_action( 'rest_api_init' );
+
+		$request = new WP_REST_Request( 'GET', '/wp/v2/posts/' . $post_id );
+		$request->set_param( 'context', 'edit' );
+
+		return \rest_get_server()->dispatch( $request )->get_data()['meta'];
+	}
+
+	/**
+	 * Sends the meta of a post to the REST API, the way the block editor saves it.
+	 *
+	 * @param int                        $post_id The post ID.
+	 * @param array<string, string|null> $meta    The meta.
+	 *
+	 * @return WP_REST_Response The response.
+	 */
+	private function send_meta_to_rest( int $post_id, array $meta ): WP_REST_Response {
+		$request = new WP_REST_Request( 'POST', '/wp/v2/posts/' . $post_id );
+		$request->set_param( 'meta', $meta );
+
+		return \rest_get_server()->dispatch( $request );
+	}
 
 	/**
 	 * Sets the disableadvanced_meta option and clears the WPSEO_Options cache so
