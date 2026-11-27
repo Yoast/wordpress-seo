@@ -90,8 +90,8 @@ class Indexable_Post_Type_Archive_Builder {
 		$indexable->version           = $this->version;
 
 		$timestamps                      = $this->get_object_timestamps( $post_type );
-		$indexable->object_published_at  = $timestamps->published_at;
-		$indexable->object_last_modified = $timestamps->last_modified;
+		$indexable->object_published_at  = ( $timestamps->published_at ?? null );
+		$indexable->object_last_modified = ( $timestamps->last_modified ?? null );
 
 		return $indexable;
 	}
@@ -132,7 +132,8 @@ class Indexable_Post_Type_Archive_Builder {
 	 *
 	 * @param string $post_type The post type.
 	 *
-	 * @return object An object with last_modified and published_at timestamps.
+	 * @return object|null An object with last_modified and published_at timestamps, or null
+	 *                     when the query fails or returns no row.
 	 */
 	protected function get_object_timestamps( $post_type ) {
 		global $wpdb;
