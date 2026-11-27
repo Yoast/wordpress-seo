@@ -16,6 +16,8 @@ use Yoast\WP\SEO\Tests\Unit\TestCase;
  * @group abilities
  *
  * @coversDefaultClass \Yoast\WP\SEO\Abilities\User_Interface\Abilities\Get_SEO_Data_Optimization_Status_Ability
+ *
+ * @phpcs:disable Yoast.NamingConventions.ObjectNameDepth.MaxExceeded
  */
 final class Get_SEO_Data_Optimization_Status_Ability_Test extends TestCase {
 
@@ -121,8 +123,8 @@ final class Get_SEO_Data_Optimization_Status_Ability_Test extends TestCase {
 	 */
 	public function test_execute() {
 		$status = [
-			'indexables_enabled' => true,
-			'is_optimized'       => false,
+			'optimization_enabled'  => true,
+			'optimization_complete' => false,
 		];
 
 		$this->collector->expects( 'get' )->once()->andReturn( $status );
@@ -142,7 +144,7 @@ final class Get_SEO_Data_Optimization_Status_Ability_Test extends TestCase {
 		$this->assertEquals(
 			[
 				'label'               => 'Get SEO Data Optimization Status',
-				'description'         => 'Get whether Yoast SEO stores the SEO data of the site in its indexables, and whether it has finished optimizing that SEO data. The abilities that get or update the SEO data of posts, terms and authors, and the abilities that get the scores, are only available when the indexables are enabled, and only find content whose SEO data has been optimized, so while the SEO data optimization has not finished, they can miss content that exists. Check this status when those abilities are missing or don\'t find content you expect. A user who can manage the SEO settings can start the SEO data optimization from the Tools page of the plugin.',
+				'description'         => 'Get whether the SEO data optimization of Yoast SEO is enabled, and whether it is complete. The abilities that get or update the SEO data of posts, terms and authors, and the abilities that get the scores, are only available when the SEO data optimization is enabled, and only find content whose SEO data has been optimized, so while the SEO data optimization has not finished, they can miss content that exists. This status explains why those abilities can be missing or not find content that exists. A user who can manage the SEO settings can start the SEO data optimization from the Tools page of the plugin.',
 				'category'            => 'yoast-seo',
 				'input_schema'        => [
 					'type'                 => 'object',
@@ -152,13 +154,13 @@ final class Get_SEO_Data_Optimization_Status_Ability_Test extends TestCase {
 				'output_schema'       => [
 					'type'       => 'object',
 					'properties' => [
-						'indexables_enabled' => [
+						'optimization_enabled'  => [
 							'type'        => 'boolean',
-							'description' => 'Whether the indexables are enabled. They are disabled on non-production environments, unless a developer enables them, and a developer can also disable them on any environment.',
+							'description' => 'Whether the SEO data optimization is enabled. It is disabled on non-production environments, unless custom code enables it, and custom code can also disable it on any environment.',
 						],
-						'is_optimized'       => [
+						'optimization_complete' => [
 							'type'        => 'boolean',
-							'description' => 'Whether the SEO data of all the content of the site has been optimized. Always false when the indexables are disabled.',
+							'description' => 'Whether the SEO data optimization is complete for all the content of the site. Always false when the SEO data optimization is disabled.',
 						],
 					],
 				],

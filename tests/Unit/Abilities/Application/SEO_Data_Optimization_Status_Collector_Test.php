@@ -142,8 +142,8 @@ final class SEO_Data_Optimization_Status_Collector_Test extends TestCase {
 
 		$this->assertSame(
 			[
-				'indexables_enabled' => true,
-				'is_optimized'       => $expected,
+				'optimization_enabled'  => true,
+				'optimization_complete' => $expected,
 			],
 			$this->instance->get(),
 		);
@@ -162,8 +162,8 @@ final class SEO_Data_Optimization_Status_Collector_Test extends TestCase {
 
 		$this->assertSame(
 			[
-				'indexables_enabled' => false,
-				'is_optimized'       => false,
+				'optimization_enabled'  => false,
+				'optimization_complete' => false,
 			],
 			$this->instance->get(),
 		);

@@ -77,9 +77,9 @@ class SEO_Data_Optimization_Status_Collector {
 		$indexables_enabled = $this->should_index_indexables_conditional->is_met();
 
 		return [
-			'indexables_enabled' => $indexables_enabled,
+			'optimization_enabled'  => $indexables_enabled,
 			// Without indexables nothing gets built, so the unindexed counts would be meaningless.
-			'is_optimized'       => $indexables_enabled && $this->are_indexables_built(),
+			'optimization_complete' => $indexables_enabled && $this->are_indexables_built(),
 		];
 	}
 
