@@ -34,7 +34,7 @@ class CreateExpiringStoreTable extends Migration {
 				'key_name',
 				'string',
 				[
-					'limit'       => 255,
+					'limit'       => 191,
 					'null'        => false,
 					'primary_key' => true,
 				],

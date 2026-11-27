@@ -179,8 +179,33 @@ class Indexable extends Model {
 		if ( \is_string( $this->primary_focus_keyword ) && \mb_strlen( $this->primary_focus_keyword ) > 191 ) {
 			$this->primary_focus_keyword = \mb_substr( $this->primary_focus_keyword, 0, 191, 'UTF-8' );
 		}
+		$this->nullify_zero_dates();
 
 		return parent::save();
+	}
+
+	/**
+	 * Replaces the zero dates in the object timestamps with NULL.
+	 *
+	 * Drafts and auto-drafts have no publish date, which WordPress stores as a zero
+	 * date. Keeping that value in the indexable breaks databases running with
+	 * NO_ZERO_DATE or NO_ZERO_IN_DATE enabled.
+	 *
+	 * @return void
+	 */
+	private function nullify_zero_dates() {
+		foreach ( [ 'object_published_at', 'object_last_modified' ] as $column ) {
+			$value = $this->get( $column );
+
+			if ( ! \is_string( $value ) ) {
+				continue;
+			}
+
+			// The month and day parts of a zero date are '00'.
+			if ( \substr( $value, 5, 2 ) === '00' || \substr( $value, 8, 2 ) === '00' ) {
+				$this->set( $column, null );
+			}
+		}
 	}
 
 	/**

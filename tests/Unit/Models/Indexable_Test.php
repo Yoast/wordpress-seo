@@ -71,6 +71,8 @@ final class Indexable_Test extends TestCase {
 		// Once for going into the if-statement, then twice for the permalink_hash.
 		$this->instance->orm->expects( 'get' )->times( 5 )->with( 'permalink' )->andReturn( $permalink );
 		$this->instance->orm->expects( 'get' )->twice()->with( 'primary_focus_keyword' )->andReturn( 'keyword' );
+		$this->instance->orm->expects( 'get' )->once()->with( 'object_published_at' );
+		$this->instance->orm->expects( 'get' )->once()->with( 'object_last_modified' );
 		$this->instance->orm->expects( 'save' )->once();
 
 		$this->instance->save();
@@ -109,6 +111,8 @@ final class Indexable_Test extends TestCase {
 		// Once for going into the if-statement, then once more for trailingslashit, then twice for the permalink_hash.
 		$this->instance->orm->expects( 'get' )->times( 5 )->with( 'permalink' )->andReturn( $permalink_no_slash );
 		$this->instance->orm->expects( 'get' )->twice()->with( 'primary_focus_keyword' )->andReturn( 'keyword' );
+		$this->instance->orm->expects( 'get' )->once()->with( 'object_published_at' );
+		$this->instance->orm->expects( 'get' )->once()->with( 'object_last_modified' );
 		$this->instance->orm->expects( 'save' )->once();
 
 		$this->instance->save();
@@ -127,6 +131,8 @@ final class Indexable_Test extends TestCase {
 
 		$this->instance->orm->expects( 'get' )->once()->with( 'permalink' )->andReturnFalse();
 		$this->instance->orm->expects( 'get' )->times( 3 )->with( 'primary_focus_keyword' )->andReturn( $keyword );
+		$this->instance->orm->expects( 'get' )->once()->with( 'object_published_at' );
+		$this->instance->orm->expects( 'get' )->once()->with( 'object_last_modified' );
 		$this->instance->orm->expects( 'set' )->once()->with( 'primary_focus_keyword', $keyword_truncated );
 		$this->instance->orm->expects( 'save' )->once();
 
@@ -143,6 +149,67 @@ final class Indexable_Test extends TestCase {
 	public function test_save_without_changes() {
 		$this->instance->orm->expects( 'get' )->once()->with( 'permalink' );
 		$this->instance->orm->expects( 'get' )->once()->with( 'primary_focus_keyword' );
+		$this->instance->orm->expects( 'get' )->once()->with( 'object_published_at' );
+		$this->instance->orm->expects( 'get' )->once()->with( 'object_last_modified' );
+		$this->instance->orm->expects( 'save' )->once();
+
+		$this->instance->save();
+	}
+
+	/**
+	 * Tests that zero dates in the object timestamps are replaced with null.
+	 *
+	 * @covers ::save
+	 * @covers ::nullify_zero_dates
+	 *
+	 * @return void
+	 */
+	public function test_save_nullifies_zero_dates() {
+		$this->instance->orm->expects( 'get' )->once()->with( 'permalink' )->andReturnFalse();
+		$this->instance->orm->expects( 'get' )->once()->with( 'primary_focus_keyword' )->andReturn( null );
+		$this->instance->orm->expects( 'get' )->once()->with( 'object_published_at' )->andReturn( '0000-00-00 00:00:00' );
+		$this->instance->orm->expects( 'get' )->once()->with( 'object_last_modified' )->andReturn( '0000-00-00 00:00:00' );
+		$this->instance->orm->expects( 'set' )->once()->with( 'object_published_at', null );
+		$this->instance->orm->expects( 'set' )->once()->with( 'object_last_modified', null );
+		$this->instance->orm->expects( 'save' )->once();
+
+		$this->instance->save();
+	}
+
+	/**
+	 * Tests that dates with a zero month or day are replaced with null.
+	 *
+	 * @covers ::save
+	 * @covers ::nullify_zero_dates
+	 *
+	 * @return void
+	 */
+	public function test_save_nullifies_partial_zero_dates() {
+		$this->instance->orm->expects( 'get' )->once()->with( 'permalink' )->andReturnFalse();
+		$this->instance->orm->expects( 'get' )->once()->with( 'primary_focus_keyword' )->andReturn( null );
+		$this->instance->orm->expects( 'get' )->once()->with( 'object_published_at' )->andReturn( '2024-00-15 00:00:00' );
+		$this->instance->orm->expects( 'get' )->once()->with( 'object_last_modified' )->andReturn( '2024-01-00 00:00:00' );
+		$this->instance->orm->expects( 'set' )->once()->with( 'object_published_at', null );
+		$this->instance->orm->expects( 'set' )->once()->with( 'object_last_modified', null );
+		$this->instance->orm->expects( 'save' )->once();
+
+		$this->instance->save();
+	}
+
+	/**
+	 * Tests that valid object timestamps are kept as they are.
+	 *
+	 * @covers ::save
+	 * @covers ::nullify_zero_dates
+	 *
+	 * @return void
+	 */
+	public function test_save_keeps_valid_dates() {
+		$this->instance->orm->expects( 'get' )->once()->with( 'permalink' )->andReturnFalse();
+		$this->instance->orm->expects( 'get' )->once()->with( 'primary_focus_keyword' )->andReturn( null );
+		$this->instance->orm->expects( 'get' )->once()->with( 'object_published_at' )->andReturn( '2024-01-01 00:00:00' );
+		$this->instance->orm->expects( 'get' )->once()->with( 'object_last_modified' )->andReturn( '2024-01-02 00:00:00' );
+		$this->instance->orm->expects( 'set' )->never();
 		$this->instance->orm->expects( 'save' )->once();
 
 		$this->instance->save();
@@ -195,6 +262,8 @@ final class Indexable_Test extends TestCase {
 			->once()
 			->with( 'permalink_hash', \strlen( $permalink ) . ':' . \md5( $permalink ) );
 		$this->instance->orm->expects( 'get' )->twice()->with( 'primary_focus_keyword' )->andReturn( 'keyword' );
+		$this->instance->orm->expects( 'get' )->once()->with( 'object_published_at' );
+		$this->instance->orm->expects( 'get' )->once()->with( 'object_last_modified' );
 		$this->instance->orm->expects( 'save' )->once();
 
 		$this->instance->set( 'permalink', $permalink );
