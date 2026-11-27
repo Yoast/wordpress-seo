@@ -120,6 +120,8 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 		 * - 'title-' . $pt->name                => ''; // Text field.
 		 * - 'metadesc-' . $pt->name             => ''; // Text field.
 		 * - 'noindex-' . $pt->name              => false;
+		 * - 'noarchive-' . $pt->name            => false;
+		 * - 'noimageindex-' . $pt->name         => false;
 		 * - 'display-metabox-pt-' . $pt->name   => false;
 		 *
 		 * - 'title-ptarchive-' . $pt->name      => ''; // Text field.
@@ -153,6 +155,8 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 		'title-',
 		'metadesc-',
 		'noindex-',
+		'noarchive-',
+		'noimageindex-',
 		'display-metabox-pt-',
 		'bctitle-ptarchive-',
 		'post_types-',
@@ -312,6 +316,8 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 				$enriched_defaults[ 'title-' . $pt->name ]                   = '%%title%% %%page%% %%sep%% %%sitename%%'; // Text field.
 				$enriched_defaults[ 'metadesc-' . $pt->name ]                = ''; // Text area.
 				$enriched_defaults[ 'noindex-' . $pt->name ]                 = false;
+				$enriched_defaults[ 'noarchive-' . $pt->name ]               = false;
+				$enriched_defaults[ 'noimageindex-' . $pt->name ]            = false;
 				$enriched_defaults[ 'display-metabox-pt-' . $pt->name ]      = true;
 				$enriched_defaults[ 'post_types-' . $pt->name . '-maintax' ] = 0; // Select box.
 				$enriched_defaults[ 'schema-page-type-' . $pt->name ]        = 'WebPage';
@@ -679,6 +685,8 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 				 * Covers:
 				 *  'noindex-author-wpseo', 'noindex-author-noposts-wpseo', 'noindex-archive-wpseo'
 				 *  'noindex-' . $pt->name
+				 *  'noarchive-' . $pt->name
+				 *  'noimageindex-' . $pt->name
 				 *  'noindex-ptarchive-' . $pt->name
 				 *  'noindex-tax-' . $tax->name
 				 *  'forcerewritetitle':

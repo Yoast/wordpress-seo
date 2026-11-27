@@ -307,12 +307,14 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 	 * @return array The robots value.
 	 */
 	public function generate_robots() {
+		$is_noimageindex = $this->has_robots_directive( 'noimageindex' );
+
 		$robots = $this->get_base_robots();
 		$robots = \array_merge(
 			$robots,
 			[
-				'imageindex' => ( $this->model->is_robots_noimageindex === true ) ? 'noimageindex' : null,
-				'archive'    => ( $this->model->is_robots_noarchive === true ) ? 'noarchive' : null,
+				'imageindex' => ( $is_noimageindex ) ? 'noimageindex' : null,
+				'archive'    => ( $this->has_robots_directive( 'noarchive' ) ) ? 'noarchive' : null,
 				'snippet'    => ( $this->model->is_robots_nosnippet === true ) ? 'nosnippet' : null,
 			],
 		);
@@ -323,7 +325,7 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 		}
 
 		// No image index means max image preview can be omitted.
-		if ( $this->model->is_robots_noimageindex === true ) {
+		if ( $is_noimageindex ) {
 			$robots['max-image-preview'] = null;
 		}
 
@@ -338,6 +340,25 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 		}
 
 		return $this->filter_robots( $robots );
+	}
+
+	/**
+	 * Determines whether a robots directive applies to the post.
+	 *
+	 * When the post itself does not set the directive, the default of its post type is used.
+	 *
+	 * @param string $directive The robots directive: 'noimageindex' or 'noarchive'.
+	 *
+	 * @return bool Whether the robots directive applies.
+	 */
+	protected function has_robots_directive( $directive ) {
+		$post_value = $this->model->{'is_robots_' . $directive};
+
+		if ( $post_value !== null ) {
+			return $post_value === true;
+		}
+
+		return $this->options->get( $directive . '-' . $this->model->object_sub_type, false ) === true;
 	}
 
 	/**
