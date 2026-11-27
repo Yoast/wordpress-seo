@@ -30,3 +30,15 @@ if ( typeof global.ResizeObserver === "undefined" ) {
 if ( typeof Element !== "undefined" && ! Element.prototype.scrollIntoView ) {
 	Element.prototype.scrollIntoView = () => {};
 }
+
+// The preset's matchMedia stub only has the deprecated addListener/removeListener, but useMediaQuery
+// (used by the Table pagination story) subscribes with addEventListener.
+global.matchMedia = jest.fn( ( query ) => ( {
+	matches: false,
+	media: query,
+	addListener: () => {},
+	removeListener: () => {},
+	addEventListener: () => {},
+	removeEventListener: () => {},
+	dispatchEvent: () => false,
+} ) );

@@ -58,6 +58,14 @@ export default [
 			// Disable React default props requirement.
 			"react/require-default-props": "off",
 		},
+		settings: {
+			// Ignore certain Storybook packages to avoid import/named errors.
+			"import/ignore": [
+				"@storybook/manager-api",
+				"@storybook/preview-api",
+				"@storybook/theming",
+			],
+		},
 	},
 	{
 		files: [ "src/**/stories.*" ],
