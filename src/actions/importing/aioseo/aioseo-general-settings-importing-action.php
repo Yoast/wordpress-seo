@@ -127,14 +127,18 @@ class Aioseo_General_Settings_Importing_Action extends Abstract_Aioseo_Settings_
 	 * @return string The transformed company logo url.
 	 */
 	public function import_company_logo( $logo_url ) {
-		$logo_id = $this->image->get_attachment_by_url( $logo_url );
+		$imported_url = $this->url_import( $logo_url );
+		$logo_id      = $this->image->get_attachment_by_url( $logo_url );
+
+		// Stores the URL before the ID, so that a lookup of the logo by its URL cannot find the previous logo.
+		$this->options->set( 'company_logo', $imported_url );
 		$this->options->set( 'company_logo_id', $logo_id );
 
 		$this->options->set( 'company_logo_meta', false );
 		$logo_meta = $this->image->get_attachment_meta_from_settings( 'company_logo' );
 		$this->options->set( 'company_logo_meta', $logo_meta );
 
-		return $this->url_import( $logo_url );
+		return $imported_url;
 	}
 
 	/**
@@ -145,14 +149,18 @@ class Aioseo_General_Settings_Importing_Action extends Abstract_Aioseo_Settings_
 	 * @return string The transformed person logo url.
 	 */
 	public function import_person_logo( $logo_url ) {
-		$logo_id = $this->image->get_attachment_by_url( $logo_url );
+		$imported_url = $this->url_import( $logo_url );
+		$logo_id      = $this->image->get_attachment_by_url( $logo_url );
+
+		// Stores the URL before the ID, so that a lookup of the logo by its URL cannot find the previous logo.
+		$this->options->set( 'person_logo', $imported_url );
 		$this->options->set( 'person_logo_id', $logo_id );
 
 		$this->options->set( 'person_logo_meta', false );
 		$logo_meta = $this->image->get_attachment_meta_from_settings( 'person_logo' );
 		$this->options->set( 'person_logo_meta', $logo_meta );
 
-		return $this->url_import( $logo_url );
+		return $imported_url;
 	}
 
 	/**

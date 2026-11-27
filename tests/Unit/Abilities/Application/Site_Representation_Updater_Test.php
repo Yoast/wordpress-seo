@@ -282,7 +282,7 @@ final class Site_Representation_Updater_Test extends TestCase {
 	}
 
 	/**
-	 * Tests that update clears the URL of a logo whose ID is cleared, without looking it up.
+	 * Tests that update clears the URL of a logo before it clears the ID of that logo, without looking the URL up.
 	 *
 	 * @covers ::update
 	 * @covers ::save_logo
@@ -292,9 +292,9 @@ final class Site_Representation_Updater_Test extends TestCase {
 	public function test_update_clear_logo() {
 		$this->image_helper->expects( 'get_attachment_image_url' )->never();
 
-		$this->options_helper->expects( 'set' )->once()->with( 'company_logo_id', 0 )->andReturnTrue();
-		$this->options_helper->expects( 'set' )->once()->with( 'company_logo', '' )->andReturnTrue();
-		$this->options_helper->expects( 'set' )->once()->with( 'company_logo_meta', false )->andReturnTrue();
+		$this->options_helper->expects( 'set' )->once()->with( 'company_logo', '' )->andReturnTrue()->ordered();
+		$this->options_helper->expects( 'set' )->once()->with( 'company_logo_id', 0 )->andReturnTrue()->ordered();
+		$this->options_helper->expects( 'set' )->once()->with( 'company_logo_meta', false )->andReturnTrue()->ordered();
 
 		$this->options_helper->allows( 'get' )->andReturn( 0 );
 		$this->collector->expects( 'get' )->once()->andReturn( [] );

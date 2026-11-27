@@ -731,4 +731,22 @@ final class Settings_Integration_Test extends TestCase {
 
 		$this->assertSame( $expected, $result );
 	}
+
+	/**
+	 * Tests that the settings form leaves out exactly the known settings of the titles option.
+	 *
+	 * The settings form does not send these settings, so a settings save drops their values. When you add a setting
+	 * to this list, check whether its value has to survive a settings save. If it does, keep or restore the value
+	 * when the option is saved, so that reading the setting on the frontend never has to save the titles option.
+	 *
+	 * @coversNothing
+	 *
+	 * @return void
+	 */
+	public function test_disallowed_settings_of_the_titles_option() {
+		$this->assertEqualsCanonicalizing(
+			[ 'company_logo_meta', 'person_logo_meta' ],
+			Settings_Integration::DISALLOWED_SETTINGS['wpseo_titles'],
+		);
+	}
 }

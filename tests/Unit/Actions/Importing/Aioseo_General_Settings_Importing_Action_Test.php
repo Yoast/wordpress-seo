@@ -388,7 +388,7 @@ final class Aioseo_General_Settings_Importing_Action_Test extends TestCase {
 			[ '/schema/siteRepresents', 'person', 1, 0, 0, 0 ],
 			[ '/schema/person', 60, 1, 1, 0, 0 ],
 			[ '/schema/organizationName', 'Org Name', 1, 1, 0, 0 ],
-			[ '/schema/organizationLogo', 'http://basic.wordpress.test/wp-content/uploads/2021/11/WordPress8-20.jpg', 1, 0, 1, 3 ],
+			[ '/schema/organizationLogo', 'http://basic.wordpress.test/wp-content/uploads/2021/11/WordPress8-20.jpg', 1, 0, 1, 4 ],
 			[ '/randomSetting', 'randomeValue', 0, 0, 0, 0 ],
 		];
 	}
