@@ -1,15 +1,15 @@
 import { Transition } from "@headlessui/react";
 import { __ } from "@wordpress/i18n";
-import PropTypes from "prop-types";
 import Alert from "../../base/alert";
 import Indexation from "./indexation";
 
 /**
  * A wrapped Indexation for the first-time configuration.
  *
- * @param {function} indexingStateCallback The function to call back on state updates.
- * @param {string} indexingState The state of the indexation.
- * @param {boolean} [isStepperFinished=false] Whether the stepper has been completed.
+ * @param {Object} props Component props.
+ * @param {Function} props.indexingStateCallback The function to call back on state updates.
+ * @param {string} props.indexingState The state of the indexation.
+ * @param {boolean} [props.isStepperFinished=false] Whether the stepper has been completed.
  *
  * @returns {JSX.Element} A wrapped Indexation for the first-time configuration.
  */
@@ -35,9 +35,3 @@ export function ConfigurationIndexation( { indexingStateCallback, indexingState,
 		</Transition>
 	</Indexation>;
 }
-
-ConfigurationIndexation.propTypes = {
-	indexingStateCallback: PropTypes.func.isRequired,
-	indexingState: PropTypes.string.isRequired,
-	isStepperFinished: PropTypes.bool,
-};

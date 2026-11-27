@@ -3,7 +3,6 @@ import { __ } from "@wordpress/i18n";
 import { Notifications as NotificationsUi } from "@yoast/ui-library";
 import { useFormikContext } from "formik";
 import { get, map } from "lodash";
-import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { useDispatchSettings, useNewContentTypeNotification, useSelectSettings } from "../hooks";
 import { flattenObject } from "../utils";
@@ -35,8 +34,9 @@ const useValidationErrorsNotification = () => {
 };
 
 /**
- * @param {string} id The id.
- * @param {...Object} props Extra props for the Notification.
+ * @param {Object} props Component props. Additional props are passed to the Notification.
+ * @param {string} props.id The id.
+ *
  * @returns {JSX.Element} The validation errors notification.
  */
 const ValidationErrorsNotification = ( { id, ...props } ) => {
@@ -59,10 +59,6 @@ const ValidationErrorsNotification = ( { id, ...props } ) => {
 			</ul>
 		</NotificationsUi.Notification>
 	);
-};
-
-ValidationErrorsNotification.propTypes = {
-	id: PropTypes.string.isRequired,
 };
 
 /**

@@ -1,10 +1,9 @@
 import { useMemo } from "@wordpress/element";
 import { ProgressBar } from "@yoast/ui-library";
 import classNames from "classnames";
-import PropTypes from "prop-types";
 
 /**
- * @param {Number} score The score.
+ * @param {number} score The score.
  * @returns {string} The class.
  */
 const transformScoreToClass = ( score ) => {
@@ -18,10 +17,12 @@ const transformScoreToClass = ( score ) => {
 };
 
 /**
- * @param {string} [className=""] Extra className.
- * @param {Number} progress The current progress.
- * @param {Number} max The maximum progress.
- * @param {Number} score The length assessment score; used to determine the color.
+ * @param {Object} props Component props.
+ * @param {string} [props.className=""] Extra className.
+ * @param {number} props.progress The current progress.
+ * @param {number} props.max The maximum progress.
+ * @param {number} props.score The length assessment score; used to determine the color.
+ *
  * @returns {JSX.Element} The element.
  */
 export const LengthProgressBar = ( { className = "", progress, max, score } ) => {
@@ -35,11 +36,4 @@ export const LengthProgressBar = ( { className = "", progress, max, score } ) =>
 			max={ max }
 		/>
 	);
-};
-
-LengthProgressBar.propTypes = {
-	className: PropTypes.string,
-	progress: PropTypes.number.isRequired,
-	max: PropTypes.number.isRequired,
-	score: PropTypes.number.isRequired,
 };

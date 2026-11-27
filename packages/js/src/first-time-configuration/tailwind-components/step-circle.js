@@ -1,6 +1,5 @@
 import CheckIcon from "@heroicons/react/solid/CheckIcon";
 import { useEffect, useState } from "@wordpress/element";
-import PropTypes from "prop-types";
 import { stepperTimingClasses } from "../stepper-helper";
 import { useStepperContext } from "./stepper";
 
@@ -10,9 +9,9 @@ const commonCircleClasses = `yst-transition-opacity ${ slideDuration } yst-absol
 /**
  * Helper function for StepCircle classes.
  *
- * @param {Boolean} isVisible Whether this circle is visible.
+ * @param {boolean} isVisible Whether this circle is visible.
  *
- * @returns {String} Classes catered to this visibility state for StepCircles.
+ * @returns {string} Classes catered to this visibility state for StepCircles.
  */
 function getCommonClasses( isVisible ) {
 	return `${ commonCircleClasses } ${ isVisible ? "yst-opacity-100" : `${ delayUntilStepFaded } yst-opacity-0` }`;
@@ -21,7 +20,8 @@ function getCommonClasses( isVisible ) {
 /**
  * The ActiveCircle element.
  *
- * @param {boolean} [isVisible=true] Whether this circle is visible or not.
+ * @param {Object} props Component props.
+ * @param {boolean} [props.isVisible=true] Whether this circle is visible or not.
  *
  * @returns {JSX.Element} The ActiveCircle element.
  */
@@ -33,14 +33,11 @@ export function ActiveCircle( { isVisible = true } ) {
 	</span>;
 }
 
-ActiveCircle.propTypes = {
-	isVisible: PropTypes.bool,
-};
-
 /**
  * The SavedCircle element.
  *
- * @param {boolean} [isVisible=true] Whether this circle is visible or not.
+ * @param {Object} props Component props.
+ * @param {boolean} [props.isVisible=true] Whether this circle is visible or not.
  *
  * @returns {JSX.Element} The SavedCircle element.
  */
@@ -52,14 +49,11 @@ function SavedCircle( { isVisible = true } ) {
 	</span>;
 }
 
-SavedCircle.propTypes = {
-	isVisible: PropTypes.bool,
-};
-
 /**
  * The UpcomingCircle element.
  *
- * @param {boolean} [isVisible=true] Whether this circle is visible or not.
+ * @param {Object} props Component props.
+ * @param {boolean} [props.isVisible=true] Whether this circle is visible or not.
  *
  * @returns {JSX.Element} The UpcomingCircle element.
  */
@@ -71,16 +65,13 @@ function UpcomingCircle( { isVisible = true } ) {
 	</span>;
 }
 
-UpcomingCircle.propTypes = {
-	isVisible: PropTypes.bool,
-};
-
 /**
  * The Circle that accompanies a step, in all its active-inactive saved-unsaved flavours.
  *
- * @param {boolean} isFinished Whether the step is finished.
- * @param {number} [activationDelay=0] Activation delay in ms.
- * @param {number} [deactivationDelay=0] Deactivation delay in ms.
+ * @param {Object} props Component props.
+ * @param {boolean} props.isFinished Whether the step is finished.
+ * @param {number} [props.activationDelay=0] Activation delay in ms.
+ * @param {number} [props.deactivationDelay=0] Deactivation delay in ms.
  *
  * @returns {JSX.Element} The StepCircle component.
  */
@@ -119,9 +110,3 @@ export function StepCircle( {
 		<ActiveCircle isVisible={ isCircleActive && ! isLastStep } />
 	</span>;
 }
-
-StepCircle.propTypes = {
-	isFinished: PropTypes.bool.isRequired,
-	activationDelay: PropTypes.number,
-	deactivationDelay: PropTypes.number,
-};

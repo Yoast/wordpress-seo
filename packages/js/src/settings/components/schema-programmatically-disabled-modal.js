@@ -3,7 +3,6 @@ import { useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { Button, Code, Modal, useSvgAria } from "@yoast/ui-library";
 import { noop } from "lodash";
-import PropTypes from "prop-types";
 import { safeCreateInterpolateElement } from "../../helpers/i18n";
 import { useSelectSettings } from "../hooks";
 
@@ -12,7 +11,8 @@ import { useSelectSettings } from "../hooks";
  *
  * @param {Object} props The props.
  * @param {boolean} props.isOpen Whether the modal is open.
- * @param {function} [props.onClose] The function to call when the modal is closed.
+ * @param {Function} [props.onClose=noop] The function to call when the modal is closed.
+ *
  * @returns {JSX.Element} The modal.
  */
 export const SchemaProgrammaticallyDisabledModal = ( { isOpen, onClose = noop } ) => {
@@ -63,9 +63,4 @@ export const SchemaProgrammaticallyDisabledModal = ( { isOpen, onClose = noop } 
 				</div>
 			</Modal.Panel>
 		</Modal> );
-};
-
-SchemaProgrammaticallyDisabledModal.propTypes = {
-	isOpen: PropTypes.bool.isRequired,
-	onClose: PropTypes.func,
 };

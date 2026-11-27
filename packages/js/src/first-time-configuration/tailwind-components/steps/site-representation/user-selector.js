@@ -1,6 +1,5 @@
 /* global wpApiSettings */
 import { useState, useCallback, useRef, useEffect } from "@wordpress/element";
-import PropTypes from "prop-types";
 import { debounce, noop } from "lodash";
 import { __ } from "@wordpress/i18n";
 import { sendRequest } from "@yoast/helpers";
@@ -15,7 +14,7 @@ const REST_ROUTE = wpApiSettings.root;
 /**
  * Fetches a list of users. Filterable.
  *
- * @param {String} query A search string to search users by.
+ * @param {string} query A search string to search users by.
  *
  * @returns {Promise} Returns the request response as a promise.
  */
@@ -27,9 +26,12 @@ function fetchUsers( query = "" ) {
 /**
  * A user selector based on a HeadlessUI combobox.
  *
- * @param {{id: number, name: string}} [initialValue] The option selected by default in the combo box select.
- * @param {function} [onChangeCallback=noop] Function to manage a selected option.
- * @param {string} [placeholder] YoastCombobox text input placeholder.
+ * @param {Object} props Component props.
+ * @param {Object} [props.initialValue] The option selected by default in the combo box select.
+ * @param {number} [props.initialValue.id] The user ID.
+ * @param {string} [props.initialValue.name] The user name.
+ * @param {Function} [props.onChangeCallback=noop] Function to manage a selected option.
+ * @param {string} [props.placeholder] YoastCombobox text input placeholder.
  *
  * @returns {JSX.Element} A user selector based on a HeadlessUI combobox.
  */
@@ -85,12 +87,3 @@ export default function UserSelector( {
 		isLoading={ isLoading }
 	/>;
 }
-
-UserSelector.propTypes = {
-	initialValue: PropTypes.shape( {
-		id: PropTypes.number,
-		name: PropTypes.string,
-	} ),
-	onChangeCallback: PropTypes.func,
-	placeholder: PropTypes.string,
-};

@@ -1,5 +1,4 @@
 import { __, sprintf } from "@wordpress/i18n";
-import PropTypes from "prop-types";
 import { FadeInAlert } from "../../base/alert";
 import { ConfigurationIndexation } from "./configuration-indexation";
 import { safeCreateInterpolateElement } from "../../../../helpers/i18n";
@@ -7,10 +6,11 @@ import { safeCreateInterpolateElement } from "../../../../helpers/i18n";
 /**
  * The indexation step.
  *
- * @param {string}   indexingState          The indexing state.
- * @param {function}  setIndexingState       A callback to set the indexing state.
- * @param {boolean}  [showRunIndexationAlert=false] Whether the alert to run indexation needs to be shown.
- * @param {boolean}  [isStepperFinished=false] Whether the stepper is finished.
+ * @param {Object} props Component props.
+ * @param {string} props.indexingState The indexing state.
+ * @param {Function} props.setIndexingState A callback to set the indexing state.
+ * @param {boolean} [props.showRunIndexationAlert=false] Whether the alert to run indexation needs to be shown.
+ * @param {boolean} [props.isStepperFinished=false] Whether the stepper is finished.
  *
  * @returns {JSX.Element} The indexation step.
  */
@@ -69,10 +69,3 @@ export default function IndexationStep( {
 		</FadeInAlert>
 	</div>;
 }
-
-IndexationStep.propTypes = {
-	indexingState: PropTypes.string.isRequired,
-	setIndexingState: PropTypes.func.isRequired,
-	showRunIndexationAlert: PropTypes.bool,
-	isStepperFinished: PropTypes.bool,
-};

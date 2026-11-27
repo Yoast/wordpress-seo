@@ -1,13 +1,14 @@
 import { useMemo } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { Alert } from "@yoast/ui-library";
-import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { safeCreateInterpolateElement } from "../../helpers/i18n";
 
 /**
- * @param {boolean} isEnabled Whether Open Graph is enabled.
- * @param {string} text The text to use. Should contain `%1$s`, `%2$s`, `%3$s` and `%4$s`.
+ * @param {Object} props Component props.
+ * @param {boolean} props.isEnabled Whether Open Graph is enabled.
+ * @param {string} [props.text] The text to use. Should contain `%1$s`, `%2$s`, `%3$s` and `%4$s`.
+ *
  * @returns {JSX.Element} The element.
  */
 const OpenGraphDisabledAlert = ( {
@@ -32,11 +33,6 @@ const OpenGraphDisabledAlert = ( {
 			{ openGraphDisabledAlertText }
 		</Alert>
 	);
-};
-
-OpenGraphDisabledAlert.propTypes = {
-	isEnabled: PropTypes.bool.isRequired,
-	text: PropTypes.string,
 };
 
 export default OpenGraphDisabledAlert;

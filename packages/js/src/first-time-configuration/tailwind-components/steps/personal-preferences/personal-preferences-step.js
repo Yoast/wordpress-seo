@@ -1,6 +1,5 @@
 import { Fragment } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
-import PropTypes from "prop-types";
 import classNames from "classnames";
 
 import Alert from "../../base/alert";
@@ -14,8 +13,9 @@ const Link = makeOutboundLink();
 /**
  * Doc comment to make linter happy.
  *
- * @param {Object}   state                    The state
- * @param {function} setTracking              Callback function to update tracking preference
+ * @param {Object} props Component props.
+ * @param {Object} props.state The state
+ * @param {Function} props.setTracking Callback function to update tracking preference
  *
  * @returns {JSX.Element} Example step.
  */
@@ -92,8 +92,3 @@ export default function PersonalPreferencesStep( { state, setTracking } ) {
 		</Fragment> }
 	</Fragment>;
 }
-
-PersonalPreferencesStep.propTypes = {
-	state: PropTypes.object.isRequired,
-	setTracking: PropTypes.func.isRequired,
-};

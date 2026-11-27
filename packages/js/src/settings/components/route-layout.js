@@ -1,7 +1,6 @@
 import { useSelect } from "@wordpress/data";
 import { __, sprintf } from "@wordpress/i18n";
 import { Title } from "@yoast/ui-library";
-import PropTypes from "prop-types";
 import { Helmet } from "react-helmet";
 import { LiveAnnouncer, LiveMessage } from "react-aria-live";
 import { STORE_NAME } from "../constants";
@@ -9,9 +8,10 @@ import { isString } from "lodash";
 
 /**
  * @param {Object} props The properties.
- * @param {React.ReactNode} children The children.
- * @param {string} title The title.
- * @param {React.ReactNode} [description=null] The description.
+ * @param {React.ReactNode} props.children The children.
+ * @param {string} props.title The title.
+ * @param {React.ReactNode} [props.description=null] The description.
+ *
  * @returns {JSX.Element} The route layout component.
  */
 const RouteLayout = ( {
@@ -41,12 +41,6 @@ const RouteLayout = ( {
 			{ children }
 		</LiveAnnouncer>
 	);
-};
-
-RouteLayout.propTypes = {
-	children: PropTypes.node.isRequired,
-	title: PropTypes.string.isRequired,
-	description: PropTypes.node,
 };
 
 export default RouteLayout;

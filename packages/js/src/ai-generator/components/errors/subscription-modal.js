@@ -4,7 +4,6 @@ import { useCallback } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { Button } from "@yoast/ui-library";
 import { noop } from "lodash";
-import PropTypes from "prop-types";
 import { STORE_NAME_AI } from "../../constants";
 import { Body, title } from "./messages/subscription";
 import { Actions, CloseButton, DangerModal, ModalDescription } from "./modal-parts";
@@ -14,9 +13,11 @@ import { Actions, CloseButton, DangerModal, ModalDescription } from "./modal-par
  * modal. Its "Refresh page" action busts the subscription cache before reloading,
  * mirroring the inline `SubscriptionError`.
  *
- * @param {string[]} [invalidSubscriptions=[]] The products with an invalid subscription.
- * @param {boolean} [isOpen=true] Whether the modal is open.
- * @param {function} [onClose=noop] Dismisses the modal.
+ * @param {Object} props Component props.
+ * @param {string[]} [props.invalidSubscriptions=[]] The products with an invalid subscription.
+ * @param {boolean} [props.isOpen=true] Whether the modal is open.
+ * @param {Function} [props.onClose=noop] Dismisses the modal.
+ *
  * @returns {JSX.Element} The element.
  */
 export const SubscriptionModal = ( { invalidSubscriptions = [], isOpen = true, onClose = noop } ) => {
@@ -42,9 +43,4 @@ export const SubscriptionModal = ( { invalidSubscriptions = [], isOpen = true, o
 			</Actions>
 		</DangerModal>
 	);
-};
-SubscriptionModal.propTypes = {
-	invalidSubscriptions: PropTypes.arrayOf( PropTypes.string ),
-	isOpen: PropTypes.bool,
-	onClose: PropTypes.func,
 };

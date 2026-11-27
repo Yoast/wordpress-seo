@@ -4,7 +4,6 @@ import ArrowNarrowRightIcon from "@heroicons/react/solid/ArrowNarrowRightIcon";
 import ExternalLinkIcon from "@heroicons/react/outline/ExternalLinkIcon";
 import { Button, useSvgAria } from "@yoast/ui-library";
 import { noop } from "lodash";
-import PropTypes from "prop-types";
 import { safeCreateInterpolateElement } from "../../../helpers/i18n";
 import { OutboundLink } from "../../../shared-admin/components";
 import { STORE_NAME_AI, STORE_NAME_EDITOR } from "../../constants";
@@ -16,7 +15,9 @@ import { Actions, CloseButton, DangerModal, ModalDescription } from "./modal-par
  * The "Learn more about connecting" paragraph shown by the two connect-aware
  * variants.
  *
- * @param {string} learnMoreUrl The MyYoast connection help URL.
+ * @param {Object} props Component props.
+ * @param {string} [props.learnMoreUrl=""] The MyYoast connection help URL.
+ *
  * @returns {JSX.Element} The element.
  */
 const LearnMoreAboutConnecting = ( { learnMoreUrl = "" } ) => (
@@ -32,7 +33,6 @@ const LearnMoreAboutConnecting = ( { learnMoreUrl = "" } ) => (
 		) }
 	</Paragraph>
 );
-LearnMoreAboutConnecting.propTypes = { learnMoreUrl: PropTypes.string };
 
 /**
  * Variant 1: MyYoast connection unavailable (flag off / not provisioned).
@@ -82,7 +82,7 @@ const UnavailableBody = () => {
  * state.
  *
  * @param {Object} connection The MyYoast connection slice.
- * @param {function} onClose Dismisses the modal.
+ * @param {Function} onClose Dismisses the modal.
  * @param {Object} svgAriaProps The aria props for decorative SVGs.
  * @returns {JSX.Element} The body.
  */
@@ -147,8 +147,10 @@ const resolveBody = ( { isAvailable, canConnect, connectUrl, learnMoreUrl }, onC
  * editor localizes; when it is unavailable (feature flag off or not provisioned)
  * it falls back to the informational-only variant.
  *
- * @param {boolean} [isOpen=true] Whether the modal is open.
- * @param {function} [onClose=noop] Dismisses the modal.
+ * @param {Object} props Component props.
+ * @param {boolean} [props.isOpen=true] Whether the modal is open.
+ * @param {Function} [props.onClose=noop] Dismisses the modal.
+ *
  * @returns {JSX.Element} The element.
  */
 export const SiteUnreachableModal = ( { isOpen = true, onClose = noop } ) => {
@@ -160,8 +162,4 @@ export const SiteUnreachableModal = ( { isOpen = true, onClose = noop } ) => {
 			{ resolveBody( connection, onClose, svgAriaProps ) }
 		</DangerModal>
 	);
-};
-SiteUnreachableModal.propTypes = {
-	isOpen: PropTypes.bool,
-	onClose: PropTypes.func,
 };

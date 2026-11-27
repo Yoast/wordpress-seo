@@ -1,5 +1,4 @@
 import { useEffect, useState } from "@wordpress/element";
-import PropTypes from "prop-types";
 import { stepperTimings } from "../stepper-helper";
 import { StepCircle } from "./step-circle";
 import { useStepperContext } from "./stepper";
@@ -23,10 +22,11 @@ function getNameClassNames( isFinished, isActiveStep, isLastStep ) {
 /**
  * The Step header component.
  *
- * @param {string} name The name of the step.
- * @param {string} [description=""] The description of the step.
- * @param {boolean} isFinished Whether the step is finished.
- * @param {React.ReactNode} [children=null] Additional children.
+ * @param {Object} props Component props.
+ * @param {string} props.name The name of the step.
+ * @param {boolean} props.isFinished Whether the step is finished.
+ * @param {string} [props.description=""] The description of the step.
+ * @param {React.ReactNode} [props.children=null] Additional children.
  *
  * @returns {JSX.Element} The StepHeader element.
  */
@@ -74,10 +74,3 @@ export default function StepHeader( {
 		{ children }
 	</div>;
 }
-
-StepHeader.propTypes = {
-	name: PropTypes.string.isRequired,
-	isFinished: PropTypes.bool.isRequired,
-	description: PropTypes.string,
-	children: PropTypes.node,
-};

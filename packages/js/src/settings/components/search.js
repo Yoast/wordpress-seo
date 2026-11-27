@@ -7,7 +7,6 @@ import { __, _n, sprintf } from "@wordpress/i18n";
 import { Code, Modal, Title, useNavigationContext, useSvgAria, useToggleState } from "@yoast/ui-library";
 import classNames from "classnames";
 import { debounce, first, groupBy, includes, isEmpty, map, max, reduce, split, trim, values } from "lodash";
-import PropTypes from "prop-types";
 import { LiveAnnouncer, LiveMessage } from "react-aria-live";
 import { useHotkeys } from "react-hotkeys-hook";
 import { useNavigate } from "react-router-dom";
@@ -19,8 +18,10 @@ const POST_TYPE_OR_TAXONOMY_BREADCRUMB_SETTING_REGEXP = new RegExp( /^input-wpse
 const DUMMY_ITEM = { fieldId: "DUMMY_ITEM" };
 
 /**
- * @param {string} fieldId The item field ID.
- * @param {string} fieldLabel The item label.
+ * @param {Object} props Component props.
+ * @param {string} props.fieldId The item field ID.
+ * @param {string} props.fieldLabel The item label.
+ *
  * @returns {JSX.Element} The SearchResultLabel element.
  */
 const SearchResultLabel = ( { fieldId, fieldLabel } ) => {
@@ -48,14 +49,11 @@ const SearchResultLabel = ( { fieldId, fieldLabel } ) => {
 	return fieldLabel;
 };
 
-SearchResultLabel.propTypes = {
-	fieldId: PropTypes.string.isRequired,
-	fieldLabel: PropTypes.string.isRequired,
-};
-
 /**
- * @param {string} title The title.
- * @param {JSX.node} children The children nodes.
+ * @param {Object} props Component props.
+ * @param {import("react").ReactNode} props.title The title.
+ * @param {import("react").ReactNode} props.children The children nodes.
+ *
  * @returns {JSX.Element} The SearchNoResultsContent component.
  */
 const SearchNoResultsContent = ( { title, children } ) => (
@@ -65,14 +63,11 @@ const SearchNoResultsContent = ( { title, children } ) => (
 	</div>
 );
 
-SearchNoResultsContent.propTypes = {
-	title: PropTypes.node.isRequired,
-	children: PropTypes.node.isRequired,
-};
-
 /**
- * @param {string} [buttonId] The ID for the search button.
- * @param {string} [modalId] The ID for the modal.
+ * @param {Object} props Component props.
+ * @param {string} [props.buttonId="button-search"] The ID for the search button.
+ * @param {string} [props.modalId="modal-search"] The ID for the modal.
+ *
  * @returns {JSX.Element} The element.
  */
 const Search = ( { buttonId = "button-search", modalId = "modal-search" } ) => {
@@ -329,11 +324,6 @@ const Search = ( { buttonId = "button-search", modalId = "modal-search" } ) => {
 			</Modal.Panel>
 		</Modal>
 	</>;
-};
-
-Search.propTypes = {
-	buttonId: PropTypes.string,
-	modalId: PropTypes.string,
 };
 
 export default Search;

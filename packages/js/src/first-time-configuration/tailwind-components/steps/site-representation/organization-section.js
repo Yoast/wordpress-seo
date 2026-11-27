@@ -1,7 +1,6 @@
 /* eslint-disable complexity */
 import { Fragment, useCallback } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
-import PropTypes from "prop-types";
 import { openMedia } from "../../../../helpers/selectMedia";
 import ImageSelect from "../../base/image-select";
 import TextInput from "../../base/text-input";
@@ -9,12 +8,13 @@ import TextInput from "../../base/text-input";
 /**
  * The Organization section.
  *
- * @param {function} dispatch The function to update the container's state.
- * @param {string} [imageUrl=""] The image URL.
- * @param {string} [fallbackImageUrl=""] The fallback image URL for when there is no image.
- * @param {string} [organizationName=""] The name of the organization.
- * @param {string} [fallbackOrganizationName=""] The fallback name of the organization.
- * @param {Array} [errorFields=[]] The array containing the names of the fields with an invalid value.
+ * @param {Object} props Component props.
+ * @param {Function} props.dispatch The function to update the container's state.
+ * @param {string} [props.imageUrl=""] The image URL.
+ * @param {string} [props.fallbackImageUrl=""] The fallback image URL for when there is no image.
+ * @param {string} [props.organizationName=""] The name of the organization.
+ * @param {string} [props.fallbackOrganizationName=""] The fallback name of the organization.
+ * @param {Array} [props.errorFields=[]] The array containing the names of the fields with an invalid value.
  *
  * @returns {JSX.Element} The organization section.
  */
@@ -69,12 +69,3 @@ export function OrganizationSection( {
 		</Fragment>
 	);
 }
-
-OrganizationSection.propTypes = {
-	dispatch: PropTypes.func.isRequired,
-	imageUrl: PropTypes.string,
-	fallbackImageUrl: PropTypes.string,
-	organizationName: PropTypes.string,
-	fallbackOrganizationName: PropTypes.string,
-	errorFields: PropTypes.array,
-};
