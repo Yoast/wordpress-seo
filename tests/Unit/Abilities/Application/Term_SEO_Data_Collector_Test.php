@@ -4,6 +4,7 @@
 namespace Yoast\WP\SEO\Tests\Unit\Abilities\Application;
 
 use Mockery;
+use stdClass;
 use WP_Error;
 use Yoast\WP\SEO\Abilities\Application\Term_SEO_Data_Collector;
 use Yoast\WP\SEO\Abilities\Infrastructure\Indexable_Access_Checker;
@@ -123,5 +124,23 @@ final class Term_SEO_Data_Collector_Test extends TestCase {
 		$this->field_map->expects( 'to_seo_array' )->never();
 
 		$this->assertSame( $error, $this->instance->get_term_seo_data( [ 'term_id' => 7 ] ) );
+	}
+
+	/**
+	 * Tests that the schema default object, passed when the ability is called without input, reaches the resolver
+	 * as an empty array, so the resolver reports the missing identifier.
+	 *
+	 * @covers ::get_term_seo_data
+	 *
+	 * @return void
+	 */
+	public function test_get_term_seo_data_without_input() {
+		$error = Mockery::mock( WP_Error::class );
+
+		$this->resolver->expects( 'resolve_one' )->once()->with( [] )->andReturn( $error );
+		$this->access_checker->expects( 'ensure_can_edit' )->never();
+		$this->field_map->expects( 'to_seo_array' )->never();
+
+		$this->assertSame( $error, $this->instance->get_term_seo_data( new stdClass() ) );
 	}
 }

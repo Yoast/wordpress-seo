@@ -4,6 +4,7 @@
 namespace Yoast\WP\SEO\Tests\Unit\Abilities\User_Interface\Abilities;
 
 use Mockery;
+use stdClass;
 use Yoast\WP\SEO\Abilities\Application\Score_Retriever;
 use Yoast\WP\SEO\Abilities\User_Interface\Abilities\Abstract_Score_Ability;
 use Yoast\WP\SEO\Conditionals\Should_Index_Indexables_Conditional;
@@ -127,6 +128,7 @@ abstract class Abstract_Score_Ability_Test extends TestCase {
 			'input_schema'        => [
 				'type'                 => 'object',
 				'additionalProperties' => false,
+				'default'              => new stdClass(),
 				'properties'           => [
 					'number_of_posts' => [
 						'type'        => 'integer',

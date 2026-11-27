@@ -4,6 +4,7 @@
 namespace Yoast\WP\SEO\Abilities\User_Interface\Abilities;
 
 use Yoast\WP\SEO\Abilities\Application\Author_SEO_Data_Collector;
+use Yoast\WP\SEO\Abilities\User_Interface\Optional_Input_Schema_Trait;
 use Yoast\WP\SEO\Abilities\User_Interface\SEO_Data_Output_Schema;
 use Yoast\WP\SEO\Conditionals\Should_Index_Indexables_Conditional;
 use Yoast\WP\SEO\Helpers\Capability_Helper;
@@ -12,6 +13,8 @@ use Yoast\WP\SEO\Helpers\Capability_Helper;
  * The ability that returns the SEO data of a single author archive.
  */
 class Get_Author_SEO_Data_Ability extends Abstract_Author_SEO_Data_Ability {
+
+	use Optional_Input_Schema_Trait;
 
 	/**
 	 * The author SEO data collector.
@@ -76,6 +79,15 @@ class Get_Author_SEO_Data_Ability extends Abstract_Author_SEO_Data_Ability {
 	}
 
 	// phpcs:disable SlevomatCodingStandard.TypeHints.DisallowMixedTypeHint.DisallowedMixedTypeHint -- The JSON schema arrays are heterogeneous by nature.
+
+	/**
+	 * Returns the input schema of the ability, which accepts a call without input so it can report the missing identifier.
+	 *
+	 * @return array<string, mixed> The input schema.
+	 */
+	protected function get_input_schema(): array {
+		return $this->get_optional_input_schema( $this->get_input_properties() );
+	}
 
 	/**
 	 * Returns the input schema properties that identify the author.

@@ -5,6 +5,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Abilities\Application;
 
 use Brain\Monkey;
 use Mockery;
+use stdClass;
 use Yoast\WP\SEO\Abilities\Application\Score_Retriever;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
@@ -300,5 +301,42 @@ final class Score_Retriever_Test extends TestCase {
 			],
 			$result,
 		);
+	}
+
+	/**
+	 * Tests that the schema default object, passed when the ability is called without input, falls back to the
+	 * default number of posts.
+	 *
+	 * @covers ::get_seo_scores
+	 * @covers ::get_readability_scores
+	 * @covers ::get_inclusive_language_scores
+	 *
+	 * @dataProvider provide_score_methods
+	 *
+	 * @param string $method The score retriever method under test.
+	 *
+	 * @return void
+	 */
+	public function test_get_scores_without_input( string $method ) {
+		$this->indexable_repository
+			->expects( 'get_recently_modified_posts' )
+			->once()
+			->with( 'post', 10, false )
+			->andReturn( [] );
+
+		$this->assertSame( [], $this->instance->{ $method }( new stdClass() ) );
+	}
+
+	/**
+	 * Provides the score retriever methods.
+	 *
+	 * @return array<string, array<string, string>>
+	 */
+	public static function provide_score_methods(): array {
+		return [
+			'SEO scores'                => [ 'method' => 'get_seo_scores' ],
+			'Readability scores'        => [ 'method' => 'get_readability_scores' ],
+			'Inclusive language scores' => [ 'method' => 'get_inclusive_language_scores' ],
+		];
 	}
 }

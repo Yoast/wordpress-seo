@@ -3,6 +3,7 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\Abilities\Application;
 
+use stdClass;
 use WP_Error;
 use Yoast\WP\SEO\Abilities\Infrastructure\Author_Identifier_Resolver;
 use Yoast\WP\SEO\Abilities\Infrastructure\Author_SEO_Field_Map;
@@ -56,12 +57,12 @@ class Author_SEO_Data_Collector {
 	/**
 	 * Retrieves the SEO data for the author matching the input.
 	 *
-	 * @param array<string, int|string|bool|null> $input The input containing a 'user_id' or 'permalink'.
+	 * @param array<string, int|string|bool|null>|stdClass $input The input containing a 'user_id' or 'permalink'; the schema default object when none was given.
 	 *
 	 * @return array<string, int|string|bool|null>|WP_Error The SEO data of the author, or an error.
 	 */
-	public function get_author_seo_data( array $input ) {
-		$indexable = $this->resolver->resolve_one( $input );
+	public function get_author_seo_data( $input ) {
+		$indexable = $this->resolver->resolve_one( (array) $input );
 
 		if ( $indexable instanceof WP_Error ) {
 			return $indexable;

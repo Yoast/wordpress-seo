@@ -4,6 +4,7 @@
 namespace Yoast\WP\SEO\Tests\Unit\Abilities\User_Interface\Abilities;
 
 use Mockery;
+use stdClass;
 use Yoast\WP\SEO\Abilities\Application\Post_SEO_Data_Collector;
 use Yoast\WP\SEO\Abilities\Infrastructure\Post_SEO_Field_Map;
 use Yoast\WP\SEO\Abilities\User_Interface\Abilities\Get_Post_SEO_Data_Ability;
@@ -138,7 +139,8 @@ final class Get_Post_SEO_Data_Ability_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_get_args() {
-		$this->assertSame(
+		// The default input is a new object, so it can only be compared by value.
+		$this->assertEquals(
 			[
 				'label'               => 'Get Post SEO Data',
 				'description'         => 'Get the SEO data for a post of any post type. Identify the post by post_id, by permalink (URL), or by title keywords; the title may be a comma-separated list and returns the SEO data for every post matching any of the values, paginated most recently modified first (use the page parameter to reach older matches). At least one identifier is required. Only posts the current user is allowed to edit are returned.',
@@ -146,6 +148,7 @@ final class Get_Post_SEO_Data_Ability_Test extends TestCase {
 				'input_schema'        => [
 					'type'                 => 'object',
 					'additionalProperties' => false,
+					'default'              => new stdClass(),
 					'properties'           => [
 						'post_id'   => [
 							'type'        => 'integer',
