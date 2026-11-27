@@ -114,7 +114,7 @@ class Get_SEO_Data_Optimization_Status_Ability implements Ability_Interface {
 					],
 					'optimization_complete' => [
 						'type'        => 'boolean',
-						'description' => \__( 'Whether the SEO data optimization is complete for all the content of the site. Always false when the SEO data optimization is disabled.', 'wordpress-seo' ),
+						'description' => \__( 'Whether the SEO data optimization is complete for the data that the SEO data and score abilities read. Always false when the SEO data optimization is disabled.', 'wordpress-seo' ),
 					],
 				],
 			],
