@@ -5,9 +5,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Abilities\Application;
 
 use Mockery;
 use Yoast\WP\SEO\Abilities\Application\SEO_Data_Optimization_Status_Collector;
-use Yoast\WP\SEO\Actions\Indexing\Indexable_General_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexing\Indexable_Post_Indexation_Action;
-use Yoast\WP\SEO\Actions\Indexing\Indexable_Post_Type_Archive_Indexation_Action;
 use Yoast\WP\SEO\Actions\Indexing\Indexable_Term_Indexation_Action;
 use Yoast\WP\SEO\Conditionals\Should_Index_Indexables_Conditional;
 use Yoast\WP\SEO\Helpers\Indexing_Helper;
@@ -51,20 +49,6 @@ final class SEO_Data_Optimization_Status_Collector_Test extends TestCase {
 	private $term_indexation;
 
 	/**
-	 * The post type archive indexing action mock.
-	 *
-	 * @var Mockery\MockInterface|Indexable_Post_Type_Archive_Indexation_Action
-	 */
-	private $post_type_archive_indexation;
-
-	/**
-	 * The general indexing action mock.
-	 *
-	 * @var Mockery\MockInterface|Indexable_General_Indexation_Action
-	 */
-	private $general_indexation;
-
-	/**
 	 * The instance under test.
 	 *
 	 * @var SEO_Data_Optimization_Status_Collector
@@ -83,16 +67,12 @@ final class SEO_Data_Optimization_Status_Collector_Test extends TestCase {
 		$this->indexing_helper                     = Mockery::mock( Indexing_Helper::class );
 		$this->post_indexation                     = Mockery::mock( Indexable_Post_Indexation_Action::class );
 		$this->term_indexation                     = Mockery::mock( Indexable_Term_Indexation_Action::class );
-		$this->post_type_archive_indexation        = Mockery::mock( Indexable_Post_Type_Archive_Indexation_Action::class );
-		$this->general_indexation                  = Mockery::mock( Indexable_General_Indexation_Action::class );
 
 		$this->instance = new SEO_Data_Optimization_Status_Collector(
 			$this->should_index_indexables_conditional,
 			$this->indexing_helper,
 			$this->post_indexation,
 			$this->term_indexation,
-			$this->post_type_archive_indexation,
-			$this->general_indexation,
 		);
 	}
 
@@ -110,7 +90,7 @@ final class SEO_Data_Optimization_Status_Collector_Test extends TestCase {
 	}
 
 	/**
-	 * Tests that get counts the unindexed objects of the object indexing actions only, up to one, when the
+	 * Tests that get counts the unindexed objects of the post and term indexing actions only, up to one, when the
 	 * indexables are enabled.
 	 *
 	 * @covers ::__construct
@@ -134,8 +114,6 @@ final class SEO_Data_Optimization_Status_Collector_Test extends TestCase {
 				[
 					$this->post_indexation,
 					$this->term_indexation,
-					$this->post_type_archive_indexation,
-					$this->general_indexation,
 				],
 			)
 			->andReturn( $unindexed_count );
