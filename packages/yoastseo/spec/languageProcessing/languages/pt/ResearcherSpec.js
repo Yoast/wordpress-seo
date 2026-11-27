@@ -5,7 +5,7 @@ import functionWords from "../../../../src/languageProcessing/languages/pt/confi
 import firstWordExceptions from "../../../../src/languageProcessing/languages/pt/config/firstWordExceptions";
 import transitionWords from "../../../../src/languageProcessing/languages/pt/config/transitionWords";
 import twoPartTransitionWords from "../../../../src/languageProcessing/languages/pt/config/twoPartTransitionWords";
-import syllables from "../../../../src/languageProcessing/languages/pt/config/syllables.json";
+import syllables from "../../../../src/languageProcessing/languages/pt/config/syllables.js";
 import stopWords from "../../../../src/languageProcessing/languages/pt/config/stopWords";
 const morphologyDataPT = getMorphologyData( "pt" );
 import sentenceLength from "../../../../src/languageProcessing/languages/pt/config/sentenceLength";

@@ -1,4 +1,4 @@
-import LeafNode from "./LeafNode";
+import LeafNode from "./LeafNode.js";
 
 /**
  * A header in a document.

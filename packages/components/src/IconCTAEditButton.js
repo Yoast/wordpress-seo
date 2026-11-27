@@ -1,6 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-import PropTypes from "prop-types";
 
 /* Yoast dependencies */
 import { colors } from "@yoast/style-guide";
@@ -29,49 +28,49 @@ const IconButtonBase = styled.button`
 /**
  * Returns the IconCTAEditButton component.
  *
+ * @deprecated Use the Button component from @yoast/ui-library instead.
+ *
  * @param {Object} props Component props.
+ * @param {string} props.id The id of the button.
+ * @param {string} props.ariaLabel The aria-label of the button.
+ * @param {Function} props.onClick The function to call when the button is clicked.
+ * @param {string} [props.boxShadowColor] The box shadow color of the button.
+ * @param {string} [props.background] The background color of the button.
+ * @param {string} [props.iconColor] The color of the icon.
+ * @param {string} props.icon The name of the icon.
+ * @param {string} [props.hoverBorderColor] The border color on hover.
+ * @param {string} [props.className] The class name of the button.
  *
  * @returns {ReactElement} IconCTAEditButton component.
  */
-const IconCTAEditButton = function( props ) {
+const IconCTAEditButton = function( {
+	boxShadowColor = colors.$color_button_border,
+	background = colors.$color_button,
+	iconColor = colors.$color_button_text,
+	hoverBorderColor = colors.$color_white,
+	...props
+} ) {
+	console.warn( "The IconCTAEditButton component has been deprecated and will be removed in a future release. Use the Button component from @yoast/ui-library instead." );
+
 	return (
 		<IconButtonBase
 			type="button"
 			onClick={ props.onClick }
-			boxShadowColor={ props.boxShadowColor }
-			background={ props.background }
+			boxShadowColor={ boxShadowColor }
+			background={ background }
 			id={ props.id }
 			aria-label={ props.ariaLabel }
-			iconColor={ props.iconColor }
-			hoverBorderColor={ props.hoverBorderColor }
+			iconColor={ iconColor }
+			hoverBorderColor={ hoverBorderColor }
 			className={ props.className }
 		>
 			<SvgIcon
 				icon={ props.icon }
-				color={ props.iconColor }
+				color={ iconColor }
 				size="18px"
 			/>
 		</IconButtonBase>
 	);
-};
-
-IconCTAEditButton.propTypes = {
-	id: PropTypes.string.isRequired,
-	ariaLabel: PropTypes.string.isRequired,
-	onClick: PropTypes.func.isRequired,
-	boxShadowColor: PropTypes.string,
-	background: PropTypes.string,
-	iconColor: PropTypes.string,
-	icon: PropTypes.string.isRequired,
-	hoverBorderColor: PropTypes.string,
-	className: PropTypes.string,
-};
-
-IconCTAEditButton.defaultProps = {
-	boxShadowColor: colors.$color_button_border,
-	background: colors.$color_button,
-	iconColor: colors.$color_button_text,
-	hoverBorderColor: colors.$color_white,
 };
 
 export default IconCTAEditButton;

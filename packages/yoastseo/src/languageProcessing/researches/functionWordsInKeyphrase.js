@@ -1,7 +1,7 @@
 import { filter, includes, isEmpty } from "lodash";
-import getWords from "../helpers/word/getWords";
-import processExactMatchRequest from "../helpers/match/processExactMatchRequest";
-import { WORD_BOUNDARY_WITH_HYPHEN } from "../../config/wordBoundariesWithoutPunctuation";
+import getWords from "../helpers/word/getWords.js";
+import processExactMatchRequest from "../helpers/match/processExactMatchRequest.js";
+import { WORD_BOUNDARY_WITH_HYPHEN } from "../../config/wordBoundariesWithoutPunctuation.js";
 
 /**
  * Checks if the keyphrase contains of function words only.

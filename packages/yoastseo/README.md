@@ -40,31 +40,71 @@ You can either use YoastSEO.js using the web worker API or use the internal comp
 
 ### Entry points
 
-The package exposes three supported public entry points:
+The package exposes four supported public entry points:
 
 | Import                | Provides                                                                                                                                                                               | Use it for                                                                                                                      |
 |-----------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------|
 | `yoastseo`            | The core analysis library: `Paper`, the assessors, the web-worker API (`AnalysisWebWorker`, `AnalysisWorkerWrapper`), `AbstractResearcher`, `helpers`, and related building blocks.    | Orchestrating analysis.                                                                                                         |
 | `yoastseo/researcher` | A `getResearcher( language )` factory that returns the language-specific `Researcher` **class** (falling back to the default, language-agnostic Researcher for unsupported languages). | Resolving a per-language Researcher (Node, custom bundlers, web workers).                                                       |
 | `yoastseo/contract`   | The serializable input/output contract: `toPaper`/`paperDtoSchema` and `toResultDto`/`resultDtoSchema`, for validating and mapping analysis input and output.                           | Exchanging documented, serializable shapes with the engine from non-WordPress consumers. See [`CONTRACT.md`](docs/CONTRACT.md). |
+| `yoastseo/languages/<lang>` | One language-specific `Researcher` **class** as the default export, for example `yoastseo/languages/nl`. `<lang>` is a language code from the [Readability analysis](#readability-analysis) table, or `_default` for the language-agnostic Researcher. The package's `languages/` folder has one entry for each code. | Loading a single language, for example one bundle per language.                                                                  |
 
 > **Why separate entry points?** The split is intentional. Each language `Researcher` transitively pulls in that language's data — function words, stemmers, transition words, and so on. Re-exporting the factory from the package root would bundle *every* language (~2.4 MB) into whatever bundle imports the root. That especially hurts consumers that load `yoastseo` as a bundler **external** — where the package root is provided once as a shared global (or shared chunk) rather than bundled into each consumer. (Yoast SEO for WordPress does this, exposing the root as the `window.yoast.analysis` global, but any webpack/Rollup setup can configure `yoastseo` as an external the same way.) Keeping `getResearcher` on its own entry keeps that shared root lean and lets consumers load only the languages they need. The `yoastseo/contract` entry follows the same principle: it isolates the contract's runtime dependency (`zod`) so only consumers that import the contract pay for it, keeping the shared root free of it.
 >
-> Deep imports such as `yoastseo/build/...` and `yoastseo/src/...` reach internal modules. They work, but they are implementation details — not part of the supported surface — so prefer the entry points above.
+> Deep imports such as `yoastseo/build/...` and `yoastseo/src/...` reach internal modules. They are not part of the supported surface, and they **stop working in version 4.0**, which adds an `exports` map. Use the entry points above instead.
+>
+> In a bundler, do not mix a deep `yoastseo/build/...` import with the root import: the root comes from `esm/` and the deep path from `build/`, so the shared code is bundled twice, and `instanceof` checks (for example `Paper.parse`) fail between the two copies.
 
-Resolving a language Researcher (the language codes are listed under [Supported languages](#supported-languages); see the `getResearcher` factory for the full set):
+Resolving a language Researcher by its code (see the [Readability analysis](#readability-analysis) table; for any other code, `getResearcher` returns the language-agnostic Researcher):
 
 ```js
-// CommonJS
-const getResearcher = require( "yoastseo/researcher" );
-// ESM
+// ESM (bundlers). For plain Node ESM, see Module formats below.
 import getResearcher from "yoastseo/researcher";
+// CommonJS (Node): returns the factory. It is also available as `.default`.
+// In a bundler, `require()` gets the ESM build, which only has `.default`: use `import` or `.default` there.
+const getResearcher = require( "yoastseo/researcher" );
 
 const DutchResearcher = getResearcher( "nl" ); // Returns the class, not an instance.
 const researcher = new DutchResearcher();
 ```
 
-> **Bundle-size note.** `getResearcher` statically references every supported language, so a bundler that follows this entry includes all of them (~2.4 MB of language data) — the map cannot be tree-shaken down to one language. Size-sensitive consumers that only ever need a single language can instead deep-import just that one (`yoastseo/build/languageProcessing/languages/<lang>/Researcher`), accepting that deep paths are internal and unsupported.
+> **Bundle-size note.** `getResearcher` statically references every supported language, so a bundler that follows this entry includes all of them (~2.4 MB of language data) — the map cannot be tree-shaken down to one language. To load only one language, import it from `yoastseo/languages/<lang>`.
+
+Loading a single language Researcher:
+
+```js
+// ESM (bundlers)
+import DutchResearcher from "yoastseo/languages/nl";
+// CommonJS: the class is the default export.
+const DutchResearcher = require( "yoastseo/languages/nl" ).default;
+
+const researcher = new DutchResearcher();
+```
+
+Which one to use:
+* `yoastseo/researcher` when the language is only known at runtime and bundle size does not matter, for example on a Node server.
+* `yoastseo/languages/<lang>` when you bundle one language at a time, for example one script per language.
+
+### Module formats
+
+The package ships two builds of the same code:
+
+* `build/`: CommonJS, used through the `main` field.
+* `esm/`: ES modules, used through the `module` field.
+
+Bundlers (webpack, Rollup, Vite) pick `esm/` automatically, which lets them leave out the code you do not use. Node ignores the `module` field, so Node loads `build/` for both `require()` and `import`.
+
+Until version 4.0, plain Node ESM cannot import the folder entry points (`yoastseo/researcher`, `yoastseo/contract`, `yoastseo/languages/<lang>`): Node fails with `ERR_UNSUPPORTED_DIR_IMPORT`. Bundlers are not affected. In plain Node ESM, use these paths instead:
+
+```js
+import getResearcher from "yoastseo/researcher/index.js";
+import { toPaper } from "yoastseo/contract/index.js";
+
+// For a single language, load the CommonJS entry with createRequire. The class is the default export.
+import { createRequire } from "node:module";
+const require = createRequire( import.meta.url );
+const DutchResearcher = require( "yoastseo/languages/nl" ).default;
+```
 
 ### Web Worker API
 
@@ -172,30 +212,30 @@ Hebrew, Farsi, Turkish, Norwegian, Czech, Slovak, Greek, Japanese
 
 ### Readability analysis
 
-| Language   	| Transition words 	| Flesch reading ease 	| Passive voice 	| Sentence beginnings 	| Sentence length<sup>1</sup> 	|
-|------------	|------------------	|---------------------	|---------------	|---------------------	|-----------------------------	|
-| English    	| ✅                	| ✅                   	| ✅             	| ✅                   	| ✅                           	|
-| German     	| ✅                	| ✅                   	| ✅             	| ✅                   	| ✅                           	|
-| Dutch      	| ✅                	| ✅                   	| ✅             	| ✅                   	| ✅                           	|
-| French     	| ✅                	| ✅                   	| ✅             	| ✅                   	| ✅                           	|
-| Spanish    	| ✅                	| ✅                   	| ✅             	| ✅                   	| ✅                           	|
-| Italian    	| ✅                	| ✅                   	| ✅             	| ✅                   	| ✅                           	|
-| Portuguese 	| ✅                	| ✅                   	| ✅             	| ✅                   	| ✅                           	|
-| Russian    	| ✅                	| ✅                   	| ✅             	| ✅                   	| ✅                           	|
-| Catalan    	| ✅                	| ❌<sup>3</sup>         | ❌<sup>3</sup>    | ❌<sup>3</sup>        | ✅                 |
-| Polish     	| ✅                	| ❌<sup>2</sup>       	| ✅             	| ✅                   	| ✅                           	|
-| Swedish    	| ✅                	| ❌<sup>2</sup>       	| ✅             	| ✅                   	| ✅                           	|
-| Hungarian  	| ✅                	| ❌<sup>2</sup>        |  ✅          	    | ✅           	        | ✅             	            |
-| Indonesian 	| ✅                	| ❌<sup>2</sup>       	| ✅             	| ✅                   	| ✅                           	|
-| Arabic    	| ✅                	| ❌<sup>2</sup>        | ✅             	| ✅                   	| ✅                           	|
-| Hebrew        | ✅                    | ❌<sup>2</sup>        | ✅                | ✅                     | ✅                            |
-| Farsi    	    | ✅                    | ❌<sup>2</sup>        | ✅              	| ✅                    | ✅                             |
-| Turkish     	| ✅                	| ❌<sup>2</sup>       	| ✅             	| ✅                   	| ✅                           	|
-| Norwegian     | ✅                	| ❌<sup>2</sup>        | ✅                 | ✅                   	| ✅                           	|
-| Czech     	| ✅                	| ❌<sup>2</sup>       	| ✅             	| ✅                   	| ✅                           	|
-| Slovak     	| ✅                	| ❌<sup>2</sup>       	| ✅             	| ✅                   	| ✅                           	|
-| Greek     	| ✅                	| ❌<sup>2</sup>       	| ✅             	| ✅                   	| ✅                           	|
-| Japanese     	| ✅                	| ❌<sup>2</sup>       	| ❌<sup>4</sup>    | ✅                    | ✅                            |
+| Language   	| Code | Transition words 	| Flesch reading ease 	| Passive voice 	| Sentence beginnings 	| Sentence length<sup>1</sup> 	|
+|------------	|------|------------------	|---------------------	|---------------	|---------------------	|-----------------------------	|
+| English    	| `en` | ✅                	| ✅                   	| ✅             	| ✅                   	| ✅                           	|
+| German     	| `de` | ✅                	| ✅                   	| ✅             	| ✅                   	| ✅                           	|
+| Dutch      	| `nl` | ✅                	| ✅                   	| ✅             	| ✅                   	| ✅                           	|
+| French     	| `fr` | ✅                	| ✅                   	| ✅             	| ✅                   	| ✅                           	|
+| Spanish    	| `es` | ✅                	| ✅                   	| ✅             	| ✅                   	| ✅                           	|
+| Italian    	| `it` | ✅                	| ✅                   	| ✅             	| ✅                   	| ✅                           	|
+| Portuguese 	| `pt` | ✅                	| ✅                   	| ✅             	| ✅                   	| ✅                           	|
+| Russian    	| `ru` | ✅                	| ✅                   	| ✅             	| ✅                   	| ✅                           	|
+| Catalan    	| `ca` | ✅                	| ❌<sup>3</sup>         | ❌<sup>3</sup>    | ❌<sup>3</sup>        | ✅                 |
+| Polish     	| `pl` | ✅                	| ❌<sup>2</sup>       	| ✅             	| ✅                   	| ✅                           	|
+| Swedish    	| `sv` | ✅                	| ❌<sup>2</sup>       	| ✅             	| ✅                   	| ✅                           	|
+| Hungarian  	| `hu` | ✅                	| ❌<sup>2</sup>        |  ✅          	    | ✅           	        | ✅             	            |
+| Indonesian 	| `id` | ✅                	| ❌<sup>2</sup>       	| ✅             	| ✅                   	| ✅                           	|
+| Arabic    	| `ar` | ✅                	| ❌<sup>2</sup>        | ✅             	| ✅                   	| ✅                           	|
+| Hebrew        | `he` | ✅                    | ❌<sup>2</sup>        | ✅                | ✅                     | ✅                            |
+| Farsi    	    | `fa` | ✅                    | ❌<sup>2</sup>        | ✅              	| ✅                    | ✅                             |
+| Turkish     	| `tr` | ✅                	| ❌<sup>2</sup>       	| ✅             	| ✅                   	| ✅                           	|
+| Norwegian     | `nb` | ✅                	| ❌<sup>2</sup>        | ✅                 | ✅                   	| ✅                           	|
+| Czech     	| `cs` | ✅                	| ❌<sup>2</sup>       	| ✅             	| ✅                   	| ✅                           	|
+| Slovak     	| `sk` | ✅                	| ❌<sup>2</sup>       	| ✅             	| ✅                   	| ✅                           	|
+| Greek     	| `el` | ✅                	| ❌<sup>2</sup>       	| ✅             	| ✅                   	| ✅                           	|
+| Japanese     	| `ja` | ✅                	| ❌<sup>2</sup>       	| ❌<sup>4</sup>    | ✅                    | ✅                            |
 
 <sup>1</sup> This means the default upper limit of 20 words has been verified for this language, or the upper limit has been changed.
 

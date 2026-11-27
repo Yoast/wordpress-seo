@@ -56,14 +56,14 @@ describe( "checks for keyword doubles", function() {
 
 describe( "checks for keyword doubles2", function() {
 	it( "returns array with keyword2", function() {
-		const plugin = new PreviouslyUsedKeywords( app, undefined ); // eslint-disable-line no-undefined
+		const plugin = new PreviouslyUsedKeywords( app, undefined );
 		expect( plugin.searchUrl ).toBe( "" );
 	} );
 } );
 
 describe( "replaces keyword usage", function() {
 	it( "adds keywords", function() {
-		usedKeywords = undefined;  // eslint-disable-line no-undefined
+		usedKeywords = undefined;
 
 		args = {
 			usedKeywords: usedKeywords,
@@ -147,7 +147,6 @@ describe( "previously used keyphrase when postTypeToDisplay is defined and count
 describe( "Test previouslyUsedKeywords when app is undefined", () => {
 	it( "should throw an error if app is undefined", () => {
 		expect( () => {
-			// eslint-disable-next-line no-undefined
 			new PreviouslyUsedKeywords( undefined, {} );
 		} ).toThrow( MissingArgumentError );
 	} );
@@ -155,7 +154,6 @@ describe( "Test previouslyUsedKeywords when app is undefined", () => {
 
 describe( "Test behaviour of previouslyUsedKeywords when args is undefined", () => {
 	it( "should use the default value for args", () => {
-		// eslint-disable-next-line no-undefined
 		const plugin = new PreviouslyUsedKeywords( args, undefined );
 		expect( plugin.usedKeywords ).toEqual( {} );
 		expect( plugin.usedKeywordsPostTypes ).toEqual( {} );

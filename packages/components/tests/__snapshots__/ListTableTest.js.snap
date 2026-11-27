@@ -14,7 +14,7 @@ exports[`the ListTable component matches the snapshot 1`] = `
 }
 
 <ul
-  className="c0"
+  class="c0"
   role="list"
 />
 `;
@@ -33,7 +33,7 @@ exports[`the ZebrafiedListTable component with multiple children matches the sna
 }
 
 <ul
-  className="c0"
+  class="c0"
   role="list"
 >
   <li
@@ -59,7 +59,7 @@ exports[`the ZebrafiedListTable component with one child matches the snapshot 1`
 }
 
 <ul
-  className="c0"
+  class="c0"
   role="list"
 >
   <li

@@ -2,7 +2,6 @@
 import { Fragment } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { LocationProvider } from "@yoast/externals/contexts";
-import PropTypes from "prop-types";
 import SidebarButton from "../../SidebarButton";
 import Modal from "../Modal";
 
@@ -11,17 +10,18 @@ import Modal from "../Modal";
  *
  * Warning: contains styling that is specific for the Sidebar.
  *
- * @param {string} id The unique identifier for the modal.
- * @param {string} postTypeName The post type label in singular form.
- * @param {React.ReactNode} children The modal content.
- * @param {string} title The modal title.
- * @param {boolean} isOpen Whether the modal is open.
- * @param {function}  open Function to open the modal.
- * @param {function}  close Function to close the modal.
- * @param {boolean} [shouldCloseOnClickOutside=true] Whether the modal should close when clicking outside.
- * @param {boolean} [showChangesWarning=true] Whether to show the changes warning.
- * @param {JSX.Element} [SuffixHeroIcon=null] Optional icon component.
- * @param {JSX.Element} [titleHelpLink=null] A help link next to the modal title. Kept out of `title`, which also
+ * @param {Object} props Component props.
+ * @param {string} props.id The unique identifier for the modal.
+ * @param {string} props.postTypeName The post type label in singular form.
+ * @param {React.ReactNode} props.children The modal content.
+ * @param {string} props.title The modal title.
+ * @param {boolean} props.isOpen Whether the modal is open.
+ * @param {Function} props.open Function to open the modal.
+ * @param {Function} props.close Function to close the modal.
+ * @param {boolean} [props.shouldCloseOnClickOutside=true] Whether the modal should close when clicking outside.
+ * @param {boolean} [props.showChangesWarning=true] Whether to show the changes warning.
+ * @param {JSX.Element} [props.SuffixHeroIcon=null] Optional icon component.
+ * @param {JSX.Element} [props.titleHelpLink=null] A help link next to the modal title. Kept out of `title`, which also
  *                                          renders in the sidebar's open button, where a nested link would be invalid.
  *
  * @returns {JSX.Element} The modal and its open button.
@@ -93,19 +93,5 @@ const EditorModal = ( {
 		/>
 	</Fragment>
 );
-
-EditorModal.propTypes = {
-	id: PropTypes.string.isRequired,
-	postTypeName: PropTypes.string.isRequired,
-	children: PropTypes.oneOfType( [ PropTypes.node, PropTypes.arrayOf( PropTypes.node ) ] ).isRequired,
-	title: PropTypes.string.isRequired,
-	isOpen: PropTypes.bool.isRequired,
-	open: PropTypes.func.isRequired,
-	close: PropTypes.func.isRequired,
-	shouldCloseOnClickOutside: PropTypes.bool,
-	showChangesWarning: PropTypes.bool,
-	SuffixHeroIcon: PropTypes.element,
-	titleHelpLink: PropTypes.element,
-};
 
 export default EditorModal;

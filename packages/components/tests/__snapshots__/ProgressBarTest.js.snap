@@ -35,9 +35,9 @@ exports[`The Progressbar component with custom color matches the snapshot 1`] = 
 
 <progress
   aria-hidden="true"
-  className="c0"
-  max={100}
-  value={50}
+  class="c0"
+  max="100"
+  value="50"
 />
 `;
 
@@ -76,9 +76,9 @@ exports[`The Progressbar component with progress matches the snapshot 1`] = `
 
 <progress
   aria-hidden="true"
-  className="c0"
-  max={100}
-  value={50}
+  class="c0"
+  max="100"
+  value="50"
 />
 `;
 
@@ -117,8 +117,8 @@ exports[`The Progressbar component without any props matches the snapshot 1`] = 
 
 <progress
   aria-hidden="true"
-  className="c0"
-  max={1}
-  value={0}
+  class="c0"
+  max="1"
+  value="0"
 />
 `;

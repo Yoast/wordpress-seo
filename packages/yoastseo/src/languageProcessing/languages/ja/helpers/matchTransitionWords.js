@@ -1,4 +1,4 @@
-import getWords from "./getWords";
+import getWords from "./getWords.js";
 
 /**
  * Matches the sentence against transition words.

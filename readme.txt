@@ -4,8 +4,8 @@ Donate link: https://yoa.st/1up
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability, Schema
-Tested up to: 7.1
-Stable tag: 28.7
+Tested up to: 7.2
+Stable tag: 28.9
 Requires PHP: 7.4
 
 Real-time SEO guidance, schema, and AI built in. Help search engines and AI systems understand your content. All AI tools included, no hidden fees.
@@ -307,35 +307,62 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 == Changelog ==
 
-= 28.8 =
+= 29.0 =
 
-Release date: 2026-10-27
+Release date: 2026-12-01
 
 #### Enhancements
 
-* Adds AI-powered image alt text generation for WooCommerce product images, including a dedicated Image alt text tab in the bulk editor for Yoast WooCommerce SEO.
-* Adds the `sf:contentType` element from NLWeb's Schema Feeds specification to the schema map.
-* Introduces a new Yoast Ability to allow agents to toggle the llms.txt feature on and off.
-* Introduces a new Yoast Ability to allow agents to toggle the Open Graph data feature on and off.
-* Introduces a new Yoast Ability to allow agents to toggle the Schema Aggregator feature on and off.
-* Introduces a new Yoast Ability to allow agents to toggle the Schema Framework feature on and off.
-* Introduces a new Yoast Ability to allow agents to toggle the X card data feature on and off.
-* Introduces a new Yoast Ability to allow agents to toggle the XML sitemaps feature on and off.
-* Introduces a new Yoast Ability to allow agents to update Site representation settings.
+* Adds an \"Edit in bulk\" call-to-action button to the \"Improve default meta descriptions\" task in the task list, linking directly to the bulk editor.
+* Adds the `wpseo_disable_metabox_in_block_editor` filter, which lets the block editor sidebar save post meta via the REST API instead of the metabox hidden fields.
+* Adds `WPSEO_Sitemaps::register_css()` to let add-ons serve a CSS stylesheet for their XML sitemaps.
+* Deprecates `WPSEO_Sitemaps::register_xsl()`, `WPSEO_Sitemaps::xsl_output()` and the `wpseo_xsl_<type>` action.
+* Improves how Yoast abilities explain their responses, settings and limitations to agents.
+* Improves the way we describe post titles and term names to agents to cover cases where custom breadcrumb titles are set.
+* Improves the way we describe to agents how to use permalinks to get and set SEO data of specific posts and terms.
+* Introduces two new Yoast abilities that let agents get and set SEO data for specific author archives.
+* Makes the MyYoast connection available on all sites.
+* Styles the XML sitemaps with a CSS stylesheet.
+
+#### Bugfixes
+
+* Fixes a bug where configuration notices were dismissed by users without settings access. Props to [@jdevalk](https://github.com/jdevalk).
+* Fixes a bug where dismissed notifications were restored without request verification. Props to [@jdevalk](https://github.com/jdevalk).
+* Fixes a bug where elements other than the intended settings tab were clicked when the URL fragment contained selector syntax. Props to jellyo.
+* Fixes a bug where PHP deprecation notices were logged when editing a post on PHP 8.5 and later.
+* Fixes a bug where searching by title in the `get-post-seo-data` ability only returned posts and not pages or other post types.
+* Fixes a bug where site-wide notices were dismissed when contributors called the content-type dismissal routes. Props to [@jdevalk](https://github.com/jdevalk).
+* Fixes a bug where the highlight buttons of several assessments, e.g. the *consecutive sentences* assessment, would not highlight anything in the block editor when the post content had no line break after the block comments.
+* Fixes a bug where the highlight buttons would not highlight anything in blocks nested inside other blocks, e.g. paragraphs in columns.
+* Fixes a bug where the Premium activation notice was hidden by unverified dismissal requests. Props to [@jdevalk](https://github.com/jdevalk).
+* Fixes a bug where values that were cleaned up before saving were reported as not saved by the Yoast Abilities that update settings.
 
 #### Other
 
-* Sets the minimum supported WordPress version to 7.0.
+* Sets the _WordPress tested up to_ version to 7.2.
 
-= 28.7 =
+= 28.9 =
 
-Release date: 2026-10-13
+Release date: 2026-11-18
 
-Yoast SEO 28.7 brings more enhancements and bugfixes. [Find more information about our software releases and updates here](https://yoa.st/releases).
+Yoast SEO 28.9 brings five new assessments that show whether your image alt text describes the image, plus more abilities and a security fix. [Read the release post here](https://yoa.st/58b). 
 
 #### Enhancements
 
-* Allows agents to update titles and descriptions via the respective Yoast Ability.
+* Adds five new image alt text SEO assessments (alt text length, duplicate alt text, redundant phrase in alt text, non-descriptive alt text, and keyphrase stuffing in alt text), removes the _Keyphrase in image alt attributes_ assessment, and extends the bulk editor with image alt text filters.
+* Introduces a new Yoast ability that lets agents update author Schema data.
+* Introduces two new Yoast abilities that let agents get and set SEO data for specific terms.
+* Introduces two new Yoast abilities that let agents get and set SEO settings for archives, special pages and non-static homepages.
+
+#### Bugfixes
+
+* Fixes a bug where the abilities to read and write the SEO data of posts could not find a static homepage by its URL.
+* Fixes a bug where the head REST endpoints exposed the content of private posts and pages to visitors who could not read them.
+
+#### Other
+
+* Removes the _keyphrase in image alt attributes_ assessment, which is replaced by the alt text quality assessments.
+* Removes the stylesheet from the XML sitemaps as browsers drop XSLT support.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).

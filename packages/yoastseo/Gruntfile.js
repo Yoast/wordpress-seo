@@ -20,7 +20,6 @@ module.exports = function( grunt ) {
 		files: {
 			js: [
 				"src/**/*.js",
-				"vendor/**/*.js",
 				"grunt/config/*.js",
 				"!src/config/*.js",
 				"<%= files.grunt %>",

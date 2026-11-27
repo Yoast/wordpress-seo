@@ -1,5 +1,5 @@
-import { Heading } from "../../structure/tree";
-import Research from "./Research";
+import { Heading } from "../../structure/tree/index.js";
+import Research from "./Research.js";
 
 /**
  * A research giving back the headings located in a text.

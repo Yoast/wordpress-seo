@@ -6,6 +6,9 @@ import styled from "styled-components";
 // Yoast dependencies.
 import { colors, rgba } from "@yoast/style-guide";
 
+// Internal dependencies.
+import { withDefaults } from "../withDefaults";
+
 const settings = {
 	minHeight: 48,
 	verticalPadding: 0,
@@ -20,12 +23,13 @@ const ieMinHeight = settings.minHeight - ( settings.verticalPadding * 2 ) - ( se
  * The styles provided here are meant to be applied to both button and link
  * elements that need to look like styled buttons.
  *
- * @param {ReactElement} component The original component.
+ * @param {ReactElement} component  The original component.
+ * @param {Object}       [defaults] Default prop values to apply via `.attrs`.
  *
  * @returns {ReactElement} Component with applied button styles.
  */
-export function addButtonStyles( component ) {
-	return styled( component )`
+export function addButtonStyles( component, defaults = {} ) {
+	return styled( component ).attrs( withDefaults( defaults ) )`
 		display: inline-flex;
 		align-items: center;
 		justify-content: center;
@@ -75,9 +79,16 @@ export function addButtonStyles( component ) {
  * will be possible to remove this component and directly style a button element.
  * See https://github.com/philipwalton/flexbugs#9-some-html-elements-cant-be-flex-containers
  *
+ * @param {Object} props Component props.
+ * @param {string} [props.className] The class name of the button.
+ * @param {Function} [props.onClick] The function to call when the button is clicked.
+ * @param {string} [props.type="button"] The type of the button.
+ * @param {boolean} [props.isExpanded] Whether the element controlled by the button is expanded.
+ * @param {(import("react").ReactNode[]|import("react").ReactNode|string)} [props.children] The content of the button.
+ *
  * @returns {ReactElement} The button with inner span.
  */
-export const YoastButtonBase = ( { className, onClick, type, children, isExpanded } ) => (
+export const YoastButtonBase = ( { className, onClick, type = "button", children, isExpanded } ) => (
 	<button className={ className } onClick={ onClick } type={ type } aria-expanded={ isExpanded }>
 		<span>
 			{ children }
@@ -85,20 +96,10 @@ export const YoastButtonBase = ( { className, onClick, type, children, isExpande
 	</button>
 );
 
-YoastButtonBase.propTypes = {
-	className: PropTypes.string,
-	onClick: PropTypes.func,
-	type: PropTypes.string,
-	isExpanded: PropTypes.bool,
-	children: PropTypes.oneOfType( [
-		PropTypes.arrayOf( PropTypes.node ),
-		PropTypes.node,
-		PropTypes.string,
-	] ),
-};
-
-YoastButtonBase.defaultProps = {
-	type: "button",
+const yoastButtonDefaults = {
+	backgroundColor: colors.$color_green_medium_light,
+	textColor: colors.$color_white,
+	withTextShadow: true,
 };
 
 /**
@@ -106,7 +107,7 @@ YoastButtonBase.defaultProps = {
  *
  * See the Safari 10 bug description in the YoastButtonBase JSDoc.
  *
- * @param {object} props Component props.
+ * @param {Object} props Component props.
  *
  * @returns {ReactElement} styled button.
  */
@@ -130,7 +131,8 @@ export const YoastButton = addButtonStyles(
 			justify-content: inherit;
 			width: 100%;
 		}
-	`
+	`,
+	yoastButtonDefaults
 );
 
 YoastButton.propTypes = {
@@ -139,8 +141,5 @@ YoastButton.propTypes = {
 	withTextShadow: PropTypes.bool,
 };
 
-YoastButton.defaultProps = {
-	backgroundColor: colors.$color_green_medium_light,
-	textColor: colors.$color_white,
-	withTextShadow: true,
-};
+// Kept for classic-runtime consumers; addButtonStyles applies these via .attrs for React 19.
+YoastButton.defaultProps = yoastButtonDefaults;

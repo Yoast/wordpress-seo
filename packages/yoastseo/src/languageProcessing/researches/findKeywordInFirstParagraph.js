@@ -2,7 +2,7 @@
 import { inRange, isEmpty } from "lodash";
 
 import { findTopicFormsInString } from "../helpers/match/findKeywordFormsInString.js";
-import { createShortcodeTagsRegex } from "../helpers";
+import { createShortcodeTagsRegex } from "../helpers/index.js";
 
 
 /**

@@ -1,0 +1,23 @@
+export default {
+	vowels: "аоиеёэыуюя",
+	deviations: {
+		vowels: [
+			{
+				fragments: [
+					"[аоиеёэыуюя][аоиеёэыуюя]",
+				],
+				countModifier: 1,
+			},
+			{
+				fragments: [
+					"[аоиеёэыуюя][аоиеёэыуюя][аоиеёэыуюя]",
+				],
+				countModifier: 1,
+			},
+		],
+		words: {
+			full: [],
+			fragments: [],
+		},
+	},
+};

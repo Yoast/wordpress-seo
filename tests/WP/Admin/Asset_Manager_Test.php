@@ -211,6 +211,31 @@ final class Asset_Manager_Test extends TestCase {
 	}
 
 	/**
+	 * Tests whether register_style registers a style without a source as a handle that only loads its dependencies.
+	 *
+	 * @covers WPSEO_Admin_Asset_Manager::register_style
+	 *
+	 * @return void
+	 */
+	public function test_register_style_without_src() {
+		$asset_args = [
+			'name' => 'alias',
+			'src'  => false,
+			'deps' => [ 'deps' ],
+		];
+		$this->asset_manager->register_style( new WPSEO_Admin_Asset( $asset_args ) );
+
+		global $wp_styles;
+
+		$this->assertTrue( isset( $wp_styles->registered[ WPSEO_Admin_Asset_Manager::PREFIX . 'alias' ] ) );
+
+		$result = $wp_styles->registered[ WPSEO_Admin_Asset_Manager::PREFIX . 'alias' ];
+
+		$this->assertFalse( $result->src );
+		$this->assertEquals( [ 'deps' ], $result->deps );
+	}
+
+	/**
 	 * Test if the Asset Manager works with a custom prefix.
 	 *
 	 * @covers WPSEO_Admin_Asset_Manager::register_style

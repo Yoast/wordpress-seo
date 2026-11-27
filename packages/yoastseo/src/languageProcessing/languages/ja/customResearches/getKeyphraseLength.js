@@ -1,5 +1,5 @@
-import getWords from "../helpers/getWords";
-import characterCountHelper from "../helpers/wordsCharacterCount";
+import getWords from "../helpers/getWords.js";
+import characterCountHelper from "../helpers/wordsCharacterCount.js";
 
 /**
  * Calculates the character length of the keyphrase.

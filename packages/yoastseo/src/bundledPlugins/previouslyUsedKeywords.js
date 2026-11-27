@@ -1,8 +1,8 @@
 import { __, sprintf } from "@wordpress/i18n";
 import { isUndefined } from "lodash";
 
-import MissingArgument from "../errors/missingArgument";
-import { createAnchorOpeningTag } from "../helpers";
+import MissingArgument from "../errors/missingArgument.js";
+import { createAnchorOpeningTag } from "../helpers/index.js";
 import AssessmentResult from "../values/AssessmentResult.js";
 
 /**

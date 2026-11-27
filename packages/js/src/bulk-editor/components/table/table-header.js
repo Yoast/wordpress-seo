@@ -39,7 +39,12 @@ export const BulkEditorHeader = ( { fields, columnCount, selectionToolbar, bulkA
 		) }
 		<Table.Row className="[&_th]:!yst-text-slate-800 [&_th]:!yst-py-3 [&_th]:!yst-leading-[19px]">
 			<Table.Header scope="col">
-				<span className="yst-sr-only">{ __( "Select", "wordpress-seo" ) }</span>
+				<span className="yst-sr-only">
+					{
+					/* translators: Hidden accessibility text. */
+						__( "Select", "wordpress-seo" )
+					}
+				</span>
 			</Table.Header>
 			<Table.Header scope="col">{ __( "Title", "wordpress-seo" ) }</Table.Header>
 			{ fields.map( ( field ) => (

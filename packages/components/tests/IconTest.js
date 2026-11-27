@@ -1,23 +1,21 @@
 import React from "react";
-import renderer from "react-test-renderer";
+import { render } from "@testing-library/react";
 
 import Icon from "../src/Icon";
 import YoastSeoIcon from "../src/YoastSeoIcon";
 
 test( "the Icon without props matches the snapshot", () => {
-	const component = renderer.create(
+	const { container } = render(
 		<Icon icon={ YoastSeoIcon } />
 	);
 
-	const tree = component.toJSON();
-	expect( tree ).toMatchSnapshot();
+	expect( container.firstChild ).toMatchSnapshot();
 } );
 
 test( "the Icon with props matches the snapshot", () => {
-	const component = renderer.create(
+	const { container } = render(
 		<Icon icon={ YoastSeoIcon } color="red" width="200px" height="200px" />
 	);
 
-	const tree = component.toJSON();
-	expect( tree ).toMatchSnapshot();
+	expect( container.firstChild ).toMatchSnapshot();
 } );

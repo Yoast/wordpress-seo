@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file. Releases without a changelog entry contain only minor changes that are irrelevant for users of this library.
 We follow [Semantic Versioning](http://semver.org/).
 
+## Future Release
+### Non user facing
+* Bumps `@yoast/ui-library` to version `4.7.0` from `4.6.0`. [#23795](https://github.com/Yoast/wordpress-seo/pull/23795)
+
 ## 3.0.0 March 16th, 2026
 ### Enhancements
 * Updates the styling of our Google preview to reflect the updated styling of the Google search results.

@@ -1,4 +1,4 @@
-import { formsOfToBe, negatedFormsOfToBe, formsOfToGet } from "../../../../languageProcessing/languages/en/config/internal/passiveVoiceAuxiliaries";
+import { formsOfToBe, negatedFormsOfToBe, formsOfToGet } from "../../../../languageProcessing/languages/en/config/internal/passiveVoiceAuxiliaries.js";
 import { flatMap } from "lodash";
 
 const intensifiersAndAdverbs = [ "so", "very", "a bit", "really", "pretty", "kind of", "that", "too", "totally", "completely", "absolutely", "even",

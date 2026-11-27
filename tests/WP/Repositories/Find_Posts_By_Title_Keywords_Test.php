@@ -174,6 +174,35 @@ final class Find_Posts_By_Title_Keywords_Test extends TestCase {
 	}
 
 	/**
+	 * Tests that the default post type limits the search to posts, while null searches every post type but no other object type.
+	 *
+	 * @covers ::find_posts_by_title_keywords
+	 *
+	 * @return void
+	 */
+	public function test_post_type_scope(): void {
+		$this->insert_indexable( 'About Post', '2024-01-01 10:00:00' );
+		$this->insert_indexable( 'About Page', '2024-01-02 10:00:00', 1, 'post', 'page' );
+		$this->insert_indexable( 'About Product', '2024-01-03 10:00:00', 1, 'post', 'product' );
+		$this->insert_indexable( 'About Category', '2024-01-04 10:00:00', 1, 'term', 'category' );
+
+		$this->assertSame(
+			[ 'About Post' ],
+			$this->breadcrumb_titles( $this->instance->find_posts_by_title_keywords( 'About' ) ),
+		);
+
+		$this->assertSame(
+			[ 'About Page' ],
+			$this->breadcrumb_titles( $this->instance->find_posts_by_title_keywords( 'About', 1, Indexable_Repository::DEFAULT_TITLE_KEYWORD_PAGE_SIZE, 'page' ) ),
+		);
+
+		$this->assertSame(
+			[ 'About Product', 'About Page', 'About Post' ],
+			$this->breadcrumb_titles( $this->instance->find_posts_by_title_keywords( 'About', 1, Indexable_Repository::DEFAULT_TITLE_KEYWORD_PAGE_SIZE, null ) ),
+		);
+	}
+
+	/**
 	 * Tests that an empty or comma-only search never matches every post.
 	 *
 	 * @covers ::find_posts_by_title_keywords
@@ -256,10 +285,12 @@ final class Find_Posts_By_Title_Keywords_Test extends TestCase {
 	 * @param string   $breadcrumb_title     The breadcrumb title to match against.
 	 * @param string   $object_last_modified The modification timestamp used for ordering.
 	 * @param int|null $is_public            The is_public value; null when no override is set.
+	 * @param string   $object_type          The object type.
+	 * @param string   $object_sub_type      The object sub-type (the post type, for posts).
 	 *
 	 * @return void
 	 */
-	private function insert_indexable( string $breadcrumb_title, string $object_last_modified, ?int $is_public = 1 ): void {
+	private function insert_indexable( string $breadcrumb_title, string $object_last_modified, ?int $is_public = 1, string $object_type = 'post', string $object_sub_type = 'post' ): void {
 		global $wpdb;
 
 		++$this->row_index;
@@ -268,8 +299,8 @@ final class Find_Posts_By_Title_Keywords_Test extends TestCase {
 		$wpdb->insert(
 			$wpdb->prefix . 'yoast_indexable',
 			[
-				'object_type'          => 'post',
-				'object_sub_type'      => 'post',
+				'object_type'          => $object_type,
+				'object_sub_type'      => $object_sub_type,
 				'post_status'          => 'publish',
 				'is_public'            => $is_public,
 				'permalink'            => $permalink,

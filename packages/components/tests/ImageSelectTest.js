@@ -1,5 +1,5 @@
 import React from "react";
-import renderer from "react-test-renderer";
+import { render } from "@testing-library/react";
 
 import ImageSelect from "../src/image-select/ImageSelect";
 
@@ -29,7 +29,7 @@ describe( "ImageSelect", () => {
 		];
 
 		imageSelects.forEach( imageSelect => {
-			const component = renderer.create(
+			const { container } = render(
 				<ImageSelect
 					label={ imageSelect.label }
 					imageAltText={ "" }
@@ -37,9 +37,8 @@ describe( "ImageSelect", () => {
 					imageUrl={ imageSelect.imageUrl }
 				/>
 			);
-			const tree = component.toJSON();
 
-			expect( tree ).toMatchSnapshot();
+			expect( container.firstChild ).toMatchSnapshot();
 		} );
 	} );
 } );

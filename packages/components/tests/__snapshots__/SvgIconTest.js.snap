@@ -10,12 +10,11 @@ exports[`the SvgIcon matches the snapshot 1`] = `
 }
 
 <svg
-  aria-hidden={true}
-  className="c0 yoast-svg-icon yoast-svg-icon-edit my-icon"
+  aria-hidden="true"
+  class="c0 yoast-svg-icon yoast-svg-icon-edit my-icon"
   fill="black"
   focusable="false"
   role="img"
-  size="32px"
   viewBox="0 0 1792 1792"
   xmlns="http://www.w3.org/2000/svg"
 >

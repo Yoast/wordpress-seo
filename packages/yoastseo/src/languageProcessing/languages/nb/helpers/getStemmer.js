@@ -2,7 +2,7 @@ import { get } from "lodash";
 import { languageProcessing } from "yoastseo";
 const { baseStemmer } = languageProcessing;
 
-import determineStem from "./internal/stem";
+import determineStem from "./internal/stem.js";
 
 /**
  * Returns the stemmer for a researcher.

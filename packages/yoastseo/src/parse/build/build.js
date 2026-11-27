@@ -1,14 +1,14 @@
 // External dependencies.
 import { parseFragment } from "parse5";
 // Internal dependencies.
-import adapt from "./private/adapt";
-import tokenize from "./private/tokenize";
-import filterTree from "./private/filterTree";
-import permanentFilters from "./private/alwaysFilterElements";
-import { filterBeforeTokenizing } from "./private/filterBeforeTokenizing";
-import parseBlocks from "./private/parseBlocks";
-import filterShortcodesFromTree from "../../languageProcessing/helpers/sanitize/filterShortcodesFromTree";
-import { htmlEntitiesRegex } from "../../helpers/htmlEntities";
+import adapt from "./private/adapt.js";
+import tokenize from "./private/tokenize.js";
+import filterTree from "./private/filterTree.js";
+import permanentFilters from "./private/alwaysFilterElements.js";
+import { filterBeforeTokenizing } from "./private/filterBeforeTokenizing.js";
+import parseBlocks from "./private/parseBlocks.js";
+import filterShortcodesFromTree from "../../languageProcessing/helpers/sanitize/filterShortcodesFromTree.js";
+import { htmlEntitiesRegex } from "../../helpers/htmlEntities.js";
 
 /**
  * Parses the HTML string to a tree representation of the HTML document.

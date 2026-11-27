@@ -1,12 +1,13 @@
 import { useCallback } from "@wordpress/element";
 import { Paper } from "@yoast/ui-library";
-import PropTypes from "prop-types";
 import { useRouteError } from "react-router-dom";
 import { ErrorFallback } from "../../shared-admin/components";
 import { useSelectGeneralPage } from "../hooks";
 
 /**
- * @param {string} [className=""] The class name.
+ * @param {Object} props Component props.
+ * @param {string} [props.className=""] The class name.
+ *
  * @returns {React.ReactNode} The element.
  */
 export const RouteErrorFallback = ( { className = "" } ) => {
@@ -21,8 +22,4 @@ export const RouteErrorFallback = ( { className = "" } ) => {
 			</ErrorFallback>
 		</Paper>
 	);
-};
-
-RouteErrorFallback.propTypes = {
-	className: PropTypes.string,
 };

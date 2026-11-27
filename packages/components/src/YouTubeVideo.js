@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
 import styled from "styled-components";
 
 import IFrame from "./IFrame";
@@ -25,31 +24,25 @@ const YoutubeVideoContainer = styled.div`
  * Creates a YouTubeVideo component.
  *
  * @param {Object} props The props to use for the component.
+ * @param {number} [props.width=560] The width of the iframe.
+ * @param {number} [props.height=315] The height of the iframe.
+ * @param {string} props.src The source URL of the video.
+ * @param {string} props.title The title of the iframe.
+ * @param {number} [props.frameBorder=0] The frame border of the iframe.
+ * @param {boolean} [props.allowFullScreen=true] Whether the video can be played in full screen.
  *
  * @returns {ReactElement} The YouTubeVideo component.
  */
-export default function YouTubeVideo( props ) {
+export default function YouTubeVideo( { width = 560, height = 315, frameBorder = 0, allowFullScreen = true, ...props } ) {
 	return (
 		<YoutubeVideoContainer>
 			<IFrame
+				width={ width }
+				height={ height }
+				frameBorder={ frameBorder }
+				allowFullScreen={ allowFullScreen }
 				{ ...props }
 			/>
 		</YoutubeVideoContainer>
 	);
 }
-
-YouTubeVideo.propTypes = {
-	width: PropTypes.number,
-	height: PropTypes.number,
-	src: PropTypes.string.isRequired,
-	title: PropTypes.string.isRequired,
-	frameBorder: PropTypes.number,
-	allowFullScreen: PropTypes.bool,
-};
-
-YouTubeVideo.defaultProps = {
-	width: 560,
-	height: 315,
-	frameBorder: 0,
-	allowFullScreen: true,
-};

@@ -3,6 +3,8 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.TooLong -- Needed in the folder structure.
 namespace Yoast\WP\SEO\Abilities\User_Interface\Abilities;
 
+use Yoast\WP\SEO\Abilities\Infrastructure\Features\Open_Graph_Feature;
+
 /**
  * The ability that enables or disables the Open Graph data feature.
  *
@@ -26,7 +28,7 @@ class Set_Open_Graph_Status_Ability extends Abstract_Set_Option_Status_Ability {
 	 * @return string The option name.
 	 */
 	protected function get_option_name(): string {
-		return 'opengraph';
+		return Open_Graph_Feature::OPTION_NAME;
 	}
 
 	/**
@@ -35,7 +37,7 @@ class Set_Open_Graph_Status_Ability extends Abstract_Set_Option_Status_Ability {
 	 * @return string The feature name.
 	 */
 	protected function get_feature_name(): string {
-		return 'Open Graph data';
+		return Open_Graph_Feature::NAME;
 	}
 
 	/**

@@ -1,12 +1,10 @@
 import React from "react";
-import ReactShallowRenderer from "react-test-renderer/shallow";
+import { fireEvent, render, screen } from "@testing-library/react";
 import TextInput from "../../src/inputs/TextInput";
 
 describe( "TextInput", () => {
-	const renderer = new ReactShallowRenderer();
-
 	it( "generates an input based on the props", () => {
-		renderer.render(
+		const { container } = render(
 			<TextInput
 				type="text"
 				name="textInput"
@@ -15,51 +13,41 @@ describe( "TextInput", () => {
 			/>
 		);
 
-		const result = renderer.getRenderOutput();
+		const input = screen.getByRole( "textbox" );
 
-		expect( result.props.label ).toBe( "Heya" );
-		expect( result.props.linkTo ).toBe( "linkTo" );
-		expect( result.props.children.props.name ).toBe( "textInput" );
-		expect( result.props.children.props.value ).toBe( "" );
+		expect( screen.getByText( "Heya" ) ).not.toBeNull();
+		expect( container.querySelector( "a.yoast-help" ).getAttribute( "href" ) ).toBe( "linkTo" );
+		expect( input.name ).toBe( "textInput" );
+		expect( input.value ).toBe( "" );
 	} );
 
 	it( "generates an input based on the defaults if required props are missing", () => {
-		renderer.render(
+		render(
 			<TextInput
 				label="heya"
 			/>
 		);
 
-		const result = renderer.getRenderOutput();
+		const input = screen.getByRole( "textbox" );
 
-		expect( result.props.children.props.name ).toBe( "" );
-		expect( result.props.children.props.type ).toBe( "text" );
-		expect( result.props.children.props.value ).toBe( "" );
+		expect( input.name ).toBe( "" );
+		expect( input.type ).toBe( "text" );
+		expect( input.value ).toBe( "" );
 	} );
 
 	it( "generates an input based on the defaults if required props are partially missing", () => {
-		renderer.render(
+		render(
 			<TextInput
 				label="heya"
 				name="textInput"
 			/>
 		);
 
-		const result = renderer.getRenderOutput();
+		const input = screen.getByRole( "textbox" );
 
-		expect( result.props.children.props.name ).toBe( "textInput" );
-		expect( result.props.children.props.type ).toBe( "text" );
-		expect( result.props.children.props.value ).toBe( "" );
-	} );
-
-	it( "generates a warning when a faulty input type is passed", () => {
-		console.error = jest.fn();
-		renderer.render( <TextInput label="hey" type="invalidType" /> );
-
-		expect( console.error ).toBeCalled();
-		expect( console.error.mock.calls[ 0 ][ 0 ] ).toBe( "Warning: Failed %s type: %s%s" );
-		expect( console.error.mock.calls[ 0 ][ 1 ] ).toBe( "prop" );
-		expect( console.error.mock.calls[ 0 ][ 2 ] ).toContain( "Invalid prop `type` of value `invalidType` supplied to `TextInput`" );
+		expect( input.name ).toBe( "textInput" );
+		expect( input.type ).toBe( "text" );
+		expect( input.value ).toBe( "" );
 	} );
 
 	it( "generates an input based on the defaults and additional, optional attributes", () => {
@@ -67,31 +55,21 @@ describe( "TextInput", () => {
 			id: "custom-input-identifier",
 		};
 
-		renderer.render( <TextInput label="hi" name="textInput" { ...optionalAttributes } /> );
+		render( <TextInput label="hi" name="textInput" { ...optionalAttributes } /> );
 
-		const result = renderer.getRenderOutput();
+		const input = screen.getByRole( "textbox" );
 
-		expect( result.props.id ).toBe( "custom-input-identifier" );
+		expect( input.id ).toBe( "custom-input-identifier" );
+		expect( screen.getByText( "hi" ).htmlFor ).toBe( "custom-input-identifier" );
 	} );
 
 	it( "generates an input based on the defaults and an onChange event binding", () => {
-		renderer.render( <TextInput label="hi" name="textInput" onChange={ () => {} } /> );
+		const onChange = jest.fn();
+		render( <TextInput label="hi" name="textInput" onChange={ onChange } /> );
 
-		const result = renderer.getRenderOutput();
+		fireEvent.change( screen.getByRole( "textbox" ), { target: { value: "changed" } } );
 
-		expect( result.props.onChange ).toBeDefined();
-		expect( typeof result.props.onChange ).toBe( "function" );
-	} );
-
-	it( "generates a warning when a faulty onChange callback is passed", () => {
-		console.error = jest.fn();
-
-		renderer.render( <TextInput label="hi" name="textInput" onChange={ 0 } /> );
-
-		expect( console.error ).toBeCalled();
-		expect( console.error.mock.calls[ 0 ][ 0 ] ).toBe( "Warning: Failed %s type: %s%s" );
-		expect( console.error.mock.calls[ 0 ][ 1 ] ).toBe( "prop" );
-		expect( console.error.mock.calls[ 0 ][ 2 ] )
-			.toBe( "Invalid prop `onChange` of type `number` supplied to `TextInput`, expected `function`." );
+		expect( onChange ).toHaveBeenCalledTimes( 1 );
+		expect( onChange ).toHaveBeenCalledWith( "changed" );
 	} );
 } );

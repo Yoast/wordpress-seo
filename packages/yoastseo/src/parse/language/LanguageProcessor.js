@@ -1,6 +1,6 @@
-import Sentence from "../structure/Sentence";
-import Token from "../structure/Token";
-import splitIntoTokens from "../../languageProcessing/helpers/word/splitIntoTokens";
+import Sentence from "../structure/Sentence.js";
+import Token from "../structure/Token.js";
+import splitIntoTokens from "../../languageProcessing/helpers/word/splitIntoTokens.js";
 
 const whitespaceRegex = /^\s+$/;
 

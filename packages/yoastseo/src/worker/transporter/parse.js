@@ -1,11 +1,11 @@
 import { isArray, isObject, mapValues } from "lodash";
 
-import AssessmentResult from "../../values/AssessmentResult";
-import Mark from "../../values/Mark";
-import Paper from "../../values/Paper";
-import Sentence from "../../languageProcessing/values/Sentence";
-import Clause from "../../languageProcessing/values/Clause";
-import ProminentWord from "../../languageProcessing/values/ProminentWord";
+import AssessmentResult from "../../values/AssessmentResult.js";
+import Mark from "../../values/Mark.js";
+import Paper from "../../values/Paper.js";
+import Sentence from "../../languageProcessing/values/Sentence.js";
+import Clause from "../../languageProcessing/values/Clause.js";
+import ProminentWord from "../../languageProcessing/values/ProminentWord.js";
 
 const PARSE_CLASSES = {
 	AssessmentResult,

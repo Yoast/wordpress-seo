@@ -1,35 +1,28 @@
 import React from "react";
-import renderer from "react-test-renderer";
+import { render, fireEvent } from "@testing-library/react";
 
 import Checkbox from "../src/checkbox/Checkbox";
 
 describe( "Checkbox", () => {
 	it( "matches the snapshot", () => {
-		const component = renderer.create(
+		const { container } = render(
 			<Checkbox id="test-id" label="test label" />
 		);
 
-		const tree = component.toJSON();
-		expect( tree ).toMatchSnapshot();
+		expect( container.firstChild ).toMatchSnapshot();
 	} );
 
 	it( "matches the snapshot when an array is provided as a label", () => {
-		const component = renderer.create(
+		const { container } = render(
 			<Checkbox id="test-id" label={ [ "test label ", "using arrays" ] } />
 		);
 
-		const tree = component.toJSON();
-		expect( tree ).toMatchSnapshot();
+		expect( container.firstChild ).toMatchSnapshot();
 	} );
 
 	it( "executes callback once", () => {
-		const event = {
-			target: {
-				checked: false,
-			},
-		};
 		const onChange = jest.fn();
-		const component = renderer.create(
+		const { container } = render(
 			<Checkbox
 				id="testCallback"
 				onChange={ onChange }
@@ -37,8 +30,7 @@ describe( "Checkbox", () => {
 			/>
 		);
 
-		const tree = component.toTree();
-		tree.props.onChange( event );
+		fireEvent.click( container.querySelector( "input" ) );
 
 		expect( onChange ).toHaveBeenCalledTimes( 1 );
 	} );

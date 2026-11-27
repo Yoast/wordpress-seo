@@ -1,7 +1,7 @@
 import { __, sprintf } from "@wordpress/i18n";
-import { createAnchorOpeningTag } from "../../../helpers/shortlinker";
-import AssessmentResult from "../../../values/AssessmentResult";
-import Assessment from "../assessment";
+import { createAnchorOpeningTag } from "../../../helpers/shortlinker/index.js";
+import AssessmentResult from "../../../values/AssessmentResult.js";
+import Assessment from "../assessment.js";
 import { merge } from "lodash";
 
 /**

@@ -1,7 +1,6 @@
 /* eslint-disable complexity */
 import classNames from "classnames";
 import { noop } from "lodash";
-import PropTypes from "prop-types";
 import ArrowNarrowRightIcon from "@heroicons/react/outline/ArrowNarrowRightIcon";
 import { select, useDispatch } from "@wordpress/data";
 import { useState, useCallback, useRef } from "@wordpress/element";
@@ -70,10 +69,12 @@ async function resolveAlert( id, resolveNonce ) {
 /**
  * Ping other admins alert item component.
  *
- * @param {string} id Alert ID.
- * @param {boolean} dismissed Whether the alert is dismissed.
- * @param {string} message Alert message.
- * @param {string} resolveNonce Nonce to resolve the alert.
+ * @param {Object} props Component props.
+ * @param {string} props.id Alert ID.
+ * @param {boolean} props.dismissed Whether the alert is dismissed.
+ * @param {string} props.message Alert message.
+ * @param {string} props.resolveNonce Nonce to resolve the alert.
+ *
  * @returns {JSX.Element} The PingOtherAdminsAlertItem component.
  */
 export const PingOtherAdminsAlertItem = ( { id, dismissed, message, resolveNonce } ) => {
@@ -193,11 +194,4 @@ export const PingOtherAdminsAlertItem = ( { id, dismissed, message, resolveNonce
 			</p>
 		</div>
 	);
-};
-
-PingOtherAdminsAlertItem.propTypes = {
-	id: PropTypes.string.isRequired,
-	dismissed: PropTypes.bool.isRequired,
-	message: PropTypes.string.isRequired,
-	resolveNonce: PropTypes.string.isRequired,
 };

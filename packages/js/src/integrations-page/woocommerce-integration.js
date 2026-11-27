@@ -5,16 +5,19 @@ import XIcon from "@heroicons/react/solid/XIcon";
 import { Fragment } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { Button } from "@yoast/ui-library";
-import { PropTypes } from "prop-types";
 import { SimpleIntegration } from "./simple-integration";
 
+/** @typedef {import("./simple-integration").Integration} Integration */
+
 /**
- * @param {Object} integration The integration object.
- * @param {boolean} [isActive=true] Whether the integration is active.
- * @param {boolean} [isInstalled=true] Whether the integration is installed.
- * @param {boolean} [isPrerequisiteActive=true] Whether the prerequisite plugin is active.
- * @param {string} activationLink The URL to activate Yoast WooCommerce SEO.
- * @param {boolean} [isSchemaAPIIntegration=false] Whether this is a Schema API integration.
+ * @param {Object} props Component props.
+ * @param {Integration} props.integration The integration object.
+ * @param {boolean} [props.isActive=true] Whether the integration is active.
+ * @param {boolean} [props.isInstalled=true] Whether the integration is installed.
+ * @param {boolean} [props.isPrerequisiteActive=true] Whether the prerequisite plugin is active.
+ * @param {string} props.activationLink The URL to activate Yoast WooCommerce SEO.
+ * @param {boolean} [props.isSchemaAPIIntegration=false] Whether this is a Schema API integration.
+ *
  * @returns {JSX.Element} A card representing an integration.
  */
 export const WoocommerceIntegration = ( {
@@ -96,22 +99,4 @@ export const WoocommerceIntegration = ( {
 			</Fragment> }
 		</SimpleIntegration>
 	);
-};
-
-WoocommerceIntegration.propTypes = {
-	integration: PropTypes.shape( {
-		name: PropTypes.string,
-		claim: PropTypes.node,
-		slug: PropTypes.string,
-		description: PropTypes.string,
-		usps: PropTypes.array,
-		logo: PropTypes.func,
-		isNew: PropTypes.bool,
-		upsellLink: PropTypes.string,
-	} ).isRequired,
-	isActive: PropTypes.bool,
-	isInstalled: PropTypes.bool,
-	isPrerequisiteActive: PropTypes.bool,
-	activationLink: PropTypes.string.isRequired,
-	isSchemaAPIIntegration: PropTypes.bool,
 };

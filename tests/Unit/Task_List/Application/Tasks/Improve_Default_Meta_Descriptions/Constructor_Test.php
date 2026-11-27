@@ -6,7 +6,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Task_List\Application\Tasks\Improve_Default_Me
 
 use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Helpers\Options_Helper;
-use Yoast\WP\SEO\Task_List\Infrastructure\Indexables\Recent_Content_Indexable_Collector;
+use Yoast\WP\SEO\Task_List\Application\Recent_Content\Recent_Content_Collector_Interface;
 
 /**
  * Test class for the Improve Default Meta Descriptions constructor.
@@ -24,7 +24,7 @@ final class Constructor_Test extends Abstract_Test {
 	 */
 	public function test_constructor() {
 		$this->assertInstanceOf(
-			Recent_Content_Indexable_Collector::class,
+			Recent_Content_Collector_Interface::class,
 			$this->getPropertyValue( $this->instance, 'recent_content_indexable_collector' ),
 		);
 		$this->assertInstanceOf(

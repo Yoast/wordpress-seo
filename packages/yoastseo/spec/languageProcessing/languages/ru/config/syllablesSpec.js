@@ -1,5 +1,5 @@
 import countSyllableFunction from "../../../../../src/languageProcessing/helpers/syllables/countSyllables.js";
-import russianSyllables from "../../../../../src/languageProcessing/languages/ru/config/syllables.json";
+import russianSyllables from "../../../../../src/languageProcessing/languages/ru/config/syllables.js";
 
 describe( "a syllable counter for Russian text strings", function() {
 	it( "returns the number of syllables of Russian words", function() {

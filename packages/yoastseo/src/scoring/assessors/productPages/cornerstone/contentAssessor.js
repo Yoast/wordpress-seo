@@ -2,7 +2,7 @@ import ProductContentAssessor from "../contentAssessor.js";
 import SubheadingDistributionTooLongAssessment from "../../../assessments/readability/SubheadingDistributionTooLongAssessment.js";
 import SentenceLengthInTextAssessment from "../../../assessments/readability/SentenceLengthInTextAssessment.js";
 
-import { createAnchorOpeningTag } from "../../../../helpers";
+import { createAnchorOpeningTag } from "../../../../helpers/index.js";
 
 /**
  * The ProductContentAssessor class is used for the readability analysis for cornerstone products.

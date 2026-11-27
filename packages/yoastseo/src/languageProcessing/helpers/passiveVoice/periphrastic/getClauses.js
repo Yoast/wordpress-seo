@@ -1,9 +1,9 @@
-import { getIndicesByWordList as getIndicesOfList, filterIndices, sortIndices } from "../../word/indices";
+import { getIndicesByWordList as getIndicesOfList, filterIndices, sortIndices } from "../../word/indices.js";
 import stripSpaces from "../../sanitize/stripSpaces.js";
 import { normalizeSingle as normalizeSingleQuotes } from "../../sanitize/quotes.js";
 import getWordIndices from "./getIndicesWithRegex.js";
-import includesIndex from "../../word/includesIndex";
-import followsIndex from "../../word/followsIndex";
+import includesIndex from "../../word/includesIndex.js";
+import followsIndex from "../../word/followsIndex.js";
 
 import { forEach, isUndefined, map } from "lodash";
 

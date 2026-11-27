@@ -29,7 +29,7 @@ describe( "Assessment", () => {
 		it( "logs a warning when it is called without being implemented", ( done ) => {
 			const assessment = new Assessment( "assessment", null );
 			assessment.isApplicable( parsedPaper ).then( () => {
-				expect( console.warn ).toBeCalled();
+				expect( console.warn ).toHaveBeenCalled();
 				done();
 			} );
 		} );
@@ -39,7 +39,7 @@ describe( "Assessment", () => {
 		it( "logs a warning when it is called without being implemented", ( done ) => {
 			const assessment = new Assessment( "assessment", null );
 			assessment.apply( parsedPaper ).then( () => {
-				expect( console.warn ).toBeCalled();
+				expect( console.warn ).toHaveBeenCalled();
 				done();
 			} );
 		} );

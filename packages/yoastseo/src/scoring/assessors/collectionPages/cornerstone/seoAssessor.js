@@ -1,7 +1,7 @@
-import CollectionSEOAssessor from "../seoAssessor";
+import CollectionSEOAssessor from "../seoAssessor.js";
 import TextLengthAssessment from "../../../assessments/seo/TextLengthAssessment.js";
-import { createAnchorOpeningTag } from "../../../../helpers";
-import ValidOnlyResultsScoreAggregator from "../../../scoreAggregators/ValidOnlyResultsScoreAggregator";
+import { createAnchorOpeningTag } from "../../../../helpers/index.js";
+import ValidOnlyResultsScoreAggregator from "../../../scoreAggregators/ValidOnlyResultsScoreAggregator.js";
 
 /**
  * The CollectionCornerstoneSEOAssessor class is used for the SEO analysis for cornerstone collections.

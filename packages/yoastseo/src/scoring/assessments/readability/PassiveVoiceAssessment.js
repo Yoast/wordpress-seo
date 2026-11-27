@@ -1,14 +1,14 @@
 import { __, sprintf } from "@wordpress/i18n";
 import { map, merge } from "lodash";
 
-import formatNumber from "../../../helpers/formatNumber";
-import { inRangeEndInclusive as inRange } from "../../helpers/assessments/inRange";
-import marker from "../../../markers/addMark";
-import { createAnchorOpeningTag } from "../../../helpers";
-import { stripIncompleteTags as stripTags } from "../../../languageProcessing/helpers/sanitize/stripHTMLTags";
-import AssessmentResult from "../../../values/AssessmentResult";
-import Mark from "../../../values/Mark";
-import Assessment from "../assessment";
+import formatNumber from "../../../helpers/formatNumber.js";
+import { inRangeEndInclusive as inRange } from "../../helpers/assessments/inRange.js";
+import marker from "../../../markers/addMark.js";
+import { createAnchorOpeningTag } from "../../../helpers/index.js";
+import { stripIncompleteTags as stripTags } from "../../../languageProcessing/helpers/sanitize/stripHTMLTags.js";
+import AssessmentResult from "../../../values/AssessmentResult.js";
+import Mark from "../../../values/Mark.js";
+import Assessment from "../assessment.js";
 
 /**
  * @typedef {import("../../../languageProcessing/AbstractResearcher").default } Researcher

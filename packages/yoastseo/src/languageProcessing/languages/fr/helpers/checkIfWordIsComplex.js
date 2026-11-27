@@ -1,4 +1,4 @@
-import { normalizeSingle } from "../../../helpers/sanitize/quotes";
+import { normalizeSingle } from "../../../helpers/sanitize/quotes.js";
 
 const contractionPrefixes = "^(c'|d'|l'|s')";
 const contractionRegex = new RegExp( contractionPrefixes );

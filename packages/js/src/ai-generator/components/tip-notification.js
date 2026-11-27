@@ -69,7 +69,10 @@ export const TipNotification = () => {
 		<Notifications.Notification
 			id="ai-generator-content-tip"
 			variant="info"
-			dismissScreenReaderLabel={ __( "Dismiss", "wordpress-seo" ) }
+			dismissScreenReaderLabel={
+				/* translators: Hidden accessibility text. */
+				__( "Dismiss", "wordpress-seo" )
+			}
 		>
 			{ safeCreateInterpolateElement(
 				sprintf( tip, "<span>", "</span>" ),

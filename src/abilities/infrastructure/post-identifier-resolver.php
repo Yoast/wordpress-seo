@@ -4,6 +4,7 @@
 namespace Yoast\WP\SEO\Abilities\Infrastructure;
 
 use WP_Error;
+use Yoast\WP\SEO\Helpers\Current_Page_Helper;
 use Yoast\WP\SEO\Models\Indexable;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
 
@@ -24,14 +25,24 @@ class Post_Identifier_Resolver {
 	private $indexable_repository;
 
 	/**
+	 * The current page helper.
+	 *
+	 * @var Current_Page_Helper
+	 */
+	private $current_page_helper;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param Indexable_Repository $indexable_repository The indexable repository.
+	 * @param Current_Page_Helper  $current_page_helper  The current page helper.
 	 */
 	public function __construct(
-		Indexable_Repository $indexable_repository
+		Indexable_Repository $indexable_repository,
+		Current_Page_Helper $current_page_helper
 	) {
 		$this->indexable_repository = $indexable_repository;
+		$this->current_page_helper  = $current_page_helper;
 	}
 
 	/**
@@ -127,6 +138,15 @@ class Post_Identifier_Resolver {
 	private function by_permalink( string $permalink ) {
 		$indexable = $this->indexable_repository->find_by_permalink( $permalink );
 
+		// A static front page shares its URL with the home-page indexable, which the lookup can return instead of the page itself.
+		if ( $indexable && $indexable->object_type === 'home-page' ) {
+			$front_page_id = $this->current_page_helper->get_front_page_id();
+
+			if ( $front_page_id !== 0 ) {
+				$indexable = $this->indexable_repository->find_by_id_and_type( $front_page_id, 'post', false );
+			}
+		}
+
 		// The permalink lookup is not scoped by object type, so a term, author, or
 		// archive URL can match too; only posts are valid targets here.
 		if ( ! $indexable || $indexable->object_type !== 'post' ) {
@@ -139,6 +159,7 @@ class Post_Identifier_Resolver {
 	/**
 	 * Resolves posts by title keywords.
 	 *
+	 * Every post type is searched, matching the scope of the by-id and by-permalink resolvers.
 	 * A title search may match several posts; no match on the first page (or an
 	 * unexpected result that is not a list of indexables) is treated as not-found,
 	 * mirroring the by-id and by-permalink resolvers. An empty later page is valid
@@ -150,7 +171,12 @@ class Post_Identifier_Resolver {
 	 * @return Indexable[]|WP_Error The matching indexables, or a not-found error.
 	 */
 	private function by_title( string $title, int $page ) {
-		$indexables = $this->indexable_repository->find_posts_by_title_keywords( $title, $page );
+		$indexables = $this->indexable_repository->find_posts_by_title_keywords(
+			$title,
+			$page,
+			Indexable_Repository::DEFAULT_TITLE_KEYWORD_PAGE_SIZE,
+			null,
+		);
 
 		if ( $indexables === [] ) {
 			// An empty later page means the client paged past the last result, not a bad identifier.

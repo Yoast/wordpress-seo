@@ -21,11 +21,11 @@ const researcher = Factory.buildMockResearcher( {}, true, false );
 
 describe( "Creating an App", function() {
 	it( "throws an error when no args are given", function() {
-		expect( () => new App() ).toThrowError( MissingArgument );
+		expect( () => new App() ).toThrow( MissingArgument );
 	} );
 
 	it( "throws on an empty args object", function() {
-		expect( () => new App( {} ) ).toThrowError( MissingArgument );
+		expect( () => new App( {} ) ).toThrow( MissingArgument );
 	} );
 
 	it( "throws on an invalid targets argument", function() {
@@ -37,7 +37,7 @@ describe( "Creating an App", function() {
 					},
 				},
 			} );
-		} ).toThrowError( MissingArgument );
+		} ).toThrow( MissingArgument );
 	} );
 
 	it( "throws on a missing getData callback", function() {
@@ -48,7 +48,7 @@ describe( "Creating an App", function() {
 					output: "outputID",
 				},
 			} );
-		} ).toThrowError( MissingArgument );
+		} ).toThrow( MissingArgument );
 	} );
 
 	it( "throws on a missing researcher argument", function() {
@@ -59,7 +59,7 @@ describe( "Creating an App", function() {
 					output: "outputID",
 				},
 			} );
-		} ).toThrowError( MissingArgument );
+		} ).toThrow( MissingArgument );
 	} );
 
 	it( "should work without an output ID", function() {

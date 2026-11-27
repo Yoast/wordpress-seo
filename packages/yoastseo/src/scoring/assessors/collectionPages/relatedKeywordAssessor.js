@@ -1,10 +1,10 @@
-import RelatedKeywordAssessor from "../relatedKeywordAssessor";
+import RelatedKeywordAssessor from "../relatedKeywordAssessor.js";
 import IntroductionKeywordAssessment from "../../assessments/seo/IntroductionKeywordAssessment.js";
 import KeyphraseLengthAssessment from "../../assessments/seo/KeyphraseLengthAssessment.js";
 import KeyphraseDensityAssessment from "../../assessments/seo/KeywordDensityAssessment.js";
 import MetaDescriptionKeywordAssessment from "../../assessments/seo/MetaDescriptionKeywordAssessment.js";
 import FunctionWordsInKeyphraseAssessment from "../../assessments/seo/FunctionWordsInKeyphraseAssessment.js";
-import { createAnchorOpeningTag } from "../../../helpers";
+import { createAnchorOpeningTag } from "../../../helpers/index.js";
 
 /**
  * The CollectionRelatedKeywordAssessor class is used for the related keyword analysis for collections.

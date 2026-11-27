@@ -133,7 +133,7 @@ describe( "AnalysisWebWorker", () => {
 			scope.onmessage( message );
 
 			expect( worker.handleMessage ).toHaveBeenCalledTimes( 1 );
-			expect( worker.handleMessage ).toBeCalledWith( message );
+			expect( worker.handleMessage ).toHaveBeenCalledWith( message );
 		} );
 
 		test( "provides globals", () => {
@@ -359,7 +359,7 @@ describe( "AnalysisWebWorker", () => {
 				scope.onmessage( createMessage( "initialize" ) );
 
 				expect( scope.postMessage ).toHaveBeenCalledTimes( 1 );
-				expect( scope.postMessage ).toBeCalledWith( createMessage( "initialize:done" ).data );
+				expect( scope.postMessage ).toHaveBeenCalledWith( createMessage( "initialize:done" ).data );
 			} );
 
 			test( "starts the polling of the scheduler", () => {
@@ -1486,17 +1486,17 @@ describe( "AnalysisWebWorker", () => {
 
 		test( "throws an error when passing an invalid name", () => {
 			const errorMessage = "Failed to register assessment for plugin " + pluginName + ". Expected parameter `name` to be a string.";
-			expect( () => worker.registerAssessment( null, assessment, pluginName ) ).toThrowError( errorMessage );
+			expect( () => worker.registerAssessment( null, assessment, pluginName ) ).toThrow( errorMessage );
 		} );
 
 		test( "throws an error when passing an invalid assessment", () => {
 			const errorMessage = "Failed to register assessment for plugin " + pluginName + ". Expected parameter `assessment` to be a function.";
-			expect( () => worker.registerAssessment( assessmentName, null, pluginName ) ).toThrowError( errorMessage );
+			expect( () => worker.registerAssessment( assessmentName, null, pluginName ) ).toThrow( errorMessage );
 		} );
 
 		test( "throws an error when passing an invalid plugin name", () => {
 			const errorMessage = "Failed to register assessment for plugin null. Expected parameter `pluginName` to be a string.";
-			expect( () => worker.registerAssessment( assessmentName, assessment, null ) ).toThrowError( errorMessage );
+			expect( () => worker.registerAssessment( assessmentName, assessment, null ) ).toThrow( errorMessage );
 		} );
 
 		test( "adds the assessment", () => {
@@ -1571,12 +1571,12 @@ describe( "AnalysisWebWorker", () => {
 
 		test( "throws an error when passing an invalid name", () => {
 			const errorMessage = "Failed to register the custom research. Expected parameter `name` to be a string.";
-			expect( () => worker.registerResearch( null, research ) ).toThrowError( errorMessage );
+			expect( () => worker.registerResearch( null, research ) ).toThrow( errorMessage );
 		} );
 
 		test( "throws an error when passing an invalid research", () => {
 			const errorMessage = "Failed to register the custom research. Expected parameter `research` to be a function.";
-			expect( () => worker.registerResearch( researchName, null ) ).toThrowError( errorMessage );
+			expect( () => worker.registerResearch( researchName, null ) ).toThrow( errorMessage );
 		} );
 
 		test( "adds the research", () => {
@@ -1601,12 +1601,12 @@ describe( "AnalysisWebWorker", () => {
 
 		test( "throws an error when passing an invalid name", () => {
 			const errorMessage = "Failed to register the custom helper. Expected parameter `name` to be a string.";
-			expect( () => worker.registerHelper( null, helper ) ).toThrowError( errorMessage );
+			expect( () => worker.registerHelper( null, helper ) ).toThrow( errorMessage );
 		} );
 
 		test( "throws an error when passing an invalid helper", () => {
 			const errorMessage = "Failed to register the custom helper. Expected parameter `helper` to be a function.";
-			expect( () => worker.registerHelper( helperName, null ) ).toThrowError( errorMessage );
+			expect( () => worker.registerHelper( helperName, null ) ).toThrow( errorMessage );
 		} );
 
 		test( "adds the helper", () => {
@@ -1631,12 +1631,12 @@ describe( "AnalysisWebWorker", () => {
 
 		test( "throws an error when passing an invalid name", () => {
 			const errorMessage = "Failed to register the custom researcher config. Expected parameter `name` to be a string.";
-			expect( () => worker.registerResearcherConfig( null, researcherConfig ) ).toThrowError( errorMessage );
+			expect( () => worker.registerResearcherConfig( null, researcherConfig ) ).toThrow( errorMessage );
 		} );
 		test( "throws an error when passing an empty or undefined config", () => {
 			const errorMessage = "Failed to register the custom researcher config. Expected parameter `researcherConfig` to be defined.";
-			expect( () => worker.registerResearcherConfig( name, {} ) ).toThrowError( errorMessage );
-			expect( () => worker.registerResearcherConfig( name ) ).toThrowError( errorMessage );
+			expect( () => worker.registerResearcherConfig( name, {} ) ).toThrow( errorMessage );
+			expect( () => worker.registerResearcherConfig( name ) ).toThrow( errorMessage );
 		} );
 		test( "adds the researcher config", () => {
 			scope.onmessage( createMessage( "initialize" ) );
@@ -1661,17 +1661,17 @@ describe( "AnalysisWebWorker", () => {
 
 		test( "throws an error when passing an invalid name", () => {
 			const errorMessage = "Failed to register handler for plugin " + pluginName + ". Expected parameter `name` to be a string.";
-			expect( () => worker.registerMessageHandler( null, handler, pluginName ) ).toThrowError( errorMessage );
+			expect( () => worker.registerMessageHandler( null, handler, pluginName ) ).toThrow( errorMessage );
 		} );
 
 		test( "throws an error when passing an invalid handler", () => {
 			const errorMessage = "Failed to register handler for plugin " + pluginName + ". Expected parameter `handler` to be a function.";
-			expect( () => worker.registerMessageHandler( handlerName, null, pluginName ) ).toThrowError( errorMessage );
+			expect( () => worker.registerMessageHandler( handlerName, null, pluginName ) ).toThrow( errorMessage );
 		} );
 
 		test( "throws an error when passing an invalid plugin name", () => {
 			const errorMessage = "Failed to register handler for plugin null. Expected parameter `pluginName` to be a string.";
-			expect( () => worker.registerMessageHandler( handlerName, handler, null ) ).toThrowError( errorMessage );
+			expect( () => worker.registerMessageHandler( handlerName, handler, null ) ).toThrow( errorMessage );
 		} );
 
 		test( "add the handler to the registered message handlers", () => {
@@ -1695,12 +1695,12 @@ describe( "AnalysisWebWorker", () => {
 
 		test( "throws an error when passing an invalid name", () => {
 			const errorMessage = "Failed to refresh assessment for plugin " + pluginName + ". Expected parameter `name` to be a string.";
-			expect( () => worker.refreshAssessment( null, pluginName ) ).toThrowError( errorMessage );
+			expect( () => worker.refreshAssessment( null, pluginName ) ).toThrow( errorMessage );
 		} );
 
 		test( "throws an error when passing an invalid plugin name", () => {
 			const errorMessage = "Failed to refresh assessment for plugin null. Expected parameter `pluginName` to be a string.";
-			expect( () => worker.refreshAssessment( assessmentName, null ) ).toThrowError( errorMessage );
+			expect( () => worker.refreshAssessment( assessmentName, null ) ).toThrow( errorMessage );
 		} );
 
 		test( "calls clear cache", () => {

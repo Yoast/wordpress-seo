@@ -2,18 +2,25 @@ import LockOpenIcon from "@heroicons/react/outline/LockOpenIcon";
 import ArrowNarrowRightIcon from "@heroicons/react/solid/ArrowNarrowRightIcon";
 import { __, sprintf } from "@wordpress/i18n";
 import { Badge, Button, useModalContext } from "@yoast/ui-library";
-import PropTypes from "prop-types";
 import { OutboundLink, VideoFlow } from ".";
 import { safeCreateInterpolateElement } from "../../helpers/i18n";
 
 /**
- * @param {string} learnMoreLink The learn more link.
- * @param {Object} thumbnail The thumbnail: img props.
- * @param {Object} wistiaEmbedPermission The value, status and set for the Wistia embed permission.
- * @param {string} upsellLink The upsell link.
- * @param {string} [upsellLabel] The upsell label.
- * @param {string} [newToText] The new to text.
- * @param {string} [ctbId] The click to buy to register for this upsell instance.
+ * @param {Object} props Component props.
+ * @param {string} props.learnMoreLink The learn more link.
+ * @param {string} props.upsellLink The upsell link.
+ * @param {Object} props.thumbnail The thumbnail: img props.
+ * @param {string} props.thumbnail.src The thumbnail image URL.
+ * @param {string} [props.thumbnail.width] The thumbnail width.
+ * @param {string} [props.thumbnail.height] The thumbnail height.
+ * @param {Object} props.wistiaEmbedPermission The value, status and set for the Wistia embed permission.
+ * @param {boolean} props.wistiaEmbedPermission.value Whether the Wistia embed permission is granted.
+ * @param {string} props.wistiaEmbedPermission.status The async status of storing the permission.
+ * @param {Function} props.wistiaEmbedPermission.set Stores the Wistia embed permission.
+ * @param {string} [props.upsellLabel] The upsell label.
+ * @param {string} [props.newToText="Yoast SEO Premium"] The new to text.
+ * @param {string} [props.ctbId="f6a84663-465f-4cb5-8ba5-f7a6d72224b2"] The click to buy to register for this upsell instance.
+ *
  * @returns {JSX.Element} The element.
  */
 export const AIOptimizeUpsell = ( {
@@ -122,21 +129,4 @@ export const AIOptimizeUpsell = ( {
 			</div>
 		</>
 	);
-};
-AIOptimizeUpsell.propTypes = {
-	learnMoreLink: PropTypes.string.isRequired,
-	upsellLink: PropTypes.string.isRequired,
-	thumbnail: PropTypes.shape( {
-		src: PropTypes.string.isRequired,
-		width: PropTypes.string,
-		height: PropTypes.string,
-	} ).isRequired,
-	wistiaEmbedPermission: PropTypes.shape( {
-		value: PropTypes.bool.isRequired,
-		status: PropTypes.string.isRequired,
-		set: PropTypes.func.isRequired,
-	} ).isRequired,
-	upsellLabel: PropTypes.string,
-	newToText: PropTypes.string,
-	ctbId: PropTypes.string,
 };

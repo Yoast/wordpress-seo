@@ -1,5 +1,5 @@
-import { getWords } from "../../../../languageProcessing";
-import { includesWordsAtPosition } from "./includesWordsAtPosition";
+import { getWords } from "../../../../languageProcessing/index.js";
+import { includesWordsAtPosition } from "./includesWordsAtPosition.js";
 
 /**
  * Checks whether the given list of words contains another list of words in the given order,

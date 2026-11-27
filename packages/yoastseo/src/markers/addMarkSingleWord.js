@@ -1,4 +1,4 @@
-import { stripWordBoundariesStart, stripWordBoundariesEnd } from "../languageProcessing/helpers/sanitize/stripWordBoundaries";
+import { stripWordBoundariesStart, stripWordBoundariesEnd } from "../languageProcessing/helpers/sanitize/stripWordBoundaries.js";
 import { escapeRegExp } from "lodash";
 
 /**

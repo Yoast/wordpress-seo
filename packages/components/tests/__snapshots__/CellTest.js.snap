@@ -36,7 +36,7 @@ exports[`the CellFixedWidth component matches the snapshot 1`] = `
 }
 
 <span
-  className="c0 c1"
+  class="c0 c1"
 >
   This is a cell with a fixed width
 </span>
@@ -88,7 +88,7 @@ exports[`the CellIcon component matches the snapshot 1`] = `
 }
 
 <span
-  className="c0 c1 c2"
+  class="c0 c1 c2"
 >
   Icon
 </span>
@@ -130,7 +130,7 @@ exports[`the CellMinWidth component matches the snapshot 1`] = `
 }
 
 <span
-  className="c0 c1"
+  class="c0 c1"
 >
   This is a call with a min width
 </span>
@@ -180,7 +180,7 @@ exports[`the CellPrimary component matches the snapshot 1`] = `
 }
 
 <span
-  className="c0 c1"
+  class="c0 c1"
 >
   This is a primary cell
 </span>
@@ -244,7 +244,7 @@ exports[`the CellPrimary with responsiveHeaders matches the snapshot 1`] = `
 }
 
 <span
-  className="c0 c1 c2"
+  class="c0 c1 c2"
 >
   This is a primary cell with responsive headers
 </span>

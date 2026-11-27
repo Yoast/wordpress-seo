@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
 import "./buttons.css";
 import { __ } from "@wordpress/i18n";
 
@@ -11,20 +10,19 @@ const closeIcon = <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 352 512" 
  * An Close button.
  *
  * @param {Object} props The props object.
+ * @param {Function} props.onClick The function to call when the button is clicked.
  *
  * @returns {ReactElement} An Close button component.
  */
 export const CloseButton = ( props ) => {
 	return <button
 		className="yoast-close"
-		aria-label={ __( "Close", "wordpress-seo" ) }
+		aria-label={
+			/* translators: Hidden accessibility text. */
+			__( "Close", "wordpress-seo" ) }
 		type="button"
 		{ ...props }
 	>
 		{ closeIcon }
 	</button>;
-};
-
-CloseButton.propTypes = {
-	onClick: PropTypes.func.isRequired,
 };

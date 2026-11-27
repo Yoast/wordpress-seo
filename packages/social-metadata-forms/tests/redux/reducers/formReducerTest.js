@@ -1,4 +1,3 @@
-/* eslint-disable no-undefined */
 import * as actions from "../../../src/redux/actions/formActions";
 import { socialReducer } from "../../../src/redux/reducers/index";
 

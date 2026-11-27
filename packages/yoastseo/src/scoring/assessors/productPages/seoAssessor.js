@@ -1,11 +1,10 @@
-import SEOAssessor from "../seoAssessor";
+import SEOAssessor from "../seoAssessor.js";
 import IntroductionKeywordAssessment from "../../assessments/seo/IntroductionKeywordAssessment.js";
 import KeyphraseLengthAssessment from "../../assessments/seo/KeyphraseLengthAssessment.js";
 import KeyphraseDensityAssessment from "../../assessments/seo/KeywordDensityAssessment.js";
 import MetaDescriptionKeywordAssessment from "../../assessments/seo/MetaDescriptionKeywordAssessment.js";
 import TextCompetingLinksAssessment from "../../assessments/seo/TextCompetingLinksAssessment.js";
 import FunctionWordsInKeyphraseAssessment from "../../assessments/seo/FunctionWordsInKeyphraseAssessment.js";
-import ImageKeyphraseAssessment from "../../assessments/seo/KeyphraseInImageTextAssessment.js";
 import MetaDescriptionLengthAssessment from "../../assessments/seo/MetaDescriptionLengthAssessment.js";
 import SubheadingsKeywordAssessment from "../../assessments/seo/SubHeadingsKeywordAssessment.js";
 import TextLengthAssessment from "../../assessments/seo/TextLengthAssessment.js";
@@ -14,7 +13,12 @@ import PageTitleWidthAssessment from "../../assessments/seo/PageTitleWidthAssess
 import SlugKeywordAssessment from "../../assessments/seo/UrlKeywordAssessment.js";
 import SingleH1Assessment from "../../assessments/seo/SingleH1Assessment.js";
 import ImageCountAssessment from "../../assessments/seo/ImageCountAssessment.js";
-import { createAnchorOpeningTag } from "../../../helpers";
+import AltTextLengthAssessment from "../../assessments/seo/AltTextLengthAssessment.js";
+import DuplicateAltTextAssessment from "../../assessments/seo/DuplicateAltTextAssessment.js";
+import RedundantPhraseInAltTextAssessment from "../../assessments/seo/RedundantPhraseInAltTextAssessment.js";
+import NonDescriptiveAltTextAssessment from "../../assessments/seo/NonDescriptiveAltTextAssessment.js";
+import KeyphraseStuffingInAltTextAssessment from "../../assessments/seo/KeyphraseStuffingInAltTextAssessment.js";
+import { createAnchorOpeningTag } from "../../../helpers/index.js";
 
 /**
  * The ProductSEOAssessor class is used for the SEO analysis for products.
@@ -106,9 +110,35 @@ export default class ProductSEOAssessor extends SEOAssessor {
 				// Optional: platforms can pass `imageCountResultTexts` to override the default feedback strings.
 				callbacks: { getResultTexts: options.imageCountResultTexts },
 			}, options.countVideos ),
-			new ImageKeyphraseAssessment( {
-				urlTitle: createAnchorOpeningTag( options.imageKeyphraseUrlTitle ),
-				urlCallToAction: createAnchorOpeningTag( options.imageKeyphraseCTAUrl ),
+			new AltTextLengthAssessment( {
+				// Optional: platforms can pass `altTextLengthResultTexts` to override the default feedback strings.
+				callbacks: { getResultTexts: options.altTextLengthResultTexts },
+				urlTitle: createAnchorOpeningTag( options.altTextLengthUrlTitle ),
+				urlCallToAction: createAnchorOpeningTag( options.altTextLengthCTAUrl ),
+			} ),
+			new DuplicateAltTextAssessment( {
+				// Optional: platforms can pass `duplicateAltTextResultTexts` to override the default feedback strings.
+				callbacks: { getResultTexts: options.duplicateAltTextResultTexts },
+				urlTitle: createAnchorOpeningTag( options.duplicateAltTextUrlTitle ),
+				urlCallToAction: createAnchorOpeningTag( options.duplicateAltTextCTAUrl ),
+			} ),
+			new RedundantPhraseInAltTextAssessment( {
+				// Optional: platforms can pass `redundantPhraseInAltTextResultTexts` to override the default feedback strings.
+				callbacks: { getResultTexts: options.redundantPhraseInAltTextResultTexts },
+				urlTitle: createAnchorOpeningTag( options.redundantPhraseInAltTextUrlTitle ),
+				urlCallToAction: createAnchorOpeningTag( options.redundantPhraseInAltTextCTAUrl ),
+			} ),
+			new NonDescriptiveAltTextAssessment( {
+				// Optional: platforms can pass `nonDescriptiveAltTextResultTexts` to override the default feedback strings.
+				callbacks: { getResultTexts: options.nonDescriptiveAltTextResultTexts },
+				urlTitle: createAnchorOpeningTag( options.nonDescriptiveAltTextUrlTitle ),
+				urlCallToAction: createAnchorOpeningTag( options.nonDescriptiveAltTextCTAUrl ),
+			} ),
+			new KeyphraseStuffingInAltTextAssessment( {
+				// Optional: platforms can pass `keyphraseStuffingInAltTextResultTexts` to override the default feedback strings.
+				callbacks: { getResultTexts: options.keyphraseStuffingInAltTextResultTexts },
+				urlTitle: createAnchorOpeningTag( options.keyphraseStuffingInAltTextUrlTitle ),
+				urlCallToAction: createAnchorOpeningTag( options.keyphraseStuffingInAltTextCTAUrl ),
 			} ),
 		];
 	}

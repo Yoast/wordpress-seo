@@ -328,8 +328,9 @@ const LlmTxt = () => {
 														// eslint-disable-next-line react/jsx-no-bind
 														onClick={ arrayHelpers.remove.bind( null, index ) }
 														className={ classNames( "yst-p-2.5", index === 0 && "yst-mt-7" ) }
-														// translators: %1$s expands to array index + 1.
-														aria-label={ sprintf( __( "Remove page %1$s", "wordpress-seo" ), index + 1 ) }
+														aria-label={
+															/* translators: Hidden accessibility text, %1$s expands to array index + 1. */
+															sprintf( __( "Remove page %1$s", "wordpress-seo" ), index + 1 ) }
 														disabled={ ! activeManualSelection }
 													>
 														<TrashIcon className="yst-h-5 yst-w-5" />

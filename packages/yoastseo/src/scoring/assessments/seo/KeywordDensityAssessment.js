@@ -2,10 +2,10 @@ import { __, _n, sprintf } from "@wordpress/i18n";
 import { merge } from "lodash";
 
 import recommendedKeyphraseCount from "../../helpers/assessments/recommendedKeywordCount.js";
-import Assessment from "../assessment";
-import AssessmentResult from "../../../values/AssessmentResult";
-import { inRangeEndInclusive, inRangeStartEndInclusive, inRangeStartInclusive } from "../../helpers/assessments/inRange";
-import { createAnchorOpeningTag } from "../../../helpers";
+import Assessment from "../assessment.js";
+import AssessmentResult from "../../../values/AssessmentResult.js";
+import { inRangeEndInclusive, inRangeStartEndInclusive, inRangeStartInclusive } from "../../helpers/assessments/inRange.js";
+import { createAnchorOpeningTag } from "../../../helpers/index.js";
 import keyphraseLengthFactor from "../../helpers/assessments/keyphraseLengthFactor.js";
 
 /**

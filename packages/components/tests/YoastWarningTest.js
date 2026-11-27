@@ -1,11 +1,11 @@
 import React from "react";
-import renderer from "react-test-renderer";
+import { render } from "@testing-library/react";
 import Warning from "../src/Warning";
 import { ThemeProvider } from "styled-components";
 
 test( "YoastWarning matches the snapshot", () => {
 	/* eslint-disable react/jsx-no-target-blank */
-	const component = renderer.create(
+	const { container } = render(
 		<Warning
 			message={ [
 				"This is a warning message",
@@ -16,23 +16,22 @@ test( "YoastWarning matches the snapshot", () => {
 	);
 	/* eslint-enable react/jsx-no-target-blank */
 
-	const tree = component.toJSON();
-	expect( tree ).toMatchSnapshot();
+	expect( container.firstChild ).toMatchSnapshot();
 } );
 
 test( "YoastWarning does not render without a message", () => {
-	const component = renderer.create(
+	const { container } = render(
 		<Warning />
 	);
 
-	const tree = component.toJSON();
+	const tree = container.firstChild;
 	expect( tree ).toMatchSnapshot();
 	expect( tree ).toBeNull();
 } );
 
 test( "YoastWarning with a right to left language matches the snapshot", () => {
 	/* eslint-disable react/jsx-no-target-blank */
-	const component = renderer.create(
+	const { container } = render(
 		<ThemeProvider theme={ { isRtl: true } }>
 			<Warning
 				message={ [
@@ -45,6 +44,5 @@ test( "YoastWarning with a right to left language matches the snapshot", () => {
 	);
 	/* eslint-enable react/jsx-no-target-blank */
 
-	const tree = component.toJSON();
-	expect( tree ).toMatchSnapshot();
+	expect( container.firstChild ).toMatchSnapshot();
 } );

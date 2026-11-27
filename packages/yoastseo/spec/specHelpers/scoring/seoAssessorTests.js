@@ -4,7 +4,6 @@ import Paper from "../../../src/values/Paper";
 import KeyphraseDistributionAssessment from "../../../src/scoring/assessments/seo/KeyphraseDistributionAssessment";
 import keyphraseDistribution from "../../../src/languageProcessing/researches/keyphraseDistribution";
 
-
 /**
  * Checks which assessment are available for an SEO assessor, given a certain Paper.
  * @param {Assessor} assessor The SEO assessor.
@@ -58,7 +57,7 @@ export function checkAssessmentAvailability( assessor, isECommerceAssessor = fal
 		defaultAssessments = defaultAssessments.filter( assessment => assessment !== "subheadingsKeyword" );
 	}
 
-	let extraDefaultAssessments = [ "images", "externalLinks", "internalLinks", "imageKeyphrase", "textCompetingLinks" ];
+	let extraDefaultAssessments = [ "images", "externalLinks", "internalLinks", "textCompetingLinks" ];
 	if ( isCollection || isStoreBlog || isTaxonomy ) {
 		extraDefaultAssessments = [];
 	}
@@ -143,7 +142,6 @@ export function checkAssessmentAvailability( assessor, isECommerceAssessor = fal
 	} );
 }
 
-
 /**
  * Checks the config overrides for a given SEO assessor.
  * @param {Assessor} assessor The SEO assessor.
@@ -158,16 +156,6 @@ export function checkConfigOverrides( assessor ) {
 		expect( assessment._config.scores ).toBeDefined();
 		expect( assessment._config.scores.tooLong ).toBe( 3 );
 		expect( assessment._config.scores.tooShort ).toBe( 3 );
-	} );
-
-	test( "ImageKeyphrase", () => {
-		const assessment = assessor.getAssessment( "imageKeyphrase" );
-
-		expect( assessment ).toBeDefined();
-		expect( assessment._config ).toBeDefined();
-		expect( assessment._config.scores ).toBeDefined();
-		expect( assessment._config.scores.withAltNonKeyword ).toBe( 3 );
-		expect( assessment._config.scores.noAlt ).toBe( 3 );
 	} );
 
 	test( "TextLengthAssessment", () => {
@@ -359,10 +347,48 @@ export function checkUrls( assessor, isECommerceAssessor = false ) {
 		checkAssessmentUrls( assessment, urlTitle, urlCallToAction );
 	} );
 
-	test( "ImageKeyphrase", () => {
-		const assessment = assessor.getAssessment( "imageKeyphrase" );
-		const urlTitle = isECommerceAssessor ? "https://yoa.st/shopify22" : "https://yoa.st/4f7";
-		const urlCallToAction = isECommerceAssessor ? "https://yoa.st/shopify23" : "https://yoa.st/4f6";
+	test( "DuplicateAltText", () => {
+		const assessment = assessor.getAssessment( "duplicateAltText" );
+		const urlTitle = isECommerceAssessor ? "https://yoa.st/shopify-duplicate-alt-text" : "https://yoa.st/duplicate-alt-text";
+		const urlCallToAction = isECommerceAssessor ? "https://yoa.st/shopify-duplicate-alt-text-cta" : "https://yoa.st/duplicate-alt-text-cta";
+
+		checkAssessmentUrls( assessment, urlTitle, urlCallToAction );
+	} );
+
+	test( "AltTextLength", () => {
+		const assessment = assessor.getAssessment( "altTextLength" );
+		const urlTitle = isECommerceAssessor ? "https://yoa.st/shopify-alt-text-length" : "https://yoa.st/alt-text-length";
+		const urlCallToAction = isECommerceAssessor ? "https://yoa.st/shopify-alt-text-length-cta" : "https://yoa.st/alt-text-length-cta";
+
+		checkAssessmentUrls( assessment, urlTitle, urlCallToAction );
+	} );
+
+	test( "RedundantPhraseInAltText", () => {
+		const assessment = assessor.getAssessment( "redundantPhraseInAltText" );
+		const urlTitle = isECommerceAssessor
+			? "https://yoa.st/shopify-redundant-phrase-in-alt-text" : "https://yoa.st/redundant-phrase-in-alt-text";
+		const urlCallToAction = isECommerceAssessor
+			? "https://yoa.st/shopify-redundant-phrase-in-alt-text-cta" : "https://yoa.st/redundant-phrase-in-alt-text-cta";
+
+		checkAssessmentUrls( assessment, urlTitle, urlCallToAction );
+	} );
+
+	test( "NonDescriptiveAltText", () => {
+		const assessment = assessor.getAssessment( "nonDescriptiveAltText" );
+		const urlTitle = isECommerceAssessor
+			? "https://yoa.st/shopify-non-descriptive-alt-text" : "https://yoa.st/non-descriptive-alt-text";
+		const urlCallToAction = isECommerceAssessor
+			? "https://yoa.st/shopify-non-descriptive-alt-text-cta" : "https://yoa.st/non-descriptive-alt-text-cta";
+
+		checkAssessmentUrls( assessment, urlTitle, urlCallToAction );
+	} );
+
+	test( "KeyphraseStuffingInAltText", () => {
+		const assessment = assessor.getAssessment( "keyphraseStuffingInAltText" );
+		const urlTitle = isECommerceAssessor ? "https://yoa.st/shopify-alt-text-keyphrase-stuffing" : "https://yoa.st/alt-text-keyphrase-stuffing";
+		const urlCallToAction = isECommerceAssessor
+			? "https://yoa.st/shopify-alt-text-keyphrase-stuffing-cta"
+			: "https://yoa.st/alt-text-keyphrase-stuffing-cta";
 
 		checkAssessmentUrls( assessment, urlTitle, urlCallToAction );
 	} );

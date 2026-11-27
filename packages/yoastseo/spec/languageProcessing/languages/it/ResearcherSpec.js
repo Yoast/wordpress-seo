@@ -7,7 +7,7 @@ import firstWordExceptions from "../../../../src/languageProcessing/languages/it
 import stopWords from "../../../../src/languageProcessing/languages/it/config/stopWords";
 import transitionWords from "../../../../src/languageProcessing/languages/it/config/transitionWords";
 import twoPartTransitionWords from "../../../../src/languageProcessing/languages/it/config/twoPartTransitionWords";
-import syllables from "../../../../src/languageProcessing/languages/it/config/syllables.json";
+import syllables from "../../../../src/languageProcessing/languages/it/config/syllables.js";
 import sentenceLength from "../../../../src/languageProcessing/languages/it/config/sentenceLength";
 
 describe( "a test for the Italian Researcher", function() {

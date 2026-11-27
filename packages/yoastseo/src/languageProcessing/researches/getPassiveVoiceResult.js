@@ -3,8 +3,8 @@ import { stripFullTags as stripHTMLTags } from "../helpers/sanitize/stripHTMLTag
 import Sentence from "../../languageProcessing/values/Sentence.js";
 
 import { forEach } from "lodash";
-import removeHtmlBlocks from "../helpers/html/htmlParser";
-import { filterShortcodesFromHTML } from "../helpers";
+import removeHtmlBlocks from "../helpers/html/htmlParser.js";
+import { filterShortcodesFromHTML } from "../helpers/index.js";
 
 /**
  * Looks for morphological passive voice.

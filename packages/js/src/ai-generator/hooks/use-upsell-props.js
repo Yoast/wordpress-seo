@@ -22,11 +22,12 @@ import { STORE_NAME_EDITOR, STORE_NAME_AI } from "../constants";
 export const useUpsellProps = ( upsellLinks ) => {
 	const { isWooProductEntity, isProductPost, hasValidWooSubscription } = useSelect( select => {
 		const editorSelect = select( STORE_NAME_EDITOR );
+		// The AI store is not registered when the AI generator script is not loaded, e.g. when the AI feature is off.
 		const aiSelect = select( STORE_NAME_AI );
 		return {
 			isWooProductEntity: editorSelect.getIsWooProductEntity(),
 			isProductPost: editorSelect.getIsProduct(),
-			hasValidWooSubscription: aiSelect.selectWooCommerceSubscription(),
+			hasValidWooSubscription: aiSelect?.selectWooCommerceSubscription() ?? false,
 		};
 	}, [] );
 

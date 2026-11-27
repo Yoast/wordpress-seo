@@ -1,9 +1,9 @@
 import { languageProcessing } from "yoastseo";
 const { getWords } = languageProcessing;
 
-import regularRootsHufal from "../config/internal/regularRootsHufal";
-import regularRootsNifal from "../config/internal/regularRootsNifal";
-import regularRootsPual from "../config/internal/regularRootsPual";
+import regularRootsHufal from "../config/internal/regularRootsHufal.js";
+import regularRootsNifal from "../config/internal/regularRootsNifal.js";
+import regularRootsPual from "../config/internal/regularRootsPual.js";
 
 /**
 * Checks if the input word's root is in the Hebrew verb roots list.

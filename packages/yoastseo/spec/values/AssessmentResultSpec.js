@@ -231,3 +231,29 @@ describe( "AssessmentResult", function() {
 		} );
 	} );
 } );
+
+describe( "the items a result flags", () => {
+	it( "is empty by default, so an assessment that points at nothing says nothing", () => {
+		expect( new AssessmentResult().getFlaggedItems() ).toEqual( [] );
+	} );
+
+	it( "keeps the identifiers it is given, whether they are ids or srcs", () => {
+		const result = new AssessmentResult();
+		result.setFlaggedItems( [ 8, 12, "https://example.com/a.jpg" ] );
+
+		expect( result.getFlaggedItems() ).toEqual( [ 8, 12, "https://example.com/a.jpg" ] );
+	} );
+
+	/*
+	 * Both serialize() and parse() are allow-lists, so a field that is added to one and not the other
+	 * disappears between the worker and the editor with no error at all.
+	 */
+	it( "survives the round trip across the worker boundary", () => {
+		const result = new AssessmentResult( { score: 6, text: "Alt text length: ..." } );
+		result.setFlaggedItems( [ 8, 12 ] );
+
+		const revived = AssessmentResult.parse( result.serialize() );
+
+		expect( revived.getFlaggedItems() ).toEqual( [ 8, 12 ] );
+	} );
+} );

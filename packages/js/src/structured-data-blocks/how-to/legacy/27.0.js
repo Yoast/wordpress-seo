@@ -60,7 +60,6 @@ const migrateToStringFormat = ( attributes ) => {
 		migratedAttributes.jsonDescription = migratedAttributes.description;
 	}
 
-	// eslint-disable-next-line no-undefined
 	return pickBy( migratedAttributes, ( value ) => value !== undefined );
 };
 

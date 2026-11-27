@@ -35,7 +35,7 @@ jobs:
           persist-credentials: false
 
       - name: Set up Node.js
-        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v4
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v4
         with:
           node-version: '22'
           registry-url: 'https://registry.npmjs.org'
@@ -61,18 +61,25 @@ jobs:
             BODY="$PR_BODY"
           fi
 
-          # Extracts lines of the form "- @yoast/package-name: version" from the PR body, up to ## Context.
-          PACKAGES=$(echo "$BODY" | awk '/^## Context/{exit} 1' | grep -oP '^- \K@yoast/[a-z0-9-]+' | tr '\n' ' ')
+          # Extracts lines of the form "- package-name: version" (scoped or unscoped) from the PR body, up to ## Context.
+          PACKAGES=$(echo "$BODY" | awk '/^## Context/{exit} 1' | grep -oP '^- \K(@yoast/)?[a-z0-9][a-z0-9._-]*(?=: *[0-9])' | tr '\n' ' ')
           if [ -z "${PACKAGES// /}" ]; then
             echo "::error::No packages found in PR body before '## Context'."
             exit 1
           fi
+          # Publish in dependency order (dependencies first), whatever order the PR body uses.
+          read -ra UNSORTED <<< "$PACKAGES"
+          PACKAGES=$(node .github/scripts/sort-npm-packages.js "${UNSORTED[@]}")
+          # The versions from the PR body, as "name=version" pairs, to check them against each package.json.
+          VERSIONS=$(echo "$BODY" | awk '/^## Context/{exit} 1' | grep -oP '^- \K(@yoast/)?[a-z0-9][a-z0-9._-]*: *[0-9][0-9A-Za-z.+-]*' | sed 's/: */=/' | tr '\n' ' ')
           echo "Packages to release: $PACKAGES"
           echo "list=$PACKAGES" >> "$GITHUB_OUTPUT"
+          echo "versions=$VERSIONS" >> "$GITHUB_OUTPUT"
 
       - name: Publish packages in order
         env:
           PACKAGE_LIST: ${{ steps.packages.outputs.list }}
+          VERSION_LIST: ${{ steps.packages.outputs.versions }}
           NODE_AUTH_TOKEN: ''
         run: |
           set -euo pipefail
@@ -80,16 +87,34 @@ jobs:
             echo "::error::PACKAGE_LIST is empty; nothing to publish."
             exit 1
           fi
+          # Publishes the current folder, unless this version is already on npm: a re-run after a failure halfway then publishes only the rest.
+          publish() {
+            if [ "$ALREADY_PUBLISHED" = "true" ]; then
+              echo "::notice::Skipping npm publish for $PACKAGE@$VERSION: this version is already on npm."
+            else
+              npm publish "$@"
+            fi
+          }
           read -ra PACKAGES <<< "$PACKAGE_LIST"
           for PACKAGE in "${PACKAGES[@]}"; do
-            PKG_DIR="packages/${PACKAGE#@yoast/}"
+            # Find the workspace folder by the package.json name, since folder names do not always match (e.g. yoastseo, @yoast/wordpress-seo).
+            PKG_DIR=$(node -e 'const fs = require("fs"); const dir = fs.readdirSync("packages").find(d => { try { return JSON.parse(fs.readFileSync("packages/" + d + "/package.json", "utf8")).name === process.argv[1]; } catch { return false; } }); if (!dir) { process.exit(1); } console.log("packages/" + dir);' "$PACKAGE") || {
+              echo "::error::No folder under packages/ has a package.json named $PACKAGE"
+              exit 1
+            }
 
-            echo "::group::Publishing $PACKAGE"
-
-            if [ ! -d "$PKG_DIR" ]; then
-              echo "::error::Directory $PKG_DIR not found for package $PACKAGE"
+            VERSION=$(node -p "require('./$PKG_DIR/package.json').version")
+            EXPECTED=$(tr ' ' '\n' <<< "$VERSION_LIST" | awk -F= -v p="$PACKAGE" '$1 == p { print $2; exit }')
+            if [ "$EXPECTED" != "$VERSION" ]; then
+              echo "::error::The PR body lists $PACKAGE $EXPECTED, but $PKG_DIR/package.json has version $VERSION."
               exit 1
             fi
+            ALREADY_PUBLISHED=false
+            if [ "$(npm view "$PACKAGE@$VERSION" version 2>/dev/null || true)" = "$VERSION" ]; then
+              ALREADY_PUBLISHED=true
+            fi
+
+            echo "::group::Publishing $PACKAGE"
 
             pushd "$PKG_DIR"
 
@@ -99,22 +124,22 @@ jobs:
               npm run-script prepublishOnly
               if [ -d "dist" ]; then
                 pushd dist
-                npm publish --provenance --access public --ignore-scripts
+                publish --provenance --access public --ignore-scripts
                 popd
               else
-                npm publish --provenance --access public --ignore-scripts
+                publish --provenance --access public --ignore-scripts
               fi
 
             elif node -e "process.exit(require('./package.json').scripts?.build ? 0 : 1)" 2>/dev/null; then
               # Packages with a build step: build first, then publish.
               echo "Strategy: build"
               NODE_ENV=production npm run-script build
-              npm publish --provenance --access public
+              publish --provenance --access public
 
             else
               # No build step needed (e.g. config-only packages like tailwindcss-preset).
               echo "Strategy: direct publish"
-              npm publish --provenance --access public
+              publish --provenance --access public
             fi
 
             popd

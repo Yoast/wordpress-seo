@@ -4,7 +4,6 @@ namespace Yoast\WP\SEO\Tests\Unit\MyYoast_Client\User_Interface;
 
 use Brain\Monkey\Functions;
 use Mockery;
-use Yoast\WP\SEO\Conditionals\MyYoast_Connection_Conditional;
 use Yoast\WP\SEO\MyYoast_Client\Application\MyYoast_Client_Cleanup;
 use Yoast\WP\SEO\MyYoast_Client\User_Interface\MyYoast_Cleanup_Integration;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
@@ -50,10 +49,7 @@ final class MyYoast_Cleanup_Integration_Test extends TestCase {
 	 * @return void
 	 */
 	public function test_get_conditionals() {
-		$this->assertSame(
-			[ MyYoast_Connection_Conditional::class ],
-			MyYoast_Cleanup_Integration::get_conditionals(),
-		);
+		$this->assertSame( [], MyYoast_Cleanup_Integration::get_conditionals() );
 	}
 
 	/**

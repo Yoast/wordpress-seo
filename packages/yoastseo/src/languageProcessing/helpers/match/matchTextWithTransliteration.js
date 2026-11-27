@@ -3,8 +3,8 @@ import addWordBoundary from "../word/addWordboundary.js";
 import stripSpaces from "../sanitize/stripSpaces.js";
 import transliterate from "../transliterate/transliterate.js";
 import transliterateWP from "../transliterate/transliterateWPstyle.js";
-import { replaceTurkishIsMemoized } from "../transliterate/specialCharacterMappings";
-import { getLanguage } from "../../index";
+import { replaceTurkishIsMemoized } from "../transliterate/specialCharacterMappings.js";
+import { getLanguage } from "../../index.js";
 
 /**
  * Creates a regex from the keyword with included wordboundaries.

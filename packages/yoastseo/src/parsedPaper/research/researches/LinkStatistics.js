@@ -1,7 +1,7 @@
 import urlMethods from "url";
 
 /* Internal dependencies */
-import Research from "./Research";
+import Research from "./Research.js";
 
 /**
  * Calculates link statistics.

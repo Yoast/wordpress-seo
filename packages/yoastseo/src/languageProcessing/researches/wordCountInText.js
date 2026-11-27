@@ -1,6 +1,6 @@
 import wordCount from "../helpers/word/countWords.js";
-import removeHtmlBlocks, { IGNORED_CLASSES } from "../helpers/html/htmlParser";
-import { filterShortcodesFromHTML } from "../helpers";
+import removeHtmlBlocks, { IGNORED_CLASSES } from "../helpers/html/htmlParser.js";
+import { filterShortcodesFromHTML } from "../helpers/index.js";
 
 /**
  * A result of the word count calculation.

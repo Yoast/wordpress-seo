@@ -1,10 +1,10 @@
-import matchWords from "../match/matchTextWithArray";
-import arrayToRegex from "../regex/createRegexFromArray";
-import addMark from "../../../markers/addMarkSingleWord";
-import Mark from "../../../values/Mark";
+import matchWords from "../match/matchTextWithArray.js";
+import arrayToRegex from "../regex/createRegexFromArray.js";
+import addMark from "../../../markers/addMarkSingleWord.js";
+import Mark from "../../../values/Mark.js";
 import { escapeRegExp } from "lodash";
-import getAnchorsFromText from "../link/getAnchorsFromText";
-import { SINGLE_QUOTES_ARRAY, SINGLE_QUOTES_REGEX } from "../sanitize/quotes";
+import getAnchorsFromText from "../link/getAnchorsFromText.js";
+import { SINGLE_QUOTES_ARRAY, SINGLE_QUOTES_REGEX } from "../sanitize/quotes.js";
 
 // Regex to deconstruct an anchor into open tag, content and close tag.
 const anchorDeconstructionRegex = /(<a[\s]+[^>]+>)([^]*?)(<\/a>)/;

@@ -40,19 +40,19 @@ exports[`the StackedProgressBar matches the snapshot 1`] = `
 }
 
 <div
-  className="c0 stacked-progress-bar"
+  class="c0 stacked-progress-bar"
 >
   <span
-    className="c1 stacked-progress-bar__part"
+    class="c1 stacked-progress-bar__part"
   />
   <span
-    className="c2 stacked-progress-bar__part"
+    class="c2 stacked-progress-bar__part"
   />
   <span
-    className="c3 stacked-progress-bar__part"
+    class="c3 stacked-progress-bar__part"
   />
   <span
-    className="c4 stacked-progress-bar__part"
+    class="c4 stacked-progress-bar__part"
   />
 </div>
 `;

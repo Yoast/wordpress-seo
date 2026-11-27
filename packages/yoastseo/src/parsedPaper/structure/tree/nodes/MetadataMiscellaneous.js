@@ -1,4 +1,4 @@
-import Node from "./Node";
+import Node from "./Node.js";
 
 /**
  * Represents miscellaneous metadata within the metadata tree branch.

@@ -37,7 +37,9 @@ export const PremiumUpsell = ( { url, className = "" } ) => {
 				"Yoast SEO Premium",
 			)
 			}
-			<span className="yst-sr-only">{ __( "(Opens in a new browser tab)", "wordpress-seo" ) }</span>
+			<span className="yst-sr-only">{
+				/* translators: Hidden accessibility text. */
+				__( "(Opens in a new browser tab)", "wordpress-seo" ) }</span>
 		</Button>
 
 	</div>;

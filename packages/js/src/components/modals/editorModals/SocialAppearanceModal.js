@@ -3,7 +3,6 @@
 import ShareIcon from "@heroicons/react/solid/ShareIcon";
 import { __ } from "@wordpress/i18n";
 import { Fragment } from "@wordpress/element";
-import PropTypes from "prop-types";
 import styled from "styled-components";
 
 /* Internal dependencies */
@@ -83,11 +82,6 @@ const SocialAppearanceModal = ( props ) => {
 			}
 		</EditorModal>
 	);
-};
-
-SocialAppearanceModal.propTypes = {
-	useOpenGraphData: PropTypes.bool.isRequired,
-	useTwitterData: PropTypes.bool.isRequired,
 };
 
 export default SocialAppearanceModal;

@@ -1,5 +1,5 @@
-import { isFollowedByException } from "./isFollowedByException";
-import { isPrecededByException } from "./isPrecededByException";
+import { isFollowedByException } from "./isFollowedByException.js";
+import { isPrecededByException } from "./isPrecededByException.js";
 
 
 /**

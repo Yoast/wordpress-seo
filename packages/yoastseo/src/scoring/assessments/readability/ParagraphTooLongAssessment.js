@@ -1,11 +1,11 @@
 import { __, _n, sprintf } from "@wordpress/i18n";
 import { merge } from "lodash";
 
-import { createAnchorOpeningTag } from "../../../helpers";
-import { inRangeEndInclusive as inRange } from "../../helpers/assessments/inRange";
-import AssessmentResult from "../../../values/AssessmentResult";
-import Mark from "../../../values/Mark";
-import Assessment from "../assessment";
+import { createAnchorOpeningTag } from "../../../helpers/index.js";
+import { inRangeEndInclusive as inRange } from "../../helpers/assessments/inRange.js";
+import AssessmentResult from "../../../values/AssessmentResult.js";
+import Mark from "../../../values/Mark.js";
+import Assessment from "../assessment.js";
 
 /**
  * Represents the assessment that will look if the Paper contains paragraphs that are considered too long.

@@ -39,10 +39,10 @@ describe( "List", () => {
 			expect( list.children ).toEqual( [] );
 
 			list.addChild( listItem );
-			expect( console.warn ).not.toBeCalled();
+			expect( console.warn ).not.toHaveBeenCalled();
 
 			list.addChild( paragraph );
-			expect( console.warn ).toBeCalled();
+			expect( console.warn ).toHaveBeenCalled();
 		} );
 	} );
 } );

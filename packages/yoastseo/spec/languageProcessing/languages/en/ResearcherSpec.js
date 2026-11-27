@@ -6,7 +6,7 @@ import transitionWords from "../../../../src/languageProcessing/languages/en/con
 import firstWordExceptions from "../../../../src/languageProcessing/languages/en/config/firstWordExceptions";
 import twoPartTransitionWords from "../../../../src/languageProcessing/languages/en/config/twoPartTransitionWords";
 import stopWords from "../../../../src/languageProcessing/languages/en/config/stopWords";
-import syllables from "../../../../src/languageProcessing/languages/en/config/syllables.json";
+import syllables from "../../../../src/languageProcessing/languages/en/config/syllables.js";
 import checkIfWordIsComplex from "../../../../src/languageProcessing/languages/en/helpers/checkIfWordIsComplex";
 import wordComplexityConfig from "../../../../src/languageProcessing/languages/en/config/wordComplexity";
 const premiumData = getMorphologyData( "en" );

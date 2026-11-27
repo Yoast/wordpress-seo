@@ -1,6 +1,6 @@
-import { Heading, Paragraph } from "../../structure";
-import getTextElementPositions from "./getTextElementPositions";
-import { hashedHtmlEntities } from "../../../helpers/htmlEntities";
+import { Heading, Paragraph } from "../../structure/index.js";
+import getTextElementPositions from "./getTextElementPositions.js";
+import { hashedHtmlEntities } from "../../../helpers/htmlEntities.js";
 
 /**
  * Splits the sentence into tokens, determines their positions in the source code, and puts them on the sentence.

@@ -2,7 +2,7 @@ import {
 	all as passiveAuxiliaries,
 } from "./internal/passiveVoiceAuxiliaries.js";
 import { singleWords as transitionWords } from "./transitionWords.js";
-import transformWordsWithHyphens from "../../../helpers/transform/transformWordsWithHyphens";
+import transformWordsWithHyphens from "../../../helpers/transform/transformWordsWithHyphens.js";
 
 const articles = [ "the", "an", "a" ];
 const cardinalNumerals = [ "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", "twelve", "thirteen",

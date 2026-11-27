@@ -1,11 +1,11 @@
-import ageAssessments from "./ageAssessments";
-import appearanceAssessments from "./appearanceAssessments";
-import disabilityAssessments from "./disabilityAssessments";
-import genderAssessments from "./genderAssessments";
-import cultureAssessments from "./cultureAssessments";
-import sesAssessments from "./sesAssessments";
-import otherAssessments from "./otherAssessments";
-import sexualOrientationAssessments from "./sexualOrientationAssessments";
+import ageAssessments from "./ageAssessments.js";
+import appearanceAssessments from "./appearanceAssessments.js";
+import disabilityAssessments from "./disabilityAssessments.js";
+import genderAssessments from "./genderAssessments.js";
+import cultureAssessments from "./cultureAssessments.js";
+import sesAssessments from "./sesAssessments.js";
+import otherAssessments from "./otherAssessments.js";
+import sexualOrientationAssessments from "./sexualOrientationAssessments.js";
 
 export default [
 	...ageAssessments,

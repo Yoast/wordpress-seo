@@ -79,16 +79,15 @@ exports[`the IconLabelledButton matches the snapshot 1`] = `
 }
 
 <button
-  className="c0 c1 c2 c3"
+  class="c0 c1 c2 c3"
   type="button"
 >
   <svg
-    aria-hidden={true}
-    className="c4 yoast-svg-icon yoast-svg-icon-question-circle"
+    aria-hidden="true"
+    class="c4 yoast-svg-icon yoast-svg-icon-question-circle"
     fill="#0066cd"
     focusable="false"
     role="img"
-    size="16px"
     viewBox="0 0 1792 1792"
     xmlns="http://www.w3.org/2000/svg"
   >
@@ -179,16 +178,15 @@ exports[`the IconLabelledButton with props matches the snapshot 1`] = `
 }
 
 <button
-  className="c0 c1 c2 c3"
+  class="c0 c1 c2 c3"
   type="reset"
 >
   <svg
-    aria-hidden={true}
-    className="c4 yoast-svg-icon yoast-svg-icon-eye"
+    aria-hidden="true"
+    class="c4 yoast-svg-icon yoast-svg-icon-eye"
     fill="#0f0"
     focusable="false"
     role="img"
-    size="16px"
     viewBox="0 0 1792 1792"
     xmlns="http://www.w3.org/2000/svg"
   >

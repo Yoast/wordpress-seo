@@ -1,4 +1,4 @@
-import formatString from "../helpers/formatString";
+import formatString from "../helpers/formatString.js";
 
 /**
  * Logs and formats the error message to send back to the plugin

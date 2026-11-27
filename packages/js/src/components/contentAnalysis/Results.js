@@ -1,5 +1,4 @@
-import { ContentAnalysis } from "@yoast/analysis-report";
-import { IconButtonToggle } from "@yoast/components";
+import { ContentAnalysis, MarkButton } from "@yoast/analysis-report";
 import { Badge } from "@yoast/ui-library";
 import LockClosedIcon from "@heroicons/react/solid/LockClosedIcon";
 import { __ } from "@wordpress/i18n";
@@ -12,6 +11,45 @@ import { Paper } from "yoastseo";
 
 import mapResults from "./mapResults";
 import { PremiumSEOAnalysisModal } from "../modals/PremiumSEOAnalysisModal";
+
+/**
+ * Mark button with optional upsell badge and tooltip.
+ *
+ * @param {Object} props The component props.
+ * @param {string} props.ariaLabel The button aria-label.
+ * @param {string} props.id The button id.
+ * @param {string} [props.className=""] The button class name.
+ * @param {string} [props.status="enabled"] Status of the button. Supports: "enabled", "disabled", "hidden".
+ * @param {Function} props.onClick Onclick handler.
+ * @param {boolean} props.isPressed Whether the button is in a pressed state.
+ * @param {boolean} [props.shouldUpsellHighlighting=false] Whether to show the highlighting upsell badge and tooltip.
+ *
+ * @returns {JSX.Element} The mark button.
+ */
+const MarkButtonWithUpsell = ( {
+	ariaLabel,
+	id,
+	className = "",
+	status = "enabled",
+	onClick,
+	isPressed,
+	shouldUpsellHighlighting = false,
+} ) => {
+	return <MarkButton
+		ariaLabel={ ariaLabel }
+		id={ id }
+		className={ className }
+		status={ status }
+		onClick={ onClick }
+		isPressed={ isPressed }
+	>
+		{ shouldUpsellHighlighting &&
+			<Badge className="yst-absolute yst-px-[3px] yst-py-[3px] yst--end-[6.5px] yst--top-[6.5px]" size="small" variant="upsell">
+				<LockClosedIcon className="yst-w-2.5 yst-h-2.5 yst-shrink-0" role="img" aria-hidden={ true } focusable={ false } />
+			</Badge>
+		}
+	</MarkButton>;
+};
 
 /**
  * Wrapper to provide functionality to the ContentAnalysis component.
@@ -52,7 +90,7 @@ class Results extends Component {
 	 *
 	 * If the results are null, we assume the analysis is still being performed.
 	 *
-	 * @param {object} prevProps The previous props.
+	 * @param {Object} prevProps The previous props.
 	 *
 	 * @returns {void}
 	 */
@@ -71,7 +109,7 @@ class Results extends Component {
 	 * @param {string} id 			The button id.
 	 * @param {string} className 	The button class name.
 	 * @param {string} status 		Status of the buttons. Supports: "enabled", "disabled", "hidden".
-	 * @param {function} onClick 	Onclick handler.
+	 * @param {Function} onClick 	Onclick handler.
 	 * @param {boolean} isPressed 	Whether the button is in a pressed state.
 	 *
 	 * @returns {JSX.Element} A new mark button.
@@ -84,24 +122,15 @@ class Results extends Component {
 		onClick,
 		isPressed,
 	} ) {
-		return <Fragment>
-			<IconButtonToggle
-				marksButtonStatus={ status }
-				className={ className }
-				onClick={ onClick }
-				id={ id }
-				icon="eye"
-				pressed={ isPressed }
-				ariaLabel={ ariaLabel }
-			/>
-			{ this.props.shouldUpsellHighlighting &&
-				<div className="yst-root">
-					<Badge className="yst-absolute yst-px-[3px] yst-py-[3px] yst--end-[6.5px] yst--top-[6.5px]" size="small" variant="upsell">
-						<LockClosedIcon className="yst-w-2.5 yst-h-2.5 yst-shrink-0" role="img" aria-hidden={ true } focusable={ false } />
-					</Badge>
-				</div>
-			}
-		</Fragment>;
+		return <MarkButtonWithUpsell
+			ariaLabel={ ariaLabel }
+			id={ id }
+			className={ className }
+			status={ status }
+			onClick={ onClick }
+			isPressed={ isPressed }
+			shouldUpsellHighlighting={ this.props.shouldUpsellHighlighting }
+		/>;
 	}
 
 	/**
@@ -286,7 +315,7 @@ class Results extends Component {
 	 * Renders the modal for the highlighting upsell.
 	 *
 	 * @param {boolean} isOpen Whether the modal should be opened.
-	 * @param {function} closeModal A callback function invoked when the modal is closed.
+	 * @param {Function} closeModal A callback function invoked when the modal is closed.
 	 * @returns {boolean|wp.Element} The modal for the highlighting upsell element, or false if the modal is closed.
 	 */
 	renderHighlightingUpsell( isOpen, closeModal ) {

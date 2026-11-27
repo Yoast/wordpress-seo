@@ -3,7 +3,17 @@ import yoastConfig from "@yoast/eslint-config";
 
 /** @type {import('eslint').Linter.Config[]} */
 export default [
-	{ ignores: [ "build", "vendor", "examples", "researcher", "contract" ] },
+	{
+		ignores: [
+			"build",
+			"esm",
+			"examples",
+			"researcher",
+			"contract",
+			// Third-party code (Snowball Turkish stemmer).
+			"src/languageProcessing/languages/tr/helpers/internal/turkishStemmer.js",
+		],
+	},
 	...yoastConfig,
 	{
 		languageOptions: {
@@ -66,6 +76,14 @@ export default [
 		},
 	},
 	{
+		// Node ESM needs full import paths: `./file.js` and `./folder/index.js`. This only checks relative imports;
+		// package subpaths (e.g. `tokenizer2/core.js`) need the extension added by hand.
+		files: [ "src/**" ],
+		rules: {
+			"import/extensions": [ "error", "always", { ignorePackages: true } ],
+		},
+	},
+	{
 		files: [ "src/languageProcessing/**" ],
 		settings: {
 			"import/core-modules": [ "yoastseo" ],
@@ -109,7 +127,7 @@ export default [
 		},
 	},
 	{
-		files: [ "Gruntfile.js", "grunt/**", "babel.config.js", "premium-configuration/**" ],
+		files: [ "Gruntfile.js", "grunt/**", "scripts/**", "babel.config.js", "premium-configuration/**" ],
 		languageOptions: {
 			globals: {
 				...globals.node,

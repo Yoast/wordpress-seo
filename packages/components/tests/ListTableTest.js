@@ -1,36 +1,33 @@
 import React from "react";
-import renderer from "react-test-renderer";
+import { render } from "@testing-library/react";
 
 import { ListTable, ZebrafiedListTable } from "../src/table/ListTable";
 
 test( "the ListTable component matches the snapshot", () => {
-	const component = renderer.create(
+	const { container } = render(
 		<ListTable />
 	);
 
-	const tree = component.toJSON();
-	expect( tree ).toMatchSnapshot();
+	expect( container.firstChild ).toMatchSnapshot();
 } );
 
 test( "the ZebrafiedListTable component with one child matches the snapshot", () => {
-	const component = renderer.create(
+	const { container } = render(
 		<ZebrafiedListTable>
 			<li />
 		</ZebrafiedListTable>
 	);
 
-	const tree = component.toJSON();
-	expect( tree ).toMatchSnapshot();
+	expect( container.firstChild ).toMatchSnapshot();
 } );
 
 test( "the ZebrafiedListTable component with multiple children matches the snapshot", () => {
-	const component = renderer.create(
+	const { container } = render(
 		<ZebrafiedListTable>
 			<li />
 			<li />
 		</ZebrafiedListTable>
 	);
 
-	const tree = component.toJSON();
-	expect( tree ).toMatchSnapshot();
+	expect( container.firstChild ).toMatchSnapshot();
 } );

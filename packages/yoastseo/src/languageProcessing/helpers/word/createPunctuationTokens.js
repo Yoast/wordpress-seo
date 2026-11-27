@@ -1,6 +1,6 @@
-import { punctuationRegexEnd, punctuationRegexStart } from "../sanitize/removePunctuation";
-import { hashedHtmlEntitiesRegexEnd, hashedHtmlEntitiesRegexStart } from "../../../helpers/htmlEntities";
-import abbreviations from "../../languages/en/config/abbreviations";
+import { punctuationRegexEnd, punctuationRegexStart } from "../sanitize/removePunctuation.js";
+import { hashedHtmlEntitiesRegexEnd, hashedHtmlEntitiesRegexStart } from "../../../helpers/htmlEntities.js";
+import abbreviations from "../../languages/en/config/abbreviations.js";
 
 /** @type {string[]} */
 const ABBREVIATIONS = abbreviations.map( abbreviation => abbreviation.toLocaleLowerCase() );

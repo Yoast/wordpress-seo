@@ -1,4 +1,4 @@
-import createPunctuationTokens from "./createPunctuationTokens";
+import createPunctuationTokens from "./createPunctuationTokens.js";
 
 /*
 *  The following regex is used to split a text into tokens.

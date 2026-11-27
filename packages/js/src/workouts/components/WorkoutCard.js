@@ -4,7 +4,6 @@ import { Fragment, useCallback, useEffect, useMemo, useState } from "@wordpress/
 import { __, sprintf } from "@wordpress/i18n";
 import { NewButton as Button, ProgressBar } from "@yoast/components";
 import { makeOutboundLink } from "@yoast/helpers";
-import PropTypes from "prop-types";
 
 /**
  * The WorkoutCard component
@@ -13,15 +12,15 @@ import PropTypes from "prop-types";
  * @param {string} props.name The name of the workout.
  * @param {string} props.title The title of the workout.
  * @param {string} props.subtitle The subtitle of the workout.
- * @param {Array<string>} props.usps The unique selling points of the workout.
+ * @param {string[]} props.usps The unique selling points of the workout.
  * @param {string} [props.id=""] The id of the workout card.
- * @param {React.ReactNode} [props.image=null] The image component to display in the workout card.
- * @param {?Array<string>} [props.finishableSteps=null] The steps that can be finished in the workout.
- * @param {?Array<string>} [props.finishedSteps=null] The steps that have been finished in the workout.
+ * @param {?string[]} [props.finishableSteps=null] The steps that can be finished in the workout.
+ * @param {?string[]} [props.finishedSteps=null] The steps that have been finished in the workout.
+ * @param {?import("react").ElementType} [props.image=null] The image component to display in the workout card.
  * @param {?string} [props.upsellLink=null] The link to the upsell page for the workout.
  * @param {?string} [props.upsellText=null] The text for the upsell link.
- * @param {React.ReactNode} [props.workout=null] The workout component to display when the workout is active.
- * @param {Array<JSX.Element>} [props.badges=[]] The badges to display in the workout card.
+ * @param {?import("react").ElementType} [props.workout=null] The workout component to display when the workout is active.
+ * @param {JSX.Element[]} [props.badges=[]] The badges to display in the workout card.
  *
  * @returns {JSX.Element} The WorkoutCard component
  */
@@ -138,18 +137,3 @@ export default function WorkoutCard( {
 		{ workout && activeWorkout === name && <WorkoutComponent /> }
 	</Fragment> );
 }
-
-WorkoutCard.propTypes = {
-	name: PropTypes.string.isRequired,
-	title: PropTypes.string.isRequired,
-	subtitle: PropTypes.string.isRequired,
-	usps: PropTypes.arrayOf( PropTypes.string ).isRequired,
-	id: PropTypes.string,
-	finishableSteps: PropTypes.arrayOf( PropTypes.string ),
-	finishedSteps: PropTypes.arrayOf( PropTypes.string ),
-	image: PropTypes.elementType,
-	upsellLink: PropTypes.string,
-	upsellText: PropTypes.string,
-	workout: PropTypes.elementType,
-	badges: PropTypes.arrayOf( PropTypes.element ),
-};

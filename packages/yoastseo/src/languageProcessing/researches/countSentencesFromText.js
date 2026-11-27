@@ -1,5 +1,5 @@
 import sentencesLength from "../helpers/sentence/sentencesLength.js";
-import getSentencesFromTree from "../helpers/sentence/getSentencesFromTree";
+import getSentencesFromTree from "../helpers/sentence/getSentencesFromTree.js";
 
 /**
  * @typedef {import("../../languageProcessing/AbstractResearcher").default } Researcher

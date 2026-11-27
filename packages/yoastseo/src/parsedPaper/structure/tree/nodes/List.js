@@ -1,5 +1,5 @@
-import StructuredNode from "./StructuredNode";
-import ListItem from "./ListItem";
+import StructuredNode from "./StructuredNode.js";
+import ListItem from "./ListItem.js";
 
 /**
  * Represents a list of items.

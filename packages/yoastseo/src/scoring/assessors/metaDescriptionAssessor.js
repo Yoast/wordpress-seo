@@ -1,6 +1,6 @@
-import Assessor from "./assessor";
-import MetaDescriptionKeywordAssessment from "../assessments/seo/MetaDescriptionKeywordAssessment";
-import MetaDescriptionLength from "../assessments/seo/MetaDescriptionLengthAssessment";
+import Assessor from "./assessor.js";
+import MetaDescriptionKeywordAssessment from "../assessments/seo/MetaDescriptionKeywordAssessment.js";
+import MetaDescriptionLength from "../assessments/seo/MetaDescriptionLengthAssessment.js";
 
 /**
  * The Assessor class that is used for the assessment of the meta description.

@@ -1,19 +1,18 @@
 import React from "react";
-import renderer from "react-test-renderer";
+import { render } from "@testing-library/react";
 
 import IconLabeledButton from "../src/buttons/IconLabeledButton";
 
 test( "the IconLabelledButton matches the snapshot", () => {
-	const component = renderer.create(
+	const { container } = render(
 		<IconLabeledButton icon="question-circle">Need help?</IconLabeledButton>
 	);
 
-	const tree = component.toJSON();
-	expect( tree ).toMatchSnapshot();
+	expect( container.firstChild ).toMatchSnapshot();
 } );
 
 test( "the IconLabelledButton with props matches the snapshot", () => {
-	const component = renderer.create(
+	const { container } = render(
 		<IconLabeledButton
 			type="reset"
 			icon="eye"
@@ -36,6 +35,5 @@ test( "the IconLabelledButton with props matches the snapshot", () => {
 		</IconLabeledButton>
 	);
 
-	const tree = component.toJSON();
-	expect( tree ).toMatchSnapshot();
+	expect( container.firstChild ).toMatchSnapshot();
 } );

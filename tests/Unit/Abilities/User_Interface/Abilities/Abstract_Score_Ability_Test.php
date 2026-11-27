@@ -168,7 +168,7 @@ abstract class Abstract_Score_Ability_Test extends TestCase {
 			'properties' => [
 				'title' => [
 					'type'        => 'string',
-					'description' => 'The post title.',
+					'description' => 'The breadcrumb title of the post when a custom one is set, otherwise the post title.',
 				],
 				'score' => [
 					'type'        => 'string',

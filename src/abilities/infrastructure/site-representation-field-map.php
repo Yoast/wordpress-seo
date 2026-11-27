@@ -6,12 +6,12 @@ namespace Yoast\WP\SEO\Abilities\Infrastructure;
 use Yoast\WP\SEO\Conditionals\Local_SEO_Active_Conditional;
 
 /**
- * Describes the site representation settings that the abilities can write, keyed by option name.
+ * Describes the site representation settings that the abilities can read and write, keyed by option name.
  *
- * The map is the single source of truth for both the ability schemas and the updater, so a field
- * added through the filter is exposed, validated and written without further changes.
+ * The map is the single source of truth for the ability schemas, the collector and the updater, so a field
+ * added through the filter is exposed, read, validated and written without further changes.
  */
-class Site_Representation_Field_Map {
+class Site_Representation_Field_Map extends Abstract_Field_Map {
 
 	/**
 	 * The Local SEO active conditional.
@@ -30,20 +30,6 @@ class Site_Representation_Field_Map {
 	// phpcs:disable SlevomatCodingStandard.TypeHints.DisallowMixedTypeHint.DisallowedMixedTypeHint -- The JSON schema arrays are heterogeneous by nature.
 
 	/**
-	 * The fields, cached so the schemas and the updater always agree on them.
-	 *
-	 * @var array<string, array<string, mixed>>|null
-	 */
-	private $fields;
-
-	/**
-	 * The validators registered along with the fields, keyed by option name.
-	 *
-	 * @var array<string, callable>|null
-	 */
-	private $validators;
-
-	/**
 	 * Constructor.
 	 *
 	 * @param Local_SEO_Active_Conditional         $local_seo_active_conditional The Local SEO active conditional.
@@ -58,42 +44,16 @@ class Site_Representation_Field_Map {
 	}
 
 	/**
-	 * Returns the writable site representation fields, mapped to their JSON schema.
+	 * Passes the default fields through the filter that lets add-ons add fields.
 	 *
-	 * @return array<string, array<string, mixed>> The JSON schema of each field, keyed by option name.
-	 */
-	public function get_fields(): array {
-		$this->resolve_fields();
-
-		return $this->fields;
-	}
-
-	/**
-	 * Returns the validators registered along with the fields.
+	 * @param array<string, array<string, mixed>> $default_fields The JSON schema of each field, keyed by option name.
 	 *
-	 * @return array<string, callable> The validator of each field that has one, keyed by option name.
+	 * @return mixed The filtered fields, which are not guaranteed to be an array.
 	 */
-	public function get_validators(): array {
-		$this->resolve_fields();
-
-		return $this->validators;
-	}
-
-	/**
-	 * Resolves the fields and their validators, once, so the schemas and the updater always agree on them.
-	 *
-	 * @return void
-	 */
-	private function resolve_fields(): void {
-		if ( $this->fields !== null ) {
-			return;
-		}
-
-		$default_fields = $this->get_default_fields();
-
+	protected function get_filtered_fields( array $default_fields ) {
 		/**
 		 * Filter: 'wpseo_site_representation_ability_fields' - Allows adding site representation settings that
-		 * the site representation abilities can write.
+		 * the site representation abilities can read and write.
 		 *
 		 * Each field is keyed by its option name and maps to the JSON schema of its value. The option has to be
 		 * a Yoast SEO option, as the value is saved through the options helper, so it is sanitized like it is
@@ -112,34 +72,7 @@ class Site_Representation_Field_Map {
 		 *
 		 * @param array<string, array<string, mixed>> $fields The JSON schema of each field, keyed by option name.
 		 */
-		$fields = \apply_filters( 'wpseo_site_representation_ability_fields', $default_fields );
-
-		if ( ! \is_array( $fields ) ) {
-			$fields = $default_fields;
-		}
-
-		$this->fields     = [];
-		$this->validators = [];
-
-		foreach ( $fields as $field_name => $schema ) {
-			// A field without a schema can neither be described to agents nor validated, so it is dropped.
-			if ( ! \is_array( $schema ) ) {
-				continue;
-			}
-
-			if ( \array_key_exists( 'validate_callback', $schema ) ) {
-				if ( ! \is_callable( $schema['validate_callback'] ) ) {
-					continue;
-				}
-
-				$this->validators[ $field_name ] = $schema['validate_callback'];
-
-				// The callback is not part of the JSON schema that is published to agents.
-				unset( $schema['validate_callback'] );
-			}
-
-			$this->fields[ $field_name ] = $schema;
-		}
+		return \apply_filters( 'wpseo_site_representation_ability_fields', $default_fields );
 	}
 
 	/**
@@ -147,7 +80,7 @@ class Site_Representation_Field_Map {
 	 *
 	 * @return array<string, array<string, mixed>> The JSON schema of each field, keyed by option name.
 	 */
-	private function get_default_fields(): array {
+	protected function get_default_fields(): array {
 		return [
 			'company_or_person'         => [
 				'type'              => 'string',
@@ -172,7 +105,7 @@ class Site_Representation_Field_Map {
 			'company_or_person_user_id' => [
 				'type'              => 'integer',
 				'minimum'           => 0,
-				'description'       => \__( 'The ID of the user the site represents, whose profile information is used in search results. The person\'s name is taken from the display name of this user. Unless you can list users, only users with published posts can be set. 0 when no user is set. Only used when company_or_person is "person".', 'wordpress-seo' ),
+				'description'       => \__( 'The ID of the user the site represents, whose profile information is used in search results. The person\'s name is taken from the display name of this user. 0 when no user is set. Only used when company_or_person is "person".', 'wordpress-seo' ),
 				'validate_callback' => [ $this->field_validators, 'validate_user_id' ],
 			],
 			'person_logo_id'            => [

@@ -1,7 +1,7 @@
 import { languageProcessing } from "yoastseo";
 const { getWords } = languageProcessing;
 
-import participleStems from "../../config/internal/passiveVoiceParticiples";
+import participleStems from "../../config/internal/passiveVoiceParticiples.js";
 
 /**
  * Checks if an Italian word is a participle.

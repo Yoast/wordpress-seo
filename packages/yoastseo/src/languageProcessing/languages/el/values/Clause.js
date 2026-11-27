@@ -1,7 +1,7 @@
 import { languageProcessing } from "yoastseo";
 const { values } = languageProcessing;
 const { Clause } = values;
-import getParticiples from "../helpers/internal/getParticiples";
+import getParticiples from "../helpers/internal/getParticiples.js";
 
 /**
  * Creates a Clause object for the Greek language.

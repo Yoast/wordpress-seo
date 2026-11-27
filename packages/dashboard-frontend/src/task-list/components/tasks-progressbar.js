@@ -88,7 +88,7 @@ export const TasksProgressBar = ( { completedTasks, totalTasks, isLoading, class
 	}
 
 	const screenReaderText = sprintf(
-		/* translators: %1$d expands to the number of completed tasks, %2$d expands to the total number of tasks. */
+		/* translators: Hidden accessibility text. %1$d expands to the number of completed tasks, %2$d expands to the total number of tasks. */
 		__( "%1$d out of %2$d tasks completed", "wordpress-seo" ),
 		completedTasks,
 		totalTasks

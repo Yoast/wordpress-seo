@@ -18,6 +18,7 @@ describe( "the result output contract (ResultDto)", function() {
 				editFieldAriaLabel: "",
 				isOptimizable: false,
 				isBeta: false,
+				flaggedItems: [],
 			} );
 		} );
 
@@ -86,6 +87,7 @@ describe( "the result output contract (ResultDto)", function() {
 				editFieldAriaLabel: "",
 				isOptimizable: false,
 				isBeta: false,
+				flaggedItems: [],
 			} );
 		} );
 
@@ -114,5 +116,22 @@ describe( "the result output contract (ResultDto)", function() {
 
 			expect( parsed.marks[ 0 ].fieldsToMark ).toEqual( [] );
 		} );
+	} );
+} );
+
+describe( "the items a result flags, on the contract", () => {
+	it( "carries the identifiers through, so a non-WordPress consumer can point at them too", () => {
+		const result = new AssessmentResult( { score: 6, text: "Alt text length: ..." } );
+		result.setIdentifier( "altTextLength" );
+		result.setFlaggedItems( [ 9, "https://example.com/a.jpg" ] );
+
+		expect( toResultDto( result ).flaggedItems ).toEqual( [ 9, "https://example.com/a.jpg" ] );
+	} );
+
+	it( "defaults to an empty array, so the shape stays stable for assessments that point at nothing", () => {
+		const result = new AssessmentResult( { score: 9, text: "Good job!" } );
+		result.setIdentifier( "images" );
+
+		expect( toResultDto( result ).flaggedItems ).toEqual( [] );
 	} );
 } );

@@ -1,13 +1,12 @@
-import PropTypes from "prop-types";
 import { AcademyUpsellCard, PremiumUpsellCard } from "./";
 
 /**
- * @param {string} premiumLink The link to the Premium page.
- * @param {Object} premiumUpsellConfig The Premium upsell configuration.
- * @param {string} academyLink The link to the Academy page.
- * @param {function} isPromotionActive Whether a promotion is active.
- * @param {boolean} isWooCommerceActive Whether WooCommerce is active.
- *
+ * @param {Object} props Component props.
+ * @param {string} props.premiumLink The link to the Premium page.
+ * @param {Object} props.premiumUpsellConfig The Premium upsell configuration.
+ * @param {string} props.academyLink The link to the Academy page.
+ * @param {Function} props.isPromotionActive Whether a promotion is active.
+ * @param {boolean} props.isWooCommerceActive Whether WooCommerce is active.
  *
  * @returns {JSX.Element} The sidebar recommendations.
  */
@@ -23,12 +22,4 @@ export const SidebarRecommendations = ( { premiumLink, premiumUpsellConfig, acad
 			<AcademyUpsellCard link={ academyLink } />
 		</div>
 	);
-};
-
-SidebarRecommendations.propTypes = {
-	premiumLink: PropTypes.string.isRequired,
-	premiumUpsellConfig: PropTypes.object.isRequired,
-	academyLink: PropTypes.string.isRequired,
-	isPromotionActive: PropTypes.func.isRequired,
-	isWooCommerceActive: PropTypes.bool.isRequired,
 };

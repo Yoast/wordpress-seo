@@ -5,6 +5,7 @@ namespace Yoast\WP\SEO\Tests\Unit\Surfaces;
 use Brain\Monkey;
 use Brain\Monkey\Filters;
 use Mockery;
+use WP_Post;
 use WP_Rewrite;
 use Yoast\WP\SEO\Helpers\Indexable_Helper;
 use Yoast\WP\SEO\Memoizers\Meta_Tags_Context_Memoizer;
@@ -475,6 +476,7 @@ final class Meta_Surface_Test extends TestCase {
 	 * Tests the url function.
 	 *
 	 * @covers ::for_url
+	 * @covers ::is_post_readable
 	 * @dataProvider for_url_provider
 	 *
 	 * @param string $object_type     The object type.
@@ -570,6 +572,14 @@ final class Meta_Surface_Test extends TestCase {
 		$this->indexable->object_id       = $object_id;
 		$this->indexable->object_sub_type = $object_sub_type;
 
+		if ( $object_type === 'post' ) {
+			$post     = Mockery::mock( WP_Post::class );
+			$post->ID = $object_id;
+
+			Monkey\Functions\expect( 'get_post' )->once()->with( $object_id )->andReturn( $post );
+			Monkey\Functions\expect( 'is_post_publicly_viewable' )->once()->with( $post )->andReturnTrue();
+		}
+
 		$this->indexable_helper->expects( 'get_page_type_for_indexable' )->with( $this->indexable )->andReturn( $page_type );
 
 		$this->context_memoizer->expects( 'get' )->with( $this->indexable, $page_type )->andReturn( $this->context );
@@ -577,6 +587,103 @@ final class Meta_Surface_Test extends TestCase {
 		$meta = $this->instance->for_url( 'url' );
 
 		$this->assertEquals( 'succeeds', $meta->test );
+	}
+
+	/**
+	 * Tests the url function for posts that are not publicly viewable.
+	 *
+	 * @covers ::for_url
+	 * @covers ::is_post_readable
+	 * @dataProvider data_for_url_with_non_public_post
+	 *
+	 * @param bool $post_exists   Whether the post exists.
+	 * @param bool $user_can_read Whether the current user can read the post.
+	 * @param bool $expected      Whether meta is expected to be returned.
+	 *
+	 * @return void
+	 */
+	public function test_for_url_with_non_public_post( $post_exists, $user_can_read, $expected ) {
+		$instance = Mockery::mock(
+			Meta_Surface::class,
+			[
+				$this->container,
+				$this->context_memoizer,
+				$this->repository,
+				$this->wp_rewrite_wrapper,
+				$this->indexable_helper,
+			],
+		)
+			->makePartial()
+			->shouldAllowMockingProtectedMethods();
+
+		Monkey\Functions\stubs(
+			[
+				'wp_parse_url' => static function ( $url ) {
+					return \parse_url( $url );
+				},
+			],
+		);
+
+		$instance->expects( 'is_date_archive_url' )->once()->andReturnFalse();
+
+		$this->indexable->object_type = 'post';
+		$this->indexable->object_id   = 1;
+
+		$this->repository->expects( 'find_by_permalink' )
+			->once()
+			->with( 'https://www.example.org/private-post/' )
+			->andReturn( $this->indexable );
+
+		$post     = null;
+		$can_read = 0;
+		if ( $post_exists ) {
+			$post     = Mockery::mock( WP_Post::class );
+			$post->ID = 1;
+			$can_read = 1;
+
+			Monkey\Functions\expect( 'is_post_publicly_viewable' )->once()->with( $post )->andReturnFalse();
+		}
+
+		Monkey\Functions\expect( 'get_post' )->once()->with( 1 )->andReturn( $post );
+		Monkey\Functions\expect( 'current_user_can' )
+			->times( $can_read )
+			->with( 'read_post', 1 )
+			->andReturn( $user_can_read );
+
+		$page_type_times = ( $expected ) ? 1 : 0;
+		$this->indexable_helper->expects( 'get_page_type_for_indexable' )
+			->times( $page_type_times )
+			->with( $this->indexable )
+			->andReturn( 'Post_Type' );
+		$this->context_memoizer->expects( 'get' )
+			->times( $page_type_times )
+			->with( $this->indexable, 'Post_Type' )
+			->andReturn( $this->context );
+		$this->container->expects( 'get' )
+			->times( $page_type_times * 3 )
+			->andReturn( null );
+
+		$meta = $instance->for_url( 'https://www.example.org/private-post/' );
+
+		if ( $expected ) {
+			$this->assertEquals( 'succeeds', $meta->test );
+		}
+		else {
+			$this->assertFalse( $meta );
+		}
+	}
+
+	/**
+	 * Data provider for the test_for_url_with_non_public_post test.
+	 *
+	 * @return array<string, array<bool>>
+	 */
+	public static function data_for_url_with_non_public_post() {
+		return [
+			'Post not found'              => [ false, false, false ],
+			'Private post, logged out'    => [ true, false, false ],
+			'Private post, user can read' => [ true, true, true ],
+		];
 	}
 
 	/**

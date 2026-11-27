@@ -48,7 +48,9 @@ export const TrendGraphScreenReader = ( {
 			className="yst-sr-only"
 		>
 			<table>
-				<caption>{ __( "Keyphrase volume in the last 12 months on a scale from 0 to 100.", "wordpress-seo" ) }</caption>
+				<caption>{
+					/* translators: Hidden accessibility text. */
+					__( "Keyphrase volume in the last 12 months on a scale from 0 to 100.", "wordpress-seo" ) }</caption>
 				<thead>
 					<tr>
 						{

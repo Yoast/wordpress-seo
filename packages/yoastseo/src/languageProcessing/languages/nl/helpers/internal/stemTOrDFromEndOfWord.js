@@ -6,9 +6,9 @@ const {
 	},
 } = languageProcessing;
 
-import { detectAndStemRegularParticiple } from "./detectAndStemRegularParticiple";
-import { generateCorrectStemWithTAndDEnding } from "./getStemWordsWithTAndDEnding";
-import checkExceptionsWithFullForms from "./checkExceptionsWithFullForms";
+import { detectAndStemRegularParticiple } from "./detectAndStemRegularParticiple.js";
+import { generateCorrectStemWithTAndDEnding } from "./getStemWordsWithTAndDEnding.js";
+import checkExceptionsWithFullForms from "./checkExceptionsWithFullForms.js";
 
 /**
  * If the word ending in -t/-d was not matched in any of the checks for whether -t/-d should be stemmed or not, other checks still need

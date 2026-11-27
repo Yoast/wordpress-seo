@@ -1,3 +1,3 @@
-import Request from "./Request";
+import Request from "./Request.js";
 
 export default Request;

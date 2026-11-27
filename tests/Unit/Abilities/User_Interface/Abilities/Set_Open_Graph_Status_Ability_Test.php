@@ -167,7 +167,7 @@ final class Set_Open_Graph_Status_Ability_Test extends TestCase {
 					'properties' => [
 						'enabled' => [
 							'type'        => 'boolean',
-							'description' => 'Whether Yoast SEO\'s Open Graph data feature is enabled.',
+							'description' => 'Whether Yoast SEO\'s Open Graph data feature is turned on in its setting.',
 						],
 					],
 				],

@@ -2,8 +2,9 @@ import CheckIcon from "@heroicons/react/solid/CheckIcon";
 import XIcon from "@heroicons/react/solid/XIcon";
 import { Fragment } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
-import { PropTypes } from "prop-types";
 import { SimpleIntegration } from "./simple-integration";
+
+/** @typedef {import("./simple-integration").Integration} Integration */
 
 /**
  * Represents the WordPress Abilities API integration.
@@ -11,8 +12,9 @@ import { SimpleIntegration } from "./simple-integration";
  * The abilities register themselves whenever the Abilities API is present, so the card reports
  * availability rather than offering a switch.
  *
- * @param {Object} integration The integration.
- * @param {boolean} [isActive=true] The integration state.
+ * @param {Object} props Component props.
+ * @param {Integration} props.integration The integration.
+ * @param {boolean} [props.isActive=true] The integration state.
  *
  * @returns {JSX.Element} A card representing an integration.
  */
@@ -44,17 +46,4 @@ export const AbilitiesIntegration = ( { integration, isActive = true } ) => {
 			</Fragment> }
 		</SimpleIntegration>
 	);
-};
-
-AbilitiesIntegration.propTypes = {
-	integration: PropTypes.shape( {
-		name: PropTypes.string,
-		claim: PropTypes.node,
-		slug: PropTypes.string,
-		description: PropTypes.string,
-		usps: PropTypes.array,
-		logo: PropTypes.func,
-		isNew: PropTypes.bool,
-	} ).isRequired,
-	isActive: PropTypes.bool,
 };

@@ -1,24 +1,22 @@
 import React from "react";
-import renderer from "react-test-renderer";
+import { render } from "@testing-library/react";
 import Card, { FullHeightCard } from "../src/Card";
 import CourseDetails from "../src/CourseDetails";
 
 test( "The empty Card component matches the snapshot", () => {
-	const component = renderer.create(
+	const { container } = render(
 		<Card />
 	);
 
-	const tree = component.toJSON();
-	expect( tree ).toMatchSnapshot();
+	expect( container.firstChild ).toMatchSnapshot();
 } );
 
 test( "The FullHeightCard is rendered including some props", () => {
-	const component = renderer.create(
+	const { container } = render(
 		<FullHeightCard className={ "CourseCard_Empty" } id={ "Test01" } />
 	);
 
-	const tree = component.toJSON();
-	expect( tree ).toMatchSnapshot();
+	expect( container.firstChild ).toMatchSnapshot();
 } );
 
 test( "The FullHeightCard is rendered including the CardBanner and CardDetails components", () => {
@@ -43,7 +41,7 @@ test( "The FullHeightCard is rendered including the CardBanner and CardDetails c
 		link: course.courseUrl,
 	};
 
-	const component = renderer.create(
+	const { container } = render(
 		<FullHeightCard
 			className={ "CourseCard" }
 			id={ "Test02" }
@@ -60,6 +58,5 @@ test( "The FullHeightCard is rendered including the CardBanner and CardDetails c
 		</FullHeightCard>
 	);
 
-	const tree = component.toJSON();
-	expect( tree ).toMatchSnapshot();
+	expect( container.firstChild ).toMatchSnapshot();
 } );

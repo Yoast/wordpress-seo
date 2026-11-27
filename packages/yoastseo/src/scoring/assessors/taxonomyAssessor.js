@@ -10,8 +10,8 @@ import TextLengthAssessment from "../assessments/seo/TextLengthAssessment.js";
 import PageTitleWidthAssessment from "../assessments/seo/PageTitleWidthAssessment.js";
 import FunctionWordsInKeyphrase from "../assessments/seo/FunctionWordsInKeyphraseAssessment.js";
 import SingleH1Assessment from "../assessments/seo/SingleH1Assessment.js";
-import { createAnchorOpeningTag } from "../../helpers";
-import ValidOnlyResultsScoreAggregator from "../scoreAggregators/ValidOnlyResultsScoreAggregator";
+import { createAnchorOpeningTag } from "../../helpers/index.js";
+import ValidOnlyResultsScoreAggregator from "../scoreAggregators/ValidOnlyResultsScoreAggregator.js";
 
 /**
  * Returns the text length assessment to use.

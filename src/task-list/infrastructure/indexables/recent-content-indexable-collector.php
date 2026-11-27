@@ -6,13 +6,14 @@ namespace Yoast\WP\SEO\Task_List\Infrastructure\Indexables;
 use Yoast\WP\SEO\Dashboard\Application\Score_Groups\Readability_Score_Groups\Readability_Score_Groups_Repository;
 use Yoast\WP\SEO\Dashboard\Application\Score_Groups\SEO_Score_Groups\SEO_Score_Groups_Repository;
 use Yoast\WP\SEO\Repositories\Indexable_Repository;
+use Yoast\WP\SEO\Task_List\Application\Recent_Content\Recent_Content_Collector_Interface;
 use Yoast\WP\SEO\Task_List\Domain\Data\Content_Item_Score_Data;
 use Yoast\WP\SEO\Task_List\Domain\Data\Meta_Description_Content_Item_Data;
 
 /**
  * Collector that retrieves recent content items with their scores.
  */
-class Recent_Content_Indexable_Collector {
+class Recent_Content_Indexable_Collector implements Recent_Content_Collector_Interface {
 
 	/**
 	 * The indexable repository.

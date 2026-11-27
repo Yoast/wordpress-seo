@@ -74,7 +74,14 @@ export const UpsellModal = ( {
 					>
 						{ modalTitle }
 					</Modal.Title>
-					<Modal.CloseButton className="yst-top-2" onClick={ onClose } screenReaderText={ __( "Close modal", "wordpress-seo" ) } />
+					<Modal.CloseButton
+						className="yst-top-2"
+						onClick={ onClose }
+						screenReaderText={
+							/* translators: Hidden accessibility text. */
+							__( "Close modal", "wordpress-seo" )
+						}
+					/>
 				</Modal.Container.Header>
 				<Modal.Container.Content className="yst-p-0">
 					{ isBlackFriday &&
@@ -111,7 +118,12 @@ export const UpsellModal = ( {
 									__( "Explore %s", "wordpress-seo" ),
 									isWooAd && ! isWooSEOActive ? "Yoast WooCommerce SEO" : "Yoast SEO Premium"
 								) }
-								<span className="yst-sr-only">{ __( "Opens in a new tab", "wordpress-seo" ) }</span>
+								<span className="yst-sr-only">
+									{
+										/* translators: Hidden accessibility text. */
+										__( "Opens in a new tab", "wordpress-seo" )
+									}
+								</span>
 							</Button>
 							<div className="yst-italic yst-text-slate-500 yst-mt-1">{ note }</div>
 						</div>

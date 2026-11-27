@@ -1,9 +1,9 @@
 import { mapValues, merge } from "lodash";
 
-import Assessment from "../assessment";
-import AssessmentResult from "../../../values/AssessmentResult";
-import { createAnchorOpeningTag } from "../../../helpers";
-import normalizeProductData from "../../../contract/normalizeProductData";
+import Assessment from "../assessment.js";
+import AssessmentResult from "../../../values/AssessmentResult.js";
+import { createAnchorOpeningTag } from "../../../helpers/index.js";
+import normalizeProductData from "../../../contract/normalizeProductData.js";
 
 /**
  * @typedef {import("../../../languageProcessing/AbstractResearcher").default } Researcher
@@ -90,6 +90,11 @@ export default class ImageAltTagsAssessment extends Assessment {
 		const assessmentResult = new AssessmentResult();
 		assessmentResult.setScore( calculatedScore.score );
 		assessmentResult.setText( calculatedScore.resultText );
+		/*
+		 * Carried on the result so a consumer can point at the images without alt text, for example to filter them
+		 * in a product's image table. Empty when every image has alt text.
+		 */
+		assessmentResult.setFlaggedItems( this.altTagsProperties.flagged ?? [] );
 
 		return assessmentResult;
 	}

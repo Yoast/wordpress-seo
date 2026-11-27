@@ -63,12 +63,15 @@ export const BulkEditorFooter = ( { colSpan, total, totalPages, isPending } ) =>
 			summary={ summary }
 			disabled={ isPending }
 			className="yst-content-type-pagination"
-			/* translators: Hidden accessibility label for the pagination navigation landmark. */
-			aria-label={ __( "Results pagination", "wordpress-seo" ) }
-			/* translators: Hidden accessibility text. */
-			screenReaderTextPrevious={ __( "Previous", "wordpress-seo" ) }
-			/* translators: Hidden accessibility text. */
-			screenReaderTextNext={ __( "Next", "wordpress-seo" ) }
+			aria-label={
+				/* translators: Hidden accessibility text, label for the pagination navigation landmark. */
+				__( "Results pagination", "wordpress-seo" ) }
+			screenReaderTextPrevious={
+				/* translators: Hidden accessibility text. */
+				__( "Previous", "wordpress-seo" ) }
+			screenReaderTextNext={
+				/* translators: Hidden accessibility text. */
+				__( "Next", "wordpress-seo" ) }
 		/>
 	);
 };

@@ -1,7 +1,7 @@
 import { get } from "lodash";
 import { languageProcessing } from "yoastseo";
 const { baseStemmer } = languageProcessing;
-import determineStem from "./internal/determineStem";
+import determineStem from "./internal/determineStem.js";
 
 /**
  * Returns the stemmer for a researcher. This helper is currently only used for Prominent Words functionality.

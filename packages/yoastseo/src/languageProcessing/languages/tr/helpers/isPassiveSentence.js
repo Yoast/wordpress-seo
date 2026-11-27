@@ -1,8 +1,8 @@
 import { languageProcessing } from "yoastseo";
 const { getWords } = languageProcessing;
 
-import passiveEndings from "../config/internal/passiveEndings";
-import { nonPassivesFullForms, nonPassiveStems } from "../config/internal/nonPassiveExceptions";
+import passiveEndings from "../config/internal/passiveEndings.js";
+import { nonPassivesFullForms, nonPassiveStems } from "../config/internal/nonPassiveExceptions.js";
 
 /**
  * Filters out words that are passive exceptions from an array.

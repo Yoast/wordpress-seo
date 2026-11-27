@@ -1,7 +1,7 @@
 import { languageProcessing } from "yoastseo";
 const { createRegexFromArray, getClauses } = languageProcessing;
 
-import NorwegianClause from "../values/Clause";
+import NorwegianClause from "../values/Clause.js";
 import auxiliaries from "../config/internal/passiveVoiceAuxiliaries.js";
 import stopwords from "../config/stopWords.js";
 

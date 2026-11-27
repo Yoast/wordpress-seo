@@ -91,7 +91,9 @@ export const BulkEditorTourNotification = () => {
 		onClose={ onClose }
 		className={ classNames( "yst-z-[9999]", positionClass ) }
 		position={ isRtl ? "bottom-right" : "bottom-left" }
-		aria-label={ __( "New: Work faster with bulk updates", "wordpress-seo" ) }
+		aria-label={
+			/* translators: Hidden accessibility text. */
+			__( "New: Work faster with bulk updates", "wordpress-seo" ) }
 	>
 		<ModalNotification.Panel className="yst-w-96">
 			<div className="yst-flex yst-gap-3">
@@ -105,7 +107,12 @@ export const BulkEditorTourNotification = () => {
 					/>
 				</div>
 				<div>
-					<ModalNotification.Close dismissScreenReaderLabel={ __( "Dismiss", "wordpress-seo" ) } />
+					<ModalNotification.Close
+						dismissScreenReaderLabel={
+							/* translators: Hidden accessibility text. */
+							__( "Dismiss", "wordpress-seo" )
+						}
+					/>
 				</div>
 			</div>
 			<NotificationButtons bulkEditorUrl={ bulkEditorUrl } />

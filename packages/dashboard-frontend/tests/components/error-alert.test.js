@@ -73,6 +73,7 @@ describe( "ErrorAlert", () => {
 			const result = createLinkMessage( message, link );
 
 			expect( result ).toEqual(
+				// eslint-disable-next-line yoast/no-unsafe-create-interpolate-element
 				createInterpolateElement( sprintf( message, "<link>", "</link>" ), { link } )
 			);
 		} );

@@ -8,7 +8,6 @@ import { useCallback, useEffect } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { addQueryArgs } from "@wordpress/url";
 import { Notifications, SidebarNavigation, useSvgAria } from "@yoast/ui-library";
-import PropTypes from "prop-types";
 import { Link, Outlet, useLocation } from "react-router-dom";
 import { BulkEditorTourNotification, Notices } from "./components";
 import { STORE_NAME } from "./constants";
@@ -18,7 +17,9 @@ import { MenuItemLink, YoastLogo } from "../shared-admin/components";
 import { ROUTES } from "./routes";
 
 /**
- * @param {string} [idSuffix] Extra id suffix. Can prevent double IDs on the page.
+ * @param {Object} props Component props.
+ * @param {string} [props.idSuffix=""] Extra id suffix. Can prevent double IDs on the page.
+ *
  * @returns {JSX.Element} The menu element.
  */
 const Menu = ( { idSuffix = "" } ) => {
@@ -77,9 +78,6 @@ const Menu = ( { idSuffix = "" } ) => {
 		</ul>
 	</>;
 };
-Menu.propTypes = {
-	idSuffix: PropTypes.string,
-};
 
 /**
  * @returns {JSX.Element} The app component.
@@ -109,11 +107,15 @@ const App = () => {
 				<SidebarNavigation.Mobile
 					openButtonId="button-open-dashboard-navigation-mobile"
 					closeButtonId="button-close-dashboard-navigation-mobile"
-					/* translators: Hidden accessibility text. */
-					openButtonScreenReaderText={ __( "Open dashboard navigation", "wordpress-seo" ) }
-					/* translators: Hidden accessibility text. */
-					closeButtonScreenReaderText={ __( "Close dashboard navigation", "wordpress-seo" ) }
-					aria-label={ __( "Dashboard navigation", "wordpress-seo" ) }
+					openButtonScreenReaderText={
+						/* translators: Hidden accessibility text. */
+						__( "Open dashboard navigation", "wordpress-seo" ) }
+					closeButtonScreenReaderText={
+						/* translators: Hidden accessibility text. */
+						__( "Close dashboard navigation", "wordpress-seo" ) }
+					aria-label={
+						/* translators: Hidden accessibility text. */
+						__( "Dashboard navigation", "wordpress-seo" ) }
 				>
 					<Menu idSuffix="-mobile" />
 				</SidebarNavigation.Mobile>
@@ -154,7 +156,10 @@ const App = () => {
 					id="toggle-alert-error"
 					title={ __( "Something went wrong", "wordpress-seo" ) }
 					variant="error"
-					dismissScreenReaderLabel={ __( "Dismiss", "wordpress-seo" ) }
+					dismissScreenReaderLabel={
+						/* translators: Hidden accessibility text. */
+						__( "Dismiss", "wordpress-seo" )
+					}
 					size="large"
 					autoDismiss={ 4000 }
 					onDismiss={ handleDismiss }

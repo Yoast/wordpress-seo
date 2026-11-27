@@ -39,7 +39,6 @@ export function insertFirstParagraph( blocks, insertBlock, isBannerRendered ) {
 
 	// If canvas is empty, insert a paragraph first; the effect will re-run.
 	if ( blocks.length === 0 ) {
-		// eslint-disable-next-line no-undefined
 		insertBlock( createBlock( "core/paragraph" ), 0, undefined, false );
 		return false;
 	}

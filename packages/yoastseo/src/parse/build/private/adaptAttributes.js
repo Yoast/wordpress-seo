@@ -1,4 +1,4 @@
-import parseClassAttribute from "./helpers/parseClassAttribute";
+import parseClassAttribute from "./helpers/parseClassAttribute.js";
 
 /**
  * @typedef Parse5Attribute

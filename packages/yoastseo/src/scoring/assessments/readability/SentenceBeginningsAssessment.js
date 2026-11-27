@@ -1,10 +1,10 @@
 import { merge, partition, sortBy } from "lodash";
 import { _n, __, sprintf } from "@wordpress/i18n";
 
-import { createAnchorOpeningTag } from "../../../helpers";
-import AssessmentResult from "../../../values/AssessmentResult";
-import Mark from "../../../values/Mark";
-import Assessment from "../assessment";
+import { createAnchorOpeningTag } from "../../../helpers/index.js";
+import AssessmentResult from "../../../values/AssessmentResult.js";
+import Mark from "../../../values/Mark.js";
+import Assessment from "../assessment.js";
 
 /**
  * @typedef {import("../../../languageProcessing/AbstractResearcher").default } Researcher

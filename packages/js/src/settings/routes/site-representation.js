@@ -305,8 +305,9 @@ const SiteRepresentation = () => {
 															// eslint-disable-next-line react/jsx-no-bind
 															onClick={ arrayHelpers.remove.bind( null, index ) }
 															className="yst-mt-7 yst-p-2.5"
-															// translators: %1$s expands to array index + 1.
-															aria-label={ sprintf( __( "Remove Other profile %1$s", "wordpress-seo" ), index + 1 ) }
+															aria-label={
+																/* translators: Hidden accessibility text, %1$s expands to array index + 1. */
+																sprintf( __( "Remove Other profile %1$s", "wordpress-seo" ), index + 1 ) }
 														>
 															<TrashIcon className="yst-h-5 yst-w-5" />
 														</Button>

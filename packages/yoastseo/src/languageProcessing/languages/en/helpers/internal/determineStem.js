@@ -2,7 +2,7 @@ import { isUndefined, flatten } from "lodash";
 import { languageProcessing } from "yoastseo";
 const { buildFormRule, createRulesFromArrays } = languageProcessing;
 
-import getAdjectiveStem from "./getAdjectiveStem";
+import getAdjectiveStem from "./getAdjectiveStem.js";
 import { getInfinitive, checkIrregulars as getIrregularVerbParadigm, endsWithIng } from "./getVerbStem.js";
 
 /**

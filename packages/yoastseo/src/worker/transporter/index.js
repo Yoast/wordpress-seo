@@ -1,5 +1,5 @@
-import parse from "./parse";
-import serialize from "./serialize";
+import parse from "./parse.js";
+import serialize from "./serialize.js";
 
 export default {
 	parse,

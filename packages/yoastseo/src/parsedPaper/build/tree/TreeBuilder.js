@@ -1,4 +1,4 @@
-import buildTree from "./html/buildTree";
+import buildTree from "./html/buildTree.js";
 
 /**
  * Builds a tree representation of a source text.

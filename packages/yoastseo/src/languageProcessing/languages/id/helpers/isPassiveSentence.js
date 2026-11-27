@@ -1,7 +1,7 @@
 import { languageProcessing } from "yoastseo";
 const { getWords } = languageProcessing;
 
-import nonPassives from "../config/internal/nonPassiveVerbsStartingDi";
+import nonPassives from "../config/internal/nonPassiveVerbsStartingDi.js";
 const passivePrefix = "di";
 
 /**

@@ -500,13 +500,14 @@ describe( "AddBlockButton", () => {
 
 		it( "renders ContentBlocksUpsell with correct props", () => {
 			render( <AddBlockButton { ...mockedProps } /> );
-			expect( ContentBlocksUpsell ).toHaveBeenCalledWith(
+			// Only check the props: React 18 passes a legacy context argument that React 19 drops.
+			expect( ContentBlocksUpsell ).toHaveBeenCalled();
+			expect( ContentBlocksUpsell.mock.calls[ 0 ][ 0 ] ).toEqual(
 				expect.objectContaining( {
 					isOpen: false,
 					location: "metabox",
 					closeModal: expect.any( Function ),
-				} ),
-				{}
+				} )
 			);
 		} );
 
@@ -516,11 +517,10 @@ describe( "AddBlockButton", () => {
 			fireEvent.click( button );
 
 			// After click, isOpen should be true
-			expect( ContentBlocksUpsell ).toHaveBeenLastCalledWith(
+			expect( ContentBlocksUpsell.mock.lastCall[ 0 ] ).toEqual(
 				expect.objectContaining( {
 					isOpen: true,
-				} ),
-				{}
+				} )
 			);
 		} );
 	} );

@@ -21,7 +21,7 @@ jobs:
           persist-credentials: false
 
       - name: Set up Node.js
-        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v4
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v4
         with:
           node-version-file: './.nvmrc'
           cache: 'yarn'
@@ -35,17 +35,25 @@ jobs:
           PR_BODY: ${{ github.event.pull_request.body }}
         run: |
           set -euo pipefail
-          PACKAGES=$(echo "$PR_BODY" | awk '/^## Context/{exit} 1' | grep -oP '^- \K@yoast/[a-z0-9-]+' | tr '\n' ' ')
+          # Extracts lines of the form "- package-name: version" (scoped or unscoped) from the PR body, up to ## Context.
+          PACKAGES=$(echo "$PR_BODY" | awk '/^## Context/{exit} 1' | grep -oP '^- \K(@yoast/)?[a-z0-9][a-z0-9._-]*(?=: *[0-9])' | tr '\n' ' ')
           if [ -z "${PACKAGES// /}" ]; then
             echo "::error::No packages found in PR body before '## Context'."
             exit 1
           fi
+          # Publish in dependency order (dependencies first), whatever order the PR body uses.
+          read -ra UNSORTED <<< "$PACKAGES"
+          PACKAGES=$(node .github/scripts/sort-npm-packages.js "${UNSORTED[@]}")
+          # The versions from the PR body, as "name=version" pairs, to check them against each package.json.
+          VERSIONS=$(echo "$PR_BODY" | awk '/^## Context/{exit} 1' | grep -oP '^- \K(@yoast/)?[a-z0-9][a-z0-9._-]*: *[0-9][0-9A-Za-z.+-]*' | sed 's/: */=/' | tr '\n' ' ')
           echo "Packages to release: $PACKAGES"
           echo "list=$PACKAGES" >> "$GITHUB_OUTPUT"
+          echo "versions=$VERSIONS" >> "$GITHUB_OUTPUT"
 
       - name: Dry-run package (npm pack) in order
         env:
           PACKAGE_LIST: ${{ steps.packages.outputs.list }}
+          VERSION_LIST: ${{ steps.packages.outputs.versions }}
         run: |
           set -euo pipefail
           if [ -z "${PACKAGE_LIST// /}" ]; then
@@ -55,13 +63,23 @@ jobs:
           mkdir -p packed-tarballs
           read -ra PACKAGES <<< "$PACKAGE_LIST"
           for PACKAGE in "${PACKAGES[@]}"; do
-            PKG_DIR="packages/${PACKAGE#@yoast/}"
+            # Find the workspace folder by the package.json name, since folder names do not always match (e.g. yoastseo, @yoast/wordpress-seo).
+            PKG_DIR=$(node -e 'const fs = require("fs"); const dir = fs.readdirSync("packages").find(d => { try { return JSON.parse(fs.readFileSync("packages/" + d + "/package.json", "utf8")).name === process.argv[1]; } catch { return false; } }); if (!dir) { process.exit(1); } console.log("packages/" + dir);' "$PACKAGE") || {
+              echo "::error::No folder under packages/ has a package.json named $PACKAGE"
+              exit 1
+            }
 
-            echo "::group::Packing $PACKAGE"
-            if [ ! -d "$PKG_DIR" ]; then
-              echo "::error::Directory $PKG_DIR not found for package $PACKAGE"
+            VERSION=$(node -p "require('./$PKG_DIR/package.json').version")
+            EXPECTED=$(tr ' ' '\n' <<< "$VERSION_LIST" | awk -F= -v p="$PACKAGE" '$1 == p { print $2; exit }')
+            if [ "$EXPECTED" != "$VERSION" ]; then
+              echo "::error::The PR body lists $PACKAGE $EXPECTED, but $PKG_DIR/package.json has version $VERSION."
               exit 1
             fi
+            if [ "$(npm view "$PACKAGE@$VERSION" version 2>/dev/null || true)" = "$VERSION" ]; then
+              echo "::warning::$PACKAGE@$VERSION is already on npm, so the real publish will skip it. Bump the version if this is a new release."
+            fi
+
+            echo "::group::Packing $PACKAGE"
 
             pushd "$PKG_DIR"
 

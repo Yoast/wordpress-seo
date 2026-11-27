@@ -1,4 +1,4 @@
-import { unifyNonBreakingSpace } from "./unifyWhitespace";
+import { unifyNonBreakingSpace } from "./unifyWhitespace.js";
 
 /**
  * String containing all the characters that we consider punctuation.

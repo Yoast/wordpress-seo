@@ -124,13 +124,14 @@ final class Indexable_Home_Page_Builder_Test extends TestCase {
 	 */
 	public function test_build_when_open_graph_image_is_present() {
 		$fake_image_path   = '/wp-content/uploads/cat.jpg';
+		$fake_image_url    = \wp_upload_dir()['baseurl'] . '/cat.jpg';
 		$fake_image_width  = 1024;
 		$fake_image_height = 768;
 
 		$expected_image = [
 			'width'  => $fake_image_width,
 			'height' => $fake_image_height,
-			'url'    => \home_url() . $fake_image_path,
+			'url'    => $fake_image_url,
 			'path'   => $fake_image_path,
 			'size'   => 'full',
 			'alt'    => '',
@@ -145,7 +146,7 @@ final class Indexable_Home_Page_Builder_Test extends TestCase {
 				'post_type'      => 'attachment',
 				'post_parent'    => 0,
 				'post_mime_type' => 'image/jpeg',
-				'guid'           => \home_url() . $fake_image_path,
+				'guid'           => $fake_image_url,
 			],
 		);
 
@@ -177,7 +178,7 @@ final class Indexable_Home_Page_Builder_Test extends TestCase {
 		$result = $this->instance->build( $indexable );
 
 		$this->assertInstanceOf( Indexable::class, $result, 'The result should be an instance of Indexable.' );
-		$this->assertEquals( \home_url() . $fake_image_path, $result->open_graph_image, 'open_graph_image is not correct.' );
+		$this->assertEquals( $fake_image_url, $result->open_graph_image, 'open_graph_image is not correct.' );
 		$this->assertEqualsCanonicalizing( $expected_image, (array) \json_decode( $result->open_graph_image_meta ), 'open_graph_image_meta is not correct.' );
 	}
 }

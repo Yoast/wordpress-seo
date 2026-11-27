@@ -23,12 +23,13 @@ export const helpIconDefaultProps = {
 /**
  * Function for the HelpIcon component.
  *
- * @param {string} linkTo Location where the icon refers to.
- * @param {string} linkText Text for screenreaders that tells what the link does.
+ * @param {Object} props Component props.
+ * @param {string} [props.linkTo=""] Location where the icon refers to.
+ * @param {string} [props.linkText=""] Text for screenreaders that tells what the link does.
  *
  * @returns {React.Component} The HelpIcon.
  */
-const HelpIcon = ( { linkTo, linkText } ) => (
+const HelpIcon = ( { linkTo = helpIconDefaultProps.linkTo, linkText = helpIconDefaultProps.linkText } ) => (
 	<a
 		className="yoast-help"
 		target="_blank"
@@ -54,8 +55,5 @@ const HelpIcon = ( { linkTo, linkText } ) => (
 		</span>
 	</a>
 );
-
-HelpIcon.propTypes = helpIconProps;
-HelpIcon.defaultProps = helpIconDefaultProps;
 
 export default HelpIcon;

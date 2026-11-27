@@ -5,9 +5,9 @@ namespace Yoast\WP\SEO\Tests\Unit\Abilities\User_Interface\Abilities;
 
 use Mockery;
 use Yoast\WP\SEO\Abilities\Application\Feature_Status_Updater;
+use Yoast\WP\SEO\Abilities\Infrastructure\Features\Xml_Sitemap_Feature;
 use Yoast\WP\SEO\Abilities\User_Interface\Abilities\Set_Xml_Sitemap_Status_Ability;
 use Yoast\WP\SEO\Helpers\Capability_Helper;
-use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 
 /**
@@ -34,11 +34,11 @@ final class Set_Xml_Sitemap_Status_Ability_Test extends TestCase {
 	private $feature_status_updater;
 
 	/**
-	 * The options helper mock.
+	 * The XML sitemap feature mock.
 	 *
-	 * @var Mockery\MockInterface|Options_Helper
+	 * @var Mockery\MockInterface|Xml_Sitemap_Feature
 	 */
-	private $options_helper;
+	private $xml_sitemap_feature;
 
 	/**
 	 * The instance under test.
@@ -59,12 +59,12 @@ final class Set_Xml_Sitemap_Status_Ability_Test extends TestCase {
 
 		$this->capability_helper      = Mockery::mock( Capability_Helper::class );
 		$this->feature_status_updater = Mockery::mock( Feature_Status_Updater::class );
-		$this->options_helper         = Mockery::mock( Options_Helper::class );
+		$this->xml_sitemap_feature    = Mockery::mock( Xml_Sitemap_Feature::class );
 
 		$this->instance = new Set_Xml_Sitemap_Status_Ability(
 			$this->capability_helper,
 			$this->feature_status_updater,
-			$this->options_helper,
+			$this->xml_sitemap_feature,
 		);
 	}
 
@@ -93,25 +93,21 @@ final class Set_Xml_Sitemap_Status_Ability_Test extends TestCase {
 	}
 
 	/**
-	 * Tests that is_available follows the network-level permission to enable the sitemap.
+	 * Tests that is_available follows whether the XML sitemap feature can be changed on the site.
 	 *
 	 * @covers ::__construct
 	 * @covers ::is_available
 	 *
 	 * @dataProvider provide_boolean_outcomes
 	 *
-	 * @param bool $allowed Whether the network allows enabling the XML sitemap.
+	 * @param bool $available Whether the feature can be changed on the site.
 	 *
 	 * @return void
 	 */
-	public function test_is_available( bool $allowed ) {
-		$this->options_helper
-			->expects( 'get' )
-			->once()
-			->with( 'allow_enable_xml_sitemap', true )
-			->andReturn( $allowed );
+	public function test_is_available( bool $available ) {
+		$this->xml_sitemap_feature->expects( 'is_available' )->once()->andReturn( $available );
 
-		$this->assertSame( $allowed, $this->instance->is_available() );
+		$this->assertSame( $available, $this->instance->is_available() );
 	}
 
 	/**
@@ -188,7 +184,7 @@ final class Set_Xml_Sitemap_Status_Ability_Test extends TestCase {
 					'properties' => [
 						'enabled' => [
 							'type'        => 'boolean',
-							'description' => 'Whether Yoast SEO\'s XML sitemap feature is enabled.',
+							'description' => 'Whether Yoast SEO\'s XML sitemap feature is turned on in its setting.',
 						],
 					],
 				],

@@ -34,8 +34,10 @@ final class Get_Copy_Set_Test extends Abstract_Test {
 			'Default meta descriptions don\'t always highlight what makes your page unique.',
 			$array['about'],
 		);
-		$this->assertStringContainsString( '<strong>Yoast SEO Premium</strong>', $array['about'] );
-		$this->assertStringContainsString( '<strong>AI Generate</strong>', $array['about'] );
+		$this->assertStringContainsString(
+			'Draft meta descriptions and titles for several items at once with AI in the Bulk Editor.',
+			$array['about'],
+		);
 	}
 
 	/**

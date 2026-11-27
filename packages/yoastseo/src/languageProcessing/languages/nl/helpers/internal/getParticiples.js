@@ -2,7 +2,7 @@ import { includes } from "lodash";
 import { languageProcessing } from "yoastseo";
 const { getWords, matchRegularParticiples } = languageProcessing;
 
-import irregularParticiples from "../../config/internal/passiveVoiceIrregulars";
+import irregularParticiples from "../../config/internal/passiveVoiceIrregulars.js";
 
 /**
  * Creates an array of participle for the participles found in a clause.

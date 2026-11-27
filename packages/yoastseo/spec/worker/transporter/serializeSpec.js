@@ -67,6 +67,7 @@ describe( "serialize", () => {
 			_hasAIFixes: false,
 			_parseClass: "AssessmentResult",
 			editFieldAriaLabel: "",
+			flaggedItems: [],
 			editFieldName: "",
 			identifier: "",
 			marks: [],

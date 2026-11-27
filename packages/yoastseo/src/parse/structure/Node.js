@@ -1,5 +1,5 @@
-import { findAllInTree, getParentNode, innerText } from "../traverse";
-import SourceCodeLocation from "./SourceCodeLocation";
+import { findAllInTree, getParentNode, innerText } from "../traverse/index.js";
+import SourceCodeLocation from "./SourceCodeLocation.js";
 import { isEmpty } from "lodash";
 
 /**

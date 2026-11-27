@@ -3,19 +3,19 @@ import { useMemo, useCallback, useState } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import { GenericAlert } from "../../ai-generator/components/errors";
 import { Button, useModalContext, useToggleState, Spinner } from "@yoast/ui-library";
-import PropTypes from "prop-types";
 import { OutboundLink } from ".";
 import { safeCreateInterpolateElement } from "../../helpers/i18n";
 
 /**
  * Introduction modal for the AI generation of titles and descriptions.
  *
- * @param {function} onGiveConsent Callback to signal consent is given.
- * @param {string} learnMoreLink The learn more link.
- * @param {string} privacyPolicyLink The privacy policy link.
- * @param {string} termsOfServiceLink The terms of service link.
- * @param {Object} imageLink The thumbnail: img props.
- * @param {string} linkStoreName The store to read the error alert's links from.
+ * @param {Object} props Component props.
+ * @param {Function} props.onGiveConsent Callback to signal consent is given.
+ * @param {string} props.learnMoreLink The learn more link.
+ * @param {string} props.privacyPolicyLink The privacy policy link.
+ * @param {string} props.termsOfServiceLink The terms of service link.
+ * @param {string} props.imageLink The image URL.
+ * @param {string} props.linkStoreName The store to read the error alert's links from.
  *
  * @returns {JSX.Element} The element.
  */
@@ -163,12 +163,4 @@ export const AiConsent = ( {
 			</div>
 		</>
 	);
-};
-AiConsent.propTypes = {
-	onGiveConsent: PropTypes.func.isRequired,
-	learnMoreLink: PropTypes.string.isRequired,
-	privacyPolicyLink: PropTypes.string.isRequired,
-	termsOfServiceLink: PropTypes.string.isRequired,
-	imageLink: PropTypes.string.isRequired,
-	linkStoreName: PropTypes.string.isRequired,
 };

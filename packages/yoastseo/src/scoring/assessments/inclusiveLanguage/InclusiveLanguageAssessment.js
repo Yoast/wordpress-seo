@@ -1,13 +1,13 @@
 import { sprintf } from "@wordpress/i18n";
 import { isString } from "lodash";
 
-import AssessmentResult from "../../../values/AssessmentResult";
-import Mark from "../../../values/Mark";
-import addMark from "../../../markers/addMark";
-import { createAnchorOpeningTag } from "../../../helpers";
-import { getWords } from "../../../languageProcessing";
+import AssessmentResult from "../../../values/AssessmentResult.js";
+import Mark from "../../../values/Mark.js";
+import addMark from "../../../markers/addMark.js";
+import { createAnchorOpeningTag } from "../../../helpers/index.js";
+import { getWords } from "../../../languageProcessing/index.js";
 
-import { includesConsecutiveWords } from "./helpers/includesConsecutiveWords";
+import { includesConsecutiveWords } from "./helpers/includesConsecutiveWords.js";
 
 /**
  * An inclusive language assessment.

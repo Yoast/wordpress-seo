@@ -1,20 +1,19 @@
 import React from "react";
-import renderer from "react-test-renderer";
+import { render } from "@testing-library/react";
 
 import SvgIcon from "../src/SvgIcon";
 
 test( "the SvgIcon matches the snapshot", () => {
-	const component = renderer.create(
+	const { container } = render(
 		<SvgIcon icon="edit" color="black" size="32px" className="my-icon" />
 	);
 
-	const tree = component.toJSON();
-	expect( tree ).toMatchSnapshot();
+	expect( container.firstChild ).toMatchSnapshot();
 } );
 
 test( "throws a warning when a non-existing icon is passed", () => {
 	console.warn = jest.fn();
-	renderer.create(
+	render(
 		<SvgIcon icon="fake-icon" color="black" size="32px" className="my-icon" />
 	);
 

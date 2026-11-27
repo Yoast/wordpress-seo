@@ -1,16 +1,16 @@
 import { __, _n, sprintf } from "@wordpress/i18n";
 import { merge } from "lodash";
-import marker from "../../../markers/addMark";
-import Mark from "../../../values/Mark";
-import Assessment from "../assessment";
-import { inRangeEndInclusive as inRange } from "../../helpers/assessments/inRange";
-import { createAnchorOpeningTag } from "../../../helpers";
-import { getSubheadings } from "../../../languageProcessing/helpers/html/getSubheadings";
-import getWords from "../../../languageProcessing/helpers/word/getWords";
-import AssessmentResult from "../../../values/AssessmentResult";
-import { stripFullTags as stripTags } from "../../../languageProcessing/helpers/sanitize/stripHTMLTags";
-import removeHtmlBlocks from "../../../languageProcessing/helpers/html/htmlParser";
-import { filterShortcodesFromHTML } from "../../../languageProcessing/helpers";
+import marker from "../../../markers/addMark.js";
+import Mark from "../../../values/Mark.js";
+import Assessment from "../assessment.js";
+import { inRangeEndInclusive as inRange } from "../../helpers/assessments/inRange.js";
+import { createAnchorOpeningTag } from "../../../helpers/index.js";
+import { getSubheadings } from "../../../languageProcessing/helpers/html/getSubheadings.js";
+import getWords from "../../../languageProcessing/helpers/word/getWords.js";
+import AssessmentResult from "../../../values/AssessmentResult.js";
+import { stripFullTags as stripTags } from "../../../languageProcessing/helpers/sanitize/stripHTMLTags.js";
+import removeHtmlBlocks from "../../../languageProcessing/helpers/html/htmlParser.js";
+import { filterShortcodesFromHTML } from "../../../languageProcessing/helpers/index.js";
 
 /**
  * @typedef {import("../../../languageProcessing/researches/getSubheadingTextLengths").SubheadingText } SubheadingText

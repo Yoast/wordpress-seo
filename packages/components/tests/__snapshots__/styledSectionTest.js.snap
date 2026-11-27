@@ -61,14 +61,14 @@ exports[`StyledSection can change the heading level 1`] = `
 }
 
 <section
-  className="c0 yoast-section"
+  class="c0 yoast-section"
 >
   <h4
-    className="c1 c2"
+    class="c1 c2"
   >
     <svg
-      aria-hidden={true}
-      className="c3 yoast-svg-icon yoast-svg-icon-file-text StyledSection__StyledIcon-sc-enyt8a-1"
+      aria-hidden="true"
+      class="c3 yoast-svg-icon yoast-svg-icon-file-text StyledSection__StyledIcon-sc-enyt8a-1"
       fill="blue"
       focusable="false"
       role="img"
@@ -152,14 +152,14 @@ exports[`StyledSection can change the icon to angle-down 1`] = `
 }
 
 <section
-  className="c0 yoast-section"
+  class="c0 yoast-section"
 >
   <h2
-    className="c1 c2"
+    class="c1 c2"
   >
     <svg
-      aria-hidden={true}
-      className="c3 yoast-svg-icon yoast-svg-icon-angle-down StyledSection__StyledIcon-sc-enyt8a-1"
+      aria-hidden="true"
+      class="c3 yoast-svg-icon yoast-svg-icon-angle-down StyledSection__StyledIcon-sc-enyt8a-1"
       fill="blue"
       focusable="false"
       role="img"
@@ -241,14 +241,14 @@ exports[`StyledSection can change the icon to angle-left 1`] = `
 }
 
 <section
-  className="c0 yoast-section"
+  class="c0 yoast-section"
 >
   <h2
-    className="c1 c2"
+    class="c1 c2"
   >
     <svg
-      aria-hidden={true}
-      className="c3 yoast-svg-icon yoast-svg-icon-angle-left StyledSection__StyledIcon-sc-enyt8a-1"
+      aria-hidden="true"
+      class="c3 yoast-svg-icon yoast-svg-icon-angle-left StyledSection__StyledIcon-sc-enyt8a-1"
       fill="blue"
       focusable="false"
       role="img"
@@ -330,14 +330,14 @@ exports[`StyledSection can change the icon to angle-right 1`] = `
 }
 
 <section
-  className="c0 yoast-section"
+  class="c0 yoast-section"
 >
   <h2
-    className="c1 c2"
+    class="c1 c2"
   >
     <svg
-      aria-hidden={true}
-      className="c3 yoast-svg-icon yoast-svg-icon-angle-right StyledSection__StyledIcon-sc-enyt8a-1"
+      aria-hidden="true"
+      class="c3 yoast-svg-icon yoast-svg-icon-angle-right StyledSection__StyledIcon-sc-enyt8a-1"
       fill="blue"
       focusable="false"
       role="img"
@@ -419,14 +419,14 @@ exports[`StyledSection can change the icon to angle-up 1`] = `
 }
 
 <section
-  className="c0 yoast-section"
+  class="c0 yoast-section"
 >
   <h2
-    className="c1 c2"
+    class="c1 c2"
   >
     <svg
-      aria-hidden={true}
-      className="c3 yoast-svg-icon yoast-svg-icon-angle-up StyledSection__StyledIcon-sc-enyt8a-1"
+      aria-hidden="true"
+      class="c3 yoast-svg-icon yoast-svg-icon-angle-up StyledSection__StyledIcon-sc-enyt8a-1"
       fill="blue"
       focusable="false"
       role="img"
@@ -508,14 +508,14 @@ exports[`StyledSection can change the icon to circle 1`] = `
 }
 
 <section
-  className="c0 yoast-section"
+  class="c0 yoast-section"
 >
   <h2
-    className="c1 c2"
+    class="c1 c2"
   >
     <svg
-      aria-hidden={true}
-      className="c3 yoast-svg-icon yoast-svg-icon-circle StyledSection__StyledIcon-sc-enyt8a-1"
+      aria-hidden="true"
+      class="c3 yoast-svg-icon yoast-svg-icon-circle StyledSection__StyledIcon-sc-enyt8a-1"
       fill="blue"
       focusable="false"
       role="img"
@@ -597,14 +597,14 @@ exports[`StyledSection can change the icon to edit 1`] = `
 }
 
 <section
-  className="c0 yoast-section"
+  class="c0 yoast-section"
 >
   <h2
-    className="c1 c2"
+    class="c1 c2"
   >
     <svg
-      aria-hidden={true}
-      className="c3 yoast-svg-icon yoast-svg-icon-edit StyledSection__StyledIcon-sc-enyt8a-1"
+      aria-hidden="true"
+      class="c3 yoast-svg-icon yoast-svg-icon-edit StyledSection__StyledIcon-sc-enyt8a-1"
       fill="blue"
       focusable="false"
       role="img"
@@ -686,14 +686,14 @@ exports[`StyledSection can change the icon to eye 1`] = `
 }
 
 <section
-  className="c0 yoast-section"
+  class="c0 yoast-section"
 >
   <h2
-    className="c1 c2"
+    class="c1 c2"
   >
     <svg
-      aria-hidden={true}
-      className="c3 yoast-svg-icon yoast-svg-icon-eye StyledSection__StyledIcon-sc-enyt8a-1"
+      aria-hidden="true"
+      class="c3 yoast-svg-icon yoast-svg-icon-eye StyledSection__StyledIcon-sc-enyt8a-1"
       fill="blue"
       focusable="false"
       role="img"
@@ -775,14 +775,14 @@ exports[`StyledSection can change the icon to file-text 1`] = `
 }
 
 <section
-  className="c0 yoast-section"
+  class="c0 yoast-section"
 >
   <h2
-    className="c1 c2"
+    class="c1 c2"
   >
     <svg
-      aria-hidden={true}
-      className="c3 yoast-svg-icon yoast-svg-icon-file-text StyledSection__StyledIcon-sc-enyt8a-1"
+      aria-hidden="true"
+      class="c3 yoast-svg-icon yoast-svg-icon-file-text StyledSection__StyledIcon-sc-enyt8a-1"
       fill="blue"
       focusable="false"
       role="img"
@@ -864,14 +864,14 @@ exports[`StyledSection can change the icon to key 1`] = `
 }
 
 <section
-  className="c0 yoast-section"
+  class="c0 yoast-section"
 >
   <h2
-    className="c1 c2"
+    class="c1 c2"
   >
     <svg
-      aria-hidden={true}
-      className="c3 yoast-svg-icon yoast-svg-icon-key StyledSection__StyledIcon-sc-enyt8a-1"
+      aria-hidden="true"
+      class="c3 yoast-svg-icon yoast-svg-icon-key StyledSection__StyledIcon-sc-enyt8a-1"
       fill="blue"
       focusable="false"
       role="img"
@@ -953,14 +953,14 @@ exports[`StyledSection can change the icon to list 1`] = `
 }
 
 <section
-  className="c0 yoast-section"
+  class="c0 yoast-section"
 >
   <h2
-    className="c1 c2"
+    class="c1 c2"
   >
     <svg
-      aria-hidden={true}
-      className="c3 yoast-svg-icon yoast-svg-icon-list StyledSection__StyledIcon-sc-enyt8a-1"
+      aria-hidden="true"
+      class="c3 yoast-svg-icon yoast-svg-icon-list StyledSection__StyledIcon-sc-enyt8a-1"
       fill="blue"
       focusable="false"
       role="img"
@@ -1042,14 +1042,14 @@ exports[`StyledSection can change the icon to question-circle 1`] = `
 }
 
 <section
-  className="c0 yoast-section"
+  class="c0 yoast-section"
 >
   <h2
-    className="c1 c2"
+    class="c1 c2"
   >
     <svg
-      aria-hidden={true}
-      className="c3 yoast-svg-icon yoast-svg-icon-question-circle StyledSection__StyledIcon-sc-enyt8a-1"
+      aria-hidden="true"
+      class="c3 yoast-svg-icon yoast-svg-icon-question-circle StyledSection__StyledIcon-sc-enyt8a-1"
       fill="blue"
       focusable="false"
       role="img"
@@ -1131,14 +1131,14 @@ exports[`StyledSection can change the icon to search 1`] = `
 }
 
 <section
-  className="c0 yoast-section"
+  class="c0 yoast-section"
 >
   <h2
-    className="c1 c2"
+    class="c1 c2"
   >
     <svg
-      aria-hidden={true}
-      className="c3 yoast-svg-icon yoast-svg-icon-search StyledSection__StyledIcon-sc-enyt8a-1"
+      aria-hidden="true"
+      class="c3 yoast-svg-icon yoast-svg-icon-search StyledSection__StyledIcon-sc-enyt8a-1"
       fill="blue"
       focusable="false"
       role="img"
@@ -1220,14 +1220,14 @@ exports[`StyledSection can change the icon to times 1`] = `
 }
 
 <section
-  className="c0 yoast-section"
+  class="c0 yoast-section"
 >
   <h2
-    className="c1 c2"
+    class="c1 c2"
   >
     <svg
-      aria-hidden={true}
-      className="c3 yoast-svg-icon yoast-svg-icon-times StyledSection__StyledIcon-sc-enyt8a-1"
+      aria-hidden="true"
+      class="c3 yoast-svg-icon yoast-svg-icon-times StyledSection__StyledIcon-sc-enyt8a-1"
       fill="blue"
       focusable="false"
       role="img"
@@ -1309,14 +1309,14 @@ exports[`StyledSection have a red icon 1`] = `
 }
 
 <section
-  className="c0 yoast-section"
+  class="c0 yoast-section"
 >
   <h2
-    className="c1 c2"
+    class="c1 c2"
   >
     <svg
-      aria-hidden={true}
-      className="c3 yoast-svg-icon yoast-svg-icon-search StyledSection__StyledIcon-sc-enyt8a-1"
+      aria-hidden="true"
+      class="c3 yoast-svg-icon yoast-svg-icon-search StyledSection__StyledIcon-sc-enyt8a-1"
       fill="red"
       focusable="false"
       role="img"
@@ -1397,14 +1397,14 @@ exports[`StyledSection match the snapshot 1`] = `
 }
 
 <section
-  className="c0 yoast-section"
+  class="c0 yoast-section"
 >
   <h2
-    className="c1 c2"
+    class="c1 c2"
   >
     <svg
-      aria-hidden={true}
-      className="c3 yoast-svg-icon yoast-svg-icon-file-text StyledSection__StyledIcon-sc-enyt8a-1"
+      aria-hidden="true"
+      class="c3 yoast-svg-icon yoast-svg-icon-file-text StyledSection__StyledIcon-sc-enyt8a-1"
       fill="blue"
       focusable="false"
       role="img"

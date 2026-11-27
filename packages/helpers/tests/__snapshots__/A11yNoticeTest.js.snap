@@ -20,7 +20,7 @@ exports[`the A11yNotice can be changed to a different element 1`] = `
 }
 
 <h2
-  className="c0"
+  class="c0"
 >
   H2A11yNoticeValue
 </h2>
@@ -46,7 +46,7 @@ exports[`the A11yNotice matches the snapshot 1`] = `
 }
 
 <span
-  className="c0"
+  class="c0"
 >
   A11yNoticeValue
 </span>

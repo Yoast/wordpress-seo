@@ -6,17 +6,17 @@ import { alternative,
 	orangeExclusionaryNoUnless,
 	redPotentiallyExclusionary,
 	avoidDerogatory,
-} from "./feedbackStrings/generalFeedbackStrings";
+} from "./feedbackStrings/generalFeedbackStrings.js";
 import { orangeExclusionaryUnless,
 	orangeExclusionaryUnlessMen,
 	orangeExclusionaryUnlessMenAndWomen,
 	orangeExclusionaryUnlessTwoGenders,
 	orangeExclusionaryUnlessUseTheTerm,
-} from "./feedbackStrings/genderAssessmentStrings";
-import { SCORES } from "./scores";
-import { includesConsecutiveWords } from "../helpers/includesConsecutiveWords";
-import notInclusiveWhenStandalone from "../helpers/notInclusiveWhenStandalone";
-import { nonInclusiveWhenStandalone } from "../helpers/createRuleDescriptions";
+} from "./feedbackStrings/genderAssessmentStrings.js";
+import { SCORES } from "./scores.js";
+import { includesConsecutiveWords } from "../helpers/includesConsecutiveWords.js";
+import notInclusiveWhenStandalone from "../helpers/notInclusiveWhenStandalone.js";
+import { nonInclusiveWhenStandalone } from "../helpers/createRuleDescriptions.js";
 
 const genderAssessments = [
 	{

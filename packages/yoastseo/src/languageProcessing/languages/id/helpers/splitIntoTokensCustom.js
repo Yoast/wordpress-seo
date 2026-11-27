@@ -1,4 +1,4 @@
-import createPunctuationTokens from "../../../helpers/word/createPunctuationTokens";
+import createPunctuationTokens from "../../../helpers/word/createPunctuationTokens.js";
 
 /*
  * The following regex matches a word separator. A word separator is either a whitespace, a tab, a non-breaking space,

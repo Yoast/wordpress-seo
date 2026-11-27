@@ -1,5 +1,5 @@
-import { singleWords } from "./transitionWords";
-import transformWordsWithHyphens from "../../../helpers/transform/transformWordsWithHyphens";
+import { singleWords } from "./transitionWords.js";
+import transformWordsWithHyphens from "../../../helpers/transform/transformWordsWithHyphens.js";
 
 /**
  * Returns an object with exceptions for the prominent words researcher

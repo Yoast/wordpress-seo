@@ -1,4 +1,4 @@
-import Result from "./Result";
+import Result from "./Result.js";
 
 /**
  * Request serves as helper for the AnalysisWorkerWrapper.

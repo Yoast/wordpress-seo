@@ -1,5 +1,5 @@
 import { forEach, isObject, isString, isUndefined, reduce } from "lodash";
-import InvalidTypeError from "./errors/invalidType";
+import InvalidTypeError from "./errors/invalidType.js";
 
 /**
  * The plugins object takes care of plugin registrations, preloading and managing data modifications.

@@ -7,7 +7,6 @@ use WP_CLI;
 use WP_CLI\ExitException;
 use WP_CLI\Utils;
 use Yoast\WP\SEO\Commands\Command_Interface;
-use Yoast\WP\SEO\Conditionals\MyYoast_Connection_Conditional;
 use Yoast\WP\SEO\Loadable_Interface;
 use Yoast\WP\SEO\Main;
 use Yoast\WP\SEO\MyYoast_Client\Application\Exceptions\Registration_Temporarily_Unavailable_Exception;
@@ -112,7 +111,7 @@ final class Auth_Command implements Command_Interface, Loadable_Interface {
 	 * @return array<string> The array of conditionals.
 	 */
 	public static function get_conditionals() {
-		return [ MyYoast_Connection_Conditional::class ];
+		return [];
 	}
 
 	/**

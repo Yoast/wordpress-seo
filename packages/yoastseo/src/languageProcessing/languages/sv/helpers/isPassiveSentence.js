@@ -1,7 +1,7 @@
 import { languageProcessing } from "yoastseo";
 const { areWordsInSentence } = languageProcessing;
 
-import passiveVerbs from "../config/internal/passiveVerbs";
+import passiveVerbs from "../config/internal/passiveVerbs.js";
 
 /**
  * Checks the passed sentence to see if it contains passive verbs.

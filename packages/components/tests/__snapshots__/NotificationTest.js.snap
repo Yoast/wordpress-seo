@@ -108,44 +108,44 @@ exports[`the Notification with props matches the snapshot 1`] = `
 }
 
 <div
-  className="c0"
+  class="c0"
 >
   <div
-    className="c1"
+    class="c1"
   >
     <img
       alt=""
-      className="c2"
+      class="c2"
       src="some-image.png"
     />
     <div
-      className="c3"
+      class="c3"
     >
       <h3>
         New User?
       </h3>
       <p
-        className="prova"
-        dangerouslySetInnerHTML={
-          Object {
-            "__html": "Get started with our <a href=\\"#blabla\\">Configuration Wizard!</a>",
-          }
-        }
-      />
+        class="prova"
+      >
+        Get started with our 
+        <a
+          href="#blabla"
+        >
+          Configuration Wizard!
+        </a>
+      </p>
     </div>
     <button
       aria-label="Dismiss this notice"
-      className="c4"
-      onClick={[Function]}
+      class="c4"
       type="button"
     >
       <svg
-        aria-hidden={true}
-        className="c5 yoast-svg-icon yoast-svg-icon-times c6"
+        aria-hidden="true"
+        class="c5 yoast-svg-icon yoast-svg-icon-times c6"
         fill="#616161"
         focusable="false"
         role="img"
-        size="24px"
         viewBox="0 0 1792 1792"
         xmlns="http://www.w3.org/2000/svg"
       >
@@ -211,22 +211,17 @@ exports[`the Notification without props matches the snapshot 1`] = `
 }
 
 <div
-  className="c0"
+  class="c0"
 >
   <div
-    className="c1"
+    class="c1"
   >
     <div
-      className="c2"
+      class="c2"
     >
       <h3 />
       <p
-        className="prova"
-        dangerouslySetInnerHTML={
-          Object {
-            "__html": undefined,
-          }
-        }
+        class="prova"
       />
     </div>
   </div>

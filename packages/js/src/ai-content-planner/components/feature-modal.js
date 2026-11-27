@@ -96,6 +96,13 @@ export const FeatureModal = ( {
 		openReplaceContentModal();
 	}, [ isEmptyPost, handleApplyOutline, openReplaceContentModal, setHasVisitedReplace ] );
 
+	const closeSuggestionsText =
+		/* translators: Hidden accessibility text. */
+		__( "Close content suggestions modal", "wordpress-seo" );
+	const closeOutlineText =
+		/* translators: Hidden accessibility text. */
+		__( "Close content outline modal", "wordpress-seo" );
+
 	return (
 		<Modal isOpen={ ! isConsentModalOpen && ( isSuggestions || isOutline ) } onClose={ onClose }>
 			{ /*
@@ -106,8 +113,8 @@ export const FeatureModal = ( {
 			 */ }
 			<Modal.Panel ref={ panelRef } className="yst-p-0 yst-max-w-2xl yst-overflow-visible" hasCloseButton={ false }>
 				<Modal.CloseButton
-					ref={ closeButtonRef } screenReaderText={ isSuggestions
-						? __( "Close content suggestions modal", "wordpress-seo" ) : __( "Close content outline modal", "wordpress-seo" ) }
+					ref={ closeButtonRef }
+					screenReaderText={ isSuggestions ? closeSuggestionsText : closeOutlineText }
 				/>
 				<Modal.Container>
 					<Modal.Container.Header className="yst-flex yst-items-center yst-gap-2 yst-pe-14 yst-py-6 yst-ps-6 yst-border-b yst-border-slate-200">
@@ -119,7 +126,9 @@ export const FeatureModal = ( {
 							className="yst-no-underline"
 							target="_blank"
 							rel="noopener noreferrer"
-							aria-label={ __( "Learn more about AI (Opens in a new browser tab)", "wordpress-seo" ) }
+							aria-label={
+								/* translators: Hidden accessibility text. */
+								__( "Learn more about AI (Opens in a new browser tab)", "wordpress-seo" ) }
 						>
 							<QuestionMarkCircleIcon { ...svgAriaProps } className="yst-w-4 yst-h-4 yst-text-slate-500 yst-shrink-0" />
 						</Link>

@@ -1,9 +1,9 @@
 import getWords from "../word/getWords.js";
-import { normalizeSingle } from "../sanitize/quotes";
-import { WORD_BOUNDARY_WITH_HYPHEN, WORD_BOUNDARY_WITHOUT_HYPHEN } from "../../../config/wordBoundariesWithoutPunctuation";
+import { normalizeSingle } from "../sanitize/quotes.js";
+import { WORD_BOUNDARY_WITH_HYPHEN, WORD_BOUNDARY_WITHOUT_HYPHEN } from "../../../config/wordBoundariesWithoutPunctuation.js";
 
 import { isUndefined, escapeRegExp, memoize } from "lodash";
-import isDoubleQuoted from "../match/isDoubleQuoted";
+import isDoubleQuoted from "../match/isDoubleQuoted.js";
 
 /**
  * @typedef KeyphraseAndSynonymsStems An object with an array of stems of words in the keyphrase and an array of arrays of stems of words in the synonyms.

@@ -20,10 +20,19 @@ import { OutboundLink } from "../../shared-admin/components";
  */
 export const InlineBanner = ( { isPremium, onDismiss, onDismissPermanently, onClick, learnMoreLink } ) => {
 	const ariaProps = useSvgAria();
-	return <Root><div role="group" aria-label={ __( "Content suggestions banner", "wordpress-seo" ) } className="yst-z-50 yst-relative yst-p-4 yst-ai-gradient-border yst-rounded-lg">
+	return <Root><div
+		role="group"
+		aria-label={
+			/* translators: Hidden accessibility text. */
+			__( "Content suggestions banner", "wordpress-seo" ) }
+		className="yst-z-50 yst-relative yst-p-4 yst-ai-gradient-border yst-rounded-lg"
+	>
 		<DropdownMenu as="span" className="yst-absolute yst-top-4 yst-end-4">
 			<DropdownMenu.IconTrigger
-				screenReaderTriggerLabel={ __( "Open banner options", "wordpress-seo" ) }
+				screenReaderTriggerLabel={
+					/* translators: Hidden accessibility text. */
+					__( "Open banner options", "wordpress-seo" )
+				}
 				className="yst-float-end"
 			/>
 			<DropdownMenu.List className="yst-mt-8 yst-w-56">

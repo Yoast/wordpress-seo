@@ -1,7 +1,7 @@
 import { languageProcessing } from "yoastseo";
 const { getClausesSplitOnStopWords, createRegexFromArray } = languageProcessing;
 
-import DutchClause from "../values/Clause";
+import DutchClause from "../values/Clause.js";
 import auxiliaries from "../config/internal/passiveVoiceAuxiliaries.js";
 import stopwords from "../config/stopWords.js";
 

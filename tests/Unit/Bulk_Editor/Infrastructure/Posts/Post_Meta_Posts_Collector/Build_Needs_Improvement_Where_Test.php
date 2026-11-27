@@ -4,6 +4,7 @@
 // phpcs:disable Yoast.NamingConventions.NamespaceName.MaxExceeded
 namespace Yoast\WP\SEO\Tests\Unit\Bulk_Editor\Infrastructure\Posts\Post_Meta_Posts_Collector;
 
+use Brain\Monkey\Filters;
 use Mockery;
 use Mockery\MockInterface;
 use Yoast\WP\SEO\Bulk_Editor\Infrastructure\Posts\Default_Template_Resolver;
@@ -186,6 +187,25 @@ final class Build_Needs_Improvement_Where_Test extends TestCase {
 
 		$this->assertStringNotContainsString( '_yoast_wpseo_title', $where );
 		$this->assertStringContainsString( '0 = 1', $where );
+	}
+
+	/**
+	 * Tests that extra clauses returned by the filter are OR-ed into the WHERE clause.
+	 *
+	 * @return void
+	 */
+	public function test_merges_extra_clauses_from_filter() {
+		$extra = "`wp_posts`.ID IN ( SELECT post_id FROM `wp_postmeta` WHERE meta_key = '_yoast_wpseo_alt_text_length' AND meta_value != '' )";
+
+		Filters\expectApplied( 'wpseo_bulk_editor_needs_improvement_where_extra_clauses' )
+			->once()
+			->with( [], [ 'seo_title' ], '', 'post_meta' )
+			->andReturn( [ $extra ] );
+
+		$where = $this->instance->expose_build_needs_improvement_where( [ 'seo_title' ], false );
+
+		$this->assertStringContainsString( '_yoast_wpseo_alt_text_length', $where );
+		$this->assertStringContainsString( ' OR ', $where );
 	}
 
 	/**

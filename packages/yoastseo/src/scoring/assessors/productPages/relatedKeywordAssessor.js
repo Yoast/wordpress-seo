@@ -5,8 +5,8 @@ import KeyphraseDensityAssessment from "../../assessments/seo/KeywordDensityAsse
 import MetaDescriptionKeywordAssessment from "../../assessments/seo/MetaDescriptionKeywordAssessment.js";
 import TextCompetingLinksAssessment from "../../assessments/seo/TextCompetingLinksAssessment.js";
 import FunctionWordsInKeyphraseAssessment from "../../assessments/seo/FunctionWordsInKeyphraseAssessment.js";
-import ImageKeyphraseAssessment from "../../assessments/seo/KeyphraseInImageTextAssessment.js";
-import { createAnchorOpeningTag } from "../../../helpers";
+import KeyphraseStuffingInAltTextAssessment from "../../assessments/seo/KeyphraseStuffingInAltTextAssessment.js";
+import { createAnchorOpeningTag } from "../../../helpers/index.js";
 
 /**
  * The ProductRelatedKeywordAssessor class is used for the related keyword analysis for products.
@@ -53,9 +53,11 @@ export default class ProductRelatedKeywordAssessor extends RelatedKeywordAssesso
 				urlTitle: createAnchorOpeningTag( options.textCompetingLinksUrlTitle ),
 				urlCallToAction: createAnchorOpeningTag( options.textCompetingLinksCTAUrl ),
 			} ),
-			new ImageKeyphraseAssessment( {
-				urlTitle: createAnchorOpeningTag( options.imageKeyphraseUrlTitle ),
-				urlCallToAction: createAnchorOpeningTag( options.imageKeyphraseCTAUrl ),
+			new KeyphraseStuffingInAltTextAssessment( {
+				// Optional: platforms can pass `keyphraseStuffingInAltTextResultTexts` to override the default feedback strings.
+				callbacks: { getResultTexts: options.keyphraseStuffingInAltTextResultTexts },
+				urlTitle: createAnchorOpeningTag( options.keyphraseStuffingInAltTextUrlTitle ),
+				urlCallToAction: createAnchorOpeningTag( options.keyphraseStuffingInAltTextCTAUrl ),
 			} ),
 		];
 	}

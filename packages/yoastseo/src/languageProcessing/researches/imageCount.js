@@ -1,6 +1,6 @@
 /** @module researches/imageInText */
 
-import getImagesInScope from "../helpers/image/getImagesInScope";
+import getImagesInScope from "../helpers/image/getImagesInScope.js";
 
 /**
  * Checks the amount of images in scope: the images in the text, unless the Paper

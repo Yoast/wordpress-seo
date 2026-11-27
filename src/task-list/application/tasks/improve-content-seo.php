@@ -5,12 +5,12 @@ namespace Yoast\WP\SEO\Task_List\Application\Tasks;
 use Yoast\WP\SEO\Editors\Application\Analysis_Features\Enabled_Analysis_Features_Repository;
 use Yoast\WP\SEO\Editors\Framework\Keyphrase_Analysis;
 use Yoast\WP\SEO\Helpers\Indexable_Helper;
+use Yoast\WP\SEO\Task_List\Application\Recent_Content\Recent_Content_Collector_Interface;
 use Yoast\WP\SEO\Task_List\Application\Tasks\Child_Tasks\Improve_Content_SEO_Child;
 use Yoast\WP\SEO\Task_List\Domain\Components\Call_To_Action_Entry;
 use Yoast\WP\SEO\Task_List\Domain\Components\Copy_Set;
 use Yoast\WP\SEO\Task_List\Domain\Tasks\Abstract_Post_Type_Parent_Task;
 use Yoast\WP\SEO\Task_List\Domain\Tasks\Child_Task_Interface;
-use Yoast\WP\SEO\Task_List\Infrastructure\Indexables\Recent_Content_Indexable_Collector;
 
 /**
  * Represents the task for improving content SEO.
@@ -43,7 +43,7 @@ class Improve_Content_SEO extends Abstract_Post_Type_Parent_Task {
 	/**
 	 * Holds the recent content indexable collector.
 	 *
-	 * @var Recent_Content_Indexable_Collector
+	 * @var Recent_Content_Collector_Interface
 	 */
 	private $recent_content_indexable_collector;
 
@@ -64,12 +64,12 @@ class Improve_Content_SEO extends Abstract_Post_Type_Parent_Task {
 	/**
 	 * Constructs the task.
 	 *
-	 * @param Recent_Content_Indexable_Collector   $recent_content_indexable_collector   The recent content indexable collector.
+	 * @param Recent_Content_Collector_Interface   $recent_content_indexable_collector   The recent content indexable collector.
 	 * @param Indexable_Helper                     $indexable_helper                     The indexable helper.
 	 * @param Enabled_Analysis_Features_Repository $enabled_analysis_features_repository The enabled analysis features repository.
 	 */
 	public function __construct(
-		Recent_Content_Indexable_Collector $recent_content_indexable_collector,
+		Recent_Content_Collector_Interface $recent_content_indexable_collector,
 		Indexable_Helper $indexable_helper,
 		Enabled_Analysis_Features_Repository $enabled_analysis_features_repository
 	) {

@@ -1,9 +1,9 @@
 import { mapValues, merge } from "lodash";
 
-import Assessment from "../assessment";
-import Mark from "../../../values/Mark";
-import AssessmentResult from "../../../values/AssessmentResult";
-import { createAnchorOpeningTag } from "../../../helpers";
+import Assessment from "../assessment.js";
+import Mark from "../../../values/Mark.js";
+import AssessmentResult from "../../../values/AssessmentResult.js";
+import { createAnchorOpeningTag } from "../../../helpers/index.js";
 
 /**
  * Represents the assessment that checks whether there is an over-use of center-alignment in the text.

@@ -79,9 +79,9 @@ class Post {
 	private $editable;
 
 	/**
-	 * The images and their variations for this post.
+	 * The images shown for this post: a list of image data, empty when no add-on supplies any.
 	 *
-	 * @var array<string, int|string>
+	 * @var array<int, array<string, int|string>>
 	 */
 	private $images;
 
@@ -131,23 +131,23 @@ class Post {
 	/**
 	 * The constructor.
 	 *
-	 * @param int                       $id                          The post ID.
-	 * @param string                    $title                       The post title.
-	 * @param string                    $status                      The post status.
-	 * @param string                    $edit_link                   The URL to edit the post.
-	 * @param string                    $focus_keyphrase             The focus keyphrase.
-	 * @param string                    $seo_title                   The raw stored SEO title.
-	 * @param string                    $meta_description            The raw stored meta description.
-	 * @param string                    $social_title                The raw stored social title.
-	 * @param string                    $social_description          The raw stored social description.
-	 * @param bool                      $editable                    Whether the current user may edit this post.
-	 * @param array<string, bool>       $needs_improvement           Whether each field needs improvement, keyed by field param.
-	 * @param string                    $seo_title_fallback          The post type's SEO title template (empty when stored value is set).
-	 * @param string                    $meta_description_fallback   The post type's meta description template (empty when stored value is set).
-	 * @param string                    $social_title_fallback       The post type's social title template (empty when stored value is set).
-	 * @param string                    $social_description_fallback The post type's social description template (empty when stored value is set).
-	 * @param array<string, int|string> $images                      The images and their variations for this post.
-	 * @param array<string, string>     $context                     Additional context data supplied by add-ons.
+	 * @param int                                   $id                          The post ID.
+	 * @param string                                $title                       The post title.
+	 * @param string                                $status                      The post status.
+	 * @param string                                $edit_link                   The URL to edit the post.
+	 * @param string                                $focus_keyphrase             The focus keyphrase.
+	 * @param string                                $seo_title                   The raw stored SEO title.
+	 * @param string                                $meta_description            The raw stored meta description.
+	 * @param string                                $social_title                The raw stored social title.
+	 * @param string                                $social_description          The raw stored social description.
+	 * @param bool                                  $editable                    Whether the current user may edit this post.
+	 * @param array<string, bool>                   $needs_improvement           Whether each field needs improvement, keyed by field param.
+	 * @param string                                $seo_title_fallback          The post type's SEO title template (empty when stored value is set).
+	 * @param string                                $meta_description_fallback   The post type's meta description template (empty when stored value is set).
+	 * @param string                                $social_title_fallback       The post type's social title template (empty when stored value is set).
+	 * @param string                                $social_description_fallback The post type's social description template (empty when stored value is set).
+	 * @param array<int, array<string, int|string>> $images                      The images shown for this post, as a list of image data.
+	 * @param array<string, string>                 $context                     Additional context data supplied by add-ons.
 	 */
 	public function __construct(
 		int $id,
@@ -190,7 +190,7 @@ class Post {
 	/**
 	 * Parses the post to the expected key value representation.
 	 *
-	 * @return array<string, int|string|bool|array<string, bool>> The post presented as the expected key value representation.
+	 * @return array<string, int|string|bool|array<string, bool|string>|array<int, array<string, int|string>>> The post presented as the expected key value representation.
 	 */
 	public function to_array(): array {
 		return [

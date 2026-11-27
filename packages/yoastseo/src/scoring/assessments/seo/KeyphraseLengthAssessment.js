@@ -1,11 +1,11 @@
 import { __, _n, sprintf } from "@wordpress/i18n";
 import { merge, inRange } from "lodash";
 
-import Assessment from "../assessment";
-import { createAnchorOpeningTag } from "../../../helpers";
-import AssessmentResult from "../../../values/AssessmentResult";
-import { inRangeStartEndInclusive } from "../../helpers/assessments/inRange";
-import processExactMatchRequest from "../../../languageProcessing/helpers/match/processExactMatchRequest";
+import Assessment from "../assessment.js";
+import { createAnchorOpeningTag } from "../../../helpers/index.js";
+import AssessmentResult from "../../../values/AssessmentResult.js";
+import { inRangeStartEndInclusive } from "../../helpers/assessments/inRange.js";
+import processExactMatchRequest from "../../../languageProcessing/helpers/match/processExactMatchRequest.js";
 
 /**
  * @typedef {import("../../../languageProcessing/AbstractResearcher").default } Researcher

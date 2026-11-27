@@ -357,10 +357,16 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 				case 'site_kit_tracking_last_interaction_stage':
 				case 'site_kit_tracking_setup_widget_temporarily_dismissed':
 				case 'site_kit_tracking_setup_widget_permanently_dismissed':
-				case 'ai_free_sparks_started_on':
-				case 'schema_aggregation_endpoint_enabled_on':
 					if ( isset( $dirty[ $key ] ) ) {
 						$clean[ $key ] = sanitize_text_field( $dirty[ $key ] );
+					}
+					break;
+
+				case 'ai_free_sparks_started_on':
+				case 'schema_aggregation_endpoint_enabled_on':
+					$timestamp = ( $dirty[ $key ] ?? $old[ $key ] ?? null );
+					if ( is_numeric( $timestamp ) ) {
+						$clean[ $key ] = (int) $timestamp;
 					}
 					break;
 

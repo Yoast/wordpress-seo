@@ -208,9 +208,9 @@ final class Meta_Test extends TestCase {
 		$default_value = WPSEO_Meta::$defaults[ $key ];
 		\update_post_meta( $post_id, $key, $default_value );
 
-		// Default post meta should not be saved.
-		$meta_value = \get_post_meta( $post_id, $key, true );
-		$this->assertEquals( '', $meta_value );
+		// Default post meta should not be saved as a DB row (register_post_meta provides
+		// the default to get_post_meta(), but no actual row should exist in the DB).
+		$this->assertFalse( \metadata_exists( 'post', $post_id, $key ) );
 	}
 
 	/**
@@ -232,9 +232,9 @@ final class Meta_Test extends TestCase {
 		$default_value = WPSEO_Meta::$defaults[ $key ];
 		\add_post_meta( $post_id, $key, $default_value );
 
-		// Default post meta should not be saved.
-		$meta_value = \get_post_meta( $post_id, $key );
-		$this->assertEquals( [], $meta_value );
+		// Default post meta should not be saved as a DB row (register_post_meta provides
+		// the default to get_post_meta(), but no actual row should exist in the DB).
+		$this->assertFalse( \metadata_exists( 'post', $post_id, $key ) );
 	}
 
 	/**

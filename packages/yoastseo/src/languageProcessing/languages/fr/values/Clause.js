@@ -3,12 +3,12 @@ import getParticiples from "../helpers/internal/getParticiples.js";
 import { languageProcessing } from "yoastseo";
 const { precedenceException, directPrecedenceException, values } = languageProcessing;
 const { Clause } = values;
-import { cannotBeBetweenPassiveAuxiliaryAndParticiple, cannotDirectlyPrecedePassiveParticiple } from "../config/functionWords";
+import { cannotBeBetweenPassiveAuxiliaryAndParticiple, cannotDirectlyPrecedePassiveParticiple } from "../config/functionWords.js";
 import {
 	adjectivesVerbs as exceptionsParticiplesAdjectivesVerbs,
 	nouns as exceptionsParticiplesNouns,
 	others as exceptionsParticiplesOthers,
-} from "../config/internal/exceptionsParticiplesActive";
+} from "../config/internal/exceptionsParticiplesActive.js";
 
 /**
  * Creates a Clause object for the French language.

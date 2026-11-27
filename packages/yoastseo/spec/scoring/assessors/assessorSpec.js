@@ -11,13 +11,13 @@ describe( "an assessor object", function() {
 		it( "throws an error when no args are given", function() {
 			expect( function() {
 				new Assessor();
-			} ).toThrowError( MissingArgument );
+			} ).toThrow( MissingArgument );
 		} );
 
 		it( "throws an error when no researcher argument is provided", function() {
 			expect( function() {
 				new Assessor();
-			} ).toThrowError( MissingArgument );
+			} ).toThrow( MissingArgument );
 		} );
 
 		it( "creates an assessor", function() {
@@ -85,7 +85,7 @@ describe( "an assessor object", function() {
 
 			const result = assessor.getAssessment( "testname" );
 
-			expect( result ).toEqual( undefined ); // eslint-disable-line no-undefined
+			expect( result ).toEqual( undefined );
 		} );
 	} );
 

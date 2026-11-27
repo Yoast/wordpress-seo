@@ -130,8 +130,17 @@ describe( "ImageAltTextUpsell", () => {
 	describe( "with Yoast WooCommerce SEO active", () => {
 		const UPDATE_URL = "https://example.com/wp-admin/update.php?action=upgrade-plugin&plugin=wpseo-woocommerce%2Fwpseo-woocommerce.php&_wpnonce=abc";
 
+		it( "shows the upsell when Premium is not active, even though WooSeo is active", () => {
+			mockStore( { isWooSeoActive: true, isPremium: false, pluginUrl: PLUGIN_URL } );
+
+			render( <ImageAltTextUpsell /> );
+
+			expect( screen.getByRole( "heading", { level: 3, name: "From flagged to fixed: image alt text across your whole catalog" } ) ).toBeInTheDocument();
+			expect( screen.queryByRole( "status" ) ).not.toBeInTheDocument();
+		} );
+
 		it( "asks in the panel to update an add-on whose version predates the tab, instead of upselling it", () => {
-			mockStore( { isWooSeoActive: true, isWooSeoVersionSupported: false, wooSeoUpdateUrl: UPDATE_URL } );
+			mockStore( { isWooSeoActive: true, isPremium: true, isWooSeoVersionSupported: false, wooSeoUpdateUrl: UPDATE_URL } );
 
 			render( <ImageAltTextUpsell /> );
 
@@ -147,7 +156,7 @@ describe( "ImageAltTextUpsell", () => {
 		} );
 
 		it( "does not open a dialog, so keyboard users can move through the tabs", () => {
-			mockStore( { isWooSeoActive: true, isWooSeoVersionSupported: false, wooSeoUpdateUrl: UPDATE_URL } );
+			mockStore( { isWooSeoActive: true, isPremium: true, isWooSeoVersionSupported: false, wooSeoUpdateUrl: UPDATE_URL } );
 
 			render( <ImageAltTextUpsell /> );
 
@@ -155,7 +164,7 @@ describe( "ImageAltTextUpsell", () => {
 		} );
 
 		it( "shows the notice without the upsell's dummy table", () => {
-			mockStore( { isWooSeoActive: true, isWooSeoVersionSupported: false, wooSeoUpdateUrl: UPDATE_URL } );
+			mockStore( { isWooSeoActive: true, isPremium: true, isWooSeoVersionSupported: false, wooSeoUpdateUrl: UPDATE_URL } );
 
 			render( <ImageAltTextUpsell /> );
 
@@ -164,7 +173,7 @@ describe( "ImageAltTextUpsell", () => {
 		} );
 
 		it( "hides the update link from users who may not update plugins", () => {
-			mockStore( { isWooSeoActive: true, isWooSeoVersionSupported: false, wooSeoUpdateUrl: "" } );
+			mockStore( { isWooSeoActive: true, isPremium: true, isWooSeoVersionSupported: false, wooSeoUpdateUrl: "" } );
 
 			render( <ImageAltTextUpsell /> );
 
@@ -173,7 +182,7 @@ describe( "ImageAltTextUpsell", () => {
 		} );
 
 		it( "renders an empty panel on a supported version, whose own script fills the slot", () => {
-			mockStore( { isWooSeoActive: true, isWooSeoVersionSupported: true } );
+			mockStore( { isWooSeoActive: true, isPremium: true, isWooSeoVersionSupported: true } );
 
 			const { container } = render( <ImageAltTextUpsell /> );
 

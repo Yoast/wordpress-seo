@@ -9,9 +9,10 @@
     "inclusive language"
   ],
   "main": "build/index.js",
+  "module": "./esm/index.js",
   "types": "types",
   "license": "GPL-3.0",
-  "version": "3.6.0",
+  "version": "3.7.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/Yoast/wordpress-seo.git",
@@ -19,8 +20,9 @@
   },
   "files": [
     "build",
+    "esm",
+    "languages",
     "!*.map",
-    "vendor",
     "images",
     "researcher",
     "contract",
@@ -28,39 +30,43 @@
   ],
   "sideEffects": false,
   "scripts": {
-    "build": "yarn clean && yarn build:js && yarn build:types",
+    "build": "yarn clean && yarn build:js && yarn build:esm && yarn build:languages && yarn build:types",
     "build:js": "babel src --copy-files --source-maps --out-dir build",
+    "build:esm": "yarn build:esm:package && babel src --env-name esm --copy-files --source-maps --out-dir esm",
+    "build:esm:package": "mkdir -p esm && echo '{ \"type\": \"module\", \"sideEffects\": false }' > esm/package.json",
+    "build:languages": "node scripts/build-language-entries.js",
     "build:types": "tsc",
-    "clean": "rm -rf build types",
+    "clean": "rm -rf build esm languages types",
     "pretest": "grunt get-premium-configuration",
     "export:inclusive-language": "jest exportInclusiveLanguage",
     "test": "jest",
-    "lint": "eslint . --max-warnings 18",
-    "watch": "yarn clean && yarn watch:js",
+    "lint": "eslint . --max-warnings 16",
+    "watch": "yarn clean && yarn build:languages && (trap 'kill 0' INT TERM; yarn watch:js & yarn watch:esm; wait)",
     "watch:js": "yarn build:js --watch",
+    "watch:esm": "yarn build:esm --watch",
     "watch:types": "tsc --watch"
   },
   "engines": {
     "node": ">=8.0.0"
   },
   "devDependencies": {
-    "@babel/cli": "^7.25.9",
-    "@babel/core": "^7.26.0",
-    "@babel/preset-env": "^7.26.0",
+    "@babel/cli": "^7.29.7",
+    "@babel/core": "^7.29.13",
+    "@babel/preset-env": "^7.29.14",
     "@yoast/browserslist-config": "^1.2.5",
-    "@yoast/eslint-config": "^8.1.0",
-    "blob-polyfill": "^7.0.20220408",
+    "@yoast/eslint-config": "^8.4.0",
+    "blob-polyfill": "^9.0.20240710",
     "console.table": "^0.10.0",
-    "eslint": "^9.20.1",
-    "globals": "^15.12.0",
-    "grunt": "^1.6.1",
+    "eslint": "^9.39.5",
+    "globals": "^15.15.0",
+    "grunt": "^1.6.3",
     "grunt-shell": "^4.0.0",
-    "jest": "^29.7.0",
-    "jest-environment-jsdom": "^29.7.0",
+    "jest": "^30.5.2",
+    "jest-environment-jsdom": "^30.5.2",
     "jest-html-loader": "^1.0.0",
-    "js-yaml": "^4.1.0",
+    "js-yaml": "^5.5.0",
     "load-grunt-config": "^1.0.0",
-    "typescript": "^5.6.3"
+    "typescript": "^5.9.3"
   },
   "bugs": {
     "url": "https://github.com/Yoast/wordpress-seo/issues"
@@ -70,11 +76,12 @@
     "@yoast/feature-flag": "^0.6.0-alpha.2",
     "htmlparser2": "^3.9.2",
     "lodash": "^4.17.21",
+    "lodash-es": "^4.17.21",
     "loglevel": "^1.9.2",
     "parse5": "^8.0.0",
     "tiny-segmenter": "^0.2.0",
     "tokenizer2": "^2.0.1",
-    "zod": "^3.25.76"
+    "zod": "^4.6.7"
   },
   "yoast": {
     "premiumConfiguration": ""

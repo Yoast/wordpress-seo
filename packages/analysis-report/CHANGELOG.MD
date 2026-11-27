@@ -27,6 +27,7 @@ We follow [Semantic Versioning](http://semver.org/).
 * Uses a flat config for ESLint.
 * Bumps `@yoast/eslint-config` to version `8.1.0` from `8.0.0`.
 * Refactors the `defaultProps` to be `defaultArguments` instead. [#22263](https://github.com/Yoast/wordpress-seo/pull/22263)
+* Bumps `@yoast/ui-library` to version `4.7.0` from `4.6.0`. [#23795](https://github.com/Yoast/wordpress-seo/pull/23795)
 
 ## 1.2.0 April 23rd, 2020
 ### Other

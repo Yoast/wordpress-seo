@@ -26,8 +26,12 @@ final class Get_Post_Images_Test extends TestCase {
 	 */
 	public function test_returns_the_filtered_images() {
 		$images = [
-			'thumbnail' => 'https://example.com/product.jpg',
-			'count'     => 3,
+			[
+				'id'   => 12,
+				'src'  => 'https://example.com/product.jpg',
+				'alt'  => 'A blue mug',
+				'type' => 'featured',
+			],
 		];
 
 		Filters\expectApplied( 'wpseo_bulk_editor_post_images' )

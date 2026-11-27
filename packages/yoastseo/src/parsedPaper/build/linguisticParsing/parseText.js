@@ -1,4 +1,4 @@
-import SentenceTokenizer from "./SentenceTokenizer";
+import SentenceTokenizer from "./SentenceTokenizer.js";
 
 /**
  * Parses a text into sentences.

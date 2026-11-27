@@ -2,7 +2,7 @@
 
 exports[`the Heading with props matches the snapshot 1`] = `
 <h2
-  className="some-class"
+  class="some-class"
 >
   Text
 </h2>

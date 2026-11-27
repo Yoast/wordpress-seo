@@ -1,25 +1,24 @@
 /* External dependencies */
 import React from "react";
-import renderer from "react-test-renderer";
+import { render } from "@testing-library/react";
 
 /* Internal dependencies */
 import LanguageNotice from "../src/LanguageNotice";
 
 describe( "LanguageNotice", () => {
 	it( "matches the snapshot by default", () => {
-		const component = renderer.create(
+		const { container } = render(
 			<LanguageNotice
 				changeLanguageLink="#"
 				language="English"
 			/>
 		);
 
-		const tree = component.toJSON();
-		expect( tree ).toMatchSnapshot();
+		expect( container.firstChild ).toMatchSnapshot();
 	} );
 
 	it( "matches the snapshot when showLanguageNotice equals true", () => {
-		const component = renderer.create(
+		const { container } = render(
 			<LanguageNotice
 				changeLanguageLink="#"
 				language="English"
@@ -27,12 +26,11 @@ describe( "LanguageNotice", () => {
 			/>
 		);
 
-		const tree = component.toJSON();
-		expect( tree ).toMatchSnapshot();
+		expect( container.firstChild ).toMatchSnapshot();
 	} );
 
 	it( "matches the snapshot with a changed language link", () => {
-		const component = renderer.create(
+		const { container } = render(
 			<LanguageNotice
 				changeLanguageLink="http://www.example.com"
 				canChangeLanguage={ true }
@@ -41,12 +39,11 @@ describe( "LanguageNotice", () => {
 			/>
 		);
 
-		const tree = component.toJSON();
-		expect( tree ).toMatchSnapshot();
+		expect( container.firstChild ).toMatchSnapshot();
 	} );
 
 	it( "matches the snapshot with another language", () => {
-		const component = renderer.create(
+		const { container } = render(
 			<LanguageNotice
 				changeLanguageLink="http://www.example.com"
 				canChangeLanguage={ true }
@@ -55,7 +52,6 @@ describe( "LanguageNotice", () => {
 			/>
 		);
 
-		const tree = component.toJSON();
-		expect( tree ).toMatchSnapshot();
+		expect( container.firstChild ).toMatchSnapshot();
 	} );
 } );

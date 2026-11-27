@@ -1,5 +1,5 @@
 import { flatten, isUndefined, uniq } from "lodash";
-import { getSubheadings } from "./getSubheadings";
+import { getSubheadings } from "./getSubheadings.js";
 
 /**
  * Gets the part of the html that we want to apply the marking to.

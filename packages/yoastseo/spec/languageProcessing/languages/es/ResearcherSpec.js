@@ -6,7 +6,7 @@ import transitionWords from "../../../../src/languageProcessing/languages/es/con
 import firstWordExceptions from "../../../../src/languageProcessing/languages/es/config/firstWordExceptions";
 import twoPartTransitionWords from "../../../../src/languageProcessing/languages/es/config/twoPartTransitionWords";
 import stopWords from "../../../../src/languageProcessing/languages/es/config/stopWords";
-import syllables from "../../../../src/languageProcessing/languages/es/config/syllables.json";
+import syllables from "../../../../src/languageProcessing/languages/es/config/syllables.js";
 import checkIfWordIsComplex from "../../../../src/languageProcessing/languages/es/helpers/checkIfWordIsComplex";
 import wordComplexityConfig from "../../../../src/languageProcessing/languages/es/config/wordComplexity";
 import sentenceLength from "../../../../src/languageProcessing/languages/es/config/sentenceLength";

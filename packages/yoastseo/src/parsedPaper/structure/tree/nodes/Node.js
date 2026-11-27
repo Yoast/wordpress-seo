@@ -1,5 +1,5 @@
 import { has, get } from "lodash";
-import SourceCodeLocation from "../SourceCodeLocation";
+import SourceCodeLocation from "../SourceCodeLocation.js";
 
 /**
  * Abstract class representing a node in the structured tree.
