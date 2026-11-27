@@ -10,6 +10,8 @@ use Yoast\WP\SEO\Helpers\Options_Helper;
 use Yoast\WP\SEO\Tests\Unit\TestCase;
 use Yoast\WP\SEO\Values\OAuth\OAuth_Token;
 use Yoast\WP\SEO\Wrappers\WP_Remote_Handler;
+use YoastSEO_Vendor\GuzzleHttp\Promise\FulfilledPromise;
+use YoastSEO_Vendor\GuzzleHttp\Psr7\Response;
 use YoastSEO_Vendor\League\OAuth2\Client\Provider\GenericProvider;
 use YoastSEO_Vendor\League\OAuth2\Client\Token\AccessTokenInterface;
 
@@ -92,11 +94,14 @@ final class SEMrush_Client_Test extends TestCase {
 			->once()
 			->andReturnNull();
 
+		$wp_remote_handler = Mockery::mock( WP_Remote_Handler::class );
+		$wp_remote_handler->expects( '__invoke' )->once()->andReturn( new FulfilledPromise( new Response( 200 ) ) );
+
 		$instance = Mockery::mock(
 			SEMrush_Client::class,
 			[
 				$this->options_helper,
-				Mockery::mock( WP_Remote_Handler::class ),
+				$wp_remote_handler,
 			],
 		)->makePartial();
 
@@ -108,6 +113,15 @@ final class SEMrush_Client_Test extends TestCase {
 			Options_Helper::class,
 			$this->getPropertyValue( $instance, 'options_helper' ),
 		);
+
+		$provider = $this->getPropertyValue( $instance, 'provider' );
+		$response = $provider->getHttpClient()->requestAsync( 'GET', 'https://example.test/' )->then(
+			static function ( $response ) {
+				return $response;
+			},
+		)->wait();
+		$this->assertSame( 200, $response->getStatusCode() );
+		$this->assertFalse( \class_exists( 'YoastSEO_Vendor\\GuzzleHttp\\Promise\\Is', false ) );
 	}
 
 	/**
