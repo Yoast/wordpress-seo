@@ -87,6 +87,51 @@ class Post_Meta_Rest_Fields implements Initializer_Interface {
 	 */
 	public function initialize() {
 		\add_action( 'wp_loaded', [ $this, 'register_post_meta' ] );
+		\add_action( 'rest_api_init', [ $this, 'register_rest_hooks' ] );
+	}
+
+	/**
+	 * Registers the hooks that only apply when the REST API is in use.
+	 *
+	 * @return void
+	 */
+	public function register_rest_hooks() {
+		\add_filter( 'get_post_metadata', [ $this, 'normalize_primary_term_meta' ], \PHP_INT_MAX, 3 );
+	}
+
+	/**
+	 * Normalizes the primary term meta that another plugin returned through the get_post_metadata filter.
+	 *
+	 * The REST API handles the primary term meta as a string. Scalar values are cast to strings.
+	 * A value without scalar values counts as not stored, so that WordPress reads the meta itself.
+	 *
+	 * @param array<string|int|float|bool|null>|string|int|float|bool|null $value     The value from the earlier filters.
+	 * @param int                                                          $object_id The post ID.
+	 * @param string                                                       $meta_key  The meta key.
+	 *
+	 * @return array<string|int|float|bool|null>|string|int|float|bool|null The normalized value.
+	 */
+	public function normalize_primary_term_meta( $value, $object_id, $meta_key ) {
+		if ( $value === null || ! \is_string( $meta_key ) || \strpos( $meta_key, WPSEO_Meta::$meta_prefix . 'primary_' ) !== 0 ) {
+			return $value;
+		}
+
+		if ( \is_scalar( $value ) ) {
+			return (string) $value;
+		}
+
+		if ( ! \is_array( $value ) ) {
+			return null;
+		}
+
+		$stored_values = [];
+		foreach ( $value as $stored_value ) {
+			if ( \is_scalar( $stored_value ) ) {
+				$stored_values[] = (string) $stored_value;
+			}
+		}
+
+		return ( $stored_values === [] ) ? null : $stored_values;
 	}
 
 	/**
