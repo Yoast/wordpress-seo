@@ -7,9 +7,10 @@ We follow [Semantic Versioning](http://semver.org/).
 ## Future Release
 ### Other:
 * Upgrades WP packages to minimum supported WP version 6.7. [#22466](https://github.com/Yoast/wordpress-seo/pull/22466)
-
+* Deprecates `getFeed`, `strings.stripSpaces`, `curryUpdateToHiddenInput`, and `getValueFromHiddenInput`.
 
 ### Non user facing
+* Removes unused HTML block helpers and the `tokenizer2` dependency.
 * Now published as a transpiled package.
 * Now uses the latest version of `@yoast/eslint-config` instead of the deprecated `eslint-config-yoast`.
 * Uses a flat config for ESLint.

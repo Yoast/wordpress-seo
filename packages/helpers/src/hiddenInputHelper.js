@@ -12,6 +12,7 @@ const getHiddenInput = ( id ) => {
 /**
  * Updates the value of a hiddenInput and calls the onChange function.
  *
+ * @deprecated Will be removed in a future release.
  * @param {string} hiddenInputId The ID of the hiddenInputField.
  * @param {function} onChange The onChange function.
  *
@@ -33,6 +34,7 @@ export const curryUpdateToHiddenInput = ( hiddenInputId, onChange = null ) => {
 /**
  * Gets the value from a hidden input.
  *
+ * @deprecated Will be removed in a future release.
  * @param {string} hiddenInputId The ID of the hidden input.
  *
  * @returns {string|null} The value of the hidden input or null.
