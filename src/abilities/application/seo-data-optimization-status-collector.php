@@ -78,7 +78,9 @@ class SEO_Data_Optimization_Status_Collector {
 	/**
 	 * Returns whether every indexable the abilities read from has been built.
 	 *
-	 * Only the post and term indexing actions are counted. The general and post type archive indexing actions are left
+	 * Only the post and term indexing actions are counted. There's no indexing action for the author indexables: the
+	 * post indexing builds the indexable of each post's author, so the post count covers them too. The general and
+	 * post type archive indexing actions are left
 	 * out because the homepage, archive and special page abilities read and write the options directly, not those
 	 * indexables. The link indexing actions are left out because the abilities don't read the links, and counting the
 	 * unindexed links is the heaviest query of all. The unfiltered count is used so that add-ons counting their own
