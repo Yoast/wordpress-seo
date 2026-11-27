@@ -1,5 +1,6 @@
-import { getWords } from "../../../../languageProcessing/index.js";
+import { languageProcessing } from "yoastseo";
 import { includesWordsAtPosition } from "./includesWordsAtPosition.js";
+const { getWords } = languageProcessing;
 
 /**
  * Checks whether the given list of words contains another list of words in the given order,

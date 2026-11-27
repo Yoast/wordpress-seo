@@ -1,7 +1,6 @@
 import { languageProcessing } from "yoastseo";
-import { countSyllablesInWord } from "../../../../helpers/syllables/countSyllables.js";
 import syllables from "../../config/syllables.js";
-const { buildFormRule, createRulesFromArrays } = languageProcessing;
+const { buildFormRule, createRulesFromArrays, countSyllablesInWord } = languageProcessing;
 
 /**
  * Further checks if the word can be a specific adjectival form.

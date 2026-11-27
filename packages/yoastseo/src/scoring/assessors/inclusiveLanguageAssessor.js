@@ -1,5 +1,4 @@
 import Assessor from "./assessor.js";
-import inclusiveLanguageAssessmentsConfigs from "../assessments/inclusiveLanguage/configuration/index.js";
 import InclusiveLanguageAssessment from "../assessments/inclusiveLanguage/InclusiveLanguageAssessment.js";
 
 /**
@@ -18,6 +17,10 @@ const defaultOptions = {
 export default class InclusiveLanguageAssessor extends Assessor {
 	/**
 	 * Creates a new InclusiveLanguageAssessor instance.
+	 *
+	 * The assessments come from the researcher's `inclusiveLanguage` config. Only the English researcher has it,
+	 * so for other languages the assessor has no assessments.
+	 *
 	 * @param {Researcher}	researcher	The researcher to use.
 	 * @param {Object}		[options]	The assessor options.
 	 */
@@ -30,7 +33,7 @@ export default class InclusiveLanguageAssessor extends Assessor {
 
 		const infoLinks = this._options.infoLinks;
 
-		this._assessments = inclusiveLanguageAssessmentsConfigs.map(
+		this._assessments = ( researcher.getConfig( "inclusiveLanguage" ) || [] ).map(
 			config => {
 				// The if statement is a safety check to assure that the infoLinks object includes keys for all assessments.
 				// If the category keys match the config categories, the infoLinks shortlinks are saved as the learnMoreURL of the config.
