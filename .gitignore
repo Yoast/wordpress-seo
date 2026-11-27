@@ -119,3 +119,6 @@ dependencies.md
 !/.claude/claude-security-guidance.md
 !/.claude/security-patterns.json
 !/.claude/skills/
+# Shared Claude Code settings and hooks (e.g. the trunk guard).
+!/.claude/settings.json
+!/.claude/hooks/
