@@ -75,7 +75,12 @@ class Force_Rewrite_Title implements Integration_Interface {
 			return;
 		}
 
-		\add_action( 'template_redirect', [ $this, 'force_rewrite_output_buffer' ], 99_999 );
+		/*
+		 * Start our buffer after the template enhancement output buffer that core starts at priority 1000, so ours is
+		 * nested inside it. Otherwise flush_cache() would close the core buffer instead of ours, which drops the late
+		 * printed block styles core hoists into the head when finalizing that buffer.
+		 */
+		\add_action( 'wp_before_include_template', [ $this, 'force_rewrite_output_buffer' ], 99_999 );
 		\add_action( 'wp_footer', [ $this, 'flush_cache' ], -1 );
 	}
 
