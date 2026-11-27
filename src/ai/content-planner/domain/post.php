@@ -8,6 +8,24 @@ namespace Yoast\WP\SEO\AI\Content_Planner\Domain;
 class Post {
 
 	/**
+	 * Max title length allowed when round-tripping via the REST API.
+	 *
+	 * Must stay in sync with the get_outline route schema.
+	 *
+	 * @var int
+	 */
+	public const MAX_TITLE_LENGTH = 500;
+
+	/**
+	 * Max description length allowed when round-tripping via the REST API.
+	 *
+	 * Must stay in sync with the get_outline route schema.
+	 *
+	 * @var int
+	 */
+	public const MAX_DESCRIPTION_LENGTH = 1000;
+
+	/**
 	 * The title.
 	 *
 	 * @var string
@@ -117,8 +135,8 @@ class Post {
 	 */
 	public function to_minimal_array(): array {
 		return [
-			'title'       => $this->title,
-			'description' => $this->description,
+			'title'       => \mb_substr( $this->title, 0, self::MAX_TITLE_LENGTH, 'UTF-8' ),
+			'description' => \mb_substr( $this->description, 0, self::MAX_DESCRIPTION_LENGTH, 'UTF-8' ),
 		];
 	}
 }
