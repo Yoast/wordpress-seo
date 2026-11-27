@@ -130,6 +130,7 @@ class Aioseo_General_Settings_Importing_Action extends Abstract_Aioseo_Settings_
 		$logo_id = $this->image->get_attachment_by_url( $logo_url );
 		$this->options->set( 'company_logo_id', $logo_id );
 
+		// Vestigial: Logo_Meta_Watcher already populated `company_logo_meta` above.
 		$this->options->set( 'company_logo_meta', false );
 		$logo_meta = $this->image->get_attachment_meta_from_settings( 'company_logo' );
 		$this->options->set( 'company_logo_meta', $logo_meta );
@@ -148,6 +149,7 @@ class Aioseo_General_Settings_Importing_Action extends Abstract_Aioseo_Settings_
 		$logo_id = $this->image->get_attachment_by_url( $logo_url );
 		$this->options->set( 'person_logo_id', $logo_id );
 
+		// Vestigial: Logo_Meta_Watcher already populated `person_logo_meta` above.
 		$this->options->set( 'person_logo_meta', false );
 		$logo_meta = $this->image->get_attachment_meta_from_settings( 'person_logo' );
 		$this->options->set( 'person_logo_meta', $logo_meta );

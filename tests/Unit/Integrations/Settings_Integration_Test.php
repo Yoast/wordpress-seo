@@ -731,4 +731,30 @@ final class Settings_Integration_Test extends TestCase {
 
 		$this->assertSame( $expected, $result );
 	}
+
+	/**
+	 * Locks the list of `wpseo_titles` keys that the Settings UI strips from
+	 * its save payload. Adding a key here means every admin save wipes it
+	 * back to its default, which is fine only if no other code path
+	 * recomputes-and-persists it from the frontend (where the option may be
+	 * filtered by translation plugins such as WPML — see Yoast/wordpress-seo#22549).
+	 *
+	 * If this assertion fails, audit how the new key is repopulated: the
+	 * pattern used for `company_logo_meta` / `person_logo_meta` is to
+	 * compute it at save time via `Logo_Meta_Watcher` rather than from the
+	 * frontend.
+	 *
+	 * @coversNothing
+	 *
+	 * @return void
+	 */
+	public function test_wpseo_titles_disallowed_settings_baseline() {
+		$this->assertSame(
+			[
+				'company_logo_meta',
+				'person_logo_meta',
+			],
+			Settings_Integration::DISALLOWED_SETTINGS['wpseo_titles'],
+		);
+	}
 }
