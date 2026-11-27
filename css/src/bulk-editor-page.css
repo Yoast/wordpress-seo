@@ -239,5 +239,5 @@
 }
 
 .yst-bulk-editor-table-wrapper .yst-table--default {
-	@apply yst-rounded-t-none yst-shadow-none yst-overflow-x-auto;
+	@apply yst-rounded-t-none yst-shadow-none yst-overflow-x-auto yst-ring-0;
 }
