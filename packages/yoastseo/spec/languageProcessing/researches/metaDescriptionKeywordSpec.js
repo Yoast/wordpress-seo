@@ -188,6 +188,65 @@ describe( "a test for matching focus keyphrase in uppercase that contains period
 	} );
 } );
 
+describe( "counting keyphrases and synonyms with repeated words in the meta description", () => {
+	it( "counts a keyphrase that repeats a word once when the repeated word appears only twice", () => {
+		const paper = new Paper( "", { keyword: "bora bora", description: "Holiday in bora bora." } );
+		const researcher = new Researcher( paper );
+
+		expect( metaDescriptionKeyword( paper, researcher ) ).toEqual( 1 );
+	} );
+
+	it( "counts multiple adjacent occurrences of a keyphrase that repeats a word accurately", () => {
+		const paper = new Paper( "", { keyword: "bora bora", description: "Bora bora beach and a bora bora island." } );
+		const researcher = new Researcher( paper );
+
+		expect( metaDescriptionKeyword( paper, researcher ) ).toEqual( 2 );
+	} );
+
+	it( "does not count an incomplete extra repetition when the keyphrase repeats a word", () => {
+		const paper = new Paper( "", { keyword: "bora bora", description: "Bora bora beach and a bora island." } );
+		const researcher = new Researcher( paper );
+
+		expect( metaDescriptionKeyword( paper, researcher ) ).toEqual( 1 );
+	} );
+
+	it( "returns 0 when a repeated word in the keyphrase occurs only once in the sentence", () => {
+		const paper = new Paper( "", { keyword: "cat cat dog", description: "A cat and a dog." } );
+		const researcher = new Researcher( paper );
+
+		expect( metaDescriptionKeyword( paper, researcher ) ).toEqual( 0 );
+	} );
+
+	it( "counts 1 when a keyphrase with a repeated word occurs twice for the repeated word and twice for another word", () => {
+		const paper = new Paper( "", { keyword: "cat cat dog", description: "cat dog cat dog" } );
+		const researcher = new Researcher( paper );
+
+		expect( metaDescriptionKeyword( paper, researcher ) ).toEqual( 1 );
+	} );
+
+	it( "does not let a synonym reuse tokens already claimed by a keyphrase with repeated words", () => {
+		const paper = new Paper( "", { keyword: "bora bora", synonyms: "bora", description: "Bora bora beach." } );
+		const researcher = new Researcher( paper );
+
+		expect( metaDescriptionKeyword( paper, researcher ) ).toEqual( 1 );
+	} );
+
+	it( "counts an extra synonym occurrence alongside a keyphrase with repeated words using leftover tokens", () => {
+		const paper = new Paper( "", { keyword: "bora bora", synonyms: "bora", description: "Bora bora beach in bora." } );
+		const researcher = new Researcher( paper );
+
+		expect( metaDescriptionKeyword( paper, researcher ) ).toEqual( 2 );
+	} );
+
+	it( "handles exact match keyphrases that repeat a word", () => {
+		const nonAdjacentPaper = new Paper( "", { keyword: "\"bora bora\"", description: "Holiday in bora and bora." } );
+		expect( metaDescriptionKeyword( nonAdjacentPaper, new Researcher( nonAdjacentPaper ) ) ).toEqual( 0 );
+
+		const repeatedPaper = new Paper( "", { keyword: "\"bora bora\"", description: "Bora bora beach and a bora bora island." } );
+		expect( metaDescriptionKeyword( repeatedPaper, new Researcher( repeatedPaper ) ) ).toEqual( 2 );
+	} );
+} );
+
 /*
 
 describe( "the meta description keyphrase match research for keyphrases that contain apostrophe", () => {
