@@ -8,6 +8,7 @@ We follow [Semantic Versioning](http://semver.org/).
 * Upgrades WP packages to minimum supported WP version 6.7. [#22466](https://github.com/Yoast/wordpress-seo/pull/22466)
 
 ### Non user facing
+* Removes the unused `@babel/plugin-transform-react-jsx` and `babel-plugin-styled-components` dev dependencies.
 * Now published as a transpiled package.
 * Adds missing development dependency on `@yoast/browserslist-config`. [#20916](https://github.com/Yoast/wordpress-seo/pull/20916)
 * Now uses the latest version of `@yoast/eslint-config` instead of the deprecated `eslint-config-yoast`.
