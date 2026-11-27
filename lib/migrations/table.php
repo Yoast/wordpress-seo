@@ -188,15 +188,17 @@ class Table {
 		}
 		$opt_str = '';
 		if ( \is_array( $this->options ) && \array_key_exists( 'options', $this->options ) ) {
-			$opt_str = $this->options['options'];
-		}
-		elseif ( isset( $this->adapter->db_info['charset'] ) ) {
-			$opt_str = ' DEFAULT CHARSET=' . $this->adapter->db_info['charset'];
+			$opt_str = ' ' . $this->options['options'];
 		}
 		else {
-			$opt_str = ' DEFAULT CHARSET=utf8';
+			global $wpdb;
+
+			$charset_collate = $wpdb->get_charset_collate();
+			if ( ! empty( $charset_collate ) ) {
+				$opt_str = ' ' . $charset_collate;
+			}
 		}
-		$close_sql        = \sprintf( ') %s;', $opt_str );
+		$close_sql        = \sprintf( ')%s;', $opt_str );
 		$create_table_sql = $this->sql;
 		if ( $this->auto_generate_id === true ) {
 			$this->primary_keys[] = 'id';
