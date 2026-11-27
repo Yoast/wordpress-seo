@@ -114,9 +114,12 @@ export default function stem( word, morphologyData ) {
 	const ruleBasedStemmerData = morphologyData.externalStemmer;
 	const dictionaryStemmer = morphologyData.dictionary.stems;
 
-	// Check if the word exists in the dictionary stemmer. If yes, replace the word with the base form of the word specified in the dictionary.
+	/*
+	 * Check if the word exists in the dictionary stemmer. If yes, replace the word with the base form of the word specified in the dictionary.
+	 * Only own properties are considered, so that a word such as "constructor" doesn't resolve to a member of Object.prototype.
+	 */
 	let stemmedWord = dictionaryStemmer[ word ];
-	if ( stemmedWord ) {
+	if ( stemmedWord && Object.hasOwn( dictionaryStemmer, word ) ) {
 		word = stemmedWord;
 	}
 
