@@ -19,6 +19,80 @@ ${ rgba( "#f00", .8 ) }
 ${ rgba( `${ colors.$color_red }`, .8 ) }
 ```
 
+## Deprecated colors and breakpoints:
+Yoast SEO and its add-ons no longer use these keys. They will be removed in a future release.
+```
+$palette_white
+$palette_grey_ultra_light
+$palette_grey_light
+$palette_grey_medium_light
+$palette_grey_disabled
+$palette_grey_dark
+$palette_black
+$palette_purple
+$palette_purple_dark
+$palette_pink
+$palette_pink_light
+$palette_pink_dark
+$palette_blue
+$palette_blue_light
+$palette_blue_medium
+$palette_blue_link
+$palette_blue_focus
+$palette_yoast_focus
+$palette_blue_dark
+$palette_green
+$palette_green_light
+$palette_green_medium_light
+$palette_green_medium
+$palette_green_blue
+$palette_orange
+$palette_orange_light
+$palette_red
+$palette_red_light
+$palette_yellow
+$palette_yellow_score
+$palette_button_upsell
+$palette_button_upsell_hover
+$palette_link_text
+$palette_error_emphasis
+$palette_info_background
+$palette_info_text
+$palette_info_emphasis
+$palette_success_background
+$palette_success_text
+$palette_success_emphasis
+$palette_warning_background
+$palette_warning_text
+$palette_warning_emphasis
+$color_green_blue
+$color_pink_light
+$color_blue_light
+$color_border_light
+$color_border_gutenberg
+$color_border
+$color_upsell_text
+$color_marker_inactive
+$color_marker_active
+$color_marker_disabled
+$color_error
+$color_orange
+$color_orange_hover
+$color_pink_hover
+$color_grey_line
+$color_grey_quote
+$color_blue_link
+$color_blue_focus
+$color_blue_focus_shadow
+$color_grey_light
+$color_error_message
+```
+
+From `responsive-breakpoints.json`:
+```
+tablet
+```
+
 ## Removed/replaced colors:
 ```
 $color_border: #f7f7f7;					renamed in $color_border_light: #f7f7f7;
