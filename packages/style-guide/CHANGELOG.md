@@ -4,8 +4,12 @@ All notable changes to this project will be documented in this file. Releases wi
 We follow [Semantic Versioning](http://semver.org/).
 
 ## Future Release
+### Other
+* Deprecates the unused `colors` keys and the `tablet` breakpoint listed in the README.
+
 ### Non user facing
 * Now published as a transpiled package.
+* Removes the unused `json` dev dependency.
 
 ## 0.5.0 September 30th, 2019
 ### Added
