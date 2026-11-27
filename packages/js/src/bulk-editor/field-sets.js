@@ -73,7 +73,7 @@ export const getFieldSets = ( { isKeywordAnalysisActive = true } = {} ) => {
 		key: FOCUS_KEYPHRASE_KEY,
 		label: __( "Focus keyphrase", "wordpress-seo" ),
 		param: "focus_keyphrase",
-		width: "yst-w-[19%]",
+		width: "sm:yst-w-[19%]",
 		// The column keeps showing the keyphrase, but with the SEO analysis off it never opens for editing.
 		// The post editor hides its field entirely; this diverges on purpose.
 		readOnly: ! isKeywordAnalysisActive,
@@ -86,8 +86,8 @@ export const getFieldSets = ( { isKeywordAnalysisActive = true } = {} ) => {
 			endpoint: "update_search",
 			fields: [
 				focusKeyphrase,
-				{ key: "seoTitle", label: __( "SEO title", "wordpress-seo" ), param: "seo_title", width: "yst-w-[19%]", type: "title" },
-				{ key: "metaDescription", label: __( "Meta description", "wordpress-seo" ), param: "meta_description", width: "yst-w-[33%]", type: "description" },
+				{ key: "seoTitle", label: __( "SEO title", "wordpress-seo" ), param: "seo_title", width: "sm:yst-w-[19%]", type: "title" },
+				{ key: "metaDescription", label: __( "Meta description", "wordpress-seo" ), param: "meta_description", width: "sm:yst-w-[33%]", type: "description" },
 			],
 		},
 		[ FIELD_SET_SOCIAL ]: {
@@ -96,8 +96,8 @@ export const getFieldSets = ( { isKeywordAnalysisActive = true } = {} ) => {
 			endpoint: "update_social",
 			fields: [
 				focusKeyphrase,
-				{ key: "socialTitle", label: __( "Social title", "wordpress-seo" ), param: "social_title", width: "yst-w-[19%]", type: "title" },
-				{ key: "socialDescription", label: __( "Social description", "wordpress-seo" ), param: "social_description", width: "yst-w-[33%]", type: "description" },
+				{ key: "socialTitle", label: __( "Social title", "wordpress-seo" ), param: "social_title", width: "sm:yst-w-[19%]", type: "title" },
+				{ key: "socialDescription", label: __( "Social description", "wordpress-seo" ), param: "social_description", width: "sm:yst-w-[33%]", type: "description" },
 			],
 		},
 	};

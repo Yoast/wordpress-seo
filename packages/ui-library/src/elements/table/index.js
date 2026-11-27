@@ -103,27 +103,22 @@ const tableVariants = {
 
 /**
  * @param {JSX.node} children The content.
- * @param {JSX.node} [footer] Optional footer rendered outside the horizontal scroll container.
  * @param {string} [className] Optional class name.
  * @param {string} [variant] The variant of the table.
  * @param {Object} [props] Optional table props.
  * @returns {JSX.Element} The element.
  */
-const Table = forwardRef( ( { children, footer, className = "", variant = "default", ...props }, ref ) => (
-	<div className={ classNames( "yst-table-wrapper", tableVariants[ variant ] ) } data-has-footer={ footer ? "" : undefined }>
-		<div className="yst-overflow-x-auto">
-			<table className={ className } { ...props } ref={ ref }>
-				{ children }
-			</table>
-		</div>
-		{ footer }
+const Table = forwardRef( ( { children, className = "", variant = "default", ...props }, ref ) => (
+	<div className={ classNames( "yst-table-wrapper", tableVariants[ variant ] ) }>
+		<table className={ className } { ...props } ref={ ref }>
+			{ children }
+		</table>
 	</div>
 ) );
 
 Table.displayName = "Table";
 Table.propTypes = {
 	children: PropTypes.node.isRequired,
-	footer: PropTypes.node,
 	className: PropTypes.string,
 	variant: PropTypes.oneOf( Object.keys( tableVariants ) ),
 };

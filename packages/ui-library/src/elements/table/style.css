@@ -51,6 +51,7 @@
 
 		.yst-table--default {
 			@apply yst-rounded-lg yst-shadow yst-ring-1 yst-ring-black yst-ring-opacity-5;
+			container-type: inline-size;
 
 			table {
 				/* Firefox drops collapsed dividers next to tall cells; separate borders fix this. */
@@ -78,13 +79,6 @@
 					.yst-table-row:last-of-type .yst-table-checkbox-cell {
 						@apply first:yst-rounded-none last:yst-rounded-none;
 					}
-				}
-			}
-
-			&[data-has-footer] table tbody {
-				.yst-table-row:last-of-type .yst-table-cell,
-				.yst-table-row:last-of-type .yst-table-checkbox-cell {
-					@apply first:yst-rounded-none last:yst-rounded-none;
 				}
 			}
 		}
