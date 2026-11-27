@@ -170,7 +170,7 @@ export const App = () => {
 										linkText={ __( "Visit WordPress forum", "wordpress-seo" ) }
 									/>
 									<ResourceCard
-										imageSrc={ `${ pluginUrl }/images/support/github.png` }
+										imageSrc={ `${ pluginUrl }/images/support/github.jpg` }
 										title={ __( "Raise a bug report on GitHub", "wordpress-seo" ) }
 										description={ sprintf(
 											/* translators: %1$s expands to Yoast SEO. */
