@@ -309,14 +309,12 @@ Your question has most likely been answered on our help center: [yoast.com/help/
 
 = 29.0 =
 
-Release date: 2026-12-01
+Release date: 2026-12-02
 
 #### Enhancements
 
-* Adds an \"Edit in bulk\" call-to-action button to the \"Improve default meta descriptions\" task in the task list, linking directly to the bulk editor.
+* Adds an "Edit in bulk" call-to-action button to the "Improve default meta descriptions" task in the task list, linking directly to the bulk editor.
 * Adds the `wpseo_disable_metabox_in_block_editor` filter, which lets the block editor sidebar save post meta via the REST API instead of the metabox hidden fields.
-* Adds `WPSEO_Sitemaps::register_css()` to let add-ons serve a CSS stylesheet for their XML sitemaps.
-* Deprecates `WPSEO_Sitemaps::register_xsl()`, `WPSEO_Sitemaps::xsl_output()` and the `wpseo_xsl_<type>` action.
 * Improves how Yoast abilities explain their responses, settings and limitations to agents.
 * Improves the way we describe post titles and term names to agents to cover cases where custom breadcrumb titles are set.
 * Improves the way we describe to agents how to use permalinks to get and set SEO data of specific posts and terms.
@@ -340,6 +338,7 @@ Release date: 2026-12-01
 #### Other
 
 * Sets the _WordPress tested up to_ version to 7.2.
+* Deprecates `WPSEO_Sitemaps::register_xsl()`, `WPSEO_Sitemaps::xsl_output()` and the `wpseo_xsl_<type>` action.
 
 = 28.9 =
 
