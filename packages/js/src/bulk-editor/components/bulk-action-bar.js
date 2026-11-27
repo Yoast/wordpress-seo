@@ -64,7 +64,7 @@ export const SelectionToolbar = ( { idSuffix = "", isAllSelected, isIndeterminat
 				/>
 			</div>
 			{ selectedCount > 0 && (
-				<span className="yst-font-medium yst-text-slate-800">
+				<span className="yst-font-medium yst-text-slate-800 yst-hidden sm:yst-block">
 					{ sprintf(
 						/* translators: %1$d expands to the number of selected items, %2$d to the total, %3$s to the content type (e.g. pages). */
 						__( "%1$d of %2$d %3$s selected", "wordpress-seo" ),
@@ -83,10 +83,12 @@ export const SelectionToolbar = ( { idSuffix = "", isAllSelected, isIndeterminat
  *
  * @param {Object} props             The props.
  * @param {string} props.contentType The active content type, used to pick the upsell variant.
+ * @param {number} props.selectedCount The number of selected items.
  *
  * @returns {JSX.Element} The AI generate buttons.
  */
-const FreeBulkActions = ( { contentType } ) => {
+// eslint-disable-next-line complexity
+const FreeBulkActions = ( { contentType, selectedCount } ) => {
 	const { isPremium, isPremiumVersionSupported, isAiEnabled } = useSelect( ( select ) => {
 		const store = select( STORE_NAME );
 		return {
@@ -103,6 +105,15 @@ const FreeBulkActions = ( { contentType } ) => {
 	}
 	return (
 		<>
+			{ selectedCount > 0 && ! isPremium && (
+				<span className="yst-font-medium yst-text-slate-800 sm:yst-hidden yst-block">
+					{ sprintf(
+						/* translators: %d expands to the number of selected items */
+						_n( "%d item selected", "%d items selected", selectedCount, "wordpress-seo" ),
+						selectedCount
+					) }
+				</span>
+			) }
 			<Button variant="ai-secondary" size="small" className="yst-bg-white" onClick={ openUpsell }>
 				{ __( "Generate SEO titles", "wordpress-seo" ) }
 			</Button>
@@ -132,7 +143,7 @@ export const ManualReviewActions = ( { editCount, onApplyAll, onDiscardAll, isAp
 	const svgAriaProps = useSvgAria();
 
 	return (
-		<div className="yst-grow yst-flex yst-justify-end yst-items-center yst-gap-4">
+		<div className="yst-grow yst-flex yst-justify-end sm:yst-items-center yst-gap-2 sm:yst-gap-4 yst-flex-col sm:yst-flex-row">
 			<span id={ summaryId } className="yst-text-sm yst-font-medium yst-text-slate-800">
 				{ sprintf(
 					/* translators: %d expands to the number of rows with unsaved changes. */
@@ -140,12 +151,12 @@ export const ManualReviewActions = ( { editCount, onApplyAll, onDiscardAll, isAp
 					editCount
 				) }
 			</span>
-			<div className="yst-flex yst-gap-2">
-				<Button variant="secondary" size="small" className="yst-gap-1.5" onClick={ onApplyAll } disabled={ isApplying } aria-describedby={ summaryId }>
+			<div className="yst-flex yst-gap-2 [&>button]:yst-flex-1 [&>button]:yst-gap-1.5 sm:[&>button]:yst-flex-initial">
+				<Button variant="secondary" size="small" onClick={ onApplyAll } disabled={ isApplying } aria-describedby={ summaryId }>
 					<CheckIcon className="yst-h-4 yst-w-4 yst-text-green-500" { ...svgAriaProps } />
 					{ __( "Save edits", "wordpress-seo" ) }
 				</Button>
-				<Button variant="secondary" size="small" className="yst-gap-1.5" onClick={ onDiscardAll } disabled={ isApplying } aria-describedby={ summaryId }>
+				<Button variant="secondary" size="small" onClick={ onDiscardAll } disabled={ isApplying } aria-describedby={ summaryId }>
 					<XIcon className="yst-h-4 yst-w-4 yst-text-red-500" { ...svgAriaProps } />
 					{ __( "Cancel edits", "wordpress-seo" ) }
 				</Button>
@@ -220,11 +231,11 @@ const BulkActionsNotices = ( {
  * @returns {JSX.Element} The action band.
  */
 const BulkActionsBand = ( {
-	isActive, selectedIds, activeFieldSet, contentType, hasUnsavedEdits, editCount, onApplyAll, onDiscardAll, isApplyingAll,
+	isActive, selectedIds = [], activeFieldSet, contentType, hasUnsavedEdits, editCount, onApplyAll, onDiscardAll, isApplyingAll,
 } ) => (
-	<div className="yst-flex yst-items-center yst-gap-3 yst-border-y yst-border-slate-200 yst-bg-slate-100 yst-px-4 yst-py-3">
-		<div className="yst-flex yst-items-center yst-gap-3" data-tour-id="generate-actions">
-			<FreeBulkActions contentType={ contentType } />
+	<div className="yst-flex sm:yst-items-center yst-gap-3 yst-border-y yst-border-slate-200 yst-bg-slate-100 yst-px-4 yst-py-3 yst-flex-col sm:yst-flex-row">
+		<div className="yst-flex sm:yst-items-center yst-gap-3 yst-flex-col sm:yst-flex-row yst-grow [&>button]:yst-w-full sm:[&>button]:yst-w-auto" data-tour-id="generate-actions">
+			<FreeBulkActions contentType={ contentType } selectedCount={ selectedIds.length } />
 			{ isActive && (
 				<Slot name={ BULK_ACTIONS_SLOT } fillProps={ { selectedIds, activeFieldSet, contentType, hasUnsavedEdits } } />
 			) }

@@ -4,10 +4,11 @@ import { noop } from "lodash";
 import { BulkEditorBody } from "./table-body";
 import { BulkEditorHeader } from "./table-header";
 import { getColumnCount } from "./table-helpers";
+import { BulkEditorTableToolbar } from "./table-toolbar";
 
 const getTableClassName = ( isLoading ) =>
 	// Aligns the title column (2nd cell) with the Select button, and round off the last body row's cells.
-	`yst-table-auto sm:yst-table-fixed yst-w-full [&_thead]:!yst-border-t-0 [&_td]:yst-align-top [&_th]:yst-align-top [&_th]:yst-font-medium [&_tbody_td]:!yst-border-t-slate-100 [&_tbody_th]:!yst-border-t-slate-100 [&_thead_th]:!yst-border-b-slate-200 [&_tr>*:nth-child(2)]:!yst-ps-1.5 yst-transition-opacity yst-duration-150 ${ isLoading ? "yst-opacity-60" : "yst-opacity-100" }`;
+	`yst-table-fixed yst-w-full yst-min-w-[786px] [&_thead]:!yst-border-t-0 [&_td]:yst-align-top [&_th]:yst-align-top [&_th]:yst-font-medium [&_tbody_td]:!yst-border-t-slate-100 [&_tbody_th]:!yst-border-t-slate-100 [&_thead_th]:!yst-border-b-slate-200 [&_tr>*:nth-child(2)]:!yst-ps-1.5 yst-transition-opacity yst-duration-150 ${ isLoading ? "yst-opacity-60" : "yst-opacity-100" }`;
 
 /**
  * The bulk editor selection.
@@ -77,29 +78,30 @@ export const BulkEditorTable = ( {
 	};
 
 	return (
-		<>
+		<div className="yst-bulk-editor-table-wrapper yst-shadow yst-ring-1 yst-ring-black yst-ring-opacity-5 yst-rounded-lg">
 			<div role="status" className="yst-sr-only">
 				{ isLoading ? (
 					/* translators: Hidden accessibility text. */
 					__( "Loading content…", "wordpress-seo" )
 				) : "" }
 			</div>
+			<BulkEditorTableToolbar
+				selectionToolbar={ selectionToolbar }
+				bulkActions={ bulkActions }
+				showBulkActions={ showBulkActions }
+				filters={ filters }
+			/>
 			<Table aria-label={ fieldSet.label } aria-busy={ isLoading } className={ getTableClassName( isLoading ) }>
 				<colgroup>
-					<col className="sm:yst-w-[38px]" />
+					<col className="yst-w-[38px]" />
 					<col />
 					{ fieldSet.fields.map( ( field ) => (
 						<col key={ field.key } className={ field.width } />
 					) ) }
-					<col className="sm:yst-w-[5%]" />
+					<col className="yst-w-[5%]" />
 				</colgroup>
 				<BulkEditorHeader
 					fields={ fieldSet.fields }
-					columnCount={ columnCount }
-					selectionToolbar={ selectionToolbar }
-					bulkActions={ bulkActions }
-					showBulkActions={ showBulkActions }
-					filters={ filters }
 				/>
 				<Table.Body>
 					<BulkEditorBody
@@ -116,6 +118,6 @@ export const BulkEditorTable = ( {
 				</Table.Body>
 				{ footer }
 			</Table>
-		</>
+		</div>
 	);
 };

@@ -237,3 +237,7 @@
 .yst-root .yst-content-type-pagination p {
 	@apply yst-hidden sm:yst-block;
 }
+
+.yst-bulk-editor-table-wrapper .yst-table--default {
+	@apply yst-rounded-t-none yst-shadow-none yst-overflow-x-auto yst-ring-0;
+}

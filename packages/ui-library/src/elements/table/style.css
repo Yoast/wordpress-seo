@@ -51,6 +51,7 @@
 
 		.yst-table--default {
 			@apply yst-rounded-lg yst-shadow yst-ring-1 yst-ring-black yst-ring-opacity-5;
+			container-type: inline-size;
 
 			table {
 				/* Firefox drops collapsed dividers next to tall cells; separate borders fix this. */

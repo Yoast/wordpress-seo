@@ -75,8 +75,8 @@ describe( "BulkEditorContent with a truncated and pruned carried-over selection"
 		expect( truncation ).toBeInTheDocument();
 		expect( exclusion ).toBeInTheDocument();
 		// Both render inside the expanded bulk-actions row, the truncation notice first.
-		expect( exclusion.closest( "tr" ) ).toBe( truncation.closest( "tr" ) );
-		expect( truncation.closest( "tr" ) ).toHaveAttribute( "aria-hidden", "false" );
+		expect( exclusion.closest( "[data-testid='bulk-actions-band']" ) ).toBe( truncation.closest( "[data-testid='bulk-actions-band']" ) );
+		expect( truncation.closest( "[data-testid='bulk-actions-band']" ) ).toHaveAttribute( "aria-hidden", "false" );
 		// eslint-disable-next-line no-bitwise -- compareDocumentPosition returns a bitmask.
 		expect( truncation.compareDocumentPosition( exclusion ) & Node.DOCUMENT_POSITION_FOLLOWING ).toBeTruthy();
 
@@ -86,14 +86,14 @@ describe( "BulkEditorContent with a truncated and pruned carried-over selection"
 		// The exclusion notice is gone; the truncation notice keeps the row expanded.
 		expect( screen.queryByText( NOTICE_TEXT ) ).not.toBeInTheDocument();
 		expect( screen.getByText( TRUNCATION_TEXT ) ).toBeInTheDocument();
-		expect( screen.getByText( TRUNCATION_TEXT ).closest( "tr" ) ).toHaveAttribute( "aria-hidden", "false" );
+		expect( screen.getByText( TRUNCATION_TEXT ).closest( "[data-testid='bulk-actions-band']" ) ).toHaveAttribute( "aria-hidden", "false" );
 
 		fireEvent.click( screen.getByRole( "button", { name: "Dismiss" } ) );
 
 		expect( document.activeElement ).toBe( screen.getByRole( "button", { name: "Select" } ) );
 		// Nothing else occupies the band here (AI is disabled, no edits), so dismissing both collapses the row.
 		expect( screen.queryByText( TRUNCATION_TEXT ) ).not.toBeInTheDocument();
-		container.querySelectorAll( "tr[aria-hidden]" ).forEach( ( row ) => {
+		container.querySelectorAll( "[data-testid='bulk-actions-band']" ).forEach( ( row ) => {
 			expect( row ).toHaveAttribute( "aria-hidden", "true" );
 		} );
 	} );

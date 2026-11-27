@@ -70,7 +70,7 @@ const TablePagination = ( {
 						className,
 					) }
 				>
-					<div className="yst-flex yst-items-center yst-justify-between">
+					<div className="yst-flex yst-items-center yst-justify-between yst-flex-wrap yst-gap-3 yst-sticky yst-start-3 yst-w-[calc(100cqw-1.5rem)]">
 						{ summary && <p className="yst-text-sm yst-text-slate-600">{ summary }</p> }
 						{ showPager && <Pagination
 							className={ classNames(
