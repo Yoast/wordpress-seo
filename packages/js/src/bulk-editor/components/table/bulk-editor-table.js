@@ -102,11 +102,6 @@ export const BulkEditorTable = ( {
 				</colgroup>
 				<BulkEditorHeader
 					fields={ fieldSet.fields }
-					columnCount={ columnCount }
-					selectionToolbar={ selectionToolbar }
-					bulkActions={ bulkActions }
-					showBulkActions={ showBulkActions }
-					filters={ filters }
 				/>
 				<Table.Body>
 					<BulkEditorBody
