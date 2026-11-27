@@ -80,6 +80,13 @@
 					}
 				}
 			}
+
+			&[data-has-footer] table tbody {
+				.yst-table-row:last-of-type .yst-table-cell,
+				.yst-table-row:last-of-type .yst-table-checkbox-cell {
+					@apply first:yst-rounded-none last:yst-rounded-none;
+				}
+			}
 		}
 
 		.yst-table--minimal {

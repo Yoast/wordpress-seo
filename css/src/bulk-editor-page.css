@@ -42,10 +42,6 @@
 			@apply !yst-flex-row;
 		}
 
-		.sm\:yst-table-fixed {
-			@apply !yst-table-fixed;
-		}
-
 		.sm\:yst-w-80 {
 			@apply !yst-w-80;
 		}
@@ -239,5 +235,5 @@
 }
 
 .yst-bulk-editor-table-wrapper .yst-table--default {
-	@apply yst-rounded-t-none yst-shadow-none yst-overflow-x-auto yst-ring-0;
+	@apply yst-rounded-t-none yst-shadow-none yst-ring-0;
 }

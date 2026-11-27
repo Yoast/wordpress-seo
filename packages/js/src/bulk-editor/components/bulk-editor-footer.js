@@ -56,6 +56,7 @@ export const BulkEditorFooter = ( { colSpan, total, totalPages, isPending } ) =>
 
 	return (
 		<Table.Pagination
+			as="div"
 			colSpan={ colSpan }
 			page={ page }
 			totalPages={ totalPages }
