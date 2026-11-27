@@ -95,6 +95,9 @@ class Markdown_Builder {
 	 * @return string The rendered markdown.
 	 */
 	public function render(): string {
+		// Start from a clean slate, so sections of an earlier render cannot end up in this file again.
+		$this->llms_txt_renderer->reset();
+
 		$this->llms_txt_renderer->add_section( $this->title_builder->build_title() );
 		$this->llms_txt_renderer->add_section( $this->description_builder->build_description() );
 		$this->llms_txt_renderer->add_section( $this->intro_builder->build_intro() );
