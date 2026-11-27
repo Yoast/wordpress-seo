@@ -165,7 +165,7 @@ const FormikMediaSelectField = ( {
 				onClick={ handleSelectMediaClick }
 				className={ classNames(
 					"yst-overflow-hidden yst-flex yst-justify-center yst-items-center yst-max-w-full yst-rounded-md yst-mb-4 yst-border-slate-300 focus:yst-outline-none focus:yst-ring-2 focus:yst-ring-offset-2 focus:yst-ring-primary-500",
-					! isDummy && previewMedia ? "yst-bg-slate-50 yst-border" : "yst-border-2 yst-border-dashed",
+					! isDummy && previewMedia ? "yst-bg-slate-50 yst-border yst-border-solid" : "yst-border-2 yst-border-dashed",
 					disabled && "yst-opacity-50 yst-cursor-not-allowed",
 					classNameMap.variant[ variant ],
 					className

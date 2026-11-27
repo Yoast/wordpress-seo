@@ -23,7 +23,7 @@ const classNameMap = {
  * @param {string|function} [as] Base component.
  * @param {string} [variant] Badge variant. See `classNameMap.variant` for the options.
  * @param {string} [size] Badge size. See `classNameMap.size` for the options.
- * @param {string} [className] CSS class.
+ * @param {string} [className=""] CSS class.
  * @returns {JSX.Element} Badge component.
  */
 const Badge = forwardRef( ( {

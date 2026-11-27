@@ -6,7 +6,7 @@ exports[`AlertsList should match snapshot 1`] = `
     class=""
   >
     <li
-      class="yst-flex yst-justify-between yst-gap-x-5 yst-border-b yst-border-slate-200 last:yst-border-b-0 yst-py-6 first:yst-pt-0 last:yst-pb-0"
+      class="yst-flex yst-justify-between yst-gap-x-5 yst-border-b yst-border-slate-200 last:yst-border-b-0 yst-py-6 first:yst-pt-0 last:yst-pb-0 yst-border-solid"
     >
       <div
         class="yst-mt-1"
@@ -50,7 +50,7 @@ exports[`AlertsList should match snapshot 1`] = `
       </button>
     </li>
     <li
-      class="yst-flex yst-justify-between yst-gap-x-5 yst-border-b yst-border-slate-200 last:yst-border-b-0 yst-py-6 first:yst-pt-0 last:yst-pb-0"
+      class="yst-flex yst-justify-between yst-gap-x-5 yst-border-b yst-border-slate-200 last:yst-border-b-0 yst-py-6 first:yst-pt-0 last:yst-pb-0 yst-border-solid"
     >
       <div
         class="yst-mt-1"
@@ -94,7 +94,7 @@ exports[`AlertsList should match snapshot 1`] = `
       </button>
     </li>
     <li
-      class="yst-flex yst-justify-between yst-gap-x-5 yst-border-b yst-border-slate-200 last:yst-border-b-0 yst-py-6 first:yst-pt-0 last:yst-pb-0"
+      class="yst-flex yst-justify-between yst-gap-x-5 yst-border-b yst-border-slate-200 last:yst-border-b-0 yst-py-6 first:yst-pt-0 last:yst-pb-0 yst-border-solid"
     >
       <div
         class="yst-mt-1 yst-opacity-50"
@@ -143,7 +143,7 @@ exports[`AlertsList should match snapshot 1`] = `
       </button>
     </li>
     <li
-      class="yst-flex yst-justify-between yst-gap-x-5 yst-border-b yst-border-slate-200 last:yst-border-b-0 yst-py-6 first:yst-pt-0 last:yst-pb-0"
+      class="yst-flex yst-justify-between yst-gap-x-5 yst-border-b yst-border-slate-200 last:yst-border-b-0 yst-py-6 first:yst-pt-0 last:yst-pb-0 yst-border-solid"
     >
       <div
         class="yst-mt-1 yst-opacity-50"

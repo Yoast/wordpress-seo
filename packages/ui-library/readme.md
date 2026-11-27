@@ -41,7 +41,7 @@ To include this packages CSS in your build, import it in your stylesheet **befor
 @tailwind utilities;
 ```
 
-Now that your CSS is set up, you can start using the React components. Always start your React tree with the `Root` component, which provides a context for general options and a CSS classname for scoping this libraries CSS. Without it, components in this library will not render properly. Check out the `Root` component in [the Storybook](https://ui-library.yoast.com/?path=/docs/2-components-root--factory).
+Now that your CSS is set up, you can start using the React components. Start your React tree with the `Root` component, which provides a context for general options and the base styles and preflight resets for plain markup. The components themselves also render without it; see [Markup without a `.yst-root` ancestor](https://github.com/Yoast/wordpress-seo/blob/trunk/docs/ui-library-without-root.md) for what plain markup needs outside a `Root`. Check out the `Root` component in [the Storybook](https://ui-library.yoast.com/?path=/docs/2-components-root--factory).
 
 ```jsx
 import { Root, Alert } from "@yoast/ui-library";

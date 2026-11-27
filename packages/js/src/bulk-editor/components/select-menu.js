@@ -38,7 +38,7 @@ export const SelectMenu = ( { onSelectAll, onDeselectAll, selectedCount, totalCo
 			<DropdownMenu.List className="yst-absolute yst-z-10 yst-start-0 yst-top-full yst-mt-1 yst-w-[169px]">
 				{ items.map( ( item ) => <SelectMenuItem key={ item.key } item={ item } /> ) }
 				{ smartSelectItems.length > 0 && (
-					<div role="separator" className="yst-my-1 yst-border-t yst-border-slate-200" />
+					<div role="separator" className="yst-my-1 yst-border-t yst-border-slate-200 yst-border-solid" />
 				) }
 				{ smartSelectItems.map( ( item ) => <SelectMenuItem key={ item.key } item={ item } /> ) }
 			</DropdownMenu.List>

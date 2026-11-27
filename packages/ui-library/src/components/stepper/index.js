@@ -61,7 +61,7 @@ const DEFAULT_STEPS = [];
  *
  * @param {JSX.Node} [children] Content of the stepper.
  * @param {number} [currentStep] The current step, starts from 0.
- * @param {string} [className] Optional extra className.
+ * @param {string} [className=""] Optional extra className.
  * @param {JSX.Node[]} [steps] The steps of the stepper.
  *
  * @returns {JSX.Element} The Stepper element.

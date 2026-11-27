@@ -100,7 +100,7 @@ export default function YoastComboBox( {
 						<Combobox.Button
 							data-id={ `button-${ id }` }
 							role="button"
-							className="yst-w-full yst-h-full yst-rounded-md yst-border yst-border-slate-300 yst-flex yst-items-center yst-rounded-r-md yst-ps-3 yst-pe-2 focus-within:yst-border-primary-500 focus-within:yst-outline-none focus-within:yst-ring-1 focus-within:yst-ring-primary-500"
+							className="yst-w-full yst-h-full yst-rounded-md yst-border yst-border-slate-300 yst-flex yst-items-center yst-rounded-r-md yst-ps-3 yst-pe-2 focus-within:yst-border-primary-500 focus-within:yst-outline-none focus-within:yst-ring-1 focus-within:yst-ring-primary-500 yst-border-solid"
 							as="div"
 						>
 							<Combobox.Input
