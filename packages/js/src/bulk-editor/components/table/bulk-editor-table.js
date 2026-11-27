@@ -78,7 +78,7 @@ export const BulkEditorTable = ( {
 	};
 
 	return (
-		<div className="yst-bulk-editor-table-wrapper yst-shadow yst-rounded-lg yst-ring-1 yst-ring-black yst-ring-opacity-5 yst-rounded-t-lg yst-overflow-hidden">
+		<div className="yst-bulk-editor-table-wrapper yst-shadow yst-ring-1 yst-ring-black yst-ring-opacity-5 yst-rounded-t-lg">
 			<div role="status" className="yst-sr-only">
 				{ isLoading ? (
 					/* translators: Hidden accessibility text. */

@@ -12,7 +12,7 @@ import AnimateHeight from "react-animate-height";
  */
 export const BulkEditorTableToolbar = ( { selectionToolbar, filters, bulkActions, showBulkActions } ) => {
 	return <>
-		{ selectionToolbar && <div className="yst-bg-slate-50 yst-p-3">
+		{ selectionToolbar && <div className="yst-bg-slate-50 yst-p-3 yst-rounded-t-lg">
 			<div className="yst-flex yst-items-center yst-justify-between yst-gap-4">
 				{ selectionToolbar }
 				{ filters }
